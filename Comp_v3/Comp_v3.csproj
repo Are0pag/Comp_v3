@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Comp_ModelData\CL_Comp_ModelData.csproj" />
     <ProjectReference Include="..\Comp_WpfUserControlLibrary\Comp_WpfUserControlLibrary.csproj" />
   </ItemGroup>
 
