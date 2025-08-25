@@ -1,0 +1,28 @@
+<UserControl x:Class="Comp_WpfUserControlLibrary.InputTextFieldUc"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Comp_WpfUserControlLibrary"
+             mc:Ignorable="d" 
+             d:DesignWidth="450" MinWidth="300" 
+             d:DesignHeight="50" MinHeight="50"
+             Background="Transparent">
+    
+    <Border Background="Bisque" CornerRadius="20">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0" x:Name="InputTextBox"
+                     Text="{Binding InputText}" />
+
+            <Button Grid.Column="1" 
+                    Background="Tan" Content="❌" 
+                    Click="ClearButton_OnClick" />
+
+        </Grid>
+    </Border>
+</UserControl>
