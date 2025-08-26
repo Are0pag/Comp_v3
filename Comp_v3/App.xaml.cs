@@ -1,9 +1,7 @@
 ﻿using System.Windows;
-using Comp_v3.NomDict.Contracts;
 using Comp_v3.NomDict.View;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Utils.DiExtentions;
 
 namespace Comp_v3;
 

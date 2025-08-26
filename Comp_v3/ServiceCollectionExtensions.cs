@@ -1,7 +1,7 @@
 using Comp_v3.NomDict.View;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Utils.DiExtentions;
+namespace Comp_v3;
 
 public static class ServiceCollectionExtensions
 {

@@ -1,17 +1,22 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.TechnicalItems;
 
 public class TypeSize : NotifyPropertyChanged
 {
-    protected string _designation;
+    protected string _designation = string.Empty;
     protected int _outputsNumber;
     protected bool _isUsingSmd;
-    protected string _imagePath;
-    protected string _description;
+    protected string _imagePath = string.Empty;
+    protected string _description = string.Empty;
     
+    [Key] // Primary key
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Autoincrement
     public int Id { get; set; }
 
+    [Key]
     public string Designation {
         get => _designation;
         set {

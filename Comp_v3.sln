@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CL_Comp_ModelData", "Comp_M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{FF3EE021-DA00-43B7-B260-42666721E955}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CL_CompDb", "CL_CompDb\CL_CompDb.csproj", "{633429C7-7F86-45DA-8C57-886E4E72687C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FF3EE021-DA00-43B7-B260-42666721E955}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF3EE021-DA00-43B7-B260-42666721E955}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF3EE021-DA00-43B7-B260-42666721E955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{633429C7-7F86-45DA-8C57-886E4E72687C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{633429C7-7F86-45DA-8C57-886E4E72687C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{633429C7-7F86-45DA-8C57-886E4E72687C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{633429C7-7F86-45DA-8C57-886E4E72687C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
