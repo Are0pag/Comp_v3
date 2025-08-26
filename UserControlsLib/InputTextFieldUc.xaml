@@ -18,6 +18,7 @@
             
             <TextBox Grid.Column="0" x:Name="InputTextBox"
                      Text="{Binding InputText}" />
+            <!-- usage: InputText="{Binding [че там нам надо]}" -->
 
             <Button Grid.Column="1" 
                     Background="Tan" Content="❌" 
