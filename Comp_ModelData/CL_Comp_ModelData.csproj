@@ -11,9 +11,4 @@
     <ProjectReference Include="..\CL_Comp_Utils\CL_Comp_Utils.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SortingItems\" />
-    <Folder Include="TechnicalItems\" />
-  </ItemGroup>
-
 </Project>

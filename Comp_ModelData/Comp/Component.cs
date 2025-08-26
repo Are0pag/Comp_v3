@@ -8,14 +8,14 @@ namespace CL_Comp_ModelData.Comp;
 
 public class Component : NotifyPropertyChanged 
 {
-    public Dictionary<ParameterSetItem, GenValues> GenParams = new();
+    public Dictionary<GenKeys, GenValues> GenParams = new();
     public UniqueParams UniqueParams;
     public CommonParams CommonParams;
     public DescriptiveParams DescriptiveParams;
     public ExternalParams ExternalParams;
     public SortingParams SortingParams;
     public TechnicalParams TechnicalParams;
-    protected ParameterSetItem _parameterSet;
+    protected GenKeys _parameterSet;
         
     #region Ids
         public int IdDataBase {get; set;} // Db
@@ -33,7 +33,7 @@ public class Component : NotifyPropertyChanged
 
     #endregion
             
-        public ParameterSetItem ParameterSet {
+        public GenKeys ParameterSet {
             get => _parameterSet;
             set {
                 if (value == _parameterSet) return;

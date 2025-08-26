@@ -1,4 +1,5 @@
-﻿using Utils.WPF;
+﻿using CL_Comp_ModelData.TechnicalItems;
+using Utils.WPF;
 
 namespace CL_Comp_ModelData.Comp.ForeingParams;
 
