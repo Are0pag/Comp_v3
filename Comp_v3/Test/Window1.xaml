@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v3.Test"
-        xmlns:uc="clr-namespace:Comp_WpfUserControlLibrary;assembly=Comp_WpfUserControlLibrary"
+        xmlns:uc="clr-namespace:Comp_WpfUserControlLibrary;assembly=UserControlsLib"
         mc:Ignorable="d"
         Title="Window1" Height="450" Width="800">
     <Grid>

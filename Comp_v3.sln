@@ -5,11 +5,11 @@ VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comp_v3", "Comp_v3\Comp_v3.csproj", "{011EB416-97BC-4A78-880D-44A3DE559E98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comp_WpfUserControlLibrary", "Comp_WpfUserControlLibrary\Comp_WpfUserControlLibrary.csproj", "{744C925F-9B98-4296-85E0-E0C0CB52EEAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserControlsLib", "UserControlsLib\UserControlsLib.csproj", "{744C925F-9B98-4296-85E0-E0C0CB52EEAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CL_Comp_ModelData", "Comp_ModelData\CL_Comp_ModelData.csproj", "{02B8EAB8-D5C5-446C-BCB1-88357208B9F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CL_Comp_Utils", "CL_Comp_Utils\CL_Comp_Utils.csproj", "{FF3EE021-DA00-43B7-B260-42666721E955}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{FF3EE021-DA00-43B7-B260-42666721E955}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
