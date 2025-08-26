@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CL_CompDb", "CL_CompDb\CL_C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF.UCL", "WPF.UCL\WPF.UCL.csproj", "{2F1B75D3-4344-4717-B617-2C86455E0802}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{EFF271A7-3291-4487-AE4C-653C8078A6B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2F1B75D3-4344-4717-B617-2C86455E0802}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F1B75D3-4344-4717-B617-2C86455E0802}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F1B75D3-4344-4717-B617-2C86455E0802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF271A7-3291-4487-AE4C-653C8078A6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF271A7-3291-4487-AE4C-653C8078A6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF271A7-3291-4487-AE4C-653C8078A6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF271A7-3291-4487-AE4C-653C8078A6B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
