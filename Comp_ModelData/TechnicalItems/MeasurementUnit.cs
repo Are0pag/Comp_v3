@@ -1,4 +1,4 @@
-using Utils.WPF;
+using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.TechnicalItems;
 
@@ -7,7 +7,7 @@ public class MeasurementUnit : NotifyPropertyChanged
     protected string _name;
     protected string _designation;
     
-    public int IdDataBase { get; set; }
+    public int Id { get; set; }
 
     public string Name {
         get => _name;

@@ -1,4 +1,4 @@
-using Utils.WPF;
+using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.TechnicalItems;
 
@@ -16,7 +16,7 @@ public class Manufacturer : NotifyPropertyChanged
         _remark = remark;
     }
     
-    public int IdDataBase { get; set; }
+    public int Id { get; set; }
 
     public string Designation {
         get => _designation;

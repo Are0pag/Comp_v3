@@ -1,5 +1,5 @@
 using System.Windows.Media;
-using Utils.WPF;
+using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.SortingItems;
 
@@ -13,7 +13,7 @@ public class ElementStatus : NotifyPropertyChanged
         _colorOfTextHex = colorOfTextHex;
     }
     
-    public int IdDataBase { get; set; }
+    public int Id { get; set; }
 
     public string Name {
         get => _name;

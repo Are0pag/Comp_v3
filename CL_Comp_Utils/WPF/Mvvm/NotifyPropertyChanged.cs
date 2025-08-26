@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Utils.WPF;
+namespace Utils.WPF.Mvvm;
 
 public abstract class NotifyPropertyChanged : INotifyPropertyChanged 
 {

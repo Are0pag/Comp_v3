@@ -1,4 +1,4 @@
-using Utils.WPF;
+using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.TechnicalItems;
 
@@ -10,7 +10,7 @@ public class TypeSize : NotifyPropertyChanged
     protected string _imagePath;
     protected string _description;
     
-    public int IdDataBase { get; set; }
+    public int Id { get; set; }
 
     public string Designation {
         get => _designation;

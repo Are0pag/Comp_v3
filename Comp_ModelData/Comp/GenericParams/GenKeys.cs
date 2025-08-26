@@ -1,4 +1,4 @@
-﻿using Utils.WPF;
+﻿using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.Comp.GenericParams;
 

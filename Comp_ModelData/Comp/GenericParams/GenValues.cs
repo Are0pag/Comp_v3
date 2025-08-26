@@ -1,4 +1,4 @@
-﻿using Utils.WPF;
+﻿using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.Comp.GenericParams;
 
@@ -11,6 +11,7 @@ public class GenValues : NotifyPropertyChanged
     protected string _genValue3;
     protected string _genValue4;
 
+    public int Id { get; set; }
     public string GenValueMain {
         get => _genValueMain;
         set {

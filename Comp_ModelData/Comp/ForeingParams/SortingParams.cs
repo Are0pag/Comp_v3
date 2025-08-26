@@ -1,5 +1,5 @@
 ﻿using CL_Comp_ModelData.SortingItems;
-using Utils.WPF;
+using Utils.WPF.Mvvm;
 
 namespace CL_Comp_ModelData.Comp.ForeingParams;
 

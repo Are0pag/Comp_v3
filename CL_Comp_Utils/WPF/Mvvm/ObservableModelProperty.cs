@@ -1,4 +1,4 @@
-namespace Utils.WPF;
+namespace Utils.WPF.Mvvm;
 
 public class ObservableModelProperty<TPropType> : NotifyPropertyChanged 
 {
