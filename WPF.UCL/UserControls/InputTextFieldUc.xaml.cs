@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Comp_WpfUserControlLibrary;
+namespace WPF.UCL.UserControls;
 
 public partial class InputTextFieldUc : UserControl
 {

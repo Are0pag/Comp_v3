@@ -10,7 +10,7 @@ public class GenParams
     public (string, string)[] AdditionalParams { get; set; } = new (string, string)[4];*/
     
     public ObservableModelProperty<string> Alias { get; set; } = new();
-    public ObservableModelProperty<(string KeyName, string Value)> MainParams { get; set; } = new();
+    public ObservableModelProperty<(string KeyName, string Value)> MainParam { get; set; } = new();
     public ObservableModelProperty<(string KeyName, string Value)[]> AdditionalParams { get; set; } = new () {
         Value = new (string KeyName, string Value)[4] // Явно создаем массив нужного типа и размера
     };

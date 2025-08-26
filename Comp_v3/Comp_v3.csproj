@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Comp_ModelData\CL_Comp_ModelData.csproj" />
-    <ProjectReference Include="..\UserControlsLib\UserControlsLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
