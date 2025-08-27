@@ -1,0 +1,27 @@
+<Window x:Class="Comp_v3.Front.DataGrid.CondDesign.MainW"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Comp_v3.Front.DataGrid.CondDesign"
+        mc:Ignorable="d"
+        Title="MainW" Height="450" Width="800">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Items}" 
+                  AutoGenerateColumns="False" 
+                  SelectionMode="Single" 
+                  Name="DataGrid" 
+                  CellEditEnding="DataGrid_CellEditEnding"
+                  SelectedItem="{Binding SelectedItem}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Design" Binding="{Binding Designation}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Add" Command="{Binding AddCommand}" Margin="5"/>
+            <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

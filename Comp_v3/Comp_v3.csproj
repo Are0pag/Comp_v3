@@ -15,13 +15,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CL_CompDb\CL_CompDb.csproj" />
     <ProjectReference Include="..\Comp_ModelData\CL_Comp_ModelData.csproj" />
+    <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CatalogTree\" />
-    <Folder Include="ComponentsGrid\" />
-    <Folder Include="NomDict\Entities\" />
+    <Folder Include="Back\Config\" />
+    <Folder Include="Back\DbProvide\" />
+    <Folder Include="Front\CatalogTree\" />
+    <Folder Include="Front\ComponentsGrid\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Front\NomDict\View\NomDictWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="Back\Bootstrap\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
   </ItemGroup>
 
 </Project>
