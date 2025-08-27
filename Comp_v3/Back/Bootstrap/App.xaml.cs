@@ -1,10 +1,12 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using CL_Comp_ModelData.TechnicalItems;
 using CL_CompDb;
+using CL_CompDb.Contracts;
 using Comp_v3.Front.DataGrid.CondDesign;
-using Comp_v3.NomDict.View;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using NomDictWindow = Comp_v3.Front.NomDict.View.NomDictWindow;
 
 namespace Comp_v3;
 
@@ -15,22 +17,34 @@ public partial class App : Application
     public App() {
         AppHost = Host.CreateDefaultBuilder().
                        ConfigureServices((hostContext, services) => {
-                            services.AddNomDictEntities();
+                           services.AddDbContext<AppDbContext>(options => {
+                               const string dbName = "comp.db";
+                               var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                               var connectionString = $"data source={Path.Combine(folderPath, dbName)}";
+                               options.UseSqlite(connectionString);
+                           });
                             
-                            /* new MainW(new MainVm(new ConditionalDesignationRepository(new AppDbContext()))); */
-                            using (var scope = ServiceProvider.CreateScope) {
-                                
-                            }
-                            
+                           services.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
+                           services.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
+
+                           // Регистрируем ViewModel и окна
+                           services.AddTransient<Front.DataGrid.CondDesign.MainVm>();
+                           services.AddTransient<MainW>();
+
                        }).Build();
     }
     protected override async void OnStartup(StartupEventArgs e) {
         await AppHost!.StartAsync();
+        
+        // Создаем БД при старте (используем scope)
+        using (var scope = AppHost.Services.CreateScope()) {
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await context.Database.EnsureCreatedAsync();
+        }
 
-        /*var startupForm = AppHost.Services.GetRequiredService<NomDictWindow>();
-        startupForm.Show();*/
-        
-        
+        // Запускаем главное окно
+        var mainWindow = AppHost.Services.GetRequiredService<MainW>();
+        mainWindow.Show();
         
         base.OnStartup(e);
     }

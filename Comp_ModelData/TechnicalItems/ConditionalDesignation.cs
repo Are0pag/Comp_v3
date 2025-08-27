@@ -10,8 +10,8 @@ public class ConditionalDesignation : NotifyPropertyChanged, ICloneable
     protected string _name;
     protected string _designation;
     
-    public const byte MAX_NAME_LENGTH = 10;
-    public const byte MAX_DESIGNATION_LENGTH = 10;
+    public const byte MAX_NAME_LENGTH = 250;
+    public const byte MAX_DESIGNATION_LENGTH = 100;
 
     public ConditionalDesignation() {}
     public ConditionalDesignation(string name, string designation) {

@@ -8,7 +8,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign;
 
 public class MainVm : NotifyPropertyChanged
 {
-    private readonly ConditionalDesignationRepository _repository;
+    private readonly IConditionalDesignationRepository _repository;
     private ConditionalDesignation _selectedItem;
 
     public ObservableCollection<ConditionalDesignation> Items { get; set; }
@@ -25,34 +25,40 @@ public class MainVm : NotifyPropertyChanged
     public ICommand DeleteCommand { get; }
     public ICommand SaveCommand { get; }
 
-    public MainVm(ConditionalDesignationRepository repository) {
+    public MainVm(IConditionalDesignationRepository repository) {
         _repository = repository;
-        Items = new ObservableCollection<ConditionalDesignation>(_repository.GetAll());
+        LoadDataAsync();
 
         AddCommand = new RelayCommand(AddItem);
         DeleteCommand = new RelayCommand(DeleteItem, CanDeleteItem);
         SaveCommand = new RelayCommand(SaveChanges);
     }
+    
+    private async void LoadDataAsync() {
+        var items = await _repository.GetAllAsync();
+        Items = new ObservableCollection<ConditionalDesignation>(items);
+        OnPropertyChanged(nameof(Items));
+    }
 
-    private void AddItem(object? parameter) {
+    private async void AddItem(object? parameter) {
         var newItem = new ConditionalDesignation("Новое обозначение", "НО");
-        _repository.Add(newItem);
+        await _repository.AddAsync(newItem);
         Items.Add(newItem);
         SelectedItem = newItem;
     }
 
-    private void DeleteItem(object? parameter) {
+    private async void DeleteItem(object? parameter) {
         if (SelectedItem == null) return;
-        _repository.Delete(SelectedItem.Id);
+        _repository.DeleteAsync(SelectedItem.Id);
         Items.Remove(SelectedItem);
         SelectedItem = null;
     }
 
     private bool CanDeleteItem(object? parameter) => SelectedItem != null;
 
-    private void SaveChanges(object? parameter) {
+    private async void SaveChanges(object? parameter) {
         if (SelectedItem != null) {
-            _repository.Update(SelectedItem);
+            _repository.UpdateAsync(SelectedItem);
         }
     }
 }
