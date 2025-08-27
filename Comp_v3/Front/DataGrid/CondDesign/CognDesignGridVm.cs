@@ -2,12 +2,13 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
 using Comp.Db;
+using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Utils.WPF.Mvvm;
 
 namespace Comp_v3.Front.DataGrid.CondDesign;
 
-public class MainVm : NotifyPropertyChanged
+public class CognDesignGridVm : NotifyPropertyChanged
 {
     private readonly IConditionalDesignationRepository _repository;
     private ConditionalDesignation _selectedItem;
@@ -26,7 +27,7 @@ public class MainVm : NotifyPropertyChanged
     public ICommand DeleteCommand { get; }
     public ICommand SaveCommand { get; }
 
-    public MainVm(IConditionalDesignationRepository repository) {
+    public CognDesignGridVm(IConditionalDesignationRepository repository) {
         _repository = repository;
         LoadDataAsync();
 

@@ -17,8 +17,8 @@ public partial class App : Application
                            services.RegisterConditionalDesignationsTable();
 
                            // Регистрируем ViewModel и окна
-                           services.AddTransient<Front.DataGrid.CondDesign.MainVm>();
-                           services.AddTransient<MainW>();
+                           services.AddTransient<Front.DataGrid.CondDesign.CognDesignGridVm>();
+                           services.AddTransient<CognDesignGridWindow>();
 
                        }).Build();
     }
@@ -32,7 +32,7 @@ public partial class App : Application
         }
 
         // Запускаем главное окно
-        var mainWindow = AppHost.Services.GetRequiredService<MainW>();
+        var mainWindow = AppHost.Services.GetRequiredService<CognDesignGridWindow>();
         mainWindow.Show();
         
         base.OnStartup(e);

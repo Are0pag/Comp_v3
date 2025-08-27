@@ -1,8 +1,9 @@
+using Comp.Db.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace Comp.Db.Contracts;
+namespace Comp.Db.Repositories;
 
-public abstract class DbRepository<T> : IRepository<T> where T : class
+public class DbRepository<T> : IRepository<T> where T : class
 {
     protected readonly AppDbContext _context;
 
@@ -14,7 +15,7 @@ public abstract class DbRepository<T> : IRepository<T> where T : class
         return await _context.Set<T>().ToListAsync();
     }
 
-    public virtual async Task<T> GetByIdAsync(int id) {
+    public virtual async Task<T?> GetByIdAsync(int id) {
         return await _context.Set<T>().FindAsync(id);
     }
 

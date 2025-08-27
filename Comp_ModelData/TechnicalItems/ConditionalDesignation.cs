@@ -22,8 +22,7 @@ public class ConditionalDesignation : NotifyPropertyChanged, ICloneable
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-
-    [Required]
+    
     [MaxLength(MAX_NAME_LENGTH)]
     public string Name {
         get => _name;
@@ -34,6 +33,7 @@ public class ConditionalDesignation : NotifyPropertyChanged, ICloneable
         }
     }
     
+    [Required]
     [MaxLength(MAX_DESIGNATION_LENGTH)]
     public string Designation {
         get => _designation;

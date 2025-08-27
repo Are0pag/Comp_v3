@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     public DbSet<TypeSize> TypeSizes { get; set; }*/
     /* And all of thr tables  */
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
