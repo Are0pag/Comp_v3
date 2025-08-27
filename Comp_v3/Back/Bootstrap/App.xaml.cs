@@ -1,11 +1,7 @@
-﻿using System.IO;
-using System.Windows;
-using Comp.ModelData.TechnicalItems;
+﻿using System.Windows;
+using Comp_v3.Back.Bootstrap.ServiceCollectionExtensions.Db;
 using Comp.Db;
-using Comp.Db.Contracts;
 using Comp_v3.Front.DataGrid.CondDesign;
-using Comp.Db.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,15 +14,7 @@ public partial class App : Application
     public App() {
         AppHost = Host.CreateDefaultBuilder().
                        ConfigureServices((hostContext, services) => {
-                           services.AddDbContext<AppDbContext>(options => {
-                               const string dbName = "comp.db";
-                               var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                               var connectionString = $"data source={Path.Combine(folderPath, dbName)}";
-                               options.UseSqlite(connectionString);
-                           });
-                            
-                           services.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
-                           services.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
+                           services.RegisterConditionalDesignationsTable();
 
                            // Регистрируем ViewModel и окна
                            services.AddTransient<Front.DataGrid.CondDesign.MainVm>();

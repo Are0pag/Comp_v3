@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Back\Config\" />
     <Folder Include="Back\DbProvide\" />
     <Folder Include="Front\CatalogTree\" />
     <Folder Include="Front\ComponentsGrid\" />
