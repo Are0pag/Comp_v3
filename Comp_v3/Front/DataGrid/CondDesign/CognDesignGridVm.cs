@@ -1,14 +1,14 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Comp.ModelData.TechnicalItems;
-using Comp.Db;
 using Comp.Db.Contracts;
-using Comp.Db.Repositories;
-using Utils.WPF.Mvvm;
+using RelayCommand = Utils.WPF.Mvvm.RelayCommand;
 
 namespace Comp_v3.Front.DataGrid.CondDesign;
 
-public class CognDesignGridVm : NotifyPropertyChanged
+public partial class CognDesignGridVm : ObservableObject
 {
     private readonly IConditionalDesignationRepository _repository;
     private ConditionalDesignation _selectedItem;
@@ -20,20 +20,13 @@ public class CognDesignGridVm : NotifyPropertyChanged
         set {
             _selectedItem = value;
             OnPropertyChanged();
+            DeleteItemCommand.NotifyCanExecuteChanged();
         }
     }
-
-    public ICommand AddCommand { get; }
-    public ICommand DeleteCommand { get; }
-    public ICommand SaveCommand { get; }
 
     public CognDesignGridVm(IConditionalDesignationRepository repository) {
         _repository = repository;
         LoadDataAsync();
-
-        AddCommand = new RelayCommand(AddItem);
-        DeleteCommand = new RelayCommand(DeleteItem, CanDeleteItem);
-        SaveCommand = new RelayCommand(SaveChanges);
     }
     
     private async void LoadDataAsync() {
@@ -42,25 +35,23 @@ public class CognDesignGridVm : NotifyPropertyChanged
         OnPropertyChanged(nameof(Items));
     }
 
-    private async void AddItem(object? parameter) {
+    [RelayCommand]
+    private async Task AddItem() {
         var newItem = new ConditionalDesignation("Новое обозначение", "НО");
         await _repository.AddAsync(newItem);
         Items.Add(newItem);
         SelectedItem = newItem;
     }
 
-    private async void DeleteItem(object? parameter) {
+    [RelayCommand(CanExecute = nameof(CanDeleteItem))]
+    private async Task DeleteItemAsync() {
         if (SelectedItem == null) return;
-        _repository.DeleteAsync(SelectedItem.Id);
+        await _repository.DeleteAsync(SelectedItem.Id);
         Items.Remove(SelectedItem);
         SelectedItem = null;
     }
 
-    private bool CanDeleteItem(object? parameter) => SelectedItem != null;
-
-    private async void SaveChanges(object? parameter) {
-        if (SelectedItem != null) {
-            _repository.UpdateAsync(SelectedItem);
-        }
+    private bool CanDeleteItem() {
+        return SelectedItem != null;
     }
 }
