@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Comp_ModelData\Comp.ModelData.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
 </Project>

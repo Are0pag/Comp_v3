@@ -1,8 +1,8 @@
+using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
-using CL_CompDb.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace CL_CompDb;
+namespace Comp.Db.Repositories;
 
 public class ConditionalDesignationRepository : DbRepository<ConditionalDesignation>, IConditionalDesignationRepository
 {

@@ -1,7 +1,7 @@
+using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
-using CL_CompDb.Contracts;
 
-namespace CL_CompDb;
+namespace Comp.Db.Repositories;
 
 public interface IConditionalDesignationRepository : IRepository<ConditionalDesignation>
 {

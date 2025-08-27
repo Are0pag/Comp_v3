@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CL_CompDb\CL_CompDb.csproj" />
+    <ProjectReference Include="..\Comp.Db\Comp.Db.csproj" />
     <ProjectReference Include="..\Comp_ModelData\Comp.ModelData.csproj" />
     <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
   </ItemGroup>

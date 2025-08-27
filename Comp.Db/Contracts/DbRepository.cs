@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace CL_CompDb.Contracts;
+namespace Comp.Db.Contracts;
 
 public abstract class DbRepository<T> : IRepository<T> where T : class
 {

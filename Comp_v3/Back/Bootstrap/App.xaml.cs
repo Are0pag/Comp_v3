@@ -1,9 +1,10 @@
 ﻿using System.IO;
 using System.Windows;
 using Comp.ModelData.TechnicalItems;
-using CL_CompDb;
-using CL_CompDb.Contracts;
+using Comp.Db;
+using Comp.Db.Contracts;
 using Comp_v3.Front.DataGrid.CondDesign;
+using Comp.Db.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,4 @@
-namespace CL_CompDb.Contracts;
+namespace Comp.Db.Contracts;
 
 public interface IRepository<T> where T : class
 {

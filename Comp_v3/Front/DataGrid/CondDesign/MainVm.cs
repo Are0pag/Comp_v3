@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
-using CL_CompDb;
+using Comp.Db;
+using Comp.Db.Repositories;
 using Utils.WPF.Mvvm;
 
 namespace Comp_v3.Front.DataGrid.CondDesign;
