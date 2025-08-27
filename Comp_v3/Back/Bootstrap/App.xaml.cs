@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CL_CompDb;
 using Comp_v3.Front.DataGrid.CondDesign;
 using Comp_v3.NomDict.View;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +16,12 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder().
                        ConfigureServices((hostContext, services) => {
                             services.AddNomDictEntities();
+                            
+                            /* new MainW(new MainVm(new ConditionalDesignationRepository(new AppDbContext()))); */
+                            using (var scope = ServiceProvider.CreateScope) {
+                                
+                            }
+                            
                        }).Build();
     }
     protected override async void OnStartup(StartupEventArgs e) {
@@ -23,7 +30,7 @@ public partial class App : Application
         /*var startupForm = AppHost.Services.GetRequiredService<NomDictWindow>();
         startupForm.Show();*/
         
-        new MainW(new MainVm()).Show();
+        
         
         base.OnStartup(e);
     }

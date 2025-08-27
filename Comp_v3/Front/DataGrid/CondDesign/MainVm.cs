@@ -25,8 +25,8 @@ public class MainVm : NotifyPropertyChanged
     public ICommand DeleteCommand { get; }
     public ICommand SaveCommand { get; }
 
-    public MainVm() {
-        _repository = new ConditionalDesignationRepository();
+    public MainVm(ConditionalDesignationRepository repository) {
+        _repository = repository;
         Items = new ObservableCollection<ConditionalDesignation>(_repository.GetAll());
 
         AddCommand = new RelayCommand(AddItem);
