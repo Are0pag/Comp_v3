@@ -1,6 +1,6 @@
 ﻿using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.Comp.GenericParams;
+namespace Comp.ModelData.Comp.GenericParams;
 
 public class GenKeys : NotifyPropertyChanged
 {

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.TechnicalItems;
+namespace Comp.ModelData.TechnicalItems;
 
 [Table(nameof(ConditionalDesignation) + "s")]
 public class ConditionalDesignation : NotifyPropertyChanged, ICloneable

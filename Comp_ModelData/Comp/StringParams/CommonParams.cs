@@ -1,6 +1,6 @@
 ﻿using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.Comp.StringParams;
+namespace Comp.ModelData.Comp.StringParams;
 
 public class CommonParams : NotifyPropertyChanged
 {

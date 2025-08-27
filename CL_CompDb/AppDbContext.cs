@@ -1,4 +1,4 @@
-using CL_Comp_ModelData.TechnicalItems;
+using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
 
 namespace CL_CompDb;

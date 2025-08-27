@@ -1,7 +1,7 @@
-﻿using CL_Comp_ModelData.TechnicalItems;
+﻿using Comp.ModelData.TechnicalItems;
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.Comp.ForeingParams;
+namespace Comp.ModelData.Comp.ForeingParams;
 
 public class TechnicalParams : NotifyPropertyChanged
 {

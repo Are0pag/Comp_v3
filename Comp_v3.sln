@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comp_v3", "Comp_v3\Comp_v3.csproj", "{011EB416-97BC-4A78-880D-44A3DE559E98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CL_Comp_ModelData", "Comp_ModelData\CL_Comp_ModelData.csproj", "{02B8EAB8-D5C5-446C-BCB1-88357208B9F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comp.ModelData", "Comp_ModelData\Comp.ModelData.csproj", "{02B8EAB8-D5C5-446C-BCB1-88357208B9F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{FF3EE021-DA00-43B7-B260-42666721E955}"
 EndProject

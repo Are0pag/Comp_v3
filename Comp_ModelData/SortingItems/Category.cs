@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.SortingItems;
+namespace Comp.ModelData.SortingItems;
 
 public class Category : NotifyPropertyChanged
 {

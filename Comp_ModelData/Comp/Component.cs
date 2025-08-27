@@ -1,9 +1,9 @@
-﻿using CL_Comp_ModelData.Comp.ForeingParams;
-using CL_Comp_ModelData.Comp.GenericParams;
-using CL_Comp_ModelData.Comp.StringParams;
+﻿using Comp.ModelData.Comp.ForeingParams;
+using Comp.ModelData.Comp.GenericParams;
+using Comp.ModelData.Comp.StringParams;
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.Comp;
+namespace Comp.ModelData.Comp;
 
 
 public class Component : NotifyPropertyChanged 

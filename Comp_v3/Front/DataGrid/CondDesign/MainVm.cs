@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CL_Comp_ModelData.TechnicalItems;
+using Comp.ModelData.TechnicalItems;
 using CL_CompDb;
 using Utils.WPF.Mvvm;
 

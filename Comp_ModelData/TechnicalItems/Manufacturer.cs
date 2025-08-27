@@ -1,6 +1,6 @@
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.TechnicalItems;
+namespace Comp.ModelData.TechnicalItems;
 
 public class Manufacturer : NotifyPropertyChanged
 {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using CL_Comp_ModelData.TechnicalItems;
+using Comp.ModelData.TechnicalItems;
 using CL_CompDb;
 using CL_CompDb.Contracts;
 using Comp_v3.Front.DataGrid.CondDesign;

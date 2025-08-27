@@ -1,4 +1,4 @@
-using CL_Comp_ModelData.TechnicalItems;
+using Comp.ModelData.TechnicalItems;
 using CL_CompDb.Contracts;
 
 namespace CL_CompDb;

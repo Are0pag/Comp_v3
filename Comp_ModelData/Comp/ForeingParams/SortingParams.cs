@@ -1,7 +1,7 @@
-﻿using CL_Comp_ModelData.SortingItems;
+﻿using Comp.ModelData.SortingItems;
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.Comp.ForeingParams;
+namespace Comp.ModelData.Comp.ForeingParams;
 
 public class SortingParams : NotifyPropertyChanged
 {

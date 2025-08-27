@@ -1,7 +1,7 @@
 using System.Windows.Media;
 using Utils.WPF.Mvvm;
 
-namespace CL_Comp_ModelData.SortingItems;
+namespace Comp.ModelData.SortingItems;
 
 public class ElementStatus : NotifyPropertyChanged
 {
