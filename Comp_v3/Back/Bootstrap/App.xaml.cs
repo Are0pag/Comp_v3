@@ -3,6 +3,7 @@ using Comp_v3.Back.Bootstrap.ServiceCollectionExtensions.Db;
 using Comp.Db;
 using Comp_v3.Front.DataGrid.CondDesign;
 using Comp_v3.Front.DataGrid.CondDesign.Entities;
+using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,10 @@ public partial class App : Application
         _appHost = Host.CreateDefaultBuilder().
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
+
+                           services.AddScoped<StateDgEditing>();
+                           services.AddScoped<StateDgCreatingNewItem>();
+                           services.AddScoped<StateProviderDg>();
                            
                            services.AddScoped<CognDesignGridVm>();
                            services.AddScoped<DataGridManageButtonsVm>();

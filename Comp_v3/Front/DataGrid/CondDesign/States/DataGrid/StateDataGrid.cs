@@ -6,6 +6,8 @@ namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 public abstract class StateDataGrid
 {
     public abstract Task AddItemAsync(CognDesignGridVm vm);
+    
+    
 
     public virtual async Task DeleteItemAsync(CognDesignGridVm vm) {
         if (vm.SelectedItem == null)
