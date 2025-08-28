@@ -12,7 +12,7 @@ using RelayCommand = Utils.WPF.Mvvm.RelayCommand;
 
 namespace Comp_v3.Front.DataGrid.CondDesign;
 
-public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEditEndingHandler
+public partial class CognDesignGridVm : ObservableObject, ICellEditEndingHandler
 {
     private readonly IConditionalDesignationRepository _repository;
     private ConditionalDesignation _selectedItem;
@@ -50,7 +50,7 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
     }
 
     [RelayCommand]
-    private async Task AddItem() {
+    protected async Task AddItem() {
         var newItem = new ConditionalDesignation("Новое обозначение", "НО");
         await _repository.AddAsync(newItem);
         Items.Add(newItem);
@@ -58,11 +58,11 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
     }
 
     [RelayCommand(CanExecute = nameof(CanDeleteItem))] /* непосредственно через CurrentStateDataGrid.CanDeleteItem не выйдет( */
-    private async Task DeleteItemAsync() {
+    protected async Task DeleteItemAsync() {
         await CurrentStateDataGrid.DeleteItemAsync(this);
     }
 
-    private bool CanDeleteItem() => CurrentStateDataGrid.CanDeleteItem(this);
+    protected bool CanDeleteItem() => CurrentStateDataGrid.CanDeleteItem(this);
 
     async Task ICellEditEndingHandler.HandleCellEdit(object? sender, DataGridCellEditEndingEventArgs e) {
         await CurrentStateDataGrid.OnCellEditEnding(this, sender, e);
