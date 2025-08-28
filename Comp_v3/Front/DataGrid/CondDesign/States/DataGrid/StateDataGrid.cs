@@ -29,10 +29,3 @@ public abstract class StateDataGrid
         return e.EditAction == DataGridEditAction.Commit && e.Row.Item is ConditionalDesignation { };
     }
 }
-
-public class StateDgEditing : StateDataGrid
-{
-    public override Task AddItemAsync(CognDesignGridVm vm) {
-        throw new NotImplementedException();
-    }
-}

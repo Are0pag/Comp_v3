@@ -18,10 +18,12 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
     private ConditionalDesignation _selectedItem;
     
     public StateDataGrid CurrentStateDataGrid { get; protected set; }
+    public StateDgEditing StateEditing { get; protected set; } = new StateDgEditing();
 
     public CognDesignGridVm(IConditionalDesignationRepository repository) {
         _repository = repository;
         EventBus<IUiGlobalSubscriber>.Subscribe(this);
+        CurrentStateDataGrid = StateEditing;
         LoadDataAsync();
     }
 
@@ -55,18 +57,12 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
         SelectedItem = newItem;
     }
 
-    [RelayCommand(CanExecute = nameof(CanDeleteItem))]
+    [RelayCommand(CanExecute = nameof(CanDeleteItem))] /* непосредственно через CurrentStateDataGrid.CanDeleteItem не выйдет( */
     private async Task DeleteItemAsync() {
         await CurrentStateDataGrid.DeleteItemAsync(this);
-        /*if (SelectedItem == null) return;
-        await _repository.DeleteAsync(SelectedItem.Id);
-        Items.Remove(SelectedItem);
-        SelectedItem = null;*/
     }
 
-    private bool CanDeleteItem() {
-        return CurrentStateDataGrid.CanDeleteItem(this);
-    }
+    private bool CanDeleteItem() => CurrentStateDataGrid.CanDeleteItem(this);
 
     async Task ICellEditEndingHandler.HandleCellEdit(object? sender, DataGridCellEditEndingEventArgs e) {
         await CurrentStateDataGrid.OnCellEditEnding(this, sender, e);
