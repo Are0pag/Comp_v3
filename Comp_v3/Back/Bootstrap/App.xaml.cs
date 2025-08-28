@@ -15,8 +15,7 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder().
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
-
-                           // Регистрируем ViewModel и окна
+                           
                            services.AddTransient<Front.DataGrid.CondDesign.CognDesignGridVm>();
                            services.AddTransient<CognDesignGridWindow>();
 

@@ -10,13 +10,13 @@
         <DataGrid ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   SelectionMode="Single" 
-                  Name="DataGrid" 
+                  Name="InfoDataGrid" 
                   CellEditEnding="DataGrid_CellEditEnding"
                   SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Design" Binding="{Binding Designation}" Width="*"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridTextColumn Header="Designation" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
