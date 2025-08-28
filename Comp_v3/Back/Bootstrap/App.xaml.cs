@@ -2,6 +2,7 @@
 using Comp_v3.Back.Bootstrap.ServiceCollectionExtensions.Db;
 using Comp.Db;
 using Comp_v3.Front.DataGrid.CondDesign;
+using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,11 +17,21 @@ public partial class App : Application
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
                            
-                           services.AddTransient<Front.DataGrid.CondDesign.CognDesignGridVm>();
+                           services.AddSingleton<CognDesignGridVm>();
                            services.AddTransient<CognDesignGridWindow>();
+                           services.AddSingleton<DataGridManageButtonsVm>();
 
                        }).Build();
     }
+    
+    /* Также можно явно указать зависимость:
+     services.AddSingleton<DataGridManageButtonsVm>(provider => 
+        new DataGridManageButtonsVm(
+            provider.GetService<IConditionalDesignationRepository>(),
+            provider.GetService<CognDesignGridVm>()
+    )
+     */
+    
     protected override async void OnStartup(StartupEventArgs e) {
         await AppHost!.StartAsync();
         
