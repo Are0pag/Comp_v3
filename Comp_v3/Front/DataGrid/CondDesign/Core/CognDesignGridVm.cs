@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Comp.Db.Contracts;
@@ -15,6 +16,8 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
 {
     private readonly IConditionalDesignationRepository _repository;
     private ConditionalDesignation _selectedItem;
+    
+    public StateDataGrid CurrentStateDataGrid { get; protected set; }
 
     public CognDesignGridVm(IConditionalDesignationRepository repository) {
         _repository = repository;
@@ -22,7 +25,7 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
         LoadDataAsync();
     }
 
-    public void Dispose() {
+    public virtual void Dispose() {
         EventBus<IUiGlobalSubscriber>.Unsubscribe(this);
     }
 
@@ -36,6 +39,7 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
             DeleteItemCommand.NotifyCanExecuteChanged();
         }
     }
+    public IConditionalDesignationRepository Repository => _repository;
 
     private async void LoadDataAsync() {
         var items = await _repository.GetAllAsync();
@@ -53,21 +57,18 @@ public partial class CognDesignGridVm : ObservableObject, IDisposable, ICellEdit
 
     [RelayCommand(CanExecute = nameof(CanDeleteItem))]
     private async Task DeleteItemAsync() {
-        if (SelectedItem == null) return;
+        await CurrentStateDataGrid.DeleteItemAsync(this);
+        /*if (SelectedItem == null) return;
         await _repository.DeleteAsync(SelectedItem.Id);
         Items.Remove(SelectedItem);
-        SelectedItem = null;
+        SelectedItem = null;*/
     }
 
     private bool CanDeleteItem() {
-        return SelectedItem != null;
+        return CurrentStateDataGrid.CanDeleteItem(this);
     }
 
-    async void ICellEditEndingHandler.HandleCellEdit(object? sender, DataGridCellEditEndingEventArgs e) {
-        if (e.EditAction != DataGridEditAction.Commit) return;
-
-        if (e.Row.Item is ConditionalDesignation editedItem) {
-            await _repository.UpdateAsync(editedItem);
-        }
+    async Task ICellEditEndingHandler.HandleCellEdit(object? sender, DataGridCellEditEndingEventArgs e) {
+        await CurrentStateDataGrid.OnCellEditEnding(this, sender, e);
     }
 }

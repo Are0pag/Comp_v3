@@ -24,11 +24,17 @@
     <Folder Include="Back\DbProvide\" />
     <Folder Include="Front\CatalogTree\" />
     <Folder Include="Front\ComponentsGrid\" />
+    <Folder Include="Front\DataGrid\CondDesign\Servises\NewItemCreating\" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="Front\NomDict\View\NomDictWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Front\DataGrid\CondDesign\Core\CognDesignGridWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
 
