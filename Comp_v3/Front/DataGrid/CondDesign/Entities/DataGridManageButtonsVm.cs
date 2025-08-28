@@ -19,16 +19,13 @@ public partial class DataGridManageButtonsVm : ObservableObject, IDisposable
         _condDesignGridVm.PropertyChanged -= OnSelectedItemPropertyChanged;
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanAddItem))]
     protected async Task AddItem() {
-        var newItem = new ConditionalDesignation("Новое обозначение", "НО");
-        await _repository.AddAsync(newItem);
-        _condDesignGridVm.Items.Add(newItem);
-        _condDesignGridVm.SelectedItem = newItem;
+        await _condDesignGridVm.StateProvider.CurrentStateDataGrid.AddItemAsync(_condDesignGridVm);
     }
 
     protected bool CanAddItem() {
-        return true;
+        return _condDesignGridVm.StateProvider.CurrentStateDataGrid.CanAddItem(_condDesignGridVm);
     }
 
     [RelayCommand(CanExecute = nameof(CanDeleteItem))] /* непосредственно через CurrentStateDataGrid.CanDeleteItem не выйдет:( */

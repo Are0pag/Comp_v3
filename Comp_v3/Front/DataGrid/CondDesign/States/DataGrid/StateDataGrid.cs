@@ -5,10 +5,14 @@ namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 
 public abstract class StateDataGrid
 {
+    public virtual void Entry(CognDesignGridVm vm) {}
+    
     public abstract Task AddItemAsync(CognDesignGridVm vm);
-    
-    
 
+    public virtual bool CanAddItem(CognDesignGridVm vm) {
+        return vm.StateProvider.CurrentStateDataGrid is not StateDgCreatingNewItem;
+    }
+    
     public virtual async Task DeleteItemAsync(CognDesignGridVm vm) {
         if (vm.SelectedItem == null)
             throw new Exception($"Selected item is null when try to delete from {nameof(CognDesignGridVm)}");

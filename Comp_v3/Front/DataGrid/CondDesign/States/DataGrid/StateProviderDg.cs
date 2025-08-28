@@ -14,7 +14,8 @@ public class StateProviderDg
 
     public StateDataGrid GetInitialState() => Editing;
 
-    public void ChangeState(StateDataGrid stateDataGrid) {
+    public Task ChangeState(StateDataGrid stateDataGrid) {
         CurrentStateDataGrid = stateDataGrid;
+        return Task.CompletedTask;
     }
 }
