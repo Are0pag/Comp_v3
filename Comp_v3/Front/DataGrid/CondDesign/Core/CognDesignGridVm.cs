@@ -36,7 +36,6 @@ public partial class CognDesignGridVm : ObservableObject, ICellEditEndingHandler
         set {
             _selectedItem = value;
             OnPropertyChanged();
-            //WeakReferenceMessenger.Default.Send(new SelectedItemChangedMessage(value));
         }
     }
 

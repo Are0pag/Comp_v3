@@ -19,8 +19,6 @@ public partial class DataGridManageButtonsVm : ObservableObject, IDisposable
         _repository = repository;
         _condDesignGridVm = condDesignGridVm;
         _condDesignGridVm.PropertyChanged += OnSelectedItemPropertyChanged;
-        // Подписываемся на сообщения
-        //WeakReferenceMessenger.Default.Register<SelectedItemChangedMessage>(this, OnSelectedItemChanged);
     }
 
     public virtual void Dispose() {
@@ -40,22 +38,12 @@ public partial class DataGridManageButtonsVm : ObservableObject, IDisposable
         await _condDesignGridVm.CurrentStateDataGrid.DeleteItemAsync(_condDesignGridVm);
     }
 
-    [RelayCommand(CanExecute = nameof(CanDeleteItem))] /* непосредственно через CurrentStateDataGrid.CanDeleteItem не выйдет:( */
-    protected async Task DeleteGridRawAsync() {
-        await _condDesignGridVm.CurrentStateDataGrid.DeleteItemAsync(_condDesignGridVm);
-    }
-
     protected bool CanDeleteItem() {
         return _condDesignGridVm.CurrentStateDataGrid.CanDeleteItem(_condDesignGridVm);
     }
-
-    // Обработчик сообщений
-    private void OnSelectedItemChanged(object recipient, SelectedItemChangedMessage message) {
-        DeleteItemCommand.NotifyCanExecuteChanged();
-        DeleteGridRawCommand.NotifyCanExecuteChanged();
-    }
+    
     protected virtual void OnSelectedItemPropertyChanged(object? sender, PropertyChangedEventArgs e) {
         if (e.PropertyName == nameof(_condDesignGridVm.SelectedItem)) 
-            DeleteGridRawCommand.NotifyCanExecuteChanged();
+            DeleteItemCommand.NotifyCanExecuteChanged();
     }
 }

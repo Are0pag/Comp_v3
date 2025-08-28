@@ -10,16 +10,17 @@ namespace Comp_v3;
 
 public partial class App : Application
 {
-    public static IHost? AppHost { get; private set; }
+    protected static IHost _appHost;
+    protected IServiceScope _mainScope;
 
     public App() {
-        AppHost = Host.CreateDefaultBuilder().
+        _appHost = Host.CreateDefaultBuilder().
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
                            
-                           services.AddSingleton<CognDesignGridVm>();
+                           services.AddScoped<CognDesignGridVm>();
+                           services.AddScoped<DataGridManageButtonsVm>();
                            services.AddTransient<CognDesignGridWindow>();
-                           services.AddSingleton<DataGridManageButtonsVm>();
 
                        }).Build();
     }
@@ -33,23 +34,26 @@ public partial class App : Application
      */
     
     protected override async void OnStartup(StartupEventArgs e) {
-        await AppHost!.StartAsync();
+        await _appHost.StartAsync();
         
         // Создаем БД при старте (используем scope)
-        using (var scope = AppHost.Services.CreateScope()) {
+        using (var scope = _appHost.Services.CreateScope()) {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await context.Database.EnsureCreatedAsync();
-        }
-
-        // Запускаем главное окно
-        var mainWindow = AppHost.Services.GetRequiredService<CognDesignGridWindow>();
+        } 
+        
+        _mainScope = _appHost.Services.CreateScope();
+        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<CognDesignGridWindow>(); /*var mainWindow = AppHost.Services.GetRequiredService<CognDesignGridWindow>();*/
+        mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();
         
         base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e) {
-        await AppHost!.StopAsync();
+        _mainScope?.Dispose();
+        await _appHost.StopAsync();
+        _appHost.Dispose();
         base.OnExit(e);
     }
 }
