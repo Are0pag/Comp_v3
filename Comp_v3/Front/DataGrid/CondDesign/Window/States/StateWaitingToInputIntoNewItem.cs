@@ -11,9 +11,15 @@ public class StateWaitingToInputIntoNewItem : StateWindow
             base.OnCellEditEnding(window, sender, e);
         }
         catch (InvalidInputException ex) { 
+            EventBus<IUiGlobalSubscriber>.RaiseEvent<ICancelNewItemAddingHandler>(h => h.HandleCancelNewItemAdding());
+            Continue(window);
             return;
         }
         EventBus<IUiGlobalSubscriber>.RaiseEvent<ICellAddingToDataGridHandler>(h => h.HandleNewValueAdding());
+        Continue(window);
+    }
+
+    private static void Continue(CognDesignGridWindow window) {
         window.StateProvider.SwitchStateWindow(window.StateProvider.StateEditableGrid, window);
     }
 }

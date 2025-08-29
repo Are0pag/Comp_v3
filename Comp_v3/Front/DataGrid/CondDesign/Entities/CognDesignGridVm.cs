@@ -9,9 +9,9 @@ using Component_v2.Tools.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Entities;
 
-public class CognDesignGridVm : ObservableObject, ICellEditEndingHandler, ICellAddingToDataGridHandler
+public class CognDesignGridVm : ObservableObject, ICellEditEndingHandler, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
 {
-    private ConditionalDesignation _selectedItem;
+    private ConditionalDesignation? _selectedItem;
 
     public CognDesignGridVm(IConditionalDesignationRepository repository, StateProviderDg stateProviderDg) {
         Repository = repository;
@@ -28,7 +28,7 @@ public class CognDesignGridVm : ObservableObject, ICellEditEndingHandler, ICellA
 
     public ObservableCollection<ConditionalDesignation> Items { get; set; }
 
-    public ConditionalDesignation SelectedItem {
+    public ConditionalDesignation? SelectedItem {
         get => _selectedItem;
         set {
             _selectedItem = value;
@@ -40,6 +40,13 @@ public class CognDesignGridVm : ObservableObject, ICellEditEndingHandler, ICellA
         var items = await Repository.GetAllAsync();
         Items = new ObservableCollection<ConditionalDesignation>(items);
         OnPropertyChanged(nameof(Items));
+    }
+
+    void ICancelNewItemAddingHandler.HandleCancelNewItemAdding() {
+        if (StateProvider.CurrentStateDataGrid is not StateDgCreatingNewItem) return;
+        if (SelectedItem == null) throw new Exception("Selected item is null");
+        Items.Remove(SelectedItem);
+        SelectedItem = null;
     }
 
     void ICellAddingToDataGridHandler.HandleNewValueAdding() {

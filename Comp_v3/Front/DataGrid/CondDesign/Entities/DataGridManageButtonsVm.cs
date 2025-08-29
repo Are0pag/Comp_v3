@@ -8,7 +8,7 @@ using Component_v2.Tools.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Entities;
 
-public partial class DataGridManageButtonsVm : ObservableObject, ICellAddingToDataGridHandler
+public partial class DataGridManageButtonsVm : ObservableObject, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
 {
     private readonly IConditionalDesignationRepository _repository;
     private readonly CognDesignGridVm _condDesignGridVm;
@@ -21,6 +21,10 @@ public partial class DataGridManageButtonsVm : ObservableObject, ICellAddingToDa
     public virtual void Dispose() {
         _condDesignGridVm.PropertyChanged -= OnSelectedItemPropertyChanged;
         EventBus<IUiGlobalSubscriber>.Unsubscribe(this);
+    }
+
+    void ICancelNewItemAddingHandler.HandleCancelNewItemAdding() {
+        AddItemCommand.NotifyCanExecuteChanged();
     }
 
     public void HandleNewValueAdding() {
