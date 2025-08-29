@@ -1,9 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
-using Component_v2.Tools.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
@@ -40,20 +38,5 @@ public class StateCreatingNewItem : StateWindow
             return;
         }
         row.Focus();
-    }
-}
-
-public class StateWaitingToInputIntoNewItem : StateWindow
-{
-    public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
-        EventBus<IUiGlobalSubscriber>.RaiseEvent<ICellAddingToDataGridHandler>(h => h.HandleNewValueAdding());
-        window.StateProvider.SwitchStateWindow(window.StateProvider.StateEditableGrid, window);
-    }
-}
-
-public class StateEditableGrid : StateWindow
-{
-    public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
-        EventBus<IUiGlobalSubscriber>.RaiseEvent<ICellEditEndingHandler>(h => h.HandleCellEdit(sender, e));
     }
 }

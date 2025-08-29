@@ -34,4 +34,8 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
         StateProvider.SwitchStateWindow(StateProvider.StateCreatingNewItem, this);
         StateProvider.CurrentStateWindow.OneNewValueAdded(this, newValue);
     }
+
+    private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
+        StateProvider.CurrentStateWindow.OnBeginningEdit(this, sender, e);
+    }
 }

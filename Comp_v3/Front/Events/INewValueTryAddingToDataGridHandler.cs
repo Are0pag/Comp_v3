@@ -5,12 +5,7 @@ public interface INewValueTryAddingToDataGridHandler : IVmGlobalSubscriber
     void HandleNewValueAdded(object newValue);
 }
 
-public interface ICancelNewValueAddedToDataGridHandler : IUiGlobalSubscriber
+public interface ICancelCellEditHandler : IUiGlobalSubscriber
 {
-    void HandleCancelNewValueAdding(object? newValue);
-}
-
-public interface ICellAddingToDataGridHandler : IUiGlobalSubscriber
-{
-    void HandleNewValueAdding();
+    void HandleCancelCellEdit(object? newValue);
 }

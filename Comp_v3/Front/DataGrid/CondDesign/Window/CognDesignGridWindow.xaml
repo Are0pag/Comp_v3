@@ -12,6 +12,7 @@
                   SelectionMode="Single" 
                   Name="InfoDataGrid" 
                   CellEditEnding="DataGrid_CellEditEnding"
+                  BeginningEdit="InfoDataGrid_OnBeginningEdit"
                   SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Width="*"/>
