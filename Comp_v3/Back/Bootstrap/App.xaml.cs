@@ -4,8 +4,10 @@ using Comp.Db;
 using Comp_v3.Front.DataGrid.CondDesign;
 using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
+using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
 
 namespace Comp_v3;
 
@@ -22,6 +24,11 @@ public partial class App : Application
                            services.AddScoped<StateDgEditing>();
                            services.AddScoped<StateDgCreatingNewItem>();
                            services.AddScoped<StateProviderDg>();
+
+                           services.AddScoped<StateCreatingNewItem>();
+                           services.AddScoped<StateWaitingToInputIntoNewItem>();
+                           services.AddScoped<StateEditableGrid>();
+                           services.AddScoped<Provider>();
                            
                            services.AddScoped<CognDesignGridVm>();
                            services.AddScoped<DataGridManageButtonsVm>();
