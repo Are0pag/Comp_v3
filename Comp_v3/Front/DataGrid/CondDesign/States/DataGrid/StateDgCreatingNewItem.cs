@@ -1,3 +1,4 @@
+using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;

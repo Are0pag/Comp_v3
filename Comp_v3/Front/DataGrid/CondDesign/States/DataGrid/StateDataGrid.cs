@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp.ModelData.TechnicalItems;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;

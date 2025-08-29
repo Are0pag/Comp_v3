@@ -1,4 +1,6 @@
 
+using Comp_v3.Front.DataGrid.CondDesign.Entities;
+
 namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 
 public class StateDgEditing : StateDataGrid

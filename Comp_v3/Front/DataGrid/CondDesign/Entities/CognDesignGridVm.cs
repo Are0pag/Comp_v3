@@ -3,11 +3,11 @@ using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 using Comp_v3.Front.Events;
-using Comp.ModelData.TechnicalItems;
 using Comp.Db.Contracts;
+using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
 
-namespace Comp_v3.Front.DataGrid.CondDesign;
+namespace Comp_v3.Front.DataGrid.CondDesign.Entities;
 
 public class CognDesignGridVm : ObservableObject, ICellEditEndingHandler, ICellAddingToDataGridHandler
 {
