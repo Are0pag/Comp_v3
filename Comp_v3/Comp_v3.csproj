@@ -27,6 +27,7 @@
     <Folder Include="Back\DbProvide\" />
     <Folder Include="Front\CatalogTree\" />
     <Folder Include="Front\ComponentsGrid\" />
+    <Folder Include="Front\DataGrid\CondDesign\Entities\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,13 +11,14 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
 {
     public Provider StateProvider { get; }
     
-    public CognDesignGridWindow(CognDesignGridVm cognDesignGridVm, DataGridManageButtonsVm dataGridManageButtonsVm, Provider stateProvider) {
+    public CognDesignGridWindow(CognDesignGridVm cognDesignGridVm, BaseButtonsVm baseButtonsVm, Provider stateProvider) {
         InitializeComponent();
         StateProvider = stateProvider;
 
         InfoDataGrid.DataContext = cognDesignGridVm;
-        AddNewItemButton.DataContext = dataGridManageButtonsVm;
-        DeleteItemButton.DataContext = dataGridManageButtonsVm;
+        AddNewItemButton.DataContext = baseButtonsVm;
+        DeleteItemButton.DataContext = baseButtonsVm;
+        InfoDataGrid.ContextMenu.DataContext = baseButtonsVm;
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
     }
     public void Dispose() {

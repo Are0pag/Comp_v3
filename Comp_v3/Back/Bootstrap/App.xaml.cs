@@ -47,7 +47,7 @@ public partial class App : Application
                            services.AddScoped<Provider>();
                            
                            services.AddScoped<CognDesignGridVm>();
-                           services.AddScoped<DataGridManageButtonsVm>();
+                           services.AddScoped<BaseButtonsVm>();
                            services.AddTransient<CognDesignGridWindow>();
 
                        }).Build();
