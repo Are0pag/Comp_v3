@@ -28,10 +28,9 @@ public abstract class StateWindow
 
     public virtual void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
         if (e.Row.Item is not ConditionalDesignation conditionalDesignation) throw new InvalidInputException("Invalid input");
-        if (!Validate(conditionalDesignation)) {
-            _editingProperty?.SetValue(e.Row.Item, _inputBackup);
-            throw new InvalidInputException("Invalid input");
-        }
+        if (Validate(conditionalDesignation)) return;
+        _editingProperty?.SetValue(e.Row.Item, _inputBackup);
+        throw new InvalidInputException("Invalid input");
     }
 
     /// <summary>
@@ -43,10 +42,6 @@ public abstract class StateWindow
 
     public virtual void Exit(CognDesignGridWindow window) { }
 
-    /// <summary>
-    /// To service... TODO
-    /// </summary>
-    /// <param name="item"></param>
     protected virtual bool Validate(ConditionalDesignation item) {
         return item.Designation.Length >= 1;
     }
