@@ -30,20 +30,20 @@ public partial class DataGridManageButtonsVm : ObservableObject, ICellAddingToDa
 
     [RelayCommand(CanExecute = nameof(CanAddItem))]
     protected async Task AddItem() {
-        await _condDesignGridVm.StateProvider.CurrentStateDataGrid.AddItemAsync(_condDesignGridVm);
+        await _condDesignGridVm.StateProvider.CurrentState.AddItemAsync(_condDesignGridVm);
     }
 
     protected bool CanAddItem() {
-        return _condDesignGridVm.StateProvider.CurrentStateDataGrid.CanAddItem(_condDesignGridVm);
+        return _condDesignGridVm.StateProvider.CurrentState.CanAddItem(_condDesignGridVm);
     }
 
     [RelayCommand(CanExecute = nameof(CanDeleteItem))] /* непосредственно через CurrentStateDataGrid.CanDeleteItem не выйдет:( */
     protected async Task DeleteItemAsync() {
-        await _condDesignGridVm.StateProvider.CurrentStateDataGrid.DeleteItemAsync(_condDesignGridVm);
+        await _condDesignGridVm.StateProvider.CurrentState.DeleteItemAsync(_condDesignGridVm);
     }
 
     protected bool CanDeleteItem() {
-        return _condDesignGridVm.StateProvider.CurrentStateDataGrid.CanDeleteItem(_condDesignGridVm);
+        return _condDesignGridVm.StateProvider.CurrentState.CanDeleteItem(_condDesignGridVm);
     }
     
     protected virtual void OnSelectedItemPropertyChanged(object? sender, PropertyChangedEventArgs e) {

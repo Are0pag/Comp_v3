@@ -1,17 +1,16 @@
 using System.Windows.Controls;
 using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.StateMachine;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 
-public abstract class StateDataGrid
+public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 {
-    public virtual void Entry(CognDesignGridVm vm) {}
-    
     public abstract Task AddItemAsync(CognDesignGridVm vm);
 
     public virtual bool CanAddItem(CognDesignGridVm vm) {
-        return vm.StateProvider.CurrentStateDataGrid is not StateDgCreatingNewItem;
+        return vm.StateProvider.CurrentState is not StateDgCreatingNewItem;
     }
     
     public virtual async Task DeleteItemAsync(CognDesignGridVm vm) {

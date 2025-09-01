@@ -45,17 +45,17 @@ public class CognDesignGridVm : ObservableObject, ICellEditEndingHandler, ICellA
     }
 
     void ICancelNewItemAddingHandler.HandleCancelNewItemAdding() {  /* Одна из шаблонных реализаций : Ui-взаимодействующий */
-        if (StateProvider.CurrentStateDataGrid is not StateDgCreatingNewItem) return;
+        if (StateProvider.CurrentState is not StateDgCreatingNewItem) return;
         if (SelectedItem == null) throw new Exception("Selected item is null");
         Items.Remove(SelectedItem);
         SelectedItem = null;
     }
 
     void ICellAddingToDataGridHandler.HandleNewValueAdding() { /* Одна из шаблонных реализаций : Ui-взаимодействующий */
-        StateProvider.CurrentStateDataGrid.AddItemAsync(this);
+        StateProvider.CurrentState.AddItemAsync(this);
     }
 
     async Task ICellEditEndingHandler.HandleCellEdit(object? sender, DataGridCellEditEndingEventArgs e) { /* Одна из шаблонных реализаций : Ui-взаимодействующий */
-        await StateProvider.CurrentStateDataGrid.OnCellEditEnding(this, sender, e);
+        await StateProvider.CurrentState.OnCellEditEnding(this, sender, e);
     }
 }

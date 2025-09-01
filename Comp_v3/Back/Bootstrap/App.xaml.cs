@@ -7,6 +7,7 @@ using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.StateMachine;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Services.UserActionsHandling.InputText;
@@ -32,7 +33,13 @@ public partial class App : Application
                            
                            services.AddScoped<StateDgEditing>();
                            services.AddScoped<StateDgCreatingNewItem>();
-                           services.AddScoped<StateProviderDg>();
+                           services.AddScoped<StateDataGrid, StateDgEditing>();         // как интерфейс
+                           services.AddScoped<StateDataGrid, StateDgCreatingNewItem>(); // как интерфейс
+                           services.AddScoped<StateProviderDg>(provider => {
+                               var states = provider.GetServices<StateDataGrid>();
+                               var initialState = provider.GetService<StateDgEditing>();
+                               return new StateProviderDg(states, initialState);
+                           });
 
                            services.AddScoped<StateCreatingNewItem>();
                            services.AddScoped<StateWaitingToInputIntoNewItem>();

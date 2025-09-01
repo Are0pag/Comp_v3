@@ -10,17 +10,18 @@ public class StateDgCreatingNewItem : StateDataGrid
 {
     public ConditionalDesignation? CreatingConditionalDesignation { get; protected set; }
 
-    public override void Entry(CognDesignGridVm vm) {
+    public override Task Enter(CognDesignGridVm vm) {
         CreatingConditionalDesignation = new ConditionalDesignation("", "");
         vm.Items.Add(CreatingConditionalDesignation);
         vm.SelectedItem = CreatingConditionalDesignation;
         
         EventBus<IVmGlobalSubscriber>.RaiseEvent<INewValueTryAddingToDataGridHandler>(h => h.HandleNewValueAdded(CreatingConditionalDesignation));
+        return Task.CompletedTask;
     }
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
         Debug.Assert(CreatingConditionalDesignation != null, nameof(CreatingConditionalDesignation) + " != null");
         await vm.Repository.AddAsync(CreatingConditionalDesignation);
-        vm.StateProvider.ChangeState(vm.StateProvider.Editing);
+        vm.StateProvider.ChangeState(vm.StateProvider.GetState<StateDgEditing>(), vm);
     }
 }

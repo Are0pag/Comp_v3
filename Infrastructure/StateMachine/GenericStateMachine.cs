@@ -6,19 +6,16 @@ public class GenericStateMachine<TState, TContext> : IStateMachine<TState, TCont
 {
     private readonly Dictionary<Type, TState> _states;
 
-    protected GenericStateMachine(IEnumerable<TState> states, TContext context, TState initialState) {
+    protected GenericStateMachine(IEnumerable<TState> states, TState initialState) {
         _states = states.ToDictionary(state => state.GetType());
-        Context = context;
         CurrentState = initialState;
-        CurrentState.Enter(Context);
     }
     public TState CurrentState { get; protected set; }
-    public TContext Context { get; set; }
 
-    public virtual async Task ChangeState(TState newState) {
-        await CurrentState.Exit(Context).ConfigureAwait(false);
+    public virtual async Task ChangeState(TState newState, TContext context) {
+        await CurrentState.Exit(context).ConfigureAwait(false);
         CurrentState = newState;
-        await CurrentState.Enter(Context);
+        await CurrentState.Enter(context);
     }
 
     public TState GetState<T>() where T : TState => _states[typeof(T)];

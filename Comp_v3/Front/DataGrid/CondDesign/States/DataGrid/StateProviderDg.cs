@@ -1,20 +1,11 @@
+using Comp_v3.Front.DataGrid.CondDesign.Entities;
+using Infrastructure.StateMachine;
+
 namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 
-public class StateProviderDg
+public class StateProviderDg : GenericStateMachine<StateDataGrid, CognDesignGridVm>
 {
-    public StateProviderDg(StateDgEditing stateEditing, StateDgCreatingNewItem createNewItem) {
-        Editing = stateEditing;
-        CreateNewItem = createNewItem;
-        CurrentStateDataGrid = GetInitialState();
-    }
-    
-    public StateDataGrid CurrentStateDataGrid { get; protected set; }
-    public StateDgEditing Editing { get; } 
-    public StateDgCreatingNewItem CreateNewItem { get;  }
-
-    public StateDataGrid GetInitialState() => Editing;
-
-    public void ChangeState(StateDataGrid stateDataGrid) {
-        CurrentStateDataGrid = stateDataGrid;
+    public StateProviderDg(IEnumerable<StateDataGrid> states, StateDataGrid initialState) 
+        : base(states,  initialState) {
     }
 }

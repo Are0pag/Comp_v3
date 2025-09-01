@@ -5,6 +5,6 @@ public interface IStateMachine<TState, TContext>
     where TContext : class
 {
     TState CurrentState { get; }
-    Task ChangeState(TState newState);
+    Task ChangeState(TState newState, TContext context);
     TState GetState<T>() where T : TState;
 }
