@@ -5,8 +5,10 @@ using Comp_v3.Front.DataGrid.CondDesign;
 using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
+using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WPF.Services.UserActionsHandling.InputText;
 using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
 
 namespace Comp_v3;
@@ -21,6 +23,8 @@ public partial class App : Application
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
 
+                           services.AddScoped<IEditStateService<ConditionalDesignation>, DataGridEditStateService<ConditionalDesignation>>();
+                           
                            services.AddScoped<StateDgEditing>();
                            services.AddScoped<StateDgCreatingNewItem>();
                            services.AddScoped<StateProviderDg>();

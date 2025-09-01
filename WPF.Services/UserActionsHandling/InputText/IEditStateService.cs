@@ -2,9 +2,10 @@ using System.Reflection;
 
 namespace WPF.Services.UserActionsHandling.InputText;
 
-public interface IEditStateService
+public interface IEditStateService<T>
 {
-    void BeginEdit<T>(T item, PropertyInfo property);
-    void RollbackEdit<T>(T item, PropertyInfo property);
+    void BeginEdit(T item, string propertyName);
+    void RollbackEdit(T item);
     string? GetPreviousValue();
+    PropertyInfo? GetEditedProperty();
 }

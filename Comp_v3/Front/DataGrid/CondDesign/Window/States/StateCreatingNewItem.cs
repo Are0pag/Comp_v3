@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Comp.ModelData.TechnicalItems;
+using WPF.Services.UserActionsHandling.InputText;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
@@ -10,6 +11,9 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 /// </summary>
 public class StateCreatingNewItem : StateWindow
 {
+    public StateCreatingNewItem(IEditStateService<ConditionalDesignation> editStateService) : base(editStateService) {
+    }
+
     public override void OneNewValueAdded(CognDesignGridWindow window, object newValue) {
         if (newValue is not ConditionalDesignation conditionalDesignation) 
             throw new ArgumentException("New value is not a conditional designation in CognDesignGridWindow");

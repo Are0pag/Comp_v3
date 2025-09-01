@@ -2,32 +2,30 @@ using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Comp.ModelData.TechnicalItems;
+using WPF.Services.UserActionsHandling.InputText;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
-public abstract class StateWindow
+public abstract class StateWindow 
 {
-    protected string? _inputBackup;
-    protected PropertyInfo? _editingProperty;
+    protected readonly IEditStateService<ConditionalDesignation> _editStateService;
+
+    protected StateWindow(IEditStateService<ConditionalDesignation> editStateService) {
+        _editStateService = editStateService;
+    }
 
     public virtual void OnBeginningEdit(CognDesignGridWindow window, object? sender, DataGridBeginningEditEventArgs e) {
-        var column = e.Column;
-        var item = e.Row.Item;
-
-        if (column == null || item == null) return; // Получаем имя свойства из привязки колонки
-        var propertyName = GetPropertyNameFromColumn(column);
-
-        // Получаем текущее значение свойства через рефлексию
-        _editingProperty = item.GetType().GetProperty(propertyName);
-        if (_editingProperty != null) {
-            _inputBackup = _editingProperty.GetValue(item)?.ToString();
-        }
+        if (e.Column == null || e.Row.Item is not ConditionalDesignation conditionalDesignation) return;
+        _editStateService.BeginEdit(conditionalDesignation, e.Column.GetPropertyName());
     }
 
     public virtual void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
-        if (e.Row.Item is not ConditionalDesignation conditionalDesignation) throw new InvalidInputException("Invalid input");
+        if (e.Row.Item is not ConditionalDesignation conditionalDesignation) 
+            throw new InvalidInputException("Invalid input");
+
         if (Validate(conditionalDesignation)) return;
-        _editingProperty?.SetValue(e.Row.Item, _inputBackup);
+
+        _editStateService.RollbackEdit(conditionalDesignation);
         throw new InvalidInputException("Invalid input");
     }
 
@@ -41,13 +39,8 @@ public abstract class StateWindow
     public virtual void Exit(CognDesignGridWindow window) { }
 
     protected virtual bool Validate(ConditionalDesignation item) {
-        return item.Designation.Length >= 1;
+        return item.Designation.Length >= 1; /* Наименование может быть пустым */
     }
     
-    private string GetPropertyNameFromColumn(DataGridColumn column) {
-        // Для привязанных колонок извлекаем имя свойства из привязки
-        if (column is not DataGridBoundColumn boundColumn) return string.Empty;
-        var binding = boundColumn.Binding as Binding;
-        return binding?.Path?.Path ?? string.Empty;
-    }
+
 }
