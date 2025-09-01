@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace WPF.Services.UserActionsHandling.InputText;
 
-public class DataGridEditStateService<T> : IEditStateService<T>
+public class DataGridPropertyRestoreService<T> : IPropertyValueRestoreService<T>
 {
     private string? _previousValue;
     private PropertyInfo? _currentEditedProperty;

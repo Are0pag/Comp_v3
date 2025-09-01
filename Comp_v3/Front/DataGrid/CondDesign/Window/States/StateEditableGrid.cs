@@ -8,7 +8,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
 public class StateEditableGrid : StateWindow
 {
-    public StateEditableGrid(IEditStateService<ConditionalDesignation> editStateService) : base(editStateService) {
+    public StateEditableGrid(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService) : base(propertyValueRestoreService) {
     }
 
     public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
