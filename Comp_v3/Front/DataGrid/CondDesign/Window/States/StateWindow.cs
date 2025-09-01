@@ -1,6 +1,4 @@
-using System.Reflection;
 using System.Windows.Controls;
-using System.Windows.Data;
 using Comp.ModelData.TechnicalItems;
 using WPF.Extensions.View.DataGrid;
 using WPF.Services.UserActionsHandling.InputText;

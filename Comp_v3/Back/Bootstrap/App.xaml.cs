@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Comp_v3.Back.Bootstrap.ServiceCollectionExtensions.Db;
 using Comp.Db;
 using Comp_v3.Front.DataGrid.CondDesign;
@@ -9,6 +10,7 @@ using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Services.UserActionsHandling.InputText;
+using WPF.Services.View.AutoNavigation.Focusing;
 using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
 
 namespace Comp_v3;
@@ -23,6 +25,8 @@ public partial class App : Application
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
 
+                           services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
+                           
                            services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
                            
                            services.AddScoped<StateDgEditing>();

@@ -1,3 +1,3 @@
-namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
+namespace WPF.Services.UserActionsHandling.InputText;
 
 public class InvalidInputException(string message) : Exception(message);
