@@ -1,13 +1,12 @@
-<Window x:Class="Comp_v3.Test.Window1"
+<Window x:Class="Comp_v3.Front.NomDict.View.NomDictWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Comp_v3.Test"
-        xmlns:uc="clr-namespace:Comp_WpfUserControlLibrary;assembly=Comp_WpfUserControlLibrary"
+        xmlns:local="clr-namespace:Comp_v3.Front.NomDict.View"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="NomDictWindow" Height="450" Width="800">
     <Grid>
-        <uc:InputTextFieldUc Margin="10"></uc:InputTextFieldUc>
+        <TextBox Text="{Binding NomDictViewModelProperty.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBox>
     </Grid>
 </Window>
