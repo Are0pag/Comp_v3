@@ -11,7 +11,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 /// </summary>
 public class StateCreatingNewItem : StateWindow
 {
-    public StateCreatingNewItem(IEditStateService<ConditionalDesignation> editStateService) : base(editStateService) {
+    public StateCreatingNewItem(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService) : base(propertyValueRestoreService) {
     }
 
     public override void OneNewValueAdded(CognDesignGridWindow window, object newValue) {

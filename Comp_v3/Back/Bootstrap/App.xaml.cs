@@ -23,7 +23,7 @@ public partial class App : Application
                        ConfigureServices((hostContext, services) => {
                            services.RegisterConditionalDesignationsTable();
 
-                           services.AddScoped<IEditStateService<ConditionalDesignation>, DataGridEditStateService<ConditionalDesignation>>();
+                           services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
                            
                            services.AddScoped<StateDgEditing>();
                            services.AddScoped<StateDgCreatingNewItem>();

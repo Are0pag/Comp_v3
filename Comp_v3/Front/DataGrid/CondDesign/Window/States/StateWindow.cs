@@ -2,21 +2,22 @@ using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Comp.ModelData.TechnicalItems;
+using WPF.Extensions.View.DataGrid;
 using WPF.Services.UserActionsHandling.InputText;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
 public abstract class StateWindow 
 {
-    protected readonly IEditStateService<ConditionalDesignation> _editStateService;
+    protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyValueRestoreService;
 
-    protected StateWindow(IEditStateService<ConditionalDesignation> editStateService) {
-        _editStateService = editStateService;
+    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService) {
+        _propertyValueRestoreService = propertyValueRestoreService;
     }
 
     public virtual void OnBeginningEdit(CognDesignGridWindow window, object? sender, DataGridBeginningEditEventArgs e) {
         if (e.Column == null || e.Row.Item is not ConditionalDesignation conditionalDesignation) return;
-        _editStateService.BeginEdit(conditionalDesignation, e.Column.GetPropertyName());
+        _propertyValueRestoreService.BeginEdit(conditionalDesignation, e.Column.GetPropertyName());
     }
 
     public virtual void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
@@ -25,7 +26,7 @@ public abstract class StateWindow
 
         if (Validate(conditionalDesignation)) return;
 
-        _editStateService.RollbackEdit(conditionalDesignation);
+        _propertyValueRestoreService.RollbackEdit(conditionalDesignation);
         throw new InvalidInputException("Invalid input");
     }
 
@@ -41,6 +42,4 @@ public abstract class StateWindow
     protected virtual bool Validate(ConditionalDesignation item) {
         return item.Designation.Length >= 1; /* Наименование может быть пустым */
     }
-    
-
 }
