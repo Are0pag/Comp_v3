@@ -1,6 +1,7 @@
 using Comp.ModelData.TechnicalItems;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
+using Dg = System.Windows.Controls.DataGrid;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
@@ -9,14 +10,14 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 /// </summary>
 public class StateCreatingNewItem : StateWindow
 {
-    private readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
+    protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     public StateCreatingNewItem(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, 
-                                CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) 
+                                CursorPositionService<Dg> cursorPositionService) 
                                     : base(propertyValueRestoreService) {
         _cursorPositionService = cursorPositionService;
     }
 
-    public override void OneNewValueAdded(CognDesignGridWindow window, object newValue) {
+    public override void OneNewValueAdded(CognDesignGridWindow window, object? newValue) {
         if (newValue is not ConditionalDesignation conditionalDesignation) 
             throw new ArgumentException("New value is not a conditional designation in CognDesignGridWindow");
         

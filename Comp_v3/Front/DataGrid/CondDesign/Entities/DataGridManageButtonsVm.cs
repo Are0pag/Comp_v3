@@ -2,7 +2,6 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Comp_v3.Front.Events;
-using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
 
@@ -10,10 +9,8 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Entities;
 
 public partial class DataGridManageButtonsVm : ObservableObject, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
 {
-    private readonly IConditionalDesignationRepository _repository;
     private readonly CognDesignGridVm _condDesignGridVm;
-    public DataGridManageButtonsVm(IConditionalDesignationRepository repository, CognDesignGridVm condDesignGridVm) {
-        _repository = repository;
+    public DataGridManageButtonsVm(CognDesignGridVm condDesignGridVm) {
         _condDesignGridVm = condDesignGridVm;
         _condDesignGridVm.PropertyChanged += OnSelectedItemPropertyChanged;
         EventBus<IUiGlobalSubscriber>.Subscribe(this);

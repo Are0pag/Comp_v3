@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
@@ -7,7 +8,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 
 public class StateDgCreatingNewItem : StateDataGrid
 {
-    public ConditionalDesignation CreatingConditionalDesignation { get; protected set; }
+    public ConditionalDesignation? CreatingConditionalDesignation { get; protected set; }
 
     public override void Entry(CognDesignGridVm vm) {
         CreatingConditionalDesignation = new ConditionalDesignation("", "");
@@ -18,6 +19,7 @@ public class StateDgCreatingNewItem : StateDataGrid
     }
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
+        Debug.Assert(CreatingConditionalDesignation != null, nameof(CreatingConditionalDesignation) + " != null");
         await vm.Repository.AddAsync(CreatingConditionalDesignation);
         vm.StateProvider.ChangeState(vm.StateProvider.Editing);
     }

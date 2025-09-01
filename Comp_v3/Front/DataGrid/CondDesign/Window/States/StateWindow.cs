@@ -33,7 +33,7 @@ public abstract class StateWindow
     /// <summary>
     /// INewValueTryAddingToDataGridHandler involication
     /// </summary>
-    public virtual void OneNewValueAdded(CognDesignGridWindow window, object newValue) { }
+    public virtual void OneNewValueAdded(CognDesignGridWindow window, object? newValue) { }
 
     public virtual void Exit(CognDesignGridWindow window) { }
 
