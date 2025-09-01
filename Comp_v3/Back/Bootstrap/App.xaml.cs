@@ -13,6 +13,7 @@ using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
 using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
 
+
 namespace Comp_v3;
 
 public partial class App : Application
@@ -26,7 +27,7 @@ public partial class App : Application
                            services.RegisterConditionalDesignationsTable();
 
                            services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
-                           
+
                            services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
                            
                            services.AddScoped<StateDgEditing>();
