@@ -9,8 +9,6 @@ public abstract class StateWindow
 {
     protected string? _inputBackup;
     protected PropertyInfo? _editingProperty;
-    
-    public virtual void Entry(CognDesignGridWindow window) { }
 
     public virtual void OnBeginningEdit(CognDesignGridWindow window, object? sender, DataGridBeginningEditEventArgs e) {
         var column = e.Column;
@@ -33,11 +31,11 @@ public abstract class StateWindow
         throw new InvalidInputException("Invalid input");
     }
 
+    public virtual void Entry(CognDesignGridWindow window) { }
+
     /// <summary>
     /// INewValueTryAddingToDataGridHandler involication
     /// </summary>
-    /// <param name="window"></param>
-    /// <param name="newValue"></param>
     public virtual void OneNewValueAdded(CognDesignGridWindow window, object newValue) { }
 
     public virtual void Exit(CognDesignGridWindow window) { }
