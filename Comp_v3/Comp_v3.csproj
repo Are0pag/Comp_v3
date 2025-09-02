@@ -24,12 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Back\DbProvide\" />
-    <Folder Include="Front\CatalogTree\" />
-    <Folder Include="Front\ComponentsGrid\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Front\NomDict\View\NomDictWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

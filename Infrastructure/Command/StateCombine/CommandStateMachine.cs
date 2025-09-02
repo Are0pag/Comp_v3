@@ -1,4 +1,4 @@
-using Infrastructure.Command.Classic;
+/*using Infrastructure.Command.Classic;
 using Infrastructure.StateMachine;
 
 namespace Infrastructure.Command.StateCombine;
@@ -62,4 +62,4 @@ public class CommandStateMachine<TState, TContext> : GenericStateMachine<TState,
             await _exitCommand.UndoAsync().ConfigureAwait(false);
         }
     }
-}
+}*/
