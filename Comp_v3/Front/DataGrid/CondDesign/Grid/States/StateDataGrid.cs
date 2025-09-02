@@ -21,7 +21,7 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
         if (vm.SelectedItem == null)
             throw new Exception($"Selected item is null when try to delete from {nameof(CognDesignGridVm)}");
 
-        var command = new DeleteItemCommand(vm);
+        var command = new DeleteItemCommand(vm) { Description = $"myCommand {new Random().Next(1, 1000)}"};
         await _scheduler.ExecuteCommand(command); 
     }
 

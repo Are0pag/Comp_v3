@@ -9,6 +9,7 @@
     <Grid>
         <DataGrid ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
+                  CanUserAddRows="False"
                   SelectionMode="Single" 
                   Name="InfoDataGrid" 
                   CellEditEnding="DataGrid_CellEditEnding"

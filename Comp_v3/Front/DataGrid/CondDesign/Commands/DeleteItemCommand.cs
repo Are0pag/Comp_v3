@@ -11,9 +11,8 @@ public class DeleteItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDe
     }
 
     public override Task ExecuteAsync() {
-        Debug.Assert(_context.SelectedItem == null, "_context.SelectedItem != null");
-        _context.Items.Remove(_context.SelectedItem);
         _item = _context.SelectedItem;
+        _context.Items.Remove(_context.SelectedItem);
         _context.SelectedItem = null;
 
         return Task.CompletedTask;
@@ -24,10 +23,11 @@ public class DeleteItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDe
     }
 
     public override async Task ExecuteDeferredAsync() {
-        Debug.Assert(_item == null, "_context.SelectedItem != null");
         await _context.Repository.DeleteAsync(_item.Id);
         _item = null;
     }
+
+    public virtual string Description { get; set;} = $"DeleteCommand";
 }
 
 public class DeferredCommand<TContext, TItem> : IDeferredCommand

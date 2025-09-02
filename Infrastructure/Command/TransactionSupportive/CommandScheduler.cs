@@ -10,12 +10,9 @@ public interface ICommandScheduler<in T> where T : ICommand
 public class HeterochromicCommandScheduler<TCommand> : CommandScheduler<TCommand> 
     where TCommand : ICommand, IDeferredCommand
 {
-    public override async Task ExecuteCommand(TCommand command) {
-        await base.ExecuteCommand(command);
-    }
-
     public async Task CommitDeferredChanges() {
-        foreach (var command in _undoStack.Reverse()) {
+        while (_undoStack.Count > 0) {
+            var command = _undoStack.Pop();
             await command.ExecuteDeferredAsync();
         }
     }
@@ -30,10 +27,10 @@ public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand
     public override async Task ExecuteCommand(TCommand command) {
         if (_currentTransaction != null) {
             _currentTransaction.AddCommand(command);
-            await command.ExecuteAsync().ConfigureAwait(false);
+            await command.ExecuteAsync();
         }
         else {
-            await base.ExecuteCommand(command).ConfigureAwait(false);
+            await base.ExecuteCommand(command);
         }
     }
     
@@ -84,7 +81,7 @@ public class CommandScheduler<TCommand> : ICommandScheduler<TCommand>
     public bool CanRedo => _redoStack.Count > 0;
 
     public virtual async Task ExecuteCommand(TCommand command) {
-        await command.ExecuteAsync().ConfigureAwait(false);
+        await command.ExecuteAsync();
         _undoStack.Push(command);
         _redoStack.Clear();
     }
@@ -92,7 +89,7 @@ public class CommandScheduler<TCommand> : ICommandScheduler<TCommand>
     public virtual async Task UndoAsync() {
         if (!CanUndo) return;
         var command = _undoStack.Pop();
-        await command.UndoAsync().ConfigureAwait(false);
+        await command.UndoAsync();
         _redoStack.Push(command);
     }
 
@@ -100,9 +97,7 @@ public class CommandScheduler<TCommand> : ICommandScheduler<TCommand>
         if (!CanRedo) return;
         
         var command = _redoStack.Pop();
-        await command.ExecuteAsync().ConfigureAwait(false);
+        await command.ExecuteAsync();
         _undoStack.Push(command);
     }
-
-
 }
