@@ -2,17 +2,17 @@
 using System.Windows.Controls;
 using Comp_v3.Back.Bootstrap.ServiceCollectionExtensions.Db;
 using Comp.Db;
-using Comp_v3.Front.DataGrid.CondDesign;
-using Comp_v3.Front.DataGrid.CondDesign.Entities;
-using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
+using Comp_v3.Front.DataGrid.CondDesign.Grid;
+using Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp.ModelData.TechnicalItems;
-using Infrastructure.StateMachine;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
+using AddNewItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.AddNewItemCommandVm;
 using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
+using DeleteItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.DeleteItemCommandVm;
 
 
 namespace Comp_v3;

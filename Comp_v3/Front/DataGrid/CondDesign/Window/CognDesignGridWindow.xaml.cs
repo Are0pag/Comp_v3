@@ -1,9 +1,10 @@
 using System.Windows.Controls;
-using System.Windows.Input;
-using Comp_v3.Front.DataGrid.CondDesign.Entities;
+using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp_v3.Front.Events;
 using Component_v2.Tools.EventBus;
+using AddNewItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.AddNewItemCommandVm;
+using DeleteItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.DeleteItemCommandVm;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window;
 

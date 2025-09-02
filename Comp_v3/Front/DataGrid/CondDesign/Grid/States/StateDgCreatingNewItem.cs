@@ -1,10 +1,9 @@
 using System.Diagnostics;
-using Comp_v3.Front.DataGrid.CondDesign.Entities;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
 
-namespace Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
+namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public class StateDgCreatingNewItem : StateDataGrid
 {
@@ -22,6 +21,6 @@ public class StateDgCreatingNewItem : StateDataGrid
     public override async Task AddItemAsync(CognDesignGridVm vm) {
         Debug.Assert(CreatingConditionalDesignation != null, nameof(CreatingConditionalDesignation) + " != null");
         await vm.Repository.AddAsync(CreatingConditionalDesignation);
-        vm.StateProvider.ChangeState(vm.StateProvider.GetState<StateDgEditing>(), vm);
+        await vm.StateProvider.ChangeState(vm.StateProvider.GetState<StateDgEditing>(), vm);
     }
 }

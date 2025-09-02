@@ -1,8 +1,9 @@
 using CommunityToolkit.Mvvm.Input;
+using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.Events;
 using Component_v2.Tools.EventBus;
 
-namespace Comp_v3.Front.DataGrid.CondDesign.Entities;
+namespace Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 
 public partial class AddNewItemCommandVm : BaseButtonsVm, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
 {

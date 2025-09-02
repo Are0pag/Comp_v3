@@ -1,14 +1,14 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Controls;
-using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
+using Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 using Comp_v3.Front.Events;
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
 using Utils.WPF.VmEnumerableInteractiveData;
 
-namespace Comp_v3.Front.DataGrid.CondDesign.Entities;
+namespace Comp_v3.Front.DataGrid.CondDesign.Grid;
 
 public class CognDesignGridVm : VmEnumerableInteractiveData<ConditionalDesignation>, ICellEditEndingHandler, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
 {
