@@ -1,6 +1,6 @@
 namespace Infrastructure.Command.Classic;
 
-public class HeterochromicCommandScheduler<TCommand> : CommandScheduler<TCommand> 
+public class HeterochromicCommandScheduler<TCommand> : TransactionalCommandScheduler<TCommand> 
     where TCommand : ICommand, IDeferredCommand
 {
     public async Task CommitDeferredChanges() {
