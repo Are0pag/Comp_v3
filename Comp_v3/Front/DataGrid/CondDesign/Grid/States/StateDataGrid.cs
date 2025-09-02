@@ -31,11 +31,11 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
             await vm.Repository.UpdateAsync((ConditionalDesignation)e.Row.Item);
     }
 
-    public virtual void OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
-        
-    }
-
     protected virtual bool CanEditItem(DataGridCellEditEndingEventArgs e) {
         return e.EditAction == DataGridEditAction.Commit && e.Row.Item is ConditionalDesignation { };
+    }
+
+    public virtual void OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
+        
     }
 }
