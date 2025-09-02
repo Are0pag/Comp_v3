@@ -17,7 +17,7 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
         if (vm.SelectedItem == null)
             throw new Exception($"Selected item is null when try to delete from {nameof(CognDesignGridVm)}");
         
-        await vm.Repository.DeleteAsync(vm.SelectedItem.Id);
+        await vm.Repository.DeleteAsync(vm.SelectedItem.Id); /* Command */
         vm.Items.Remove(vm.SelectedItem);
         vm.SelectedItem = null;
     }
@@ -28,7 +28,7 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 
     public virtual async Task OnCellEditEnding(CognDesignGridVm vm, object? sender, DataGridCellEditEndingEventArgs e) {
         if (CanEditItem(e))
-            await vm.Repository.UpdateAsync((ConditionalDesignation)e.Row.Item);
+            await vm.Repository.UpdateAsync((ConditionalDesignation)e.Row.Item); /* Command */
     }
 
     public virtual void OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {

@@ -31,7 +31,7 @@ public class CognDesignGridVm : VmEnumerableInteractiveData<ConditionalDesignati
 
     private async void LoadDataAsync() {  /* VmRepo : базы */
         var items = await Repository.GetAllAsync();
-        Debug.Assert(items != null, nameof(items) + " != null from IConditionalDesignationRepository");
+        Debug.Assert(items != null, nameof(items) + " == null from IConditionalDesignationRepository");
         Items = new ObservableCollection<ConditionalDesignation?>(items!);
         OnPropertyChanged(nameof(Items));
     }
