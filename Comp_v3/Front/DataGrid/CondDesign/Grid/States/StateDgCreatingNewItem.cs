@@ -20,7 +20,7 @@ public class StateDgCreatingNewItem : StateDataGrid
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
         Debug.Assert(CreatingConditionalDesignation != null, nameof(CreatingConditionalDesignation) + " != null");
-        await vm.Repository.AddAsync(CreatingConditionalDesignation); /* Command */
+        await vm.Repository.AddAsync(CreatingConditionalDesignation); /* Model Command */
         await vm.StateProvider.ChangeState(vm.StateProvider.GetState<StateDgEditing>(), vm);
     }
 }

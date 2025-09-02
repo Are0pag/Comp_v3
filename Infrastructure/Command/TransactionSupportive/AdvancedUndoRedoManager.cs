@@ -1,7 +1,34 @@
 namespace Infrastructure.Command.Classic;
 
+public interface ICommandSheduler<in T> where T : ICommand
+{
+    Task ExecuteCommand(T command);
+    Task UndoAsync();
+    Task RedoAsync();
+}
+
+public class HeterochCommandSheduler : AdvancedUndoRedoManager
+{
+    /*public async Task ExecuteCommand(IDeferredCommand command) {
+        base.ExecuteCommand(command);
+        await command.ExecuteDeferredAsync();
+    }*/
+
+    public override async Task ExecuteCommand(IDeferredCommand command) {
+        return base.ExecuteCommand(command);
+    }
+
+    public Task UndoAsync() {
+        throw new NotImplementedException();
+    }
+
+    public Task RedoAsync() {
+        throw new NotImplementedException();
+    }
+}
+
 /* Redo для транзакций не реализован */
-public class AdvancedUndoRedoManager
+public class AdvancedUndoRedoManager<T> : ICommandSheduler<ICommand>
 {
     private readonly Stack<ICommand> _undoStack = new();
     private readonly Stack<ICommand> _redoStack = new();
@@ -14,7 +41,7 @@ public class AdvancedUndoRedoManager
 
     public event EventHandler<CommandExecutedEventArgs> CommandExecuted;
 
-    public async Task ExecuteCommand(ICommand command) {
+    public virtual async Task ExecuteCommand(ICommand command) {
         if (_currentTransaction != null) {
             _currentTransaction.AddCommand(command);
             await command.ExecuteAsync().ConfigureAwait(false);
@@ -27,7 +54,7 @@ public class AdvancedUndoRedoManager
         }
     }
 
-    public async Task Undo() {
+    public virtual async Task UndoAsync() {
         if (!CanUndo) return;
         var command = _undoStack.Pop();
         await command.UndoAsync().ConfigureAwait(false);
@@ -35,7 +62,7 @@ public class AdvancedUndoRedoManager
         CommandExecuted?.Invoke(this, new CommandExecutedEventArgs(command, CommandAction.Undone));
     }
 
-    public async Task Redo() {
+    public virtual async Task RedoAsync() {
         if (!CanRedo) return;
         
         var command = _redoStack.Pop();
