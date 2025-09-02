@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using Comp_v3.Front.Events;
+using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
 using WPF.Services.UserActionsHandling.InputText;

@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.StateMachine;
 
@@ -28,6 +29,10 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     public virtual async Task OnCellEditEnding(CognDesignGridVm vm, object? sender, DataGridCellEditEndingEventArgs e) {
         if (CanEditItem(e))
             await vm.Repository.UpdateAsync((ConditionalDesignation)e.Row.Item);
+    }
+
+    public virtual void OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
+        
     }
 
     protected virtual bool CanEditItem(DataGridCellEditEndingEventArgs e) {

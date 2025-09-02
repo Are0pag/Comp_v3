@@ -13,6 +13,7 @@
                   Name="InfoDataGrid" 
                   CellEditEnding="DataGrid_CellEditEnding"
                   BeginningEdit="InfoDataGrid_OnBeginningEdit"
+                  PreviewKeyDown="InfoDataGrid_OnPreviewKeyDown"
                   SelectedItem="{Binding SelectedItem}">
             
             <DataGrid.Columns>

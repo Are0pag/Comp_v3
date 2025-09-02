@@ -1,7 +1,9 @@
 using System.Windows.Controls;
+using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp_v3.Front.Events;
+using Comp_v3.Front.Events.ViewInvoking.Keys;
 using Component_v2.Tools.EventBus;
 using AddNewItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.AddNewItemCommandVm;
 using DeleteItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.DeleteItemCommandVm;
@@ -16,8 +18,8 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
                                 AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom, 
                                 Provider stateProvider) {
         InitializeComponent();
-        StateProvider = stateProvider;
         SetDataContexts(cdDg, aniCom, diCom);
+        StateProvider = stateProvider;
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
     }
 
@@ -46,5 +48,9 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
         DeleteItemButton.DataContext = diCom;
         InfoDataGridContextMenuAddNewItemCommand.DataContext = aniCom;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = diCom;
+    }
+
+    private void InfoDataGrid_OnPreviewKeyDown(object? sender, KeyEventArgs e) {
+        EventBus<IUiGlobalSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h?.HandleKeyInput(sender, e));
     }
 }
