@@ -11,17 +11,16 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
 {
     public Provider StateProvider { get; }
     
-    public CognDesignGridWindow(CognDesignGridVm cognDesignGridVm, BaseButtonsVm baseButtonsVm, Provider stateProvider) {
+    public CognDesignGridWindow(CognDesignGridVm cdDg, 
+                                AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom, 
+                                Provider stateProvider) {
         InitializeComponent();
         StateProvider = stateProvider;
-
-        InfoDataGrid.DataContext = cognDesignGridVm;
-        AddNewItemButton.DataContext = baseButtonsVm;
-        DeleteItemButton.DataContext = baseButtonsVm;
-        InfoDataGrid.ContextMenu.DataContext = baseButtonsVm;
+        SetDataContexts(cdDg, aniCom, diCom);
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
     }
-    public void Dispose() {
+
+    public virtual void Dispose() {
         EventBus<IVmGlobalSubscriber>.Unsubscribe(this);
     }
 
@@ -38,5 +37,13 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
 
     private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
         StateProvider.CurrentStateWindow.OnBeginningEdit(this, sender, e);
+    }
+
+    private void SetDataContexts(CognDesignGridVm cdDg, AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom) {
+        InfoDataGrid.DataContext = cdDg;
+        AddNewItemButton.DataContext = aniCom;
+        DeleteItemButton.DataContext = diCom;
+        InfoDataGridContextMenuAddNewItemCommand.DataContext = aniCom;
+        InfoDataGridContextMenuDeleteItemCommand.DataContext = diCom;
     }
 }

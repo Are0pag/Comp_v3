@@ -14,6 +14,7 @@
                   CellEditEnding="DataGrid_CellEditEnding"
                   BeginningEdit="InfoDataGrid_OnBeginningEdit"
                   SelectedItem="{Binding SelectedItem}">
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Designation" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
@@ -22,10 +23,13 @@
             
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Новое обозначение" Command="{Binding AddItemCommand}"></MenuItem>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteItemCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
+                              Header="Новое обозначение" Command="{Binding AddItemCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
+                              Header="Удалить" Command="{Binding DeleteItemCommand}"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
+            
         </DataGrid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             <Button x:Name="AddNewItemButton" Content="Add" Command="{Binding AddItemCommand}" Margin="5"/>

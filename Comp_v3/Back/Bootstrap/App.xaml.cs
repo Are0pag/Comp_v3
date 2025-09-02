@@ -47,7 +47,8 @@ public partial class App : Application
                            services.AddScoped<Provider>();
                            
                            services.AddScoped<CognDesignGridVm>();
-                           services.AddScoped<BaseButtonsVm>();
+                           services.AddScoped<AddNewItemCommandVm>();
+                           services.AddScoped<DeleteItemCommandVm>();
                            services.AddTransient<CognDesignGridWindow>();
 
                        }).Build();

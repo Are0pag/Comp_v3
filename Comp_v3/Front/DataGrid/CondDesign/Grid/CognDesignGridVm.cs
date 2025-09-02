@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v3.Front.DataGrid.CondDesign.States.DataGrid;
 using Comp_v3.Front.Events;
 using Comp.Db.Contracts;
