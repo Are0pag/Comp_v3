@@ -2,11 +2,15 @@ using System.Diagnostics;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
+using Infrastructure.Command.Classic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public class StateDgCreatingNewItem : StateDataGrid
 {
+    public StateDgCreatingNewItem(HeterochromicCommandScheduler<IDeferredCommand> scheduler) : base(scheduler) {
+    }
+
     public ConditionalDesignation? CreatingConditionalDesignation { get; protected set; }
 
     public override Task Enter(CognDesignGridVm vm) {

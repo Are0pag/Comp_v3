@@ -1,6 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
+using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.Keys;
@@ -15,10 +16,10 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
     public Provider StateProvider { get; }
     
     public CognDesignGridWindow(CognDesignGridVm cdDg, 
-                                AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom, 
+                                AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom, SaveChangesCommandVm scCom,
                                 Provider stateProvider) {
         InitializeComponent();
-        SetDataContexts(cdDg, aniCom, diCom);
+        SetDataContexts(cdDg, aniCom, diCom, scCom);
         StateProvider = stateProvider;
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
     }
@@ -42,10 +43,11 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
         StateProvider.CurrentStateWindow.OnBeginningEdit(this, sender, e);
     }
 
-    private void SetDataContexts(CognDesignGridVm cdDg, AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom) {
+    private void SetDataContexts(CognDesignGridVm cdDg, AddNewItemCommandVm aniCom, DeleteItemCommandVm diCom, SaveChangesCommandVm scCom) {
         InfoDataGrid.DataContext = cdDg;
         AddNewItemButton.DataContext = aniCom;
         DeleteItemButton.DataContext = diCom;
+        SaveChangesButton.DataContext = scCom;
         InfoDataGridContextMenuAddNewItemCommand.DataContext = aniCom;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = diCom;
     }

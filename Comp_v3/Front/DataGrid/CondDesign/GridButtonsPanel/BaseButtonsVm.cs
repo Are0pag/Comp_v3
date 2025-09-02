@@ -14,4 +14,6 @@ public partial class BaseButtonsVm : ObservableObject
     public virtual void Dispose() {
         
     }
+    
+    protected virtual bool CanExecute() => true;
 }

@@ -1,21 +1,28 @@
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.Command.Classic;
 using Infrastructure.StateMachine;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 {
+    protected readonly HeterochromicCommandScheduler<IDeferredCommand> _scheduler;
+
+    protected StateDataGrid(HeterochromicCommandScheduler<IDeferredCommand> scheduler) {
+        _scheduler = scheduler;
+    }
+
     public abstract Task AddItemAsync(CognDesignGridVm vm);
 
     public virtual async Task DeleteItemAsync(CognDesignGridVm vm) {
         if (vm.SelectedItem == null)
             throw new Exception($"Selected item is null when try to delete from {nameof(CognDesignGridVm)}");
-        
-        await vm.Repository.DeleteAsync(vm.SelectedItem.Id); /* Model Command */
-        vm.Items.Remove(vm.SelectedItem); /* Ui Command */
-        vm.SelectedItem = null;
+
+        var command = new DeleteItemCommand(vm);
+        await _scheduler.ExecuteCommand(command); 
     }
 
     public virtual async Task OnCellEditEnding(CognDesignGridVm vm, object? sender, DataGridCellEditEndingEventArgs e) {
@@ -25,6 +32,10 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 
     public virtual void OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
         
+    }
+
+    public virtual async Task SaveChanges() {
+        await _scheduler.CommitDeferredChanges();
     }
 
 #region CanExecute

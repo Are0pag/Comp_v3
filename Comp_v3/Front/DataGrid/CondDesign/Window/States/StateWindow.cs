@@ -38,6 +38,7 @@ public abstract class StateWindow
     public virtual void Exit(CognDesignGridWindow window) { }
 
     protected virtual bool Validate(ConditionalDesignation item) {
+        if (item == null || item.Designation == null) return false;
         return item.Designation.Length >= 1; /* Наименование может быть пустым */
     }
 }

@@ -33,8 +33,9 @@
             
         </DataGrid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
-            <Button x:Name="AddNewItemButton" Content="Add" Command="{Binding AddItemCommand}" Margin="5"/>
-            <Button x:Name="DeleteItemButton" Content="Delete" Command="{Binding DeleteItemCommand}" Margin="5"/>
+            <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
+            <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteItemCommand}" Margin="5"/>
+            <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveChangesCommand}" Margin="5"/>
         </StackPanel>
     </Grid>
 </Window>

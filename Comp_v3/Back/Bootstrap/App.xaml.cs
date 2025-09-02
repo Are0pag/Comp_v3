@@ -4,8 +4,10 @@ using Comp_v3.Back.Bootstrap.ServiceCollectionExtensions.Db;
 using Comp.Db;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.DataGrid.CondDesign.Grid.States;
+using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.Command.Classic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Services.UserActionsHandling.InputText;
@@ -30,6 +32,7 @@ public partial class App : Application
                            services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
 
                            services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
+                           services.AddScoped <HeterochromicCommandScheduler<IDeferredCommand>>();
                            
                            services.AddScoped<StateDgEditing>();
                            services.AddScoped<StateDgCreatingNewItem>();
@@ -48,8 +51,11 @@ public partial class App : Application
                            
                            services.AddScoped<CognDesignGridVm>();
                            services.AddScoped<AddNewItemCommandVm>();
+                           services.AddScoped<SaveChangesCommandVm>();
                            services.AddScoped<DeleteItemCommandVm>();
+                           
                            services.AddTransient<CognDesignGridWindow>();
+                           
 
                        }).Build();
     }
