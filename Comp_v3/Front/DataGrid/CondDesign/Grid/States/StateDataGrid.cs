@@ -18,6 +18,8 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
         _commonKeysService = commonKeysService;
     }
 
+    public HeterochromicCommandScheduler<IDeferredCommand> Scheduler => _scheduler;
+    
     public abstract Task AddItemAsync(CognDesignGridVm vm);
 
     public virtual async Task DeleteItemAsync(CognDesignGridVm vm) {

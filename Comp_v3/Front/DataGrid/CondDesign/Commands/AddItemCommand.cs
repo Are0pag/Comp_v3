@@ -1,18 +1,23 @@
+using Comp_v3.Front.DataGrid.CondDesign.Grid;
+using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class AddItemCommand : IDeferredCommand
+public class AddItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
 {
-    public async Task ExecuteAsync() {
+    public AddItemCommand(CognDesignGridVm context) : base(context) {
+    }
+
+    public override async Task ExecuteAsync() {
         throw new NotImplementedException();
     }
 
-    public async Task UndoAsync() {
+    public override async Task UndoAsync() {
         throw new NotImplementedException();
     }
 
-    public async Task ExecuteDeferredAsync() {
+    public override async Task ExecuteDeferredAsync() {
         throw new NotImplementedException();
     }
 }

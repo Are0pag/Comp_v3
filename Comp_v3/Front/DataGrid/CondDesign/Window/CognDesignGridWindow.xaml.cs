@@ -5,11 +5,12 @@ using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.Keys;
+using Comp_v3.Front.Events.VmInvoking.Request;
 using Component_v2.Tools.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window;
 
-public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryAddingToDataGridHandler
+public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryAddingToDataGridHandler, IDataGridRequestResolver
 {
     public Provider StateProvider { get; }
     
@@ -53,4 +54,6 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
     private void InfoDataGrid_OnPreviewKeyDown(object? sender, KeyEventArgs e) {
         EventBus<IUiGlobalSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h?.HandleKeyInput(sender, e));
     }
+    
+    void IDataGridRequestResolver.GetGrid(IDataGridRequester requester) => requester.DataGrid = InfoDataGrid;
 }
