@@ -9,11 +9,15 @@ public class CommandScheduler<TCommand> : ICommandScheduler<TCommand>
 
     public bool CanUndo => _undoStack.Count > 0;
     public bool CanRedo => _redoStack.Count > 0;
+    
+    public enum CommandAction { Executed, Undone, Redone }
+    public Action<CommandAction, TCommand>? OnCommandExecuted { get; set; }
 
     public virtual async Task ExecuteCommand(TCommand command) {
         await command.ExecuteAsync();
         _undoStack.Push(command);
         _redoStack.Clear();
+        OnCommandExecuted?.Invoke(CommandAction.Executed, command);
     }
 
     public virtual async Task UndoAsync() {
@@ -21,6 +25,7 @@ public class CommandScheduler<TCommand> : ICommandScheduler<TCommand>
         var command = _undoStack.Pop();
         await command.UndoAsync();
         _redoStack.Push(command);
+        OnCommandExecuted?.Invoke(CommandAction.Undone, command);
     }
 
     public virtual async Task RedoAsync() {
@@ -29,5 +34,6 @@ public class CommandScheduler<TCommand> : ICommandScheduler<TCommand>
         var command = _redoStack.Pop();
         await command.ExecuteAsync();
         _undoStack.Push(command);
+        OnCommandExecuted?.Invoke(CommandAction.Redone, command);
     }
 }

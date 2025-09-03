@@ -6,9 +6,9 @@ using Component_v2.Tools.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 
-public partial class AddNewItemCommandVm : BaseButtonsVm, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
+public partial class AddNewItemButVm : BaseButtonsVm, ICellAddingToDataGridHandler, ICancelNewItemAddingHandler
 {
-    public AddNewItemCommandVm(CognDesignGridVm condDesignGridVm) : base(condDesignGridVm) {
+    public AddNewItemButVm(CognDesignGridVm condDesignGridVm) : base(condDesignGridVm) {
         EventBus<IUiGlobalSubscriber>.Subscribe(this);
     }
 

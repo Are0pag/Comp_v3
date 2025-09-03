@@ -12,9 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
-using AddNewItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.AddNewItemCommandVm;
 using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
-using DeleteItemCommandVm = Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel.DeleteItemCommandVm;
 
 
 namespace Comp_v3;
@@ -50,9 +48,9 @@ public partial class App : Application
                            services.AddScoped<Provider>();
                            
                            services.AddScoped<CognDesignGridVm>();
-                           services.AddScoped<AddNewItemCommandVm>();
-                           services.AddScoped<SaveChangesCommandVm>();
-                           services.AddScoped<DeleteItemCommandVm>();
+                           services.AddScoped<AddNewItemButVm>();
+                           services.AddScoped<SaveChangesButVm>();
+                           services.AddScoped<DeleteItemButVm>();
                            
                            services.AddTransient<CognDesignGridWindow>();
                            

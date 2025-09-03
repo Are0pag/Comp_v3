@@ -4,9 +4,9 @@ using Comp_v3.Front.DataGrid.CondDesign.Grid;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 
-public partial class DeleteItemCommandVm : BaseButtonsVm
+public partial class DeleteItemButVm : BaseButtonsVm
 {
-    public DeleteItemCommandVm(CognDesignGridVm condDesignGridVm) : base(condDesignGridVm) {
+    public DeleteItemButVm(CognDesignGridVm condDesignGridVm) : base(condDesignGridVm) {
         _condDesignGridVm.PropertyChanged += OnSelectedItemPropertyChanged;
     }
 
