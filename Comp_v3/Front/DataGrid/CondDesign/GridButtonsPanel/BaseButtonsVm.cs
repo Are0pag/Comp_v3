@@ -3,7 +3,7 @@ using Comp_v3.Front.DataGrid.CondDesign.Grid;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 
-public partial class BaseButtonsVm : ObservableObject
+public class BaseButtonsVm : ObservableObject
 {
     protected readonly CognDesignGridVm _condDesignGridVm;
     
@@ -14,6 +14,4 @@ public partial class BaseButtonsVm : ObservableObject
     public virtual void Dispose() {
         
     }
-    
-    protected virtual bool CanExecute() => true;
 }

@@ -17,8 +17,10 @@ public class DeleteItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDe
         return Task.CompletedTask;
     }
 
-    public async Task UndoAsync() {
-        throw new NotImplementedException();
+    public override Task UndoAsync() {
+        _context.Items.Add(_item);
+        _context.SelectedItem = _item;
+        return Task.CompletedTask;
     }
 
     public override async Task ExecuteDeferredAsync() {

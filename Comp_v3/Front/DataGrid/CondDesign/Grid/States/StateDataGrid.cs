@@ -31,7 +31,21 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     }
 
     public virtual async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
-        return;
+        switch (e.Key) {
+            case Key.Z when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
+                if (_scheduler.CanUndo) {
+                    await _scheduler.UndoAsync();
+                    e.Handled = true;
+                }
+                break;
+            case Key.Z when e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift):
+            case Key.Y when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
+                if (_scheduler.CanRedo) {
+                    await _scheduler.RedoAsync();
+                    e.Handled = true;
+                }
+                break;
+        }
     }
 
     public virtual async Task SaveChanges() {
@@ -46,6 +60,10 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 
     public virtual bool CanDeleteItem(CognDesignGridVm vm) {
         return vm.SelectedItem != null;
+    }
+
+    public virtual bool CanSaveChanges() {
+        return _scheduler.CanUndo;
     }
 
     protected virtual bool CanEditItem(DataGridCellEditEndingEventArgs e) {

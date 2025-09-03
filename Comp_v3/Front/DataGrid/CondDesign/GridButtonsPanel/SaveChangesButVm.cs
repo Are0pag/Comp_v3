@@ -21,7 +21,7 @@ public partial class SaveChangesButVm : BaseButtonsVm
     }
 
     protected bool CanSaveChanges() {
-        return _scheduler.CanUndo;
+        return _condDesignGridVm.StateProvider.CurrentState.CanSaveChanges();
     }
 
     protected void HandleCommandExecuted(CommandScheduler<IDeferredCommand>.CommandAction action, IDeferredCommand command) {
