@@ -3,13 +3,15 @@ using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
+using Infrastructure.Command.Heterochromic;
 using WPF.Services.UserActionsHandling.InputText;
+using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
 public class StateWaitingToInputIntoNewItem : StateWindow
 {
-    public StateWaitingToInputIntoNewItem(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService) : base(propertyValueRestoreService) {
+    public StateWaitingToInputIntoNewItem(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler<IDeferredCommand> scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) : base(propertyValueRestoreService, scheduler, cursorPositionService) {
     }
 
     public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {

@@ -33,23 +33,24 @@ public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand
         _currentTransaction = null;
 
         if (!transaction.GetCommands().Any()) return false;
-        if (transaction is not TCommand typedTransaction) throw new InvalidOperationException("Transaction cannot be added to undo stack");
+        if (transaction is not TCommand typedTransaction) 
+            throw new InvalidOperationException("Transaction cannot be added to undo stack");
+        
         _undoStack.Push(typedTransaction);
         _redoStack.Clear();
         return true;
     }
 
     public void RollbackTransaction() {
-        // Отменяем все команды в транзакции
         foreach (var command in _currentTransaction?.GetCommands().Reverse()!) 
             command.UndoAsync().Wait(); // В реальном коде лучше async/await
         
         _currentTransaction = null;
     }
+}
 
-    private class TransactionCommand : CompositeCommandBase
-    {
-        private readonly string? _name;
-        public TransactionCommand(string? name) => _name = name;
-    }
+public class TransactionCommand : CompositeCommandBase
+{
+    private readonly string? _name;
+    public TransactionCommand(string? name) => _name = name;
 }

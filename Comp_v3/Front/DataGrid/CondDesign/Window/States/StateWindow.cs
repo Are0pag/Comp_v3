@@ -1,16 +1,22 @@
 using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.Command.Heterochromic;
 using WPF.Extensions.View.DataGrid;
 using WPF.Services.UserActionsHandling.InputText;
+using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
-public abstract class StateWindow 
+public abstract class StateWindow
 {
+    protected readonly HeterochromicCommandScheduler<IDeferredCommand> _scheduler;
+    protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyValueRestoreService;
 
-    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService) {
+    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler<IDeferredCommand> scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) {
         _propertyValueRestoreService = propertyValueRestoreService;
+        _scheduler = scheduler;
+        _cursorPositionService = cursorPositionService;
     }
 
     public virtual void OnBeginningEdit(CognDesignGridWindow window, object? sender, DataGridBeginningEditEventArgs e) {
@@ -33,7 +39,7 @@ public abstract class StateWindow
     /// <summary>
     /// INewValueTryAddingToDataGridHandler involication
     /// </summary>
-    public virtual void OneNewValueAdded(CognDesignGridWindow window, object? newValue) { }
+    public virtual async Task OneNewValueAdded(CognDesignGridWindow window, object? newValue) { }
 
     public virtual void Exit(CognDesignGridWindow window) { }
 

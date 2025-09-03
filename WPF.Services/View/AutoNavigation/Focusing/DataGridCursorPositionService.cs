@@ -6,28 +6,29 @@ namespace WPF.Services.View.AutoNavigation.Focusing;
 
 public class DataGridCursorPositionService : CursorPositionService<DataGrid>
 {
-    public override void FocusAndEditItem(DataGrid dataGrid, object item, Dispatcher dispatcher) {
-        FocusItem(dataGrid, item);
+    public override DataGridMemento FocusAndEditItem(DataGrid dataGrid, object item, Dispatcher dispatcher) {
+        var memento = new DataGridMemento(dataGrid);
+        
+        dataGrid.Focus();
+        dataGrid.ScrollIntoView(item);
+        dataGrid.SelectedItem = item;
+        
         dispatcher.BeginInvoke(() => {
             ManageCursorPosition(dataGrid, item);
         }, DispatcherPriority.ContextIdle);
+        return memento;
     }
 
     /// <summary>
     /// WithoutEditing
     /// </summary>
-    public override void FocusItem(DataGrid dataGrid, object item) {
+    public override DataGridMemento FocusItem(DataGrid dataGrid, object item) {
+        var memento = new DataGridMemento(dataGrid);
+        
         dataGrid.Focus();
         dataGrid.ScrollIntoView(item);
         dataGrid.SelectedItem = item;
-    }
-
-    // Дополнительные специфичные методы
-    public void FocusAndEditSpecificColumn(DataGrid dataGrid, object item, string columnName) {
-        var column = dataGrid.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
-        if (column == null) return;
-        dataGrid.CurrentCell = new DataGridCellInfo(item, column);
-        dataGrid.BeginEdit();
+        return memento;
     }
 
     protected void ManageCursorPosition(DataGrid dataGrid, object item) {
@@ -44,5 +45,25 @@ public class DataGridCursorPositionService : CursorPositionService<DataGrid>
         }
             
         row.Focus();
+    }
+}
+
+public class DataGridMemento
+{
+    public object PreviousSelectedItem { get; }
+    public DataGridCellInfo PreviousCurrentCell { get; }
+    public bool WasFocused { get; }
+
+    public DataGridMemento(DataGrid dataGrid) {
+        PreviousSelectedItem = dataGrid.SelectedItem;
+        PreviousCurrentCell = dataGrid.CurrentCell;
+        WasFocused = dataGrid.IsFocused;
+    }
+
+    public void Restore(DataGrid dataGrid) {
+        dataGrid.SelectedItem = PreviousSelectedItem;
+        dataGrid.CurrentCell = PreviousCurrentCell;
+        if (WasFocused) dataGrid.Focus();
+        dataGrid.CancelEdit();
     }
 }

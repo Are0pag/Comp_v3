@@ -13,3 +13,4 @@ public class HeterochromicCommandScheduler<TCommand> : TransactionalCommandSched
         }
     }
 }
+
