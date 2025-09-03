@@ -4,15 +4,18 @@ using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.StateMachine;
+using WPF.Services.UserActionsHandling.InputKey;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 {
     protected readonly HeterochromicCommandScheduler<IDeferredCommand> _scheduler;
+    protected readonly CommonUndoRedoHotKeysService _commonKeysService;
 
-    protected StateDataGrid(HeterochromicCommandScheduler<IDeferredCommand> scheduler) {
+    protected StateDataGrid(HeterochromicCommandScheduler<IDeferredCommand> scheduler, CommonUndoRedoHotKeysService commonKeysService) {
         _scheduler = scheduler;
+        _commonKeysService = commonKeysService;
     }
 
     public abstract Task AddItemAsync(CognDesignGridVm vm);
@@ -31,21 +34,7 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     }
 
     public virtual async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
-        switch (e.Key) {
-            case Key.Z when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
-                if (_scheduler.CanUndo) {
-                    await _scheduler.UndoAsync();
-                    e.Handled = true;
-                }
-                break;
-            case Key.Z when e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift):
-            case Key.Y when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
-                if (_scheduler.CanRedo) {
-                    await _scheduler.RedoAsync();
-                    e.Handled = true;
-                }
-                break;
-        }
+        await _commonKeysService.HandleInput(e);
     }
 
     public virtual async Task SaveChanges() {
@@ -63,7 +52,7 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     }
 
     public virtual bool CanSaveChanges() {
-        return _scheduler.CanUndo;
+        return _scheduler.CanUndo();
     }
 
     protected virtual bool CanEditItem(DataGridCellEditEndingEventArgs e) {

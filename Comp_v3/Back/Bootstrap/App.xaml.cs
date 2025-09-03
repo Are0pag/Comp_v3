@@ -7,9 +7,11 @@ using Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.Command.Base;
 using Infrastructure.Command.Heterochromic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WPF.Services.UserActionsHandling.InputKey;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
 using CognDesignGridWindow = Comp_v3.Front.DataGrid.CondDesign.Window.CognDesignGridWindow;
@@ -30,7 +32,8 @@ public partial class App : Application
                            services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
 
                            services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
-                           services.AddScoped <HeterochromicCommandScheduler<IDeferredCommand>>();
+                           services.AddScoped<HeterochromicCommandScheduler<IDeferredCommand>>();
+                           services.AddScoped<CommonUndoRedoHotKeysService>();
                            
                            services.AddScoped<StateDgEditing>();
                            services.AddScoped<StateDgCreatingNewItem>();

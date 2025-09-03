@@ -2,13 +2,16 @@ using System.Diagnostics;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
+using Infrastructure.Command.Base;
 using Infrastructure.Command.Heterochromic;
+using WPF.Services.UserActionsHandling.InputKey;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public class StateDgCreatingNewItem : StateDataGrid
 {
-    public StateDgCreatingNewItem(HeterochromicCommandScheduler<IDeferredCommand> scheduler) : base(scheduler) {
+    public StateDgCreatingNewItem(HeterochromicCommandScheduler<IDeferredCommand> scheduler, CommonUndoRedoHotKeysService commonKeysService) 
+        : base(scheduler, commonKeysService) {
     }
 
     public ConditionalDesignation? CreatingConditionalDesignation { get; protected set; }

@@ -1,12 +1,14 @@
 using System.Windows.Input;
 using Infrastructure.Command.Heterochromic;
+using WPF.Services.UserActionsHandling.InputKey;
+using ICommand = Infrastructure.Command.Base.ICommand;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public class StateDgEditing : StateDataGrid
 {
-    /* То есть пользователь нажимает кнопку "Создать" */
-    public StateDgEditing(HeterochromicCommandScheduler<IDeferredCommand> scheduler) : base(scheduler) {
+    public StateDgEditing(HeterochromicCommandScheduler<IDeferredCommand> scheduler, CommonUndoRedoHotKeysService commonKeysService) 
+        : base(scheduler, commonKeysService) {
     }
 
     public override Task AddItemAsync(CognDesignGridVm vm) {
