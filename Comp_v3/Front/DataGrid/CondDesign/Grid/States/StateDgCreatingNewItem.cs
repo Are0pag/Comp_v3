@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Component_v2.Tools.EventBus;
-using Infrastructure.Command.Classic;
+using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 

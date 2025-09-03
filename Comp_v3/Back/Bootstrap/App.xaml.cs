@@ -7,7 +7,7 @@ using Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp.ModelData.TechnicalItems;
-using Infrastructure.Command.Classic;
+using Infrastructure.Command.Heterochromic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Services.UserActionsHandling.InputText;

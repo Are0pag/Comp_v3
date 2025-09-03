@@ -2,7 +2,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp.ModelData.TechnicalItems;
-using Infrastructure.Command.Classic;
+using Infrastructure.Command.Heterochromic;
 using Infrastructure.StateMachine;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
@@ -30,8 +30,8 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
             await vm.Repository.UpdateAsync((ConditionalDesignation)e.Row.Item);  /* Model Command */
     }
 
-    public virtual void OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
-        
+    public virtual async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
+        return;
     }
 
     public virtual async Task SaveChanges() {

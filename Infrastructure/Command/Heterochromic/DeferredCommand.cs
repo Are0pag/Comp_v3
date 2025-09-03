@@ -1,6 +1,4 @@
-using Infrastructure.Command.Classic;
-
-namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
+namespace Infrastructure.Command.Heterochromic;
 
 public class DeferredCommand<TContext, TItem> : IDeferredCommand
 {

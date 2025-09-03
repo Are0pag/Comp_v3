@@ -1,4 +1,4 @@
-namespace Infrastructure.Command.Classic;
+namespace Infrastructure.Command.Base;
 
 public interface ICommandScheduler<in T> where T : ICommand
 {

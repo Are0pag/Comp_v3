@@ -1,4 +1,4 @@
-using Infrastructure.Command.Classic;
+using Infrastructure.Command.Base;
 
 namespace Infrastructure.Command.v1;
 

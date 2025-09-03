@@ -1,4 +1,4 @@
-using Infrastructure.Command.Classic;
+using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 

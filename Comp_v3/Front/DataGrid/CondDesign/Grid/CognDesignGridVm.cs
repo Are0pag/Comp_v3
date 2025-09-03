@@ -51,7 +51,7 @@ public class CognDesignGridVm : VmEnumerableInteractiveData<ConditionalDesignati
         await StateProvider.CurrentState.OnCellEditEnding(this, sender, e);
     }
     
-    void IPreviewKeyDownHandler.HandleKeyInput(object? sender, KeyEventArgs e) {
-        StateProvider.CurrentState.OnHandleKeyInput(this, sender, e);
+    async Task IPreviewKeyDownHandler.HandleKeyInput(object? sender, KeyEventArgs e) {
+        await StateProvider.CurrentState.OnHandleKeyInput(this, sender, e);
     }
 }

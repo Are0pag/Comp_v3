@@ -1,4 +1,7 @@
-namespace Infrastructure.Command.Classic;
+using Infrastructure.Command.Base;
+using Infrastructure.Command.TransactionSupportive;
+
+namespace Infrastructure.Command.Heterochromic;
 
 public class HeterochromicCommandScheduler<TCommand> : TransactionalCommandScheduler<TCommand> 
     where TCommand : ICommand, IDeferredCommand

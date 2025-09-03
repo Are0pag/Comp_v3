@@ -1,4 +1,6 @@
-namespace Infrastructure.Command.Classic;
+using Infrastructure.Command.Base;
+
+namespace Infrastructure.Command.TransactionSupportive;
 
 public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand>
     where TCommand : ICommand

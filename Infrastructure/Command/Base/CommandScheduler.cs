@@ -1,4 +1,4 @@
-namespace Infrastructure.Command.Classic;
+namespace Infrastructure.Command.Base;
 
 /* Redo для транзакций не реализован */
 public class CommandScheduler<TCommand> : ICommandScheduler<TCommand> 

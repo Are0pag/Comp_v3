@@ -1,4 +1,6 @@
-namespace Infrastructure.Command.Classic;
+using Infrastructure.Command.Base;
+
+namespace Infrastructure.Command.TransactionSupportive;
 
 public abstract class CompositeCommandBase : ICompositeCommand
 {
