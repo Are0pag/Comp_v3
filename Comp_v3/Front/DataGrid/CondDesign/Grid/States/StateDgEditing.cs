@@ -13,7 +13,7 @@ public class StateDgEditing : StateDataGrid
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
         _scheduler.BeginTransaction(); 
-        await _scheduler.ExecuteCommand(new ChangeTargetStateCommand(vm, this, vm.StateProvider.GetState<StateDgCreatingNewItem>()));
+        await _scheduler.ExecuteCommand(new ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgCreatingNewItem>()));
     }
 
     public override async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {

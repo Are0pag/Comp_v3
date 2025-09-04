@@ -37,10 +37,12 @@ public class CognDesignGridVm : VmEnumerableInteractiveData<ConditionalDesignati
     }
 
     void ICancelNewItemAddingHandler.HandleCancelNewItemAdding() {  /* Одна из шаблонных реализаций : Ui-взаимодействующий */
-        if (StateProvider.CurrentState is not StateDgCreatingNewItem) return;
-        if (SelectedItem == null) throw new Exception("Selected item is null");
-        Items.Remove(SelectedItem);
-        SelectedItem = null;
+        StateProvider.CurrentState.CancelNewItemAdding();
+        /*if (StateProvider.CurrentState is not StateDgCreatingNewItem) return;
+        if (SelectedItem == null) throw new Exception("Selected item is null");*/
+        
+        /*Items.Remove(SelectedItem);
+        SelectedItem = null;*/
     }
 
     void ICellAddingToDataGridHandler.HandleNewValueAdding() { /* Одна из шаблонных реализаций : Ui-взаимодействующий */

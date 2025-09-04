@@ -1,3 +1,4 @@
+using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
@@ -27,8 +28,11 @@ public class StateCreatingNewItem : StateWindow
             throw new Exception("The scheduler is not in a transaction");
         
         await _scheduler.ExecuteCommand(new FocusingCommand(window, _cursorPositionService, conditionalDesignation));
+        await _scheduler.ExecuteCommand(new ChangeTargetWindowStateCommand(window, 
+                                                                           this,
+                                                                           window.StateProvider.StateWaitingToInputIntoNewItem));
         _scheduler.CommitTransaction();
         
-        window.StateProvider.SwitchStateWindow(window.StateProvider.StateWaitingToInputIntoNewItem, window);
+        //window.StateProvider.SwitchStateWindow(window.StateProvider.StateWaitingToInputIntoNewItem, window);
     }
 }
