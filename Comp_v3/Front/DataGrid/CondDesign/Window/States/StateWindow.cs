@@ -9,11 +9,11 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
 public abstract class StateWindow
 {
-    protected readonly HeterochromicCommandScheduler<IDeferredCommand> _scheduler;
+    protected readonly HeterochromicCommandScheduler _scheduler;
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyValueRestoreService;
 
-    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler<IDeferredCommand> scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) {
+    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) {
         _propertyValueRestoreService = propertyValueRestoreService;
         _scheduler = scheduler;
         _cursorPositionService = cursorPositionService;

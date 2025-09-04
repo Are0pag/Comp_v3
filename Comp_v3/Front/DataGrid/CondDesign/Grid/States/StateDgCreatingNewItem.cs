@@ -10,7 +10,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public class StateDgCreatingNewItem : StateDataGrid
 {
-    public StateDgCreatingNewItem(HeterochromicCommandScheduler<IDeferredCommand> scheduler, CommonUndoRedoHotKeysService commonKeysService) 
+    public StateDgCreatingNewItem(HeterochromicCommandScheduler scheduler, CommonUndoRedoHotKeysService commonKeysService) 
         : base(scheduler, commonKeysService) {
     }
 

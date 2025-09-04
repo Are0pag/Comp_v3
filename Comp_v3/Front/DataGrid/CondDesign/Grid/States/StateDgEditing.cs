@@ -7,7 +7,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public class StateDgEditing : StateDataGrid
 {
-    public StateDgEditing(HeterochromicCommandScheduler<IDeferredCommand> scheduler, CommonUndoRedoHotKeysService commonKeysService) 
+    public StateDgEditing(HeterochromicCommandScheduler scheduler, CommonUndoRedoHotKeysService commonKeysService) 
         : base(scheduler, commonKeysService) {
     }
 

@@ -13,7 +13,7 @@ public class StateCreatingNewItem : StateWindow
 {
     public StateCreatingNewItem(
         IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, 
-        HeterochromicCommandScheduler<IDeferredCommand> scheduler, 
+        HeterochromicCommandScheduler scheduler, 
         CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) 
         
         : base(propertyValueRestoreService, scheduler, cursorPositionService) {

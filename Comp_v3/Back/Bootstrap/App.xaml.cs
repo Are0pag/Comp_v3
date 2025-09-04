@@ -32,7 +32,7 @@ public partial class App : Application
                            services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
 
                            services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
-                           services.AddScoped<HeterochromicCommandScheduler<IDeferredCommand>>();
+                           services.AddScoped<HeterochromicCommandScheduler>();
                            services.AddScoped<CommonUndoRedoHotKeysService>();
                            
                            services.AddScoped<StateDgEditing>();

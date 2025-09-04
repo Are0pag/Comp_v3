@@ -14,7 +14,11 @@ public partial class DeleteItemButVm : BaseButtonsVm
         base.Dispose();
         _condDesignGridVm.PropertyChanged -= OnSelectedItemPropertyChanged;
     }
-    
+
+    public override void NotifyCanExecute() {
+        DeleteItemCommand.NotifyCanExecuteChanged();
+    }
+
     [RelayCommand(CanExecute = nameof(CanDeleteItem))] /* непосредственно через CurrentStateDataGrid.CanDeleteItem не выйдет:( */
     protected async Task DeleteItemAsync() {
         await _condDesignGridVm.StateProvider.CurrentState.DeleteItemAsync(_condDesignGridVm);

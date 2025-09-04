@@ -1,24 +1,26 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
+using Comp_v3.Front.Events;
+using Comp_v3.Front.Events.Buttons;
+using Comp_v3.Front.Events.ViewInvoking.Keys;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.StateMachine;
+using Utils.EventBus;
 using WPF.Services.UserActionsHandling.InputKey;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
 public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 {
-    protected readonly HeterochromicCommandScheduler<IDeferredCommand> _scheduler;
+    protected readonly HeterochromicCommandScheduler _scheduler;
     protected readonly CommonUndoRedoHotKeysService _commonKeysService;
 
-    protected StateDataGrid(HeterochromicCommandScheduler<IDeferredCommand> scheduler, CommonUndoRedoHotKeysService commonKeysService) {
+    protected StateDataGrid(HeterochromicCommandScheduler scheduler, CommonUndoRedoHotKeysService commonKeysService) {
         _scheduler = scheduler;
         _commonKeysService = commonKeysService;
     }
-
-    public HeterochromicCommandScheduler<IDeferredCommand> Scheduler => _scheduler;
     
     public abstract Task AddItemAsync(CognDesignGridVm vm);
 
@@ -36,7 +38,23 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     }
 
     public virtual async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
-        await _commonKeysService.HandleInput(e);
+        switch (_commonKeysService.HandleInput(e)) {
+            case ActionType.Undo:
+                if (_scheduler.CanUndo()) {
+                    await _scheduler.UndoAsync();
+                    e.Handled = true;
+                    EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute()); 
+                }
+                break;
+            case ActionType.Redo:
+                if (_scheduler.CanRedo()) {
+                    await _scheduler.RedoAsync();
+                    e.Handled = true;
+                    EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute()); 
+                }
+                break;
+        }
+            
     }
 
     public virtual async Task SaveChanges() {

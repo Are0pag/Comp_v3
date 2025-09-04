@@ -7,13 +7,16 @@ namespace Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 
 public partial class SaveChangesButVm : BaseButtonsVm
 {
-    protected readonly HeterochromicCommandScheduler<IDeferredCommand> _scheduler;
-    public SaveChangesButVm(CognDesignGridVm condDesignGridVm, HeterochromicCommandScheduler<IDeferredCommand> scheduler) : base(condDesignGridVm) {
+    protected readonly HeterochromicCommandScheduler _scheduler;
+    public SaveChangesButVm(CognDesignGridVm condDesignGridVm, HeterochromicCommandScheduler scheduler) : base(condDesignGridVm) {
         _scheduler = scheduler;
         _scheduler.OnCommandExecuted += HandleCommandExecuted;
     }
 
     public override void Dispose() => _scheduler.OnCommandExecuted -= HandleCommandExecuted;
+    public override void NotifyCanExecute() {
+        SaveChangesCommand.NotifyCanExecuteChanged();
+    }
 
     [RelayCommand(CanExecute = nameof(CanSaveChanges))]
     protected async Task SaveChangesAsync() {
