@@ -8,7 +8,7 @@ using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp_v3.Front.Events.ViewInvoking.Keys;
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
-using Component_v2.Tools.EventBus;
+using Utils.EventBus;
 using Utils.WPF.VmEnumerableInteractiveData;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid;

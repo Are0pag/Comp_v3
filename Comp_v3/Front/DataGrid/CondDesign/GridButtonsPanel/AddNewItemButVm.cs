@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
-using Component_v2.Tools.EventBus;
+using Utils.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
 

@@ -1,4 +1,4 @@
-namespace Component_v2.Tools.EventBus;
+namespace Utils.EventBus;
 
 public class SubscribersList<TSubscriber> where TSubscriber : class
 {

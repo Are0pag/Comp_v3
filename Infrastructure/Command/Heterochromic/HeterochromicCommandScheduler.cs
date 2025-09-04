@@ -3,8 +3,7 @@ using Infrastructure.Command.TransactionSupportive;
 
 namespace Infrastructure.Command.Heterochromic;
 
-public class HeterochromicCommandScheduler<TCommand> : TransactionalCommandScheduler<TCommand> 
-    where TCommand : ICommand, IDeferredCommand
+public class HeterochromicCommandScheduler : TransactionalCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> 
 {
     public async Task CommitDeferredChanges() {
         while (_undoStack.Count > 0) {

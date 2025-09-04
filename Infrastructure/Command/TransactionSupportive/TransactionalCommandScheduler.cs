@@ -2,13 +2,14 @@ using Infrastructure.Command.Base;
 
 namespace Infrastructure.Command.TransactionSupportive;
 
-public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand>
-    where TCommand : ICommand
+public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T>
+    where T : ICommand
+    where TTransaction : ITransaction<T>, new()
 {
-    protected CompositeCommandBase? _currentTransaction;
+    protected TTransaction? _currentTransaction;
     public bool IsInTransaction => _currentTransaction != null;
 
-    public override async Task ExecuteCommand(TCommand command) {
+    public override async Task ExecuteCommand(T command) {
         if (_currentTransaction != null) {
             _currentTransaction.AddCommand(command);
             await command.ExecuteAsync();
@@ -21,8 +22,8 @@ public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand
     public void BeginTransaction(string? transactionName = null) {
         if (_currentTransaction != null)
             throw new InvalidOperationException("Transaction already started");
-        
-        _currentTransaction = new TransactionCommand(transactionName);
+
+        _currentTransaction = new TTransaction();
     }
 
     public bool CommitTransaction() {
@@ -30,10 +31,10 @@ public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand
             return false;
 
         var transaction = _currentTransaction;
-        _currentTransaction = null;
+        _currentTransaction = default;
 
         if (!transaction.GetCommands().Any()) return false;
-        if (transaction is not TCommand typedTransaction) 
+        if (transaction is not T typedTransaction) 
             throw new InvalidOperationException("Transaction cannot be added to undo stack");
         
         _undoStack.Push(typedTransaction);
@@ -45,12 +46,6 @@ public class TransactionalCommandScheduler<TCommand> : CommandScheduler<TCommand
         foreach (var command in _currentTransaction?.GetCommands().Reverse()!) 
             command.UndoAsync().Wait(); // В реальном коде лучше async/await
         
-        _currentTransaction = null;
+        _currentTransaction = default;
     }
-}
-
-public class TransactionCommand : CompositeCommandBase
-{
-    private readonly string? _name;
-    public TransactionCommand(string? name) => _name = name;
 }

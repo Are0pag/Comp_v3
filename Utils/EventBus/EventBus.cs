@@ -1,6 +1,8 @@
-namespace Component_v2.Tools.EventBus;
+namespace Utils.EventBus;
 
-public static class EventBus<TBaseModuleType> where TBaseModuleType : class {
+public static class EventBus<TBaseModuleType> 
+    where TBaseModuleType : class 
+{
     private static readonly Dictionary<Type, SubscribersList<TBaseModuleType>> _subscribers = new();
 
     public static void Subscribe(TBaseModuleType subscriber) {
