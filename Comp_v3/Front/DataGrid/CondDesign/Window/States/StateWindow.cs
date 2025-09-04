@@ -34,7 +34,7 @@ public abstract class StateWindow
         throw new InvalidInputException("Invalid input");
     }
 
-    public virtual void Entry(CognDesignGridWindow window) { }
+    public virtual async Task Entry(CognDesignGridWindow window) { }
 
     /// <summary>
     /// INewValueTryAddingToDataGridHandler involication

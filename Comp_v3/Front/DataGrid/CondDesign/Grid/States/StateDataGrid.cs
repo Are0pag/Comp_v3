@@ -62,8 +62,7 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     }
 
     public virtual async Task CancelNewItemAdding() {
-        if (_scheduler.CanUndo()) 
-            await _scheduler.UndoAsync();
+        await _scheduler.UndoAsync();
     }
 
 #region CanExecute

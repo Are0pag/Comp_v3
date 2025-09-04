@@ -34,8 +34,7 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
     /* Суть в том, что надо при создании нового ряда в таблице (нового экземпляра модели соотв-но)
             автоматически прокрутить до новых ячеек и поставить курсор для редактирования на первую колонку (первую ячейку) */
     async Task INewValueTryAddingToDataGridHandler.HandleNewValueAdded(object? newValue) {
-        StateProvider.SwitchStateWindow(StateProvider.StateCreatingNewItem, this);
-        await StateProvider.CurrentStateWindow.OneNewValueAdded(this, newValue);
+        await StateProvider.CurrentStateWindow.OneNewValueAdded(this, newValue);    /* тут должна быть EditableGrid до смены */
     }
 
     private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {

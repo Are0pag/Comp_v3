@@ -12,6 +12,7 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 /// </summary>
 public class StateCreatingNewItem : StateWindow
 {
+    protected ConditionalDesignation? _cashedValue;
     public StateCreatingNewItem(
         IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, 
         HeterochromicCommandScheduler scheduler, 
@@ -20,19 +21,10 @@ public class StateCreatingNewItem : StateWindow
         : base(propertyValueRestoreService, scheduler, cursorPositionService) {
     }
 
-    public override async Task OneNewValueAdded(CognDesignGridWindow window, object? newValue) {
-        if (newValue is not ConditionalDesignation conditionalDesignation) 
-            throw new ArgumentException("New value is not a conditional designation in CognDesignGridWindow");
-        
-        if (!_scheduler.IsInTransaction) 
-            throw new Exception("The scheduler is not in a transaction");
-        
-        await _scheduler.ExecuteCommand(new FocusingCommand(window, _cursorPositionService, conditionalDesignation));
-        await _scheduler.ExecuteCommand(new ChangeTargetWindowStateCommand(window, 
-                                                                           this,
-                                                                           window.StateProvider.StateWaitingToInputIntoNewItem));
-        _scheduler.CommitTransaction();
-        
+    public override async Task Entry(CognDesignGridWindow window) {
+
+    
+
         //window.StateProvider.SwitchStateWindow(window.StateProvider.StateWaitingToInputIntoNewItem, window);
     }
 }
