@@ -33,8 +33,8 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
     }
 
     public virtual async Task OnCellEditEnding(CognDesignGridVm vm, object? sender, DataGridCellEditEndingEventArgs e) {
-        if (CanEditItem(e))
-            await vm.Repository.UpdateAsync((ConditionalDesignation)e.Row.Item);  /* Model Command */
+        if (CanEditItem(e) && e.Row.Item is ConditionalDesignation cd)
+            await _scheduler.ExecuteCommand(new UpdateItemCommand(vm, cd));
     }
 
     public virtual async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
