@@ -23,7 +23,7 @@ public class ChangeTargetWindowStateCommand : DeferredCommand<CognDesignGridWind
     }
 
     public override Task UndoAsync() {
-        _context.StateProvider.SwitchStateWindow(_fromState, _context);
+        _context.StateProvider.RollbackStateWindow(_fromState, _context);
         return Task.CompletedTask;
     }
 

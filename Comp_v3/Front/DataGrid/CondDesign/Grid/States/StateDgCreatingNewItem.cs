@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
@@ -27,8 +26,6 @@ public class StateDgCreatingNewItem : StateDataGrid
     public override async Task AddItemAsync(CognDesignGridVm vm) {
         _scheduler.BeginTransaction();
         await _scheduler.ExecuteCommand(new AddItemCommand(vm, CreatingItem!));
-        //await vm.StateProvider.ChangeState(vm.StateProvider.GetState<StateDgEditing>(), vm);
         await _scheduler.ExecuteCommand(new Commands.ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgEditing>()));
-        _scheduler.CommitTransaction();
     }
 }

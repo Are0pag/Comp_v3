@@ -19,4 +19,8 @@ public class Provider
         CurrentStateWindow = stateWindow;
         CurrentStateWindow.Entry(window);
     }
+
+    public void RollbackStateWindow(StateWindow stateWindow, CognDesignGridWindow window) {
+        CurrentStateWindow = stateWindow;
+    }
 }

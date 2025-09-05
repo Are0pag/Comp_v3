@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;
@@ -27,7 +28,9 @@ public class StateWaitingToInputIntoNewItem : StateWindow
         Continue(window);
     }
 
-    private static void Continue(CognDesignGridWindow window) {
-        window.StateProvider.SwitchStateWindow(window.StateProvider.StateEditableGrid, window);
+    private void Continue(CognDesignGridWindow window) {
+        _scheduler.ExecuteCommand(new ChangeTargetWindowStateCommand(window, this, window.StateProvider.StateEditableGrid));
+        if (_scheduler.IsInTransaction) // в случае, если отработал обработчик ICancelNewItemAddingHandler
+            _scheduler.CommitTransaction();
     }
 }

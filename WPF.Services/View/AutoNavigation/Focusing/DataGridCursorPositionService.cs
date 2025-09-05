@@ -31,6 +31,8 @@ public class DataGridCursorPositionService : CursorPositionService<DataGrid>
         return memento;
     }
 
+    public override DataGridMemento RememberCursorPos(DataGrid container) => new(container);
+
     protected void ManageCursorPosition(DataGrid dataGrid, object item) {
         if (dataGrid.ItemContainerGenerator.ContainerFromItem(item) is not DataGridRow row)
             throw new ArgumentException("Could not find DataGridRow for item");
@@ -45,25 +47,5 @@ public class DataGridCursorPositionService : CursorPositionService<DataGrid>
         }
             
         row.Focus();
-    }
-}
-
-public class DataGridMemento
-{
-    public object PreviousSelectedItem { get; }
-    public DataGridCellInfo PreviousCurrentCell { get; }
-    public bool WasFocused { get; }
-
-    public DataGridMemento(DataGrid dataGrid) {
-        PreviousSelectedItem = dataGrid.SelectedItem;
-        PreviousCurrentCell = dataGrid.CurrentCell;
-        WasFocused = dataGrid.IsFocused;
-    }
-
-    public void Restore(DataGrid dataGrid) {
-        dataGrid.SelectedItem = PreviousSelectedItem;
-        dataGrid.CurrentCell = PreviousCurrentCell;
-        if (WasFocused) dataGrid.Focus();
-        dataGrid.CancelEdit();
     }
 }

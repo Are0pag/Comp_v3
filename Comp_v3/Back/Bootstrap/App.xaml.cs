@@ -21,44 +21,44 @@ namespace Comp_v3;
 
 public partial class App : Application
 {
-    protected static IHost _appHost;
+    public static IHost Host { get; protected set; }
     protected IServiceScope _mainScope;
 
     public App() {
-        _appHost = Host.CreateDefaultBuilder().
-                       ConfigureServices((hostContext, services) => {
-                           services.RegisterConditionalDesignationsTable();
+        Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder().
+                         ConfigureServices((hostContext, services) => {
+                             services.RegisterConditionalDesignationsTable();
 
-                           services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
+                             services.AddSingleton<CursorPositionService<DataGrid>, DataGridCursorPositionService>();
 
-                           services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
-                           services.AddScoped<HeterochromicCommandScheduler>();
-                           services.AddScoped<CommonUndoRedoHotKeysService>();
+                             services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
+                             services.AddScoped<HeterochromicCommandScheduler>();
+                             services.AddScoped<CommonUndoRedoHotKeysService>();
                            
-                           services.AddScoped<StateDgEditing>();
-                           services.AddScoped<StateDgCreatingNewItem>();
-                           services.AddScoped<StateDataGrid, StateDgEditing>();         // как интерфейс
-                           services.AddScoped<StateDataGrid, StateDgCreatingNewItem>(); // как интерфейс
-                           services.AddScoped<StateProviderDg>(provider => {
-                               var states = provider.GetServices<StateDataGrid>();
-                               var initialState = provider.GetService<StateDgEditing>();
-                               return new StateProviderDg(states, initialState);
-                           });
+                             services.AddScoped<StateDgEditing>();
+                             services.AddScoped<StateDgCreatingNewItem>();
+                             services.AddScoped<StateDataGrid, StateDgEditing>();         // как интерфейс
+                             services.AddScoped<StateDataGrid, StateDgCreatingNewItem>(); // как интерфейс
+                             services.AddScoped<StateProviderDg>(provider => {
+                                 var states = provider.GetServices<StateDataGrid>();
+                                 var initialState = provider.GetService<StateDgEditing>();
+                                 return new StateProviderDg(states, initialState);
+                             });
 
-                           services.AddScoped<StateCreatingNewItem>();
-                           services.AddScoped<StateWaitingToInputIntoNewItem>();
-                           services.AddScoped<StateEditableGrid>();
-                           services.AddScoped<Provider>();
+                             services.AddScoped<StateCreatingNewItem>();
+                             services.AddScoped<StateWaitingToInputIntoNewItem>();
+                             services.AddScoped<StateEditableGrid>();
+                             services.AddScoped<Provider>();
                            
-                           services.AddScoped<CognDesignGridVm>();
-                           services.AddScoped<AddNewItemButVm>();
-                           services.AddScoped<SaveChangesButVm>();
-                           services.AddScoped<DeleteItemButVm>();
+                             services.AddScoped<CognDesignGridVm>();
+                             services.AddScoped<AddNewItemButVm>();
+                             services.AddScoped<SaveChangesButVm>();
+                             services.AddScoped<DeleteItemButVm>();
                            
-                           services.AddTransient<CognDesignGridWindow>();
+                             services.AddTransient<CognDesignGridWindow>();
                            
 
-                       }).Build();
+                         }).Build();
     }
     
     /* Также можно явно указать зависимость:
@@ -70,15 +70,15 @@ public partial class App : Application
      */
     
     protected override async void OnStartup(StartupEventArgs e) {
-        await _appHost.StartAsync();
+        await Host.StartAsync();
         
         // Создаем БД при старте (используем scope)
-        using (var scope = _appHost.Services.CreateScope()) {
+        using (var scope = Host.Services.CreateScope()) {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await context.Database.EnsureCreatedAsync();
         } 
         
-        _mainScope = _appHost.Services.CreateScope();
+        _mainScope = Host.Services.CreateScope();
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<CognDesignGridWindow>(); /*var mainWindow = AppHost.Services.GetRequiredService<CognDesignGridWindow>();*/
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();
@@ -88,8 +88,8 @@ public partial class App : Application
 
     protected override async void OnExit(ExitEventArgs e) {
         _mainScope?.Dispose();
-        await _appHost.StopAsync();
-        _appHost.Dispose();
+        await Host.StopAsync();
+        Host.Dispose();
         base.OnExit(e);
     }
 }

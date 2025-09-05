@@ -22,7 +22,7 @@ public class ChangeTargetVmStateCommand : DeferredCommand<CognDesignGridVm, Cond
     }
 
     public override async Task UndoAsync() {
-        await _context.StateProvider.ChangeState(_fromState, _context);
+        await _context.StateProvider.RollbackState(_fromState, _context);
     }
 
     public override Task ExecuteDeferredAsync() => Task.CompletedTask;

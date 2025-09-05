@@ -18,5 +18,12 @@ public class GenericStateMachine<TState, TContext> : IStateMachine<TState, TCont
         await CurrentState.Enter(context);
     }
 
+    /// <summary>
+    /// В разработке. Требует тщательного анализа
+    /// </summary>
+    public virtual async Task RollbackState(TState newState, TContext context) {
+        CurrentState = newState;
+    }
+
     public TState GetState<T>() where T : TState => _states[typeof(T)];
 }
