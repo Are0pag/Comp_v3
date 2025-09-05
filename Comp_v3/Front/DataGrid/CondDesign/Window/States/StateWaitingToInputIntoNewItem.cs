@@ -7,6 +7,7 @@ using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Utils.EventBus;
+using WPF.Extensions.View.DataGrid;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
 
@@ -21,8 +22,8 @@ public class StateWaitingToInputIntoNewItem : StateWindow
     }
 
     public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
-        var newValue = GetCurrentCellValue();
-        if (object.Equals(_originalValue, newValue))
+        if (e.Column == null || e.Row.Item is not ConditionalDesignation conditionalDesignation) return;
+        if (Equals(_propertyValueRestoreService.GetPreviousValue(), _propertyValueRestoreService.GetCurrentValue(conditionalDesignation, e.Column.GetPropertyName())))
             return;
 
         try {

@@ -7,11 +7,8 @@ public class DataGridPropertyRestoreService<T> : IPropertyValueRestoreService<T>
     private string? _previousValue;
     private PropertyInfo? _currentEditedProperty;
 
-    public void BeginEdit(T item, string propertyName) {
-        _currentEditedProperty = item.GetType().GetProperty(propertyName);
-
-        if (_currentEditedProperty != null) 
-            _previousValue = _currentEditedProperty.GetValue(item)?.ToString();
+    public void RememberValue(T item, string propertyName) {
+        _previousValue = GetCurrentValue(item, propertyName);
     }
 
     public void RollbackEdit(T item) {
@@ -21,4 +18,9 @@ public class DataGridPropertyRestoreService<T> : IPropertyValueRestoreService<T>
 
     public string? GetPreviousValue() => _previousValue;
     public PropertyInfo? GetEditedProperty() => _currentEditedProperty;
+
+    public string? GetCurrentValue(T item, string propertyName) {
+        _currentEditedProperty = item.GetType().GetProperty(propertyName);
+        return _currentEditedProperty != null ? _currentEditedProperty.GetValue(item)?.ToString() : null;
+    }
 }

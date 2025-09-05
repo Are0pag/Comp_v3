@@ -12,10 +12,6 @@ public abstract class StateWindow
     protected readonly HeterochromicCommandScheduler _scheduler;
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyValueRestoreService;
-    /// <summary>
-    /// Потому что CellEditEnding срабатывает при каждом ебаном чихе
-    /// </summary>
-    protected object _originalValue;
 
     protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) {
         _propertyValueRestoreService = propertyValueRestoreService;
@@ -25,10 +21,7 @@ public abstract class StateWindow
 
     public virtual void OnBeginningEdit(CognDesignGridWindow window, object? sender, DataGridBeginningEditEventArgs e) {
         if (e.Column == null || e.Row.Item is not ConditionalDesignation conditionalDesignation) return;
-        _propertyValueRestoreService.BeginEdit(conditionalDesignation, e.Column.GetPropertyName());
-
-        if (e.Column.GetCellContent(e.Row).Parent is DataGridCell cell)
-            _originalValue = cell.Content;
+        _propertyValueRestoreService.RememberValue(conditionalDesignation, e.Column.GetPropertyName());
     }
 
     public virtual void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
