@@ -24,25 +24,17 @@ public class CognDesignGridVm : VmEnumerableInteractiveData<ConditionalDesignati
         LoadDataAsync();
     }
     public virtual void Dispose() => EventBus<IUiGlobalSubscriber>.Unsubscribe(this);  /* Ui-взаимодействующий : VmRepo */
-
     public IConditionalDesignationRepository Repository { get; } /* VmRepo : базы */
-
     public StateProviderDg StateProvider { get; } /* Ui-взаимодействующий : VmRepo */
 
     private async void LoadDataAsync() {  /* VmRepo : базы */
         var items = await Repository.GetAllAsync();
-        Debug.Assert(items != null, nameof(items) + " == null from IConditionalDesignationRepository");
         Items = new ObservableCollection<ConditionalDesignation?>(items!);
         OnPropertyChanged(nameof(Items));
     }
 
     void ICancelNewItemAddingHandler.HandleCancelNewItemAdding() {  /* Одна из шаблонных реализаций : Ui-взаимодействующий */
         StateProvider.CurrentState.CancelNewItemAdding();
-        /*if (StateProvider.CurrentState is not StateDgCreatingNewItem) return;
-        if (SelectedItem == null) throw new Exception("Selected item is null");*/
-        
-        /*Items.Remove(SelectedItem);
-        SelectedItem = null;*/
     }
 
     void ICellAddingToDataGridHandler.HandleNewValueAdding() { /* Одна из шаблонных реализаций : Ui-взаимодействующий */

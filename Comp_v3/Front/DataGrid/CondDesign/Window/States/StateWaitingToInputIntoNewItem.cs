@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
@@ -13,10 +14,17 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Window.States;
 
 public class StateWaitingToInputIntoNewItem : StateWindow
 {
-    public StateWaitingToInputIntoNewItem(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) : base(propertyValueRestoreService, scheduler, cursorPositionService) {
+    public StateWaitingToInputIntoNewItem(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, 
+                                          HeterochromicCommandScheduler scheduler, 
+                                          CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) 
+        : base(propertyValueRestoreService, scheduler, cursorPositionService) {
     }
 
     public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
+        var newValue = GetCurrentCellValue();
+        if (object.Equals(_originalValue, newValue))
+            return;
+
         try {
             base.OnCellEditEnding(window, sender, e);
         }

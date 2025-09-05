@@ -46,7 +46,6 @@ public partial class App : Application
                                  return new StateProviderDg(states, initialState);
                              });
 
-                             services.AddScoped<StateCreatingNewItem>();
                              services.AddScoped<StateWaitingToInputIntoNewItem>();
                              services.AddScoped<StateEditableGrid>();
                              services.AddScoped<Provider>();
