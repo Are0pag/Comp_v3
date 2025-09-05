@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
+using Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;

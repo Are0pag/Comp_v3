@@ -17,7 +17,7 @@ public class StateDgCreatingNewItem : StateDataGrid
     public ConditionalDesignation? CreatingItem { get; protected set; }
 
     public override async Task Enter(CognDesignGridVm vm) {
-        var cmd = new Commands.AddingNewItem.PreparerCommand(vm);
+        var cmd = new Commands.AddingNewItem.PreparerNewRawCommand(vm);
         await _scheduler.ExecuteCommand(cmd);
         EventBus<IVmGlobalSubscriber>.RaiseEvent<INewValueTryAddingToDataGridHandler>(h => h?.HandleNewValueAdded(cmd.CreatingItem!));
         CreatingItem = cmd.CreatingItem;
@@ -25,6 +25,7 @@ public class StateDgCreatingNewItem : StateDataGrid
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
         _scheduler.BeginTransaction();
+        await _scheduler.ExecuteCommand(new PreparerEditingRawCommand(null));
         await _scheduler.ExecuteCommand(new AddItemCommand(vm, CreatingItem!));
         await _scheduler.ExecuteCommand(new Commands.ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgEditing>()));
     }
