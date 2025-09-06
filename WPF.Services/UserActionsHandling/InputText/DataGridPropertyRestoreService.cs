@@ -23,4 +23,6 @@ public class DataGridPropertyRestoreService<T> : IPropertyValueRestoreService<T>
         _currentEditedProperty = item.GetType().GetProperty(propertyName);
         return _currentEditedProperty != null ? _currentEditedProperty.GetValue(item)?.ToString() : null;
     }
+
+    public PropertyInfo? getCurrentPropertyInfo() => _currentEditedProperty;
 }
