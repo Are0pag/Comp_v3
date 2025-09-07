@@ -4,7 +4,7 @@ public interface ICommandScheduler<T> where T : ICommand
 {
     bool CanUndo();
     bool CanRedo();
-    Task ExecuteCommand(T command);
-    Task UndoAsync();
-    Task RedoAsync();
+    Task<ICommandScheduler<T>> ExecuteCommand(T command);
+    Task<object> UndoAsync();
+    Task<object> RedoAsync();
 }

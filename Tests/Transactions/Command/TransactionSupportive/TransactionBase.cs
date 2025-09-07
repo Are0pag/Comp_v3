@@ -30,4 +30,11 @@ public abstract class TransactionBase<T> : ITransaction<T>
         for (var i = _commands.Count - 1; i >= 0; i--) 
             await _commands[i].UndoAsync().ConfigureAwait(false);
     }
+
+    public bool IsExecuted { get; protected set; }
+
+    public ICommand MarkAs(bool isExecuted) {
+        IsExecuted = isExecuted;
+        return this;
+    }
 }

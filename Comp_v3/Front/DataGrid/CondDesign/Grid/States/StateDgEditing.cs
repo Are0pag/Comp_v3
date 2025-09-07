@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
+using Comp_v3.Front.DataGrid.CondDesign.Transactions;
 using Infrastructure.Command.Heterochromic;
 using WPF.Services.UserActionsHandling.InputKey;
 
@@ -12,8 +13,12 @@ public class StateDgEditing : StateDataGrid
     }
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
-        _scheduler.BeginTransaction(); 
-        await _scheduler.ExecuteCommand(new ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgCreatingNewItem>()));
+        _scheduler.BeginTransactionAsync<AddingNewItemTransaction>(
+            new ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgCreatingNewItem>()),
+            "Starts from Vm state Editing"
+            );
+        
+        
     }
 
     public override async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
