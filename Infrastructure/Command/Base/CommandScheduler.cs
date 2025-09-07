@@ -6,6 +6,8 @@ public class CommandScheduler<T> : ICommandScheduler<T>
     protected readonly Stack<T> _undoStack = new();
     protected readonly Stack<T> _redoStack = new();
 
+    public bool CanContinueWorking { get; private set; } = true;
+    
     public virtual bool CanUndo() => _undoStack.Count > 0;
     public virtual bool CanRedo() => _redoStack.Count > 0;
     
@@ -13,6 +15,7 @@ public class CommandScheduler<T> : ICommandScheduler<T>
     public Action<CommandAction, T>? OnCommandExecuted { get; set; }
 
     public virtual async Task<ICommandScheduler<T>> ExecuteCommand(T command) {
+        if (!CanContinueWorking) return this;
         await command.ExecuteAsync();
         _undoStack.Push(command);
         _redoStack.Clear();
@@ -23,9 +26,14 @@ public class CommandScheduler<T> : ICommandScheduler<T>
     public virtual async Task<object> UndoAsync() {
         if (!CanUndo()) 
             throw new InvalidOperationException();
+        
+        CanContinueWorking = false;
+        
         var command = _undoStack.Pop();
         await command.UndoAsync();
         _redoStack.Push(command);
+        
+        CanContinueWorking = true;
         OnCommandExecuted?.Invoke(CommandAction.Undone, command);
         return command;
     }

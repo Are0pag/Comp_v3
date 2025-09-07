@@ -1,4 +1,5 @@
 using Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
+using Comp_v3.Front.DataGrid.CondDesign.Transactions;
 using Comp_v3.Front.Events;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
@@ -17,16 +18,23 @@ public class StateDgCreatingNewItem : StateDataGrid
     public ConditionalDesignation? CreatingItem { get; protected set; }
 
     public override async Task Enter(CognDesignGridVm vm) {
-        var cmd = new Commands.AddingNewItem.PreparerNewRawCommand(vm);
-        await _scheduler.ExecuteCommand(cmd);
+        var cmd = new PreparerNewRawCommand(vm);
+        await _scheduler.RegisterCommandInto<CreateNewRawAndFocusTransaction>(cmd)
+                        .ExecuteLastRegisteredAsync();
+        
         EventBus<IVmGlobalSubscriber>.RaiseEvent<INewValueTryAddingToDataGridHandler>(h => h?.HandleNewValueAdded(cmd.CreatingItem!));
         CreatingItem = cmd.CreatingItem;
     }
 
     public override async Task AddItemAsync(CognDesignGridVm vm) {
-        _scheduler.BeginTransaction();
-        await _scheduler.ExecuteCommand(new PreparerEditingRawCommand(null));
-        await _scheduler.ExecuteCommand(new AddItemCommand(vm, CreatingItem!));
-        await _scheduler.ExecuteCommand(new Commands.ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgEditing>()));
+        
+        await _scheduler.RegisterCommandInto<AddingNewItemTransaction>(new PreparerEditingRawCommand(null))
+                        .ExecuteLastRegisteredAsync();
+
+        await _scheduler.RegisterCommandInto<AddingNewItemTransaction>(new AddItemCommand(vm, CreatingItem!))
+                        .ExecuteLastRegisteredAsync();
+
+        await _scheduler.RegisterCommandInto<AddingNewItemTransaction>(new Commands.ChangeTargetVmStateCommand(vm, this, vm.StateProvider.GetState<StateDgEditing>()))
+                        .ExecuteLastRegisteredAsync();
     }
 }

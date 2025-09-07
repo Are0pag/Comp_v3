@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
 using Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
+using Comp_v3.Front.DataGrid.CondDesign.Transactions;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;
@@ -39,19 +40,25 @@ public class StateWaitingToInputIntoNewItem : StateWindow
         try {
             base.OnCellEditEnding(window, sender, e);
         }
-        catch (InvalidInputException ex) { 
+        catch (InvalidInputException ex) {
+            
             EventBus<IUiGlobalSubscriber>.RaiseEvent<ICancelNewItemAddingHandler>(h => h.HandleCancelNewItemAdding());
-            Continue(window);
+            _scheduler.ExecuteCommand(
+                    new ChangeTargetWindowStateCommand(window, this, window.StateProvider.StateEditableGrid) {
+                        Description = "Executing on cancellation NewItemAdding as simple command"
+                    }
+                );
             return;
         }
         
+        _scheduler.BeginTransaction<AddingNewItemTransaction>();
         EventBus<IUiGlobalSubscriber>.RaiseEvent<ICellAddingToDataGridHandler>(h => h.HandleNewValueAdding());
-        Continue(window);
-    }
+        
+        _scheduler.RegisterCommandInto<AddingNewItemTransaction>(
+                       new ChangeTargetWindowStateCommand(window, this, window.StateProvider.StateEditableGrid)
+                   )
+                  .ExecuteLastRegisteredAsync();
 
-    private void Continue(CognDesignGridWindow window) {
-        _scheduler.ExecuteCommand(new ChangeTargetWindowStateCommand(window, this, window.StateProvider.StateEditableGrid));
-        if (_scheduler.IsInTransaction) // в случае, если отработал обработчик ICancelNewItemAddingHandler
-            _scheduler.CommitTransaction();
+        _scheduler.CommitTransaction<AddingNewItemTransaction>();
     }
 }
