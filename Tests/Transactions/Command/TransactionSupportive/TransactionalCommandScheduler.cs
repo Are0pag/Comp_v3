@@ -6,55 +6,70 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
     where T : ICommand
     where TTransaction : ITransaction<T>, new()
 {
-    protected TTransaction? _currentTransaction;
-    public bool IsInTransaction => _currentTransaction != null;
-
-    public override async Task ExecuteCommand(T command) {
-        if (_currentTransaction != null) {
-            _currentTransaction.AddCommand(command);
-            await command.ExecuteAsync();
-        }
-        else {
-            await base.ExecuteCommand(command);
-        }
-    }
+    protected readonly Dictionary<Type, TTransaction> _creatingTransactions = new Dictionary<Type, TTransaction>();
     
-    public void BeginTransaction(string? transactionName = null) {
-        if (_currentTransaction != null)
-            throw new InvalidOperationException("Transaction already started");
-
-        _currentTransaction = new TTransaction();
+    public async Task<TransactionalCommandScheduler<T, TTransaction>> BeginTransactionAsync<TCurrentTransaction>(T? command = default, bool executeNow = true, string? descr = null) 
+        where TCurrentTransaction : TTransaction, new() 
+    {
+        var transaction = new TCurrentTransaction() {
+            Description = descr
+        };
+        _creatingTransactions.Add(typeof(TCurrentTransaction), transaction);
+        
+        if (command != null) 
+            transaction.AddCommand(command);
+        
+        if (executeNow) 
+            await transaction.ExecuteAsync();
+        return this; 
     }
 
-    public bool CommitTransaction() {
-        if (_currentTransaction == null)
-            return false;
+    public async Task<TransactionalCommandScheduler<T, TTransaction>> ContinueTransactionAsync<TCurrentTransaction>(T command, bool executeNow = true)
+        where TCurrentTransaction : TTransaction
+    {
+        if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
+            throw new InvalidOperationException("The transaction was not created");
+        transaction.AddCommand(command);
+        if (executeNow) await command.ExecuteAsync();
+        return this;
+    }
 
-        var transaction = _currentTransaction;
-        _currentTransaction = default;
+    public TransactionalCommandScheduler<T, TTransaction> CommitTransaction<TCurrentTransaction>() 
+        where TCurrentTransaction : TTransaction
+    {
+        if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
+            throw new InvalidOperationException("The transaction was not created");
 
-        if (!transaction.GetCommands().Any()) return false;
+        if (!transaction.GetCommands().Any()) 
+            throw new InvalidOperationException("The transaction has not any commands");
+        
+        _creatingTransactions.Remove(typeof(TCurrentTransaction));
+        
         if (transaction is not T typedTransaction) 
             throw new InvalidOperationException("Transaction cannot be added to undo stack");
         
         _undoStack.Push(typedTransaction);
         _redoStack.Clear();
-        return true;
+        return this;
     }
 
-    public void RollbackTransaction() {
-        foreach (var command in _currentTransaction?.GetCommands().Reverse()!) 
-            command.UndoAsync().Wait(); // В реальном коде лучше async/await
-        
-        _currentTransaction = default;
-    }
+    /*public async Task<TransactionalCommandScheduler<T, TTransaction>> ExecuteTransactionAsync<TCurrentTransaction>() 
+        where TCurrentTransaction : TTransaction
+    {
+        if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
+            throw new InvalidOperationException("The transaction was not created");
 
-    public override async Task UndoAsync() {
-        if (!CanUndo()) return;
-        
-        if (IsInTransaction)
-            throw new InvalidOperationException("Transaction is in progress");
+        foreach (var command in transaction.GetCommands()) {
+            await command.ExecuteAsync();
+        }
+        return this;
+    }*/
 
-        await base.UndoAsync();
+    public override async Task<object> UndoAsync() {
+        if (!CanUndo()) 
+            throw new InvalidOperationException("Cannot undo");
+        
+        var result = await base.UndoAsync();
+        return result; // потом у команды можно взять тип
     }
 }

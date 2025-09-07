@@ -10,6 +10,8 @@ public abstract class TransactionBase<T> : ITransaction<T>
     public void RemoveCommand(T command) => _commands.Remove(command);
     public IEnumerable<T> GetCommands() => _commands.AsReadOnly();
 
+    public string? Description { get; set; }
+
     public virtual async Task ExecuteAsync() {
         foreach (var command in _commands) 
             await command.ExecuteAsync().ConfigureAwait(false);
