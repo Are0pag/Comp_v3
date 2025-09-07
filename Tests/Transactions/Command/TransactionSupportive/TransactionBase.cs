@@ -6,8 +6,17 @@ public abstract class TransactionBase<T> : ITransaction<T>
     where T : ICommand
 {
     protected readonly List<T> _commands = new();
-    public void AddCommand(T command) => _commands.Add(command);
-    public void RemoveCommand(T command) => _commands.Remove(command);
+    
+    public ITransaction<T> AddCommand(T command) {
+        _commands.Add(command);
+        return this;
+    }
+
+    public ITransaction<T> RemoveCommand(T command) {
+        _commands.Remove(command);
+        return this;
+    }
+
     public IEnumerable<T> GetCommands() => _commands.AsReadOnly();
 
     public string? Description { get; set; }

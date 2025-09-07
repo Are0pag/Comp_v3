@@ -9,6 +9,8 @@ public abstract class DeferredCommand<TContext, TItem> : IDeferredCommand
         _context = context;
     }
 
+    public string? Description { get; set; }
+
     public abstract Task ExecuteAsync();
     public abstract Task UndoAsync();
     public abstract Task ExecuteDeferredAsync();

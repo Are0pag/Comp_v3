@@ -5,8 +5,8 @@ namespace Infrastructure.Command.TransactionSupportive;
 public interface ITransaction<T> : ICommand
     where T : ICommand
 {
-    void AddCommand(T command);
-    void RemoveCommand(T command);
+    ITransaction<T> AddCommand(T command);
+    ITransaction<T> RemoveCommand(T command);
     IEnumerable<T> GetCommands();
 }
 
