@@ -16,7 +16,11 @@ public class StateEditableGrid : StateWindow
     public StateEditableGrid(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) : base(propertyValueRestoreService, scheduler, cursorPositionService) {
     }
 
+
     public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
+        if (ActionContext.ActionContextType == ActionContextType.GoToEditingStateAfterUndoNewItemCreation)
+            return;
+        
         try {
             base.OnCellEditEnding(window, sender, e);
         }

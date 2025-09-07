@@ -24,17 +24,17 @@ public class StateWaitingToInputIntoNewItem : StateWindow
     public override void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
         if (e.Column == null || e.Row.Item is not ConditionalDesignation conditionalDesignation) return;
 
-        var previousValue = _propertyValueRestoreService.GetPreviousValue();
+        /*var previousValue = _propertyValueRestoreService.GetPreviousValue();
         var currentValue = _propertyValueRestoreService.GetCurrentValue(conditionalDesignation, e.Column.GetPropertyName());
         var isInputNotChanged = Equals(previousValue, currentValue);
         
         if (isInputNotChanged && currentValue == "") {
             EventBus<IUiGlobalSubscriber>.RaiseEvent<ICancelNewItemAddingHandler>(h => h.HandleCancelNewItemAdding());
+            Continue(window);
             return;
-        }
-        
-        if (isInputNotChanged) /* prevents unnecessary calls */
-            return;
+        }        
+        if (isInputNotChanged) /* prevents unnecessary calls #1#
+            return;*/
         
         try {
             base.OnCellEditEnding(window, sender, e);

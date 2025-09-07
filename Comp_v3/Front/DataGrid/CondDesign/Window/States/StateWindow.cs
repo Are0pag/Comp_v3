@@ -24,6 +24,13 @@ public abstract class StateWindow
         _propertyValueRestoreService.RememberValue(conditionalDesignation, e.Column.GetPropertyName());
     }
 
+    /// <summary>
+    /// Вызывается также при:
+    /// <list type="bullet">
+    ///     <item> После отмены действия (когда была создана пустая строка и поставлен курсор) </item>
+    ///     <item>  </item>
+    /// </list>
+    /// </summary>
     public virtual void OnCellEditEnding(CognDesignGridWindow window, object? sender, DataGridCellEditEndingEventArgs e) {
         if (e.Row.Item is not ConditionalDesignation conditionalDesignation) throw new Exception("Can't edit the cell.");
 
