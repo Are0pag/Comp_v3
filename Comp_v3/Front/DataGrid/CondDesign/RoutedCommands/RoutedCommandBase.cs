@@ -4,30 +4,27 @@ namespace Comp_v3.Front.DataGrid.CondDesign.RoutedCommands;
 
 public abstract class RoutedCommandBase
 {
-    public required CommandBinding CommandBinding { get; init; }
-    public required InputBinding InputBinding { get; init; }
-
+    protected RoutedCommand _command;
     public RoutedCommandBase() {
-        RoutedCommand cmd = new RoutedCommand();
-        CommandBinding = new CommandBinding(cmd, Execute, CanExecute);
-        InputBinding = new InputBinding(cmd, SetKeyGesture());
+        CreateRoutedCommand();
     }
+    
     protected abstract KeyGesture SetKeyGesture();
+
+    public virtual List<InputBinding> GetInputBindings() {
+        return new List<InputBinding>() {
+            new InputBinding(_command, SetKeyGesture())
+        };
+    }
+    public virtual List<CommandBinding> GetCommandBindings() {
+        return new List<CommandBinding>() {
+            new CommandBinding(_command, Execute, CanExecute)
+        };
+    }
+    protected virtual void CreateRoutedCommand() {
+        _command = new RoutedCommand();
+    }
+
     protected abstract void Execute(object sender, ExecutedRoutedEventArgs e);
     protected abstract void CanExecute(object sender, CanExecuteRoutedEventArgs e);
-}
-
-public class CancelCellEditingRoutedCommand : RoutedCommandBase
-{
-    protected override KeyGesture SetKeyGesture() {
-        return new KeyGesture(Key.Escape, ModifierKeys.None);
-    }
-
-    protected override void Execute(object sender, ExecutedRoutedEventArgs e) {
-        throw new NotImplementedException();
-    }
-
-    protected override void CanExecute(object sender, CanExecuteRoutedEventArgs e) {
-        throw new NotImplementedException();
-    }
 }

@@ -9,7 +9,7 @@ using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 
-public class PreparerEditingRawCommand : DeferredCommand<CognDesignGridWindow?, ConditionalDesignation>, IDataGridRequester
+public class PreparerEditingRawCommand : DeferredCommand<CognDesignGridWindow?, ConditionalDesignation>, IDataGridRequester<CognDesignGridWindow>
 {
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _dataGridCursorPositionService;
     protected DataGridMemento? _dataGridMemento;
@@ -23,7 +23,7 @@ public class PreparerEditingRawCommand : DeferredCommand<CognDesignGridWindow?, 
 
     public override Task ExecuteAsync() {
         if (DataGrid == null)
-            EventBus<IVmGlobalSubscriber>.RaiseEvent<IDataGridRequestResolver>(r => r!.GetGrid(this));
+            EventBus<IVmGlobalSubscriber>.RaiseEvent<IDataGridRequestResolver<CognDesignGridWindow>>(r => r!.GetGrid(this));
         //_dataGridMemento = _dataGridCursorPositionService.RememberCursorPos(DataGrid!);
         /* В общем эту команду автоматически выполняет WPF */
         return Task.CompletedTask;

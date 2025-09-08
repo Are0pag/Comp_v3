@@ -1,9 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Commands;
-using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.Buttons;
-using Comp_v3.Front.Events.ViewInvoking.Keys;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.StateMachine;
@@ -39,19 +37,26 @@ public abstract class StateDataGrid : BaseState<CognDesignGridVm>
 
     public virtual async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
         switch (_commonKeysService.HandleInput(e)) {
-            case ActionType.Undo:
-                if (_scheduler.CanUndo()) {
+            
+            case ActionType.Undo when _scheduler.CanUndo():
                     await _scheduler.UndoAsync();
                     e.Handled = true;
                     EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute()); 
-                }
                 break;
-            case ActionType.Redo:
-                if (_scheduler.CanRedo()) {
+            
+            case ActionType.Redo when _scheduler.CanRedo():
                     await _scheduler.RedoAsync();
                     e.Handled = true;
                     EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute()); 
-                }
+                break;
+            
+            case ActionType.Save when CanSaveChanges():
+                await SaveChanges();
+                EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
+                break;
+            
+            case ActionType.Cancel: 
+                await new CancelEditCommand(vm).ExecuteAsync();
                 break;
         }
             

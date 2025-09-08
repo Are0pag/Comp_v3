@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.RoutedCommands;
 
@@ -8,15 +9,23 @@ public class GridLastCellEditEndingRoutedCommand : RoutedCommandBase
         return new KeyGesture(Key.Enter, ModifierKeys.None);
     }
 
+    /*public override List<InputBinding> GetInputBindings() {
+        var list = base.GetInputBindings();
+        list.Add(new InputBinding(_command, new KeyGesture(Key.Tab, ModifierKeys.None)));
+        return list;
+    }*/
+
     protected override void Execute(object sender, ExecutedRoutedEventArgs e) {
         if (sender is not System.Windows.Controls.DataGrid grid)
             return;
 
         if (!IsLastCell(grid)) return;
         
-        grid.Focus();
-        grid.CancelEdit();
-        e.Handled = true;
+        Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() => 
+        {
+            grid.Focus();
+            grid.CancelEdit();
+        }), DispatcherPriority.Input);
     }
 
     protected override void CanExecute(object sender, CanExecuteRoutedEventArgs e) {

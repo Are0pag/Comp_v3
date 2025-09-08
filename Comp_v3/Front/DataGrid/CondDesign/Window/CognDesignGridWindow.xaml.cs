@@ -11,7 +11,7 @@ using Utils.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Window;
 
-public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryAddingToDataGridHandler, IDataGridRequestResolver
+public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryAddingToDataGridHandler, IDataGridRequestResolver<CognDesignGridWindow>
 {
     public Provider StateProvider { get; }
     
@@ -22,8 +22,8 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
         InitializeComponent();
         SetDataContexts(cdDg, aniCom, diCom, scCom);
 
-        InfoDataGrid.CommandBindings.Add(lastCellEditEndingRoutedCommand.CommandBinding);
-        InfoDataGrid.InputBindings.Add(lastCellEditEndingRoutedCommand.InputBinding);
+        foreach (var cb in lastCellEditEndingRoutedCommand.GetCommandBindings()) InfoDataGrid.CommandBindings.Add(cb);
+        foreach (var ib in lastCellEditEndingRoutedCommand.GetInputBindings()) InfoDataGrid.InputBindings.Add(ib);
         
         StateProvider = stateProvider;
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
@@ -60,5 +60,5 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
         EventBus<IUiGlobalSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h?.HandleKeyInput(sender, e));
     }
     
-    void IDataGridRequestResolver.GetGrid(IDataGridRequester requester) => requester.DataGrid = InfoDataGrid;
+    void IDataGridRequestResolver<CognDesignGridWindow>.GetGrid(IDataGridRequester<CognDesignGridWindow> requester) => requester.DataGrid = InfoDataGrid;
 }

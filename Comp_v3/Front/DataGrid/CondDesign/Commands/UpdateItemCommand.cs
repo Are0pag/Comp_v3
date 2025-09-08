@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
+using Comp_v3.Front.DataGrid.CondDesign.Window;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.VmInvoking.Request;
 using Comp.ModelData.TechnicalItems;
@@ -10,7 +11,7 @@ using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class UpdateItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>, IDataGridRequester
+public class UpdateItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>, IDataGridRequester<CognDesignGridWindow>
 {
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     protected readonly DataGridCellEditEndingEventArgs _e;
@@ -24,7 +25,7 @@ public class UpdateItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDe
     public System.Windows.Controls.DataGrid DataGrid { get; set; }
 
     public override Task ExecuteAsync() {
-        EventBus<IVmGlobalSubscriber>.RaiseEvent<IDataGridRequestResolver>(r => r.GetGrid(this));
+        EventBus<IVmGlobalSubscriber>.RaiseEvent<IDataGridRequestResolver<CognDesignGridWindow>>(r => r.GetGrid(this));
         return Task.CompletedTask;
     }
 

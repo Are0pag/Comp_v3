@@ -8,6 +8,7 @@ public enum ActionType
     None,
     Undo,
     Redo,
+    Save,
     Cancel,
 }
 
@@ -25,6 +26,9 @@ public class CommonUndoRedoHotKeysService
             
             case Key.Escape:
                 return ActionType.Cancel;
+            
+            case Key.S when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
+                return ActionType.Save;
         }
         return ActionType.None;
     }
