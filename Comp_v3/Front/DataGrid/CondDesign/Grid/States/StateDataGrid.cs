@@ -10,7 +10,7 @@ using WPF.Services.UserActionsHandling.InputKey;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 
-public abstract class StateDataGrid : BaseState<CognDesignGridVm>
+public abstract class StateDataGrid : StateBase<CognDesignGridVm>
 {
     protected readonly HeterochromicCommandScheduler _scheduler;
     protected readonly CommonUndoRedoHotKeysService _commonKeysService;
