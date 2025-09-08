@@ -14,7 +14,6 @@
   <ItemGroup>
     <Folder Include="TableWindow\Operations\Commands\" />
     <Folder Include="TableWindow\Operations\Transactions\" />
-    <Folder Include="TableWindow\Vm\Components\Buttons\" />
   </ItemGroup>
 
   <ItemGroup>

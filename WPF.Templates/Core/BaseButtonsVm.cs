@@ -6,10 +6,10 @@ namespace WPF.Templates.Core;
 
 public abstract class BaseButtonsVm<TContext> : ObservableObject, INotifyConditionalsChanged
 {
-    protected readonly TContext _condDesignGridVm;
+    protected readonly TContext _context;
     
-    public BaseButtonsVm(TContext condDesignGridVm) {
-        _condDesignGridVm = condDesignGridVm;
+    public BaseButtonsVm(TContext context) {
+        _context = context;
         EventBus<IGlobalButtonEvent>.Subscribe(this);
     }
     
