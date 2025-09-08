@@ -4,7 +4,7 @@ namespace WPF.Services.View.AutoNavigation.Focusing;
 
 public class Mover
 {
-    public void MoveToLeftCell(System.Windows.Controls.DataGrid dataGrid) {
+    public DataGrid MoveToLeftCell(System.Windows.Controls.DataGrid dataGrid) {
         DataGridCellInfo currentCell = dataGrid.CurrentCell;
     
         // Проверяем, что текущая ячейка существует
@@ -26,5 +26,6 @@ public class Mover
                 dataGrid.BeginEdit();
             }
         }
+        return dataGrid;
     }
 }

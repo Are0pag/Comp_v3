@@ -21,7 +21,7 @@ public class FocusingCommand : DeferredCommand<CognDesignGridWindow, Conditional
 
     public override Task ExecuteAsync() {
         EventBus<IVmGlobalSubscriber>.RaiseEvent<IDataGridRequestResolver>(r => r.GetGrid(this));
-        _dataGridMemento = _cursorPositionService.FocusAndEditItem(DataGrid, _item!);
+        _dataGridMemento = _cursorPositionService.FocusAndEditFirstEditableItem(DataGrid, _item!);
         return Task.CompletedTask;
     }
 

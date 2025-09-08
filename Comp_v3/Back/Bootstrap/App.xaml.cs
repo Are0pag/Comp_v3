@@ -34,7 +34,6 @@ public partial class App : Application
                              services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
                              services.AddScoped<HeterochromicCommandScheduler>();
                              services.AddScoped<CommonUndoRedoHotKeysService>();
-                             services.AddScoped<EnhancedDataGridCursorPositionService>();
                            
                              services.AddScoped<StateDgEditing>();
                              services.AddScoped<StateDgCreatingNewItem>();

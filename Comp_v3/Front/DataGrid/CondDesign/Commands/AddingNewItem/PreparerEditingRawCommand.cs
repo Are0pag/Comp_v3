@@ -11,11 +11,11 @@ namespace Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 
 public class PreparerEditingRawCommand : DeferredCommand<CognDesignGridWindow?, ConditionalDesignation>, IDataGridRequester
 {
-    protected readonly EnhancedDataGridCursorPositionService _dataGridCursorPositionService;
+    protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _dataGridCursorPositionService;
     protected DataGridMemento? _dataGridMemento;
     
     public PreparerEditingRawCommand(CognDesignGridWindow? context) : base(context) {
-        _dataGridCursorPositionService = App.Host.Services.GetRequiredService<EnhancedDataGridCursorPositionService>();
+        _dataGridCursorPositionService = App.Host.Services.GetRequiredService<CursorPositionService<System.Windows.Controls.DataGrid>>();
         DataGrid = context?.InfoDataGrid;
     }
 
