@@ -5,16 +5,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v3.Front.DataGrid.CondDesign.Window"
         mc:Ignorable="d"
-        Title="MainW" Height="450" Width="800">
+        Title="MainW" Height="450" Width="800"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Grid>
+        <!--PreviewKeyDown="InfoDataGrid_OnPreviewKeyDown"-->
         <DataGrid ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   SelectionMode="Single" 
                   Name="InfoDataGrid" 
                   CellEditEnding="DataGrid_CellEditEnding"
-                  BeginningEdit="InfoDataGrid_OnBeginningEdit"
-                  PreviewKeyDown="InfoDataGrid_OnPreviewKeyDown"
+                  BeginningEdit="InfoDataGrid_OnBeginningEdit" 
                   SelectedItem="{Binding SelectedItem}">
             
             <DataGrid.Columns>

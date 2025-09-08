@@ -17,13 +17,13 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
     
     public CognDesignGridWindow(CognDesignGridVm cdDg, 
                                 AddNewItemButVm aniCom, DeleteItemButVm diCom, SaveChangesButVm scCom,
-                                Provider stateProvider,
-                                GridLastCellEditEndingRoutedCommand lastCellEditEndingRoutedCommand) {
+                                Provider stateProvider
+                                /* GridLastCellEditEndingRoutedCommand lastCellEditEndingRoutedCommand */) {
         InitializeComponent();
         SetDataContexts(cdDg, aniCom, diCom, scCom);
 
-        foreach (var cb in lastCellEditEndingRoutedCommand.GetCommandBindings()) InfoDataGrid.CommandBindings.Add(cb);
-        foreach (var ib in lastCellEditEndingRoutedCommand.GetInputBindings()) InfoDataGrid.InputBindings.Add(ib);
+        /*foreach (var cb in lastCellEditEndingRoutedCommand.GetCommandBindings()) InfoDataGrid.CommandBindings.Add(cb);
+        foreach (var ib in lastCellEditEndingRoutedCommand.GetInputBindings()) InfoDataGrid.InputBindings.Add(ib);*/
         
         StateProvider = stateProvider;
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
@@ -56,9 +56,13 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
         InfoDataGridContextMenuDeleteItemCommand.DataContext = diCom;
     }
 
-    private void InfoDataGrid_OnPreviewKeyDown(object? sender, KeyEventArgs e) {
+    /*private void InfoDataGrid_OnPreviewKeyDown(object? sender, KeyEventArgs e) {
         EventBus<IUiGlobalSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h?.HandleKeyInput(sender, e));
-    }
+    }*/
     
     void IDataGridRequestResolver<CognDesignGridWindow>.GetGrid(IDataGridRequester<CognDesignGridWindow> requester) => requester.DataGrid = InfoDataGrid;
+
+    private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
+        EventBus<IUiGlobalSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h?.HandleKeyInput(sender, e));
+    }
 }

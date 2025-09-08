@@ -36,7 +36,7 @@ public partial class App : Application
                              services.AddScoped<HeterochromicCommandScheduler>();
                              services.AddScoped<CommonUndoRedoHotKeysService>();
 
-                             services.AddScoped<GridLastCellEditEndingRoutedCommand>();
+                             //services.AddScoped<GridLastCellEditEndingRoutedCommand>();
                            
                              services.AddScoped<StateDgEditing>();
                              services.AddScoped<StateDgCreatingNewItem>();

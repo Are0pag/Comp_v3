@@ -13,7 +13,9 @@ public abstract class StateWindow
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyValueRestoreService;
 
-    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, HeterochromicCommandScheduler scheduler, CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) {
+    protected StateWindow(IPropertyValueRestoreService<ConditionalDesignation> propertyValueRestoreService, 
+                          HeterochromicCommandScheduler scheduler, 
+                          CursorPositionService<System.Windows.Controls.DataGrid> cursorPositionService) {
         _propertyValueRestoreService = propertyValueRestoreService;
         _scheduler = scheduler;
         _cursorPositionService = cursorPositionService;

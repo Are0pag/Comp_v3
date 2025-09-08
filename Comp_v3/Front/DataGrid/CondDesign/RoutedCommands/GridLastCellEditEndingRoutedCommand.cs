@@ -9,12 +9,6 @@ public class GridLastCellEditEndingRoutedCommand : RoutedCommandBase
         return new KeyGesture(Key.Enter, ModifierKeys.None);
     }
 
-    /*public override List<InputBinding> GetInputBindings() {
-        var list = base.GetInputBindings();
-        list.Add(new InputBinding(_command, new KeyGesture(Key.Tab, ModifierKeys.None)));
-        return list;
-    }*/
-
     protected override void Execute(object sender, ExecutedRoutedEventArgs e) {
         if (sender is not System.Windows.Controls.DataGrid grid)
             return;
