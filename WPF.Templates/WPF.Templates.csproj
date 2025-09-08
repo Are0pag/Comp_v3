@@ -11,4 +11,15 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TableWindow\Operations\Commands\" />
+    <Folder Include="TableWindow\Operations\Transactions\" />
+    <Folder Include="TableWindow\Vm\Components\Buttons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
+  </ItemGroup>
+
 </Project>
