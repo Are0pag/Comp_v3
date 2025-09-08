@@ -5,6 +5,7 @@ using Comp.Db;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.DataGrid.CondDesign.Grid.States;
 using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
+using Comp_v3.Front.DataGrid.CondDesign.RoutedCommands;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Base;
@@ -34,6 +35,8 @@ public partial class App : Application
                              services.AddScoped<IPropertyValueRestoreService<ConditionalDesignation>, DataGridPropertyRestoreService<ConditionalDesignation>>();
                              services.AddScoped<HeterochromicCommandScheduler>();
                              services.AddScoped<CommonUndoRedoHotKeysService>();
+
+                             services.AddScoped<GridLastCellEditEndingRoutedCommand>();
                            
                              services.AddScoped<StateDgEditing>();
                              services.AddScoped<StateDgCreatingNewItem>();

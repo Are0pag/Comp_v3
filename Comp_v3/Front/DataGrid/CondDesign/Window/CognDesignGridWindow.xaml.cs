@@ -2,6 +2,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v3.Front.DataGrid.CondDesign.Grid;
 using Comp_v3.Front.DataGrid.CondDesign.GridButtonsPanel;
+using Comp_v3.Front.DataGrid.CondDesign.RoutedCommands;
 using Comp_v3.Front.DataGrid.CondDesign.Window.States;
 using Comp_v3.Front.Events;
 using Comp_v3.Front.Events.ViewInvoking.Keys;
@@ -16,9 +17,14 @@ public partial class CognDesignGridWindow : System.Windows.Window, INewValueTryA
     
     public CognDesignGridWindow(CognDesignGridVm cdDg, 
                                 AddNewItemButVm aniCom, DeleteItemButVm diCom, SaveChangesButVm scCom,
-                                Provider stateProvider) {
+                                Provider stateProvider,
+                                GridLastCellEditEndingRoutedCommand lastCellEditEndingRoutedCommand) {
         InitializeComponent();
         SetDataContexts(cdDg, aniCom, diCom, scCom);
+
+        InfoDataGrid.CommandBindings.Add(lastCellEditEndingRoutedCommand.CommandBinding);
+        InfoDataGrid.InputBindings.Add(lastCellEditEndingRoutedCommand.InputBinding);
+        
         StateProvider = stateProvider;
         EventBus<IVmGlobalSubscriber>.Subscribe(this);
     }

@@ -24,7 +24,7 @@ public class StateDgEditing : StateDataGrid
 
     public override async Task OnHandleKeyInput(CognDesignGridVm vm, object? sender, KeyEventArgs e) {
         await base.OnHandleKeyInput(vm, sender, e);
-        if (e.Handled == true) return;
+        if (e.Handled) return;
         switch (e.Key) {
             case Key.Delete when CanDeleteItem(vm):
                 await DeleteItemAsync(vm);
