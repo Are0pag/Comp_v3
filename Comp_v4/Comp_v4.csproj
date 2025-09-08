@@ -14,4 +14,15 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.7.25380.108" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Comp.Db\Comp.Db.csproj" />
+    <ProjectReference Include="..\Comp_ModelData\Comp.ModelData.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\WPF.Extensions\WPF.Extensions.csproj" />
+    <ProjectReference Include="..\WPF.Services\WPF.Services.csproj" />
+    <ProjectReference Include="..\WPF.Templates\WPF.Templates.csproj" />
+    <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
+  </ItemGroup>
+
 </Project>
