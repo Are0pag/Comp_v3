@@ -27,6 +27,8 @@ public partial class App : Application
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
                              s.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
 
+                             s.AddScoped<DataGridCellEditEventHandler>();
+                             
                              s.AddScoped<DataGridViewModel>();
 
                              s.AddScoped<HeterochromicCommandScheduler>();

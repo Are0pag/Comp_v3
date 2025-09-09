@@ -15,5 +15,16 @@ public abstract class BaseState : StateBase<DataGridViewModel>
         _scheduler = scheduler;
     }
 
+}
 
+public class StateAddItem : BaseState
+{
+    public StateAddItem(HeterochromicCommandScheduler scheduler) : base(scheduler) {
+    }
+}
+
+public class StateEditCellText : BaseState
+{
+    public StateEditCellText(HeterochromicCommandScheduler scheduler) : base(scheduler) {
+    }
 }

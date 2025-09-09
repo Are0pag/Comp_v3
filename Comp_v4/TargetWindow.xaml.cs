@@ -27,12 +27,12 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
         
     }
 
-    private void DataGrid_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) {
-        
+    private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
+       EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnBeginning(sender, e));
     }
 
-    private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
-        
+    private void DataGrid_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) {
+        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnEnding(sender, e));
     }
 
     public void GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;

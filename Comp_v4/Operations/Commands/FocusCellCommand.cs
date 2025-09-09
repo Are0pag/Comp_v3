@@ -1,6 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Comp.ModelData.TechnicalItems;
+using Microsoft.Extensions.DependencyInjection;
 using WPF.Extensions.View.Elements;
 using WPF.Templates;
 
@@ -8,11 +9,14 @@ namespace Comp_v4.Operations.Commands;
 
 public class FocusCellCommand : BaseCommand
 {
+    protected readonly DataGridCellEditEventHandler _cellEditEventHandler;
     public FocusCellCommand(ModuleContext context, ConditionalDesignation item) : base(context) {
         _item = item;
+        _cellEditEventHandler = App.Host.Services.GetRequiredService<DataGridCellEditEventHandler>();
     }
 
     public override async Task ExecuteAsync() {
+        _cellEditEventHandler.IsEnabled = true;
         var dg = _context.DataGrid;
         var column = dg.GetFirstEditableColumn();
         
@@ -23,6 +27,7 @@ public class FocusCellCommand : BaseCommand
             dg.CurrentCell = new DataGridCellInfo(_item!, column);
             cell.Focus();
             dg.BeginEdit();
+            _cellEditEventHandler.IsEnabled = false;
         }, DispatcherPriority.ContextIdle);
     }
 

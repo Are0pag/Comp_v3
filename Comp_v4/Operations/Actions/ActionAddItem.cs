@@ -27,7 +27,7 @@ public class ActionAddItem : BaseAction
     }
 
     public override bool CanPerform() {
-        throw new NotImplementedException();
+        return false;
     }
 
     public override async Task CancelAsync() {
