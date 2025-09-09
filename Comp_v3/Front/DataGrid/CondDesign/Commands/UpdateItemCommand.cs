@@ -7,7 +7,7 @@ using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.EventBus;
-using WPF.Extensions.View.DataGrid;
+using WPF.Extensions.View.Elements;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
 

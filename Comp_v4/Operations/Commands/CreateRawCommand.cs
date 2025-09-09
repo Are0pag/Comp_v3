@@ -1,35 +1,21 @@
+using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
 using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
-
-public class RememberSelection : BaseCommand
-{
-    public RememberSelection(ModuleContext context) : base(context) {
-    }
-
-    public override async Task ExecuteAsync() {
-        _item = _context.DataGridViewModel.SelectedItem;
-    }
-
-    public override async Task UndoAsync() {
-        _context.DataGridViewModel.SelectedItem = _item;
-    }
-
-    public override async Task ExecuteDeferredAsync() {
-       
-    }
-}
 
 public class CreateRawCommand : BaseCommand
 {
     public CreateRawCommand(ModuleContext context) : base(context) {
     }
 
+    public ConditionalDesignation Item { get; protected set; }
+
     public override Task ExecuteAsync() {
         _item = new ConditionalDesignation("", "");
         _context.DataGridViewModel.Items.Add(_item);
         _context.DataGridViewModel.SelectedItem = _item;
+        Item = _item;
         return Task.CompletedTask;
     }
 
@@ -38,6 +24,5 @@ public class CreateRawCommand : BaseCommand
     }
 
     public override async Task ExecuteDeferredAsync() {
-        throw new NotImplementedException();
     }
 }

@@ -11,10 +11,15 @@ public class ActionAddItem : BaseAction
 
     public override async Task<BaseAction> PerformAsync() {
         await _scheduler.BeginTransaction<TransactionAddItem>()
-                        .RegisterCommand(new RememberSelection(_context))
+                        .RegisterCommand(new RememberSelectionCommand(_context))
                         .ExecuteLastRegisteredAsync();
+
+        var createRawCommand = new CreateRawCommand(_context);
         
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new CreateRawCommand(_context))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
+                        .ExecuteLastRegisteredAsync();
+
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(_context, createRawCommand.Item))
                         .ExecuteLastRegisteredAsync();
         
         return this;

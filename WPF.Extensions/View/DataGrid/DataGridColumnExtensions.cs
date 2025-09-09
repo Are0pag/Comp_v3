@@ -1,7 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace WPF.Extensions.View.DataGrid;
+namespace WPF.Extensions.View.Elements;
 
 public static class DataGridColumnExtensions
 {

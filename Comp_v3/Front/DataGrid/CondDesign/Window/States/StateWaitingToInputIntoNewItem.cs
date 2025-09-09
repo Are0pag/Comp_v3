@@ -8,7 +8,7 @@ using Comp_v3.Front.Events.ViewInvoking.GridItemsInteractions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Utils.EventBus;
-using WPF.Extensions.View.DataGrid;
+using WPF.Extensions.View.Elements;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.View.AutoNavigation.Focusing;
 
