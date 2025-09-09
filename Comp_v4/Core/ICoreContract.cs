@@ -8,9 +8,9 @@ public interface IViewModel : ICoreContract { }
 
 public interface IState : ICoreContract
 {
-    bool CanAddItem(ViewModel vm);
+    bool CanAddItem(DataGridViewModel vm);
 
-    bool CanDeleteItem(ViewModel vm);
+    bool CanDeleteItem(DataGridViewModel vm);
 
     bool CanSaveChanges();
 
@@ -19,17 +19,17 @@ public interface IState : ICoreContract
 
 public interface ICoreContract
 {
-    Task AddItemAsync(ViewModel context);
+    Task AddItemAsync(DataGridViewModel context);
     
-    Task DeleteItemAsync(ViewModel context);
+    Task DeleteItemAsync(DataGridViewModel context);
     
-    Task EditItemAsync(ViewModel context);
+    Task EditItemAsync(DataGridViewModel context);
     
     Task SaveChanges();
 
-    Task OnCellEditEnding(ViewModel vm, object? sender, DataGridCellEditEndingEventArgs e);
+    Task OnCellEditEnding(DataGridViewModel vm, object? sender, DataGridCellEditEndingEventArgs e);
 
-    Task OnHandleKeyInput(ViewModel vm, object? sender, KeyEventArgs e);
+    Task OnHandleKeyInput(DataGridViewModel vm, object? sender, KeyEventArgs e);
 
     Task CancelNewItemAdding();
 }

@@ -6,12 +6,11 @@ using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates.TableWindow.Vm;
 
-public class ViewModel : VmEnumerableInteractiveData<ConditionalDesignation>//, IViewModel
+public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignation>
 {
     protected readonly IConditionalDesignationRepository _repository;
     
-    public ViewModel(StateProvider stateProvider, IConditionalDesignationRepository repository) {
-        StateProvider = stateProvider;
+    public DataGridViewModel(IConditionalDesignationRepository repository) {
         _repository = repository;
         
         LoadDataAsync();
@@ -24,8 +23,6 @@ public class ViewModel : VmEnumerableInteractiveData<ConditionalDesignation>//, 
         Items = new ObservableCollection<ConditionalDesignation?>(items!);
         OnPropertyChanged(nameof(Items));
     }
-    
-    
 
     public async Task SaveChanges() {
         await StateProvider.CurrentState.SaveChanges();

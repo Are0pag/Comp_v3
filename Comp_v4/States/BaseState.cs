@@ -7,7 +7,7 @@ using WPF.Templates.TableWindow.Vm;
 
 namespace WPF.Templates.TableWindow.States;
 
-public abstract class BaseState : StateBase<ViewModel>//, IState
+public abstract class BaseState : StateBase<DataGridViewModel>//, IState
 {
     protected readonly HeterochromicCommandScheduler _scheduler;
 
@@ -15,15 +15,15 @@ public abstract class BaseState : StateBase<ViewModel>//, IState
         _scheduler = scheduler;
     }
 
-    public virtual Task AddItemAsync(ViewModel context) {
+    public virtual Task AddItemAsync(DataGridViewModel context) {
         return Task.CompletedTask;
     }
 
-    public virtual Task DeleteItemAsync(ViewModel context) {
+    public virtual Task DeleteItemAsync(DataGridViewModel context) {
         return Task.CompletedTask;
     }
 
-    public virtual Task EditItemAsync(ViewModel context) {
+    public virtual Task EditItemAsync(DataGridViewModel context) {
         return Task.CompletedTask;
     }
     
@@ -31,11 +31,11 @@ public abstract class BaseState : StateBase<ViewModel>//, IState
         await _scheduler.CommitDeferredChanges();
     }
 
-    public virtual Task OnCellEditEnding(ViewModel vm, object? sender, DataGridCellEditEndingEventArgs e) {
+    public virtual Task OnCellEditEnding(DataGridViewModel vm, object? sender, DataGridCellEditEndingEventArgs e) {
         return Task.CompletedTask;
     }
 
-    public virtual async Task OnHandleKeyInput(ViewModel vm, object? sender, KeyEventArgs e) {
+    public virtual async Task OnHandleKeyInput(DataGridViewModel vm, object? sender, KeyEventArgs e) {
         
     }
     
@@ -47,11 +47,11 @@ public abstract class BaseState : StateBase<ViewModel>//, IState
         return vm.StateProvider.CurrentState is not StateDgCreatingNewItem;
     }*/
     
-    public virtual bool CanAddItem(ViewModel vm) {
+    public virtual bool CanAddItem(DataGridViewModel vm) {
         return true; // Базовая реализация, может быть переопределена в наследниках
     }
 
-    public virtual bool CanDeleteItem(ViewModel vm) {
+    public virtual bool CanDeleteItem(DataGridViewModel vm) {
         return vm.SelectedItem != null;
     }
 

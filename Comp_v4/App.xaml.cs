@@ -3,9 +3,12 @@ using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.Command.Heterochromic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WPF.Templates;
+using WPF.Templates.TableWindow.Vm;
 
 namespace Comp_v4;
 
@@ -23,7 +26,13 @@ public partial class App : Application
                              });
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
                              s.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
-                             
+
+                             s.AddScoped<DataGridViewModel>();
+
+                             s.AddScoped<HeterochromicCommandScheduler>();
+                             s.AddScoped<ModuleContext>();
+                             s.AddScoped<ActionAddItem>();
+                             s.AddScoped<ButtonVmAddItem>();
                              
                              s.AddTransient<TargetWindow>();
 

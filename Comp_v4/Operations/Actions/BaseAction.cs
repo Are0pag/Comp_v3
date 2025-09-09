@@ -19,24 +19,6 @@ public abstract class BaseAction
     public abstract Task CancelAsync();
 }
 
-public class ActionAddItem : BaseAction
-{
-    public ActionAddItem(HeterochromicCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
-    }
-
-    public override async Task<BaseAction> PerformAsync() {
-        throw new NotImplementedException();
-    }
-
-    public override bool CanPerform() {
-        throw new NotImplementedException();
-    }
-
-    public override async Task CancelAsync() {
-        throw new NotImplementedException();
-    }
-}
-
 public class ActionEditItem : BaseAction
 {
     public ActionEditItem(HeterochromicCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {

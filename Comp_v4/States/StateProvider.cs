@@ -4,7 +4,7 @@ using WPF.Templates.TableWindow.Vm;
 
 namespace WPF.Templates.TableWindow.States;
 
-public class StateProvider : GenericStateMachine<BaseState, ViewModel>
+public class StateProvider : GenericStateMachine<BaseState, DataGridViewModel>
 {
     protected StateProvider(IEnumerable<BaseState> states, BaseState initialState) : base(states, initialState) {
     }

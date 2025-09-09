@@ -12,7 +12,7 @@
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   SelectionMode="Single" 
-                  Name="Table" 
+                  x:Name="MainDataGrid" 
                   CellEditEnding="DataGrid_CellEditEnding"
                   BeginningEdit="InfoDataGrid_OnBeginningEdit" 
                   SelectedItem="{Binding SelectedItem}">
