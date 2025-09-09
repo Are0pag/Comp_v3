@@ -7,7 +7,7 @@ using WPF.Templates.TableWindow.Vm;
 
 namespace WPF.Templates.TableWindow.States;
 
-public abstract class BaseState : StateBase<ViewModel>, IState
+public abstract class BaseState : StateBase<ViewModel>//, IState
 {
     protected readonly HeterochromicCommandScheduler _scheduler;
 

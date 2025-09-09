@@ -25,12 +25,4 @@
     <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Front\Windows\TableWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
 </Project>

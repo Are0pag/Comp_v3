@@ -2,11 +2,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WPF.Templates.TableWindow;
+namespace Comp_v4;
 
-public partial class TableWindow : Window
+public partial class TargetWindow : Window
 {
-    public TableWindow() {
+    public TargetWindow() {
         InitializeComponent();
     }
 

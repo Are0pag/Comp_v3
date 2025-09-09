@@ -5,6 +5,7 @@ using WPF.Templates.TableWindow.Events;
 namespace WPF.Templates.Core;
 
 public abstract class BaseButtonsVm<TContext> : ObservableObject, INotifyConditionalsChanged
+    where TContext : BaseAction
 {
     protected readonly TContext _context;
     

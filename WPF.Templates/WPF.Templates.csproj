@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TableWindow\Operations\Commands\" />
-    <Folder Include="TableWindow\Operations\Transactions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Comp.Db\Comp.Db.csproj" />
     <ProjectReference Include="..\Comp_ModelData\Comp.ModelData.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />

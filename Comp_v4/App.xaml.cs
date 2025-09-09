@@ -1,5 +1,9 @@
 ﻿using System.Windows;
 using Comp.Db;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories;
+using Comp.ModelData.TechnicalItems;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,8 +16,16 @@ public partial class App : Application
 
     public App() {
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder().
-                         ConfigureServices((hostContext, services) => {
-                           
+                         ConfigureServices((hostContext, s /* services */) => {
+                             
+                             s.AddDbContext<AppDbContext>(options => {
+                                 options.UseSqlite(DbConfig.ConnectionString);
+                             });
+                             s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
+                             s.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
+                             
+                             
+                             s.AddTransient<TargetWindow>();
 
                          }).Build();
     }
@@ -35,10 +47,10 @@ public partial class App : Application
             await context.Database.EnsureCreatedAsync();
         } 
         
-        /*_mainScope = Host.Services.CreateScope();
-        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<CognDesignGridWindow>(); 
+        _mainScope = Host.Services.CreateScope();
+        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
-        mainWindow.Show();*/
+        mainWindow.Show();
         
         base.OnStartup(e);
     }
