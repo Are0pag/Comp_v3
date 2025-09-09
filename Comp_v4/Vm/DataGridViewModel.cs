@@ -23,8 +23,4 @@ public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignat
         Items = new ObservableCollection<ConditionalDesignation?>(items!);
         OnPropertyChanged(nameof(Items));
     }
-
-    public async Task SaveChanges() {
-        await StateProvider.CurrentState.SaveChanges();
-    }
 }

@@ -24,15 +24,15 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
     public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
-        throw new NotImplementedException();
+        
     }
 
     private void DataGrid_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) {
-        throw new NotImplementedException();
+        
     }
 
     private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
-        throw new NotImplementedException();
+        
     }
 
     public void GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;

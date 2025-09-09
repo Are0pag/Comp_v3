@@ -1,3 +1,4 @@
+using System.Windows.Controls;
 using System.Windows.Threading;
 using Comp.ModelData.TechnicalItems;
 using WPF.Extensions.View.Elements;
@@ -17,16 +18,19 @@ public class FocusCellCommand : BaseCommand
         
         Dispatcher.CurrentDispatcher.BeginInvoke(() => {
             var raw = dg.GetRowFromItem(_item!);
-            var cell = dg.GetCell(raw!, column);
-            
+            var cell = dg.GetCell(raw, column);
+
+            dg.CurrentCell = new DataGridCellInfo(_item!, column);
+            cell.Focus();
+            dg.BeginEdit();
         }, DispatcherPriority.ContextIdle);
     }
 
     public override async Task UndoAsync() {
-        throw new NotImplementedException();
+        
     }
 
     public override async Task ExecuteDeferredAsync() {
-        throw new NotImplementedException();
+       
     }
 }

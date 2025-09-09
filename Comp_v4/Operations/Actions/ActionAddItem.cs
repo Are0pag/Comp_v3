@@ -21,7 +21,8 @@ public class ActionAddItem : BaseAction
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(_context, createRawCommand.Item))
                         .ExecuteLastRegisteredAsync();
-        
+
+        _scheduler.CommitTransaction<TransactionAddItem>();
         return this;
     }
 

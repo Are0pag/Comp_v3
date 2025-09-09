@@ -14,7 +14,7 @@ public static class DataGridExtensions
     }
     
     /// <summary>
-    /// Получает строку DataGridRow для указанного элемента данных
+    /// Получает строку DataGridRow для указанного элемента данных. Необходимо обернуть в Dispatcher.CurrentDispatcher.BeginInvoke
     /// </summary>
     public static DataGridRow GetRowFromItem(this DataGrid dataGrid, object item) {
         
@@ -22,7 +22,7 @@ public static class DataGridExtensions
     }
 
     /// <summary>
-    /// Получает ячейку в указанном столбце для заданной строки
+    /// Получает ячейку в указанном столбце для заданной строки. Необходимо обернуть в Dispatcher.CurrentDispatcher.BeginInvoke
     /// </summary>
     public static DataGridCell GetCellInColumn(this DataGridRow row, DataGridColumn column) {
         var presenter = row.GetVisualChildRecursive<DataGridCellsPresenter>();
@@ -30,7 +30,7 @@ public static class DataGridExtensions
     }
 
     /// <summary>
-    /// Находит ячейку для конкретного элемента данных и столбца
+    /// Находит ячейку для конкретного элемента данных и столбца. Необходимо обернуть в Dispatcher.CurrentDispatcher.BeginInvoke
     /// </summary>
     public static DataGridCell GetCell(this DataGrid dataGrid, DataGridRow row, DataGridColumn column) {
         return row.GetCellInColumn(column);
