@@ -24,7 +24,7 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
     public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
-        
+        EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewKeyDown(sender, e));
     }
 
     private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {

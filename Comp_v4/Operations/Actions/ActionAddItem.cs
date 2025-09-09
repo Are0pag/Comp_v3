@@ -6,7 +6,10 @@ namespace WPF.Templates;
 
 public class ActionAddItem : BaseAction
 {
-    public ActionAddItem(HeterochromicCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
+    protected readonly Cell _cell;
+    
+    public ActionAddItem(HeterochromicCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
+        _cell = cell;
     }
 
     public override async Task<BaseAction> PerformAsync() {
@@ -31,6 +34,6 @@ public class ActionAddItem : BaseAction
     }
 
     public override async Task CancelAsync() {
-        throw new NotImplementedException();
+        await _scheduler.UndoAsync();
     }
 }

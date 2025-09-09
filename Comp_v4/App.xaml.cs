@@ -7,7 +7,9 @@ using Infrastructure.Command.Heterochromic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WPF.Services.UserActionsHandling.InputText;
 using WPF.Templates;
+using WPF.Templates.TableWindow.States;
 using WPF.Templates.TableWindow.Vm;
 
 namespace Comp_v4;
@@ -27,12 +29,26 @@ public partial class App : Application
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
                              s.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
 
-                             s.AddScoped<DataGridCellEditEventHandler>();
-                             
-                             s.AddScoped<DataGridViewModel>();
-
+                             s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
+                            
                              s.AddScoped<HeterochromicCommandScheduler>();
+
+                             s.AddScoped<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
+
+                             s.AddScoped<CellStateIdle>();
+                             s.AddScoped<CellStateInput>();
+                             /*s.AddScoped<BaseCellState, CellStateIdle>();
+                             s.AddScoped<BaseCellState, CellStateInput>();*/
+                             // Регистрируем состояния как BaseCellState
+                             s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
+                             s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
+                             s.AddScoped<Cell>(provider => {
+                                                   var states = provider.GetServices<BaseCellState>();
+                                                   var initialState = provider.GetService<CellStateInput>();
+                                                   return new Cell(states, initialState!);
+                                               });
+                             
                              s.AddScoped<ActionAddItem>();
                              s.AddScoped<ButtonVmAddItem>();
                              
@@ -58,10 +74,13 @@ public partial class App : Application
             await context.Database.EnsureCreatedAsync();
         } 
         
+        
         _mainScope = Host.Services.CreateScope();
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();
+        
+        
         
         base.OnStartup(e);
     }

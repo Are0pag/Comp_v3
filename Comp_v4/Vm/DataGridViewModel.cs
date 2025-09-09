@@ -12,11 +12,8 @@ public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignat
     
     public DataGridViewModel(IConditionalDesignationRepository repository) {
         _repository = repository;
-        
         LoadDataAsync();
     }
-
-    public required StateProvider StateProvider { get; init; }
 
     private async void LoadDataAsync() {  /* VmRepo : базы */
         var items = await _repository.GetAllAsync();

@@ -9,14 +9,14 @@ namespace Comp_v4.Operations.Commands;
 
 public class FocusCellCommand : BaseCommand
 {
-    protected readonly DataGridCellEditEventHandler _cellEditEventHandler;
+    protected readonly Cell _cell;
     public FocusCellCommand(ModuleContext context, ConditionalDesignation item) : base(context) {
         _item = item;
-        _cellEditEventHandler = App.Host.Services.GetRequiredService<DataGridCellEditEventHandler>();
+        _cell = App.Host.Services.GetRequiredService<Cell>();
     }
 
     public override async Task ExecuteAsync() {
-        _cellEditEventHandler.IsEnabled = true;
+        _cell.IsEnabled = true;
         var dg = _context.DataGrid;
         var column = dg.GetFirstEditableColumn();
         
@@ -27,7 +27,7 @@ public class FocusCellCommand : BaseCommand
             dg.CurrentCell = new DataGridCellInfo(_item!, column);
             cell.Focus();
             dg.BeginEdit();
-            _cellEditEventHandler.IsEnabled = false;
+            _cell.IsEnabled = false;
         }, DispatcherPriority.ContextIdle);
     }
 
