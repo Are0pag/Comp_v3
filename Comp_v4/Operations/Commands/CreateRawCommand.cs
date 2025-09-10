@@ -19,10 +19,8 @@ public class CreateRawCommand : BaseCommand
         return Task.CompletedTask;
     }
 
-    public override async Task UndoAsync() {
+    public override Task UndoAsync() {
         _context.DataGridViewModel.Items.Remove(_item);
-    }
-
-    public override async Task ExecuteDeferredAsync() {
+        return Task.CompletedTask;
     }
 }

@@ -7,15 +7,13 @@ public class RememberSelectionCommand : BaseCommand
     public RememberSelectionCommand(ModuleContext context) : base(context) {
     }
 
-    public override async Task ExecuteAsync() {
+    public override Task ExecuteAsync() {
         _item = _context.DataGridViewModel.SelectedItem;
+        return Task.CompletedTask;
     }
 
-    public override async Task UndoAsync() {
+    public override Task UndoAsync() {
         _context.DataGridViewModel.SelectedItem = _item;
-    }
-
-    public override async Task ExecuteDeferredAsync() {
-       
+        return Task.CompletedTask;
     }
 }

@@ -13,14 +13,6 @@ public class UpdateItemCommand : BaseCommand
         _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
     }
 
-    public override Task ExecuteAsync() {
-        return Task.CompletedTask;
-    }
-
-    public override Task UndoAsync() {
-        return Task.CompletedTask;
-    }
-
     public override async Task ExecuteDeferredAsync() {
         await _repository.UpdateAsync(_item!);
     }

@@ -23,8 +23,4 @@ public class RememberInputTextCommand : BaseCommand
         _propertyRestoreService.RollbackEdit(_item!);
         return Task.CompletedTask;
     }
-
-    public override Task ExecuteDeferredAsync() {
-        return Task.CompletedTask;
-    }
 }

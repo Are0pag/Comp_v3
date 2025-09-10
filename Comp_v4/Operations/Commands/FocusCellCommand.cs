@@ -15,7 +15,7 @@ public class FocusCellCommand : BaseCommand
         _cell = App.Host.Services.GetRequiredService<Cell>();
     }
 
-    public override async Task ExecuteAsync() {
+    public override Task ExecuteAsync() {
         _cell.IsEnabled = true;
         var dg = _context.DataGrid;
         var column = dg.GetFirstEditableColumn();
@@ -29,13 +29,6 @@ public class FocusCellCommand : BaseCommand
             dg.BeginEdit();
             _cell.IsEnabled = false;
         }, DispatcherPriority.ContextIdle);
-    }
-
-    public override async Task UndoAsync() {
-        
-    }
-
-    public override async Task ExecuteDeferredAsync() {
-       
+        return Task.CompletedTask;
     }
 }

@@ -13,5 +13,14 @@ public abstract class BaseCommand : DeferredCommand<ModuleContext, ConditionalDe
         _item = conditionalDesignation;
     }
     
-    
+    public override Task ExecuteAsync() {
+        return Task.CompletedTask;
+    }
+    public override Task UndoAsync() {
+        return Task.CompletedTask;
+    }
+
+    public override Task ExecuteDeferredAsync() {
+        return Task.CompletedTask;
+    }
 }
