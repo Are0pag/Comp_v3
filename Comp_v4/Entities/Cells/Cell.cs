@@ -7,7 +7,7 @@ using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
 
-public class Cell : GenericStateMachine<BaseCellState, ModuleContext>, ICellEditHandler, IPreviewKeyDownHandler
+public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, IPreviewKeyDownHandler
 {
     public Cell(IEnumerable<BaseCellState> states, BaseCellState initialState) : base(states, initialState) {
         EventBus<IGlobSubscriber>.Subscribe(this);
@@ -21,15 +21,15 @@ public class Cell : GenericStateMachine<BaseCellState, ModuleContext>, ICellEdit
 
     public async Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
         if (!IsEnabled) return;
-        await CurrentState.OnEnding(sender, e);
+        await CurrentState.OnEnding(this, sender, e);
     }
 
     public async Task  OnBeginning(object? sender, DataGridBeginningEditEventArgs e) {
         if (!IsEnabled) return;
-        await CurrentState.OnBeginning(sender, e);
+        await CurrentState.OnBeginning(this, sender, e);
     }
 
     public async Task  OnPreviewKeyDown(object sender, KeyEventArgs e) {
-        await CurrentState.OnPreviewKeyDown(sender, e);
+        await CurrentState.OnPreviewKeyDown(this, sender, e);
     }
 }

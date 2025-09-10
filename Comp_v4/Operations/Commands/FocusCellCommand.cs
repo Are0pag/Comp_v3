@@ -10,8 +10,7 @@ namespace Comp_v4.Operations.Commands;
 public class FocusCellCommand : BaseCommand
 {
     protected readonly Cell _cell;
-    public FocusCellCommand(ModuleContext context, ConditionalDesignation item) : base(context) {
-        _item = item;
+    public FocusCellCommand(ModuleContext context) : base(context) {
         _cell = App.Host.Services.GetRequiredService<Cell>();
     }
 

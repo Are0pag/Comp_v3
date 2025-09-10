@@ -17,13 +17,13 @@ public class ActionAddItem : BaseAction
         await _scheduler.BeginTransaction<TransactionAddItem>()
                         .RegisterCommand(new RememberSelectionCommand(_context))
                         .ExecuteLastRegisteredAsync();
-
-        var createRawCommand = new CreateRawCommand(_context);
         
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new CreateRawCommand(_context))
                         .ExecuteLastRegisteredAsync();
 
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(_context, createRawCommand.Item))
+        _scheduler.RegisterCommandInto<TransactionAddItem>(new AddItemCommand(_context));
+
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(_context))
                         .ExecuteLastRegisteredAsync();
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell,

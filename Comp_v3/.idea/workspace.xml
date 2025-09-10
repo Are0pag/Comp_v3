@@ -9,12 +9,10 @@
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/BaseCellState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/BaseCellState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Events/IPreviewKeyDownHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Events/IPreviewKeyDownHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/StatesChanging/BaseChangeStateCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseChangeStateCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Transactions/TransactionAddItem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseChangeStateCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseChangeStateCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WPF.Extensions/View/DataGrid/DataGridColumnExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WPF.Extensions/View/DataGrid/DataGridColumnExtensions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

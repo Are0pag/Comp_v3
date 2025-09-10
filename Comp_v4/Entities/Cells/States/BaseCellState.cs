@@ -6,7 +6,7 @@ using Infrastructure.StateMachine;
 
 namespace WPF.Templates.TableWindow.States;
 
-public abstract class BaseCellState : StateBase<ModuleContext>
+public abstract class BaseCellState : StateBase<Cell>
 {
     protected readonly IModuleCommandScheduler _scheduler;
     protected readonly ModuleContext _context;
@@ -16,15 +16,15 @@ public abstract class BaseCellState : StateBase<ModuleContext>
         _context = context;
     }
 
-    public virtual async Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
+    public virtual async Task OnEnding(Cell owner, object? sender, DataGridCellEditEndingEventArgs e) {
         
     }
 
-    public virtual async Task  OnBeginning(object? sender, DataGridBeginningEditEventArgs e) {
+    public virtual async Task  OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
         
     }
 
-    public virtual async Task  OnPreviewKeyDown(object sender, KeyEventArgs e) {
+    public virtual async Task  OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         
     }
 }

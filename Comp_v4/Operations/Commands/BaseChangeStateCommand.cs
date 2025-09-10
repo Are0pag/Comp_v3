@@ -4,8 +4,8 @@ using WPF.Templates.TableWindow.States;
 namespace Comp_v4.Operations.Commands;
 
 public abstract class BaseChangeStateCommand<TBaseState, TStateMachine> : BaseCommand
-    where TBaseState : Infrastructure.StateMachine.StateBase<ModuleContext>
-    where TStateMachine : Infrastructure.StateMachine.GenericStateMachine<TBaseState, ModuleContext>
+    where TBaseState : Infrastructure.StateMachine.StateBase<Cell>
+    where TStateMachine : Infrastructure.StateMachine.GenericStateMachine<TBaseState, Cell>
 {
     protected readonly TStateMachine _stateMachine;
     protected readonly TBaseState _fromState;

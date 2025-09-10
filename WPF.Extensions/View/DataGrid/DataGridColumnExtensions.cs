@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -10,5 +11,13 @@ public static class DataGridColumnExtensions
         var binding = boundColumn.Binding as Binding;
         var result = binding?.Path?.Path ?? string.Empty;
         return result;
+    }
+    
+    public static bool IsLastVisibleEditableColumn(this DataGridColumn column, DataGrid dataGrid) {
+        var visibleEditableColumns = dataGrid.Columns
+                                             .Where(c => c.Visibility == Visibility.Visible && !column.IsReadOnly)
+                                             .ToList();
+
+        return visibleEditableColumns.LastOrDefault() == column;
     }
 }
