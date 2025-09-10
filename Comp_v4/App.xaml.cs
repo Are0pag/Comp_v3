@@ -78,8 +78,9 @@ public partial class App : Application
         
         
         _mainScope = Host.Services.CreateScope();
-        new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
-        
+        //new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
+        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
+        new ActionStackTracker(scheduler);
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();
