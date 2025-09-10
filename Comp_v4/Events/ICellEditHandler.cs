@@ -6,7 +6,7 @@ public interface ICellEditHandler : IGlobSubscriber, IDisposable
 {
     bool IsEnabled { get; set; }
     
-    void OnEnding(object? sender, DataGridCellEditEndingEventArgs e);
+    Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e);
     
-    void OnBeginning(object? sender, DataGridBeginningEditEventArgs e);
+    Task OnBeginning(object? sender, DataGridBeginningEditEventArgs e);
 }

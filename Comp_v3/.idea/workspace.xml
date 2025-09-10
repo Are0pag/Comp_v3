@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c564554-586e-48df-81fb-c0c73c153473" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/BaseCellState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/BaseCellState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Events/IPreviewKeyDownHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Events/IPreviewKeyDownHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/StatesChanging/BaseChangeStateCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseChangeStateCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Transactions/TransactionAddItem.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +26,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/ChangeTargetVmStateCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/UpdateItemCommand.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 8
@@ -46,7 +56,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1757495170229</updated>
-      <workItem from="1757495171326" duration="1073000" />
+      <workItem from="1757495171326" duration="2105000" />
     </task>
     <servers />
   </component>

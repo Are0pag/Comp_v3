@@ -4,5 +4,5 @@ namespace WPF.Templates.TableWindow.Events;
 
 public interface IPreviewKeyDownHandler : IGlobSubscriber, IDisposable
 {
-    void OnPreviewKeyDown(object sender, KeyEventArgs e);
+    Task OnPreviewKeyDown(object sender, KeyEventArgs e);
 }

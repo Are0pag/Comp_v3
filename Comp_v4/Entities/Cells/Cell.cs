@@ -19,17 +19,17 @@ public class Cell : GenericStateMachine<BaseCellState, ModuleContext>, ICellEdit
 
     public bool IsEnabled { get; set; } = true;
 
-    public void OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
+    public async Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
         if (!IsEnabled) return;
-        CurrentState?.OnEnding(sender, e);
+        await CurrentState.OnEnding(sender, e);
     }
 
-    public void OnBeginning(object? sender, DataGridBeginningEditEventArgs e) {
+    public async Task  OnBeginning(object? sender, DataGridBeginningEditEventArgs e) {
         if (!IsEnabled) return;
-        CurrentState?.OnBeginning(sender, e);
+        await CurrentState.OnBeginning(sender, e);
     }
 
-    public void OnPreviewKeyDown(object sender, KeyEventArgs e) {
-        CurrentState?.OnPreviewKeyDown(sender, e);
+    public async Task  OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        await CurrentState.OnPreviewKeyDown(sender, e);
     }
 }

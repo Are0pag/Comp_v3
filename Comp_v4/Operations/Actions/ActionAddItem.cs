@@ -39,6 +39,6 @@ public class ActionAddItem : BaseAction
     }
 
     public override async Task CancelAsync() {
-        await _scheduler.UndoAsync();
+        await _scheduler.CommitTransaction<TransactionAddItem>().UndoAsync();
     }
 }

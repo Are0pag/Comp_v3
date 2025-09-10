@@ -1,6 +1,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.Entities;
+using Comp_v4.Operations.Commands;
+using Comp_v4.Operations.Transactions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using WPF.Extensions.View.Elements;
@@ -10,34 +12,32 @@ namespace WPF.Templates.TableWindow.States;
 
 public class CellStateInput : BaseCellState
 {
-    protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
-    protected DataGridCellEditEndingEventArgs? _cellEditEndingEventArgs;
-    
-    public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, 
-                          DataGridPropertyRestoreService<ConditionalDesignation> propertyRestoreService) : base(scheduler, context) {
-        _propertyRestoreService = propertyRestoreService;
+    public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
-    public override void OnBeginning(object? sender, DataGridBeginningEditEventArgs e) {
+    public override async Task  OnBeginning(object? sender, DataGridBeginningEditEventArgs e) {
         base.OnBeginning(sender, e);
     }
 
-    public override void OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
-        _cellEditEndingEventArgs = e;
+    public override async Task  OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
     }
 
-    public override void OnPreviewKeyDown(object sender, KeyEventArgs e) {
+    public override async Task  OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
-            case Key.Tab:
             case Key.Enter:
-                if (_context.DataGrid.SelectedItem is not ConditionalDesignation conditionalDesignation)
-                    throw new InvalidCastException();
+                await _scheduler.BeginTransaction<TransactionUpdateItem>()
+                                .RegisterCommand(new RememberInputTextCommand(_context))
+                                .ExecuteLastRegisteredAsync();
                 
-                _propertyRestoreService.RememberValue(
-                        conditionalDesignation,
-                        _context.DataGrid.CurrentCell.Column.GetPropertyName()
-                        );
+                await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new UpdateItemCommand(_context))
+                                .ExecuteLastRegisteredAsync();
+
+                _scheduler.CommitTransaction<TransactionUpdateItem>();
             break;
+            
+            case Key.Tab:
+                
+                break;
         }
     }
 }
