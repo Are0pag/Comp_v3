@@ -37,6 +37,9 @@ public partial class App : Application
                              s.AddScoped<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
 
+                             s.AddScoped<ActionAddItem>();
+                             s.AddScoped<ActionUpdateItem>();
+                             
                              s.AddScoped<CellStateIdle>();
                              s.AddScoped<CellStateInput>();
                              /*s.AddScoped<BaseCellState, CellStateIdle>();
@@ -49,7 +52,7 @@ public partial class App : Application
                                                    return new Cell(states, initialState!);
                                                });
                              
-                             s.AddScoped<ActionAddItem>();
+
                              s.AddScoped<ButtonVmAddItem>();
                              
                              s.AddTransient<TargetWindow>();
