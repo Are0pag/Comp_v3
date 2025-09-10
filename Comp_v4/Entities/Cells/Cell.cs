@@ -19,6 +19,12 @@ public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, 
 
     public bool IsEnabled { get; set; } = true;
 
+    public override Task ChangeState(BaseCellState newState, Cell context) {
+        var changeState = base.ChangeState(newState, context);
+        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+        return changeState;
+    }
+
     public async Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
         if (!IsEnabled) return;
         await CurrentState.OnEnding(this, sender, e);

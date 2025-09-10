@@ -4,7 +4,6 @@ using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
-using Infrastructure.Command.Heterochromic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -79,6 +78,8 @@ public partial class App : Application
         
         
         _mainScope = Host.Services.CreateScope();
+        new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
+        
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();
