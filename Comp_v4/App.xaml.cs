@@ -45,7 +45,7 @@ public partial class App : Application
                              s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
                              s.AddScoped<Cell>(provider => {
                                                    var states = provider.GetServices<BaseCellState>();
-                                                   var initialState = provider.GetService<CellStateInput>();
+                                                   var initialState = provider.GetService<CellStateIdle>();
                                                    return new Cell(states, initialState!);
                                                });
                              
