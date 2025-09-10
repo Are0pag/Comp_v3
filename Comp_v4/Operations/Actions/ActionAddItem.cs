@@ -1,3 +1,4 @@
+using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
 using Infrastructure.Command.Heterochromic;
@@ -8,7 +9,7 @@ public class ActionAddItem : BaseAction
 {
     protected readonly Cell _cell;
     
-    public ActionAddItem(HeterochromicCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
+    public ActionAddItem(IModuleCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
         _cell = cell;
     }
 

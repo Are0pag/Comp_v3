@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp_v4.Entities;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using WPF.Extensions.View.Elements;
@@ -12,7 +13,7 @@ public class CellStateInput : BaseCellState
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
     protected DataGridCellEditEndingEventArgs? _cellEditEndingEventArgs;
     
-    public CellStateInput(HeterochromicCommandScheduler scheduler, ModuleContext context, 
+    public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, 
                           DataGridPropertyRestoreService<ConditionalDesignation> propertyRestoreService) : base(scheduler, context) {
         _propertyRestoreService = propertyRestoreService;
     }

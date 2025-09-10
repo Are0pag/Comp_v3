@@ -5,7 +5,9 @@ using WPF.Templates.TableWindow.Events;
 
 namespace Comp_v4.Entities;
 
-public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCommand, TransactionDeferredSupportive>
+public interface IModuleCommandScheduler : IHeterochromicCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> {}
+
+public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCommand, TransactionDeferredSupportive>, IModuleCommandScheduler
 {
     public override TransactionalCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> BeginTransaction<TCurrentTransaction>(string? descr = null) {
         return base.BeginTransaction<TCurrentTransaction>(descr);

@@ -1,3 +1,4 @@
+using Comp_v4.Entities;
 using Infrastructure.Command.Heterochromic;
 
 namespace WPF.Templates;
@@ -5,9 +6,9 @@ namespace WPF.Templates;
 public abstract class BaseAction
 {
     protected readonly ModuleContext _context;
-    protected readonly HeterochromicCommandScheduler _scheduler;
+    protected readonly IModuleCommandScheduler _scheduler;
 
-    protected BaseAction(HeterochromicCommandScheduler scheduler, ModuleContext context) {
+    protected BaseAction(IModuleCommandScheduler scheduler, ModuleContext context) {
         _scheduler = scheduler;
         _context = context;
     }
@@ -21,7 +22,7 @@ public abstract class BaseAction
 
 public class ActionEditItem : BaseAction
 {
-    public ActionEditItem(HeterochromicCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
+    public ActionEditItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
     public override async Task<BaseAction> PerformAsync() {
@@ -39,7 +40,7 @@ public class ActionEditItem : BaseAction
 
 public class ActionDeleteItem : BaseAction
 {
-    public ActionDeleteItem(HeterochromicCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
+    public ActionDeleteItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
     public override async Task<BaseAction> PerformAsync() {

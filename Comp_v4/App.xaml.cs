@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Comp_v4.Entities;
 using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
@@ -31,7 +32,7 @@ public partial class App : Application
 
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
                             
-                             s.AddScoped<HeterochromicCommandScheduler>();
+                             s.AddScoped<IModuleCommandScheduler, ModuleCommandScheduler>();
 
                              s.AddScoped<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
