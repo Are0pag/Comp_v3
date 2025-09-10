@@ -40,7 +40,6 @@ public partial class App : Application
                              s.AddScoped<CellStateInput>();
                              /*s.AddScoped<BaseCellState, CellStateIdle>();
                              s.AddScoped<BaseCellState, CellStateInput>();*/
-                             // Регистрируем состояния как BaseCellState
                              s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
                              s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
                              s.AddScoped<Cell>(provider => {

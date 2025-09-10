@@ -6,20 +6,27 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
     where T : ICommand
     where TTransaction : ITransaction<T>, new()
 {
-    protected readonly Dictionary<Type, TTransaction> _creatingTransaction = new Dictionary<Type, TTransaction>();
+    protected readonly Dictionary<Type, TTransaction> _creatingTransactions = new Dictionary<Type, TTransaction>();
     protected Type? _lastCreatingTransaction; /* context field for convenience */
-    
+
+    public virtual bool IsInAnyTransaction => _creatingTransactions.Count != 0;
+    public virtual bool IsInTransaction<TCurrentTransaction>() 
+        where TCurrentTransaction : TTransaction 
+    {
+        return _creatingTransactions.ContainsKey(typeof(TCurrentTransaction));
+    }
+
     public virtual TransactionalCommandScheduler<T, TTransaction> BeginTransaction<TCurrentTransaction>(string? descr = null) 
         where TCurrentTransaction : TTransaction, new() 
     {
         if (!CanContinueWorking) return this;
-        if (_creatingTransaction.ContainsKey(typeof(TCurrentTransaction))) 
+        if (_creatingTransactions.ContainsKey(typeof(TCurrentTransaction))) 
             throw new InvalidOperationException("Transaction already exists");
         
         var transaction = new TCurrentTransaction() {
             Description = descr
         };
-        _creatingTransaction.Add(typeof(TCurrentTransaction), transaction);
+        _creatingTransactions.Add(typeof(TCurrentTransaction), transaction);
         _lastCreatingTransaction = typeof(TCurrentTransaction);
         return this; 
     }
@@ -29,7 +36,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         if (_lastCreatingTransaction == null)
             throw new InvalidOperationException("Do not call BeginTransaction before calling BeginTransaction");
         
-        if (!_creatingTransaction.TryGetValue(_lastCreatingTransaction!, out var transaction))
+        if (!_creatingTransactions.TryGetValue(_lastCreatingTransaction!, out var transaction))
             throw new InvalidOperationException("The transaction was not created");
         
         transaction.AddCommand(command);
@@ -41,7 +48,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
     {
         if (!CanContinueWorking) return this;
         
-        if (!_creatingTransaction.TryGetValue(typeof(TCurrentTransaction), out var transaction))
+        if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
             throw new InvalidOperationException("The transaction was not created");
         
         transaction.AddCommand(command);
@@ -54,7 +61,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         if (_lastCreatingTransaction == null)
             throw new InvalidOperationException("Do not call BeginTransaction before calling BeginTransaction");
         
-        if (!_creatingTransaction.TryGetValue(_lastCreatingTransaction!, out var transaction))
+        if (!_creatingTransactions.TryGetValue(_lastCreatingTransaction!, out var transaction))
             throw new InvalidOperationException("The transaction was not created");
         
         if (!transaction.GetCommands().Any())
@@ -69,7 +76,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         where TCurrentTransaction : TTransaction
     {
         if (!CanContinueWorking) return this;
-        if (!_creatingTransaction.TryGetValue(typeof(TCurrentTransaction), out var transaction))
+        if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
             throw new InvalidOperationException("The transaction was not created");
 
         if (!transaction.GetCommands().Any()) 
@@ -78,7 +85,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         if (transaction is not T typedTransaction) 
             throw new InvalidOperationException("Transaction cannot be added to undo stack");
         
-        _creatingTransaction.Remove(typeof(TCurrentTransaction));
+        _creatingTransactions.Remove(typeof(TCurrentTransaction));
         _undoStack.Push(typedTransaction);
         _redoStack.Clear();
         return this;

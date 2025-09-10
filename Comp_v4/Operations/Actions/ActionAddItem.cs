@@ -30,7 +30,7 @@ public class ActionAddItem : BaseAction
     }
 
     public override bool CanPerform() {
-        return false;
+        return !_scheduler.IsInTransaction<TransactionAddItem>();
     }
 
     public override async Task CancelAsync() {
