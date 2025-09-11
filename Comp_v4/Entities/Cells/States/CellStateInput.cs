@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.Entities;
@@ -56,6 +57,14 @@ public class CellStateInput : BaseCellState
             case Key.Tab:
                 await _actionUpdateItem.PerformAsync(_lastCellEditBeginningEditEventArgs);
                 _scheduler.CommitTransaction<TransactionUpdateItem>();
+                
+                // Явно переходим к следующей ячейке на основе текущего редактирования
+                e.Handled = true;
+            
+                // Используем Dispatcher для гарантированного выполнения после текущих операций
+                await Application.Current.Dispatcher.InvokeAsync(() => {
+                                                                     _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!); 
+                                                                 }, System.Windows.Threading.DispatcherPriority.Input);
                 break;
             
             case Key.Escape:
