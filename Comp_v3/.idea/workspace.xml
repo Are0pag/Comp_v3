@@ -6,18 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4c564554-586e-48df-81fb-c0c73c153473" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Comp_v4.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Comp_v4.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/IModuleCommandScheduler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/IModuleCommandScheduler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionUpdateItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionUpdateItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberInputTextCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberInputTextCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberSelectionCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberSelectionCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WPF.Extensions/View/DataGrid/DataGridExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WPF.Extensions/View/DataGrid/DataGridExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WPF.Services/UserActionsHandling/InputText/DataGridPropertyRestoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WPF.Services/UserActionsHandling/InputText/DataGridPropertyRestoreService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberCellCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberCellCommand.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
