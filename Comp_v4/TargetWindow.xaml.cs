@@ -12,12 +12,13 @@ namespace Comp_v4;
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
     protected readonly DataGridViewModel _dataGridViewModel;
-    public TargetWindow(DataGridViewModel dataGridViewModel, ButtonVmAddItem buttonVmAddItem) {
+    public TargetWindow(DataGridViewModel dataGridViewModel, ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave) {
         InitializeComponent();
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
 
         AddNewItemButton.DataContext = buttonVmAddItem;
+        SaveChangesButton.DataContext = buttonVmSave;
         EventBus<IGlobSubscriber>.Subscribe(this);
     }
 

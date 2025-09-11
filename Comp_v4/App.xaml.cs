@@ -38,6 +38,7 @@ public partial class App : Application
 
                              s.AddScoped<ActionAddItem>();
                              s.AddScoped<ActionUpdateItem>();
+                             s.AddScoped<ActionSave>();
                              
                              s.AddSingleton<CellStateIdle>();
                              s.AddSingleton<CellStateInput>();
@@ -53,20 +54,12 @@ public partial class App : Application
                              
 
                              s.AddScoped<ButtonVmAddItem>();
+                             s.AddSingleton<ButtonVmSave>();
                              
                              s.AddTransient<TargetWindow>();
 
                          }).Build();
     }
-    
-    /* Также можно явно указать зависимость:
-     services.AddSingleton<DataGridManageButtonsVm>(provider =>
-        new DataGridManageButtonsVm(
-            provider.GetService<IConditionalDesignationRepository>(),
-            provider.GetService<CognDesignGridVm>()
-    )
-     */
-    
     protected override async void OnStartup(StartupEventArgs e) {
         await Host.StartAsync();
         
@@ -79,6 +72,9 @@ public partial class App : Application
         
         _mainScope = Host.Services.CreateScope();
         new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
+        new PersistenceManager(Host.Services.GetRequiredService<IModuleCommandScheduler>(),
+                               Host.Services.GetRequiredService<ActionSave>());
+        
         /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);*/
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 

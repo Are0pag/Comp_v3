@@ -14,4 +14,10 @@ public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCom
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
         return r;
     }
+
+    public override TransactionalCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> CommitTransaction<TCurrentTransaction>() {
+        var r = base.CommitTransaction<TCurrentTransaction>();
+        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+        return r;
+    }
 }
