@@ -13,7 +13,7 @@ public class ActionAddItem : BaseAction
         _cell = cell;
     }
 
-    public override async Task<BaseAction> PerformAsync() {
+    public override async Task<BaseAction> PerformAsync(object? parameter = null) {
         await _scheduler.BeginTransaction<TransactionAddItem>()
                         .RegisterCommand(new RememberSelectionCommand(_context))
                         .ExecuteLastRegisteredAsync();
@@ -37,7 +37,7 @@ public class ActionAddItem : BaseAction
         return _cell.CurrentState is not CellStateInput;
     }
 
-    public override async Task CancelAsync() {
+    public override async Task CancelAsync(object? parameter = null) {
         await _scheduler.CommitTransaction<TransactionAddItem>().UndoAsync();
     }
 }

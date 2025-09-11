@@ -7,10 +7,12 @@ namespace Comp_v4.Operations.Commands;
 
 public abstract class BaseCommand : DeferredCommand<ModuleContext, ConditionalDesignation>
 {
-    protected BaseCommand(ModuleContext context) : base(context) {
-        /*if (_context.DataGrid.SelectedItem is not ConditionalDesignation conditionalDesignation)
-            return;
-        //_item = conditionalDesignation;*/
+    protected readonly object? _parameter;
+    
+    protected BaseCommand(ModuleContext context) : base(context) { }
+
+    protected BaseCommand(ModuleContext context, object? parameter) : base(context) {
+        _parameter = parameter;
     }
 
     public ConditionalDesignation Item {

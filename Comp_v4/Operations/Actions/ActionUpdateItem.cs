@@ -1,6 +1,9 @@
+using System.Windows.Controls;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
+using Utils.EventBus;
+using WPF.Templates.TableWindow.Events;
 
 namespace WPF.Templates;
 
@@ -9,17 +12,40 @@ public class ActionUpdateItem : BaseAction
     public ActionUpdateItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
-    public override async Task<BaseAction> PerformAsync() {
+    public override async Task<BaseAction> PerformAsync(object? parameter = null) {
+        if (parameter is DataGridBeginningEditEventArgs b) {
+            await Begin(b.Row);
+            _scheduler.CommitTransaction<TransactionUpdateItem>();
+        }
+        
+        if (parameter is DataGridCellEditEndingEventArgs e)
+            await Begin(e.Row);
+
+        return this;
+    }
+
+    private async Task Begin(DataGridRow raw) {
+        _scheduler.BeginTransaction<TransactionUpdateItem>();
+        
+        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(false));
+        
+        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(_context, raw))
+                        .ExecuteLastRegisteredAsync();
+        
+        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberInputTextCommand(_context, raw))
+                        .ExecuteLastRegisteredAsync();
+        
+        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(true));
+        
         await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new UpdateItemCommand(_context))
                         .ExecuteLastRegisteredAsync();
-        return this;
     }
 
     public override bool CanPerform() {
         return true;
     }
 
-    public override async Task CancelAsync() {
+    public override async Task CancelAsync(object? parameter = null) {
         try {
             _scheduler.CommitTransaction<TransactionUpdateItem>();
         }

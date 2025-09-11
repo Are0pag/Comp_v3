@@ -7,7 +7,7 @@ public class ActionSave : BaseAction
     public ActionSave(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
-    public override async Task<BaseAction> PerformAsync() {
+    public override async Task<BaseAction> PerformAsync(object? parameter = null) {
         try {
             await _scheduler.CommitDeferredChanges();
         }
@@ -21,7 +21,7 @@ public class ActionSave : BaseAction
         return _scheduler.CanUndo();
     }
 
-    public override Task CancelAsync() {
+    public override Task CancelAsync(object? parameter = null) {
         return Task.CompletedTask;
     }
 }

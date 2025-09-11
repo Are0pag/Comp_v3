@@ -10,20 +10,14 @@ namespace Comp_v4.Operations.Commands;
 
 public class RememberCellCommand : BaseCommand
 {
-    protected readonly Cell _cell;
-    protected DataGridCellInfo _cellInfo;
     protected DataGridColumn _column;
-    protected ConditionalDesignation? _item;
-    
-    public RememberCellCommand(ModuleContext context) : base(context) {
-        _cell = App.Host.Services.GetRequiredService<Cell>();
-    }
+
+    public RememberCellCommand(ModuleContext context, object? parameter) : base(context, parameter) { }
 
     public override async Task ExecuteAsync() {
         await Task.Delay(100);
         await App.Current.Dispatcher.InvokeAsync(() => {
             try {
-                _item = Item;
                 _column = _context.DataGrid.CurrentCell.Column;
             }
             catch (Exception ex) {
@@ -37,12 +31,14 @@ public class RememberCellCommand : BaseCommand
         await App.Current.Dispatcher.InvokeAsync(() => {
             try {
                 var dg = _context.DataGrid;
-                var rowFromItem = dg.GetRowFromItem(_item!);
-                if (rowFromItem == null) 
+
+                if (_parameter is not DataGridRow raw)
                     throw new NullReferenceException();
-                var cell = dg.GetCell(rowFromItem, _column);
+                
+                var cell = dg.GetCell(raw, _column);
                 if (cell == null)
                     throw new NullReferenceException();
+                
                 cell.Focus();
                 dg.BeginEdit();
             }

@@ -4,7 +4,9 @@ namespace WPF.Templates.TableWindow.Events;
 
 public interface ICellEditHandler : IGlobSubscriber, IDisposable
 {
-    //bool IsEnabled { get; set; }
+    bool IsEnabled { get; }
+
+    void SetAccessToHandleCellEvents(bool isEnable);
     
     Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e);
     

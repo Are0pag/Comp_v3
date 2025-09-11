@@ -1,3 +1,4 @@
+using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Extensions.View.Elements;
@@ -9,16 +10,22 @@ namespace Comp_v4.Operations.Commands;
 public class RememberInputTextCommand : BaseCommand
 {
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
-    protected ConditionalDesignation? _item;
     
-    public RememberInputTextCommand(ModuleContext context) : base(context) {
+    public RememberInputTextCommand(ModuleContext context, object? parameter) : base(context, parameter) {
         _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();
     }
 
     public override async Task ExecuteAsync() {
         await Task.Delay(100);
-        _propertyRestoreService.RememberValue(Item!, _context.DataGrid.CurrentCell.Column.GetPropertyName());
-        _item = Item;
+        
+        if (_parameter is not DataGridRow raw)
+            throw new InvalidCastException();
+        
+        if (raw.Item is not ConditionalDesignation conditionalDesignation)
+            throw new InvalidCastException();
+        
+        _propertyRestoreService.RememberValue(conditionalDesignation, _context.DataGrid.CurrentCell.Column.GetPropertyName());
+        _item = conditionalDesignation;
     }
 
     public override async Task UndoAsync() {
