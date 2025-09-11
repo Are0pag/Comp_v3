@@ -12,13 +12,13 @@ public class ActionUpdateItem : BaseAction
     public ActionUpdateItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
+    public async Task PerformOnFirstEditAsync(DataGridBeginningEditEventArgs e) {
+        await Begin(e.Row);
+        _scheduler.CommitTransaction<TransactionUpdateItem>();
+    }
+
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
-        if (parameter is DataGridBeginningEditEventArgs b) {
-            await Begin(b.Row);
-            _scheduler.CommitTransaction<TransactionUpdateItem>();
-        }
-        
-        if (parameter is DataGridCellEditEndingEventArgs e)
+        if (parameter is DataGridBeginningEditEventArgs e)
             await Begin(e.Row);
 
         return this;

@@ -11,27 +11,25 @@ namespace WPF.Templates.TableWindow.States;
 public class CellStateInput : BaseCellState
 {
     protected readonly ActionUpdateItem _actionUpdateItem;
-    protected bool _isEntry = true;
+    protected readonly HashSet<string> _editedCells = new HashSet<string>();
+    protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
 
     public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, ActionUpdateItem actionUpdateItem) : base(scheduler, context) {
         _actionUpdateItem = actionUpdateItem;
     }
 
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
-        if (!_isEntry) 
-            return;
-
-        await _actionUpdateItem.PerformAsync(e);
-        _isEntry = false;
-    }
-
-    public override async Task OnEnding(Cell owner, object? sender, DataGridCellEditEndingEventArgs e) {
-        try {
-            await _actionUpdateItem.PerformAsync(e);
+        var cell = e.Column.GetCellContent(e.Row);
+        if (cell != null) {
+            var cellKey = $"{e.Row.GetHashCode()}_{e.Column.DisplayIndex}";
+            
+            if (!_editedCells.Contains(cellKey)) {
+                _editedCells.Add(cellKey);
+                await _actionUpdateItem.PerformOnFirstEditAsync(e);
+            }
         }
-        catch (Exception ex) {
-            Console.WriteLine(ex.Message);
-        }
+
+        _lastCellEditBeginningEditEventArgs = e;
     }
 
     public override async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
@@ -41,12 +39,14 @@ public class CellStateInput : BaseCellState
         }
     }
 
+    /// <summary>
+    /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
+    /// </summary>
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
             case Key.Tab when _context.DataGrid.CurrentColumn.IsLastVisibleEditableColumn(_context.DataGrid):
-
-                
+                await _actionUpdateItem.PerformAsync(_lastCellEditBeginningEditEventArgs);
                 await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new CellChangeStateCommand(_context, owner, owner.GetState<CellStateIdle>()))
                                 .ExecuteLastRegisteredAsync();
                 
@@ -54,6 +54,7 @@ public class CellStateInput : BaseCellState
                 break;
             
             case Key.Tab:
+                await _actionUpdateItem.PerformAsync(_lastCellEditBeginningEditEventArgs);
                 _scheduler.CommitTransaction<TransactionUpdateItem>();
                 break;
             
