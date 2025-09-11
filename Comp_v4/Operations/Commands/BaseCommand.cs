@@ -8,9 +8,17 @@ namespace Comp_v4.Operations.Commands;
 public abstract class BaseCommand : DeferredCommand<ModuleContext, ConditionalDesignation>
 {
     protected BaseCommand(ModuleContext context) : base(context) {
-        if (_context.DataGrid.SelectedItem is not ConditionalDesignation conditionalDesignation)
+        /*if (_context.DataGrid.SelectedItem is not ConditionalDesignation conditionalDesignation)
             return;
-        _item = conditionalDesignation;
+        //_item = conditionalDesignation;*/
+    }
+
+    public ConditionalDesignation Item {
+        get {
+            if (_context.DataGrid.SelectedItem is not ConditionalDesignation conditionalDesignation)
+                throw new InvalidCastException();
+            return conditionalDesignation;
+        }
     }
     
     public override Task ExecuteAsync() {

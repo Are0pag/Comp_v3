@@ -17,13 +17,13 @@ public class FocusCellCommand : BaseCommand
     public override Task ExecuteAsync() {
         //_cell.IsEnabled = true;
         var dg = _context.DataGrid;
-        var column = dg.GetFirstEditableColumn();
         
         Dispatcher.CurrentDispatcher.BeginInvoke(() => {
-            var raw = dg.GetRowFromItem(_item!);
+            var column = dg.GetFirstEditableColumn();
+            var raw = dg.GetRowFromItem(Item!);
             var cell = dg.GetCell(raw, column);
 
-            dg.CurrentCell = new DataGridCellInfo(_item!, column);
+            dg.CurrentCell = new DataGridCellInfo(Item!, column);
             cell.Focus();
             dg.BeginEdit();
             //_cell.IsEnabled = false;

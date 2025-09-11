@@ -24,4 +24,6 @@ public class RememberInputTextCommand : BaseCommand
         // Даем время WPF обработать изменение данных
         await Task.Delay(50); 
     }
+    
+    
 }

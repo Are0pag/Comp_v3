@@ -14,7 +14,10 @@ public class CellStateInput : BaseCellState
         _actionUpdateItem = actionUpdateItem;
     }
 
-    public override async Task Enter(Cell context) {
+    public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
+        if (_scheduler.IsInTransaction<TransactionUpdateItem>())
+            return;
+        
         _scheduler.BeginTransaction<TransactionUpdateItem>();
         
         await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(_context))
@@ -28,8 +31,16 @@ public class CellStateInput : BaseCellState
         switch (e.Key) {
             case Key.Enter:
             case Key.Tab when _context.DataGrid.CurrentColumn.IsLastVisibleEditableColumn(_context.DataGrid):
-                await _actionUpdateItem.PerformAsync();
-                await _scheduler.ExecuteCommand(new CellChangeStateCommand(_context, owner, owner.GetState<CellStateIdle>()));
+                try {
+                    await _actionUpdateItem.PerformAsync();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                }
+                
+                await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new CellChangeStateCommand(_context, owner, owner.GetState<CellStateIdle>()))
+                                .ExecuteLastRegisteredAsync();
+                
                 _scheduler.CommitTransaction<TransactionUpdateItem>();
                 break;
             
