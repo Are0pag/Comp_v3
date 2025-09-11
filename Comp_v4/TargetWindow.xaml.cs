@@ -36,4 +36,8 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
     }
 
     public void GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
+
+    private void TargetWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+        EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewMouseDown(sender, e));
+    }
 }

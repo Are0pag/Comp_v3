@@ -26,6 +26,13 @@ public class CellStateInput : BaseCellState
                         .ExecuteLastRegisteredAsync();
     }
 
+    public override async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
+        if (_context.DataGrid.IsEditing() && !_context.DataGrid.IsClickInEditingArea(e)) {
+            await _actionUpdateItem.CancelAsync();
+            await new CellChangeStateCommand(null, owner, owner.GetState<CellStateIdle>()).ExecuteAsync();
+        }
+    }
+    
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:

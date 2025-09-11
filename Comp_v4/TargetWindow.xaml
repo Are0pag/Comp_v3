@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Comp_v4"
         mc:Ignorable="d"
         Title="TargetWindow" Height="750" Width="800"
-        PreviewKeyDown="Window_PreviewKeyDown">
+        PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseDown="TargetWindow_OnPreviewMouseDown">
     <Grid>
         <DataGrid ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 

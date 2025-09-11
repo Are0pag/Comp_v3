@@ -45,4 +45,8 @@ public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, 
     public async Task  OnPreviewKeyDown(object sender, KeyEventArgs e) {
         await CurrentState.OnPreviewKeyDown(this, sender, e);
     }
+
+    public async Task OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+        await CurrentState.OnPreviewMouseDown(this, sender, e);
+    }
 }

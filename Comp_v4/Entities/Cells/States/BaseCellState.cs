@@ -27,4 +27,6 @@ public abstract class BaseCellState : StateBase<Cell>
     public virtual async Task  OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         
     }
+    
+    public virtual async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {}
 }

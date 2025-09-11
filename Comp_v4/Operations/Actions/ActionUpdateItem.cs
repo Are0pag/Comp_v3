@@ -21,7 +21,7 @@ public class ActionUpdateItem : BaseAction
 
     public override async Task CancelAsync() {
         try {
-            await _scheduler.CommitTransaction<TransactionUpdateItem>().UndoAsync();
+            _scheduler.CommitTransaction<TransactionUpdateItem>();
         }
         catch (Exception e) {
             Console.WriteLine(e);
