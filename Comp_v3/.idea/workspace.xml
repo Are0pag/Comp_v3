@@ -6,11 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="4c564554-586e-48df-81fb-c0c73c153473" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/App.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/App.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/ActionStackTracker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/ActionStackTracker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateIdle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateIdle.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/BaseCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/NoLazyAlternative.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionUpdateItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionUpdateItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberCellCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberCellCommand.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberInputTextCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberInputTextCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Infrastructure/Command/Base/CommandScheduler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Infrastructure/Command/Base/CommandScheduler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Infrastructure/Command/TransactionSupportive/TransactionBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Infrastructure/Command/TransactionSupportive/TransactionBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Infrastructure/Command/TransactionSupportive/TransactionalCommandScheduler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Infrastructure/Command/TransactionSupportive/TransactionalCommandScheduler.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +68,7 @@
       <updated>1757495170229</updated>
       <workItem from="1757495171326" duration="2105000" />
       <workItem from="1757577021176" duration="1279000" />
-      <workItem from="1757586127625" duration="908000" />
+      <workItem from="1757586127625" duration="1507000" />
     </task>
     <servers />
   </component>

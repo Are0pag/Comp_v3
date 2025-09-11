@@ -15,11 +15,10 @@ public class CellStateInput : BaseCellState
     }
 
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
-        if (_scheduler.IsInTransaction<TransactionUpdateItem>())
-            return;
-        
-        _scheduler.BeginTransaction<TransactionUpdateItem>();
-        
+        if (!_scheduler.IsInTransaction<TransactionUpdateItem>()) {
+            _scheduler.BeginTransaction<TransactionUpdateItem>();
+        }
+
         await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(_context))
                         .ExecuteLastRegisteredAsync();
         

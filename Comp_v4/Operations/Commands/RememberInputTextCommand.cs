@@ -9,6 +9,7 @@ namespace Comp_v4.Operations.Commands;
 public class RememberInputTextCommand : BaseCommand
 {
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
+    protected ConditionalDesignation? _item;
     
     public RememberInputTextCommand(ModuleContext context) : base(context) {
         _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();
@@ -16,7 +17,8 @@ public class RememberInputTextCommand : BaseCommand
 
     public override async Task ExecuteAsync() {
         await Task.Delay(100);
-        _propertyRestoreService.RememberValue(_item!, _context.DataGrid.CurrentCell.Column.GetPropertyName());
+        _propertyRestoreService.RememberValue(Item!, _context.DataGrid.CurrentCell.Column.GetPropertyName());
+        _item = Item;
     }
 
     public override async Task UndoAsync() {

@@ -31,7 +31,7 @@ public partial class App : Application
 
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
                             
-                             s.AddScoped<IModuleCommandScheduler, ModuleCommandScheduler>();
+                             s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
 
                              s.AddScoped<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
@@ -39,13 +39,13 @@ public partial class App : Application
                              s.AddScoped<ActionAddItem>();
                              s.AddScoped<ActionUpdateItem>();
                              
-                             s.AddScoped<CellStateIdle>();
-                             s.AddScoped<CellStateInput>();
+                             s.AddSingleton<CellStateIdle>();
+                             s.AddSingleton<CellStateInput>();
                              /*s.AddScoped<BaseCellState, CellStateIdle>();
                              s.AddScoped<BaseCellState, CellStateInput>();*/
-                             s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
-                             s.AddScoped<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
-                             s.AddScoped<Cell>(provider => {
+                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
+                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
+                             s.AddSingleton<Cell>(provider => {
                                                    var states = provider.GetServices<BaseCellState>();
                                                    var initialState = provider.GetService<CellStateIdle>();
                                                    return new Cell(states, initialState!);
@@ -78,9 +78,9 @@ public partial class App : Application
         
         
         _mainScope = Host.Services.CreateScope();
-        //new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
-        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
-        new ActionStackTracker(scheduler);
+        new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
+        /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
+        new ActionStackTracker(scheduler);*/
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();

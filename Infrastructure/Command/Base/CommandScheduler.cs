@@ -24,8 +24,8 @@ public class CommandScheduler<T> : ICommandScheduler<T>
     }
 
     public virtual async Task<object> UndoAsync() {
-        if (!CanUndo()) 
-            throw new InvalidOperationException();
+        if (!CanUndo())
+            return this;
         
         CanContinueWorking = false;
         

@@ -20,7 +20,12 @@ public class ActionStackTracker : IPreviewKeyDownHandler
     public async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Z when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
-                await _scheduler.UndoAsync();
+                try {
+                    await _scheduler.UndoAsync();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex);
+                }
                 break;
             
             case Key.Z when e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift):

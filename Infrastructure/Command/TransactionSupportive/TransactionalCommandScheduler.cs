@@ -76,8 +76,9 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         where TCurrentTransaction : TTransaction
     {
         if (!CanContinueWorking) return this;
+        
         if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
-            throw new InvalidOperationException("The transaction was not created");
+            throw new InvalidOperationException("The transaction was not created or already commited");
 
         if (!transaction.GetCommands().Any()) 
             throw new InvalidOperationException("The transaction has not any commands");

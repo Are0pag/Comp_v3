@@ -22,6 +22,7 @@ public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, 
     public override Task ChangeState(BaseCellState newState, Cell context) {
         var changeState = base.ChangeState(newState, context);
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+        Console.WriteLine($"Current Cell state is {newState.GetType().Name}");
         return changeState;
     }
 
