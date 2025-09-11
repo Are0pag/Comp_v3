@@ -15,7 +15,7 @@ public class FocusCellCommand : BaseCommand
     }
 
     public override Task ExecuteAsync() {
-        _cell.IsEnabled = true;
+        //_cell.IsEnabled = true;
         var dg = _context.DataGrid;
         var column = dg.GetFirstEditableColumn();
         
@@ -26,7 +26,7 @@ public class FocusCellCommand : BaseCommand
             dg.CurrentCell = new DataGridCellInfo(_item!, column);
             cell.Focus();
             dg.BeginEdit();
-            _cell.IsEnabled = false;
+            //_cell.IsEnabled = false;
         }, DispatcherPriority.ContextIdle);
         return Task.CompletedTask;
     }

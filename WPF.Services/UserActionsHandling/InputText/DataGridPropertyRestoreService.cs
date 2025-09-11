@@ -12,15 +12,15 @@ public class DataGridPropertyRestoreService<T> : IPropertyValueRestoreService<T>
     }
 
     public void RollbackEdit(T item) {
-        if (_currentEditedProperty != null && _previousValue != null) 
-            _currentEditedProperty.SetValue(item, _previousValue);
+        _previousValue ??= "";
+        _currentEditedProperty?.SetValue(item, _previousValue);
     }
 
     public string? GetPreviousValue() => _previousValue;
     public PropertyInfo? GetEditedProperty() => _currentEditedProperty;
 
     public string? GetCurrentValue(T item, string propertyName) {
-        _currentEditedProperty = item.GetType().GetProperty(propertyName);
+        _currentEditedProperty = item?.GetType().GetProperty(propertyName);
         return _currentEditedProperty != null ? _currentEditedProperty.GetValue(item)?.ToString() : null;
     }
 

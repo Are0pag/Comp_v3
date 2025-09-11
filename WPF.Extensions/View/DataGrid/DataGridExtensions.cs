@@ -17,7 +17,6 @@ public static class DataGridExtensions
     /// Получает строку DataGridRow для указанного элемента данных. Необходимо обернуть в Dispatcher.CurrentDispatcher.BeginInvoke
     /// </summary>
     public static DataGridRow GetRowFromItem(this DataGrid dataGrid, object item) {
-        
         return dataGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
     }
 

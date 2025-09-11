@@ -25,8 +25,4 @@
     <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="States\" />
-  </ItemGroup>
-
 </Project>

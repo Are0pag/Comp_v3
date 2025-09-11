@@ -10,7 +10,8 @@ public interface IModuleCommandScheduler : IHeterochromicCommandScheduler<IDefer
 public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCommand, TransactionDeferredSupportive>, IModuleCommandScheduler
 {
     public override TransactionalCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> BeginTransaction<TCurrentTransaction>(string? descr = null) {
-        return base.BeginTransaction<TCurrentTransaction>(descr);
+        var r = base.BeginTransaction<TCurrentTransaction>(descr);;
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+        return r;
     }
 }

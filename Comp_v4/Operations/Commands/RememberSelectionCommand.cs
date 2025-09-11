@@ -14,6 +14,7 @@ public class RememberSelectionCommand : BaseCommand
 
     public override Task UndoAsync() {
         _context.DataGridViewModel.SelectedItem = _item;
+        _context.DataGrid.Focus();
         return Task.CompletedTask;
     }
 }

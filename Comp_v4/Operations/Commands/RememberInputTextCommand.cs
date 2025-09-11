@@ -14,13 +14,14 @@ public class RememberInputTextCommand : BaseCommand
         _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();
     }
 
-    public override Task ExecuteAsync() {
+    public override async Task ExecuteAsync() {
+        await Task.Delay(100);
         _propertyRestoreService.RememberValue(_item!, _context.DataGrid.CurrentCell.Column.GetPropertyName());
-        return Task.CompletedTask;
     }
 
-    public override Task UndoAsync() {
+    public override async Task UndoAsync() {
         _propertyRestoreService.RollbackEdit(_item!);
-        return Task.CompletedTask;
+        // Даем время WPF обработать изменение данных
+        await Task.Delay(50); 
     }
 }

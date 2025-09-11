@@ -10,14 +10,8 @@ public class ActionUpdateItem : BaseAction
     }
 
     public override async Task<BaseAction> PerformAsync() {
-        await _scheduler.BeginTransaction<TransactionUpdateItem>()
-                        .RegisterCommand(new RememberInputTextCommand(_context))
-                        .ExecuteLastRegisteredAsync();
-                
         await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new UpdateItemCommand(_context))
                         .ExecuteLastRegisteredAsync();
-
-        _scheduler.CommitTransaction<TransactionUpdateItem>();
         return this;
     }
 

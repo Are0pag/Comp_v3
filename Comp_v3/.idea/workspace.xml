@@ -6,8 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="4c564554-586e-48df-81fb-c0c73c153473" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Comp_v4/App.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/App.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Comp_v4.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Comp_v4.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/Cells/States/CellStateInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Entities/IModuleCommandScheduler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Entities/IModuleCommandScheduler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Events/ICellEditHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionAddItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionUpdateItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Actions/ActionUpdateItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/FocusCellCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberInputTextCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberInputTextCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberSelectionCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Comp_v4/Operations/Commands/RememberSelectionCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WPF.Extensions/View/DataGrid/DataGridExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WPF.Extensions/View/DataGrid/DataGridExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WPF.Services/UserActionsHandling/InputText/DataGridPropertyRestoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WPF.Services/UserActionsHandling/InputText/DataGridPropertyRestoreService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +28,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/AddingNewItem/AddItemCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/AddingNewItem/FocusingCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/AddingNewItem/PreparerEditingRawCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/AddingNewItem/PreparerNewRawCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/CancelEditCommand.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/ChangeTargetVmStateCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/UpdateItemCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/ChangeTargetWindowStateCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Front/DataGrid/CondDesign/Commands/UpdateItemCommand.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -50,6 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1757495170229</updated>
       <workItem from="1757495171326" duration="2105000" />
+      <workItem from="1757577021176" duration="1279000" />
     </task>
     <servers />
   </component>
