@@ -12,7 +12,7 @@ public class DbRepository<T> : IRepository<T> where T : class
     }
 
     public virtual async Task<List<T>> GetAllAsync() {
-        return await _context.Set<T>().ToListAsync();
+        return await _context.Set<T>().AsNoTracking().ToListAsync();
     }
 
     public virtual async Task<T?> GetByIdAsync(int id) {
@@ -25,15 +25,7 @@ public class DbRepository<T> : IRepository<T> where T : class
     }
 
     public virtual async Task UpdateAsync(T entity) {
-        DbSet<T>? dbSet;
-        try {
-            dbSet = _context.Set<T>();
-        }
-        catch (Exception e) {
-            Console.WriteLine(e);
-        }
-
-        dbSet.Update(entity);
+        _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
     }
 

@@ -18,7 +18,8 @@ public class UpdateItemCommand : BaseCommand
 
     public override async Task ExecuteDeferredAsync() {
         try {
-            await _repository.UpdateAsync(_item!);
+            if (_item is { } conditionalDesignation)
+                await _repository.UpdateAsync(conditionalDesignation);
         }
         catch (Exception ex) {
             Console.WriteLine(ex.Message);
