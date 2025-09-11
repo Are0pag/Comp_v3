@@ -29,7 +29,6 @@ public class CellStateInput : BaseCellState
                 await _actionUpdateItem.PerformOnFirstEditAsync(e);
             }
         }
-
         _lastCellEditBeginningEditEventArgs = e;
     }
 
