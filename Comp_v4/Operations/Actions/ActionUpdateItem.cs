@@ -13,26 +13,26 @@ public class ActionUpdateItem : BaseAction
     }
 
     public async Task PerformOnFirstEditAsync(DataGridBeginningEditEventArgs e) {
-        await Begin(e.Row);
+        await Begin(e);
         _scheduler.CommitTransaction<TransactionUpdateItem>();
     }
 
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
         if (parameter is DataGridBeginningEditEventArgs e)
-            await Begin(e.Row);
+            await Begin(e);
 
         return this;
     }
 
-    private async Task Begin(DataGridRow raw) {
+    private async Task Begin(DataGridBeginningEditEventArgs e) {
         _scheduler.BeginTransaction<TransactionUpdateItem>();
         
         EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(false));
         
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(_context, raw))
+        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(_context, e))
                         .ExecuteLastRegisteredAsync();
         
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberInputTextCommand(_context, raw))
+        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberInputTextCommand(_context, e.Row))
                         .ExecuteLastRegisteredAsync();
         
         EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(true));

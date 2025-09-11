@@ -18,7 +18,10 @@ public class RememberCellCommand : BaseCommand
         await Task.Delay(100);
         await App.Current.Dispatcher.InvokeAsync(() => {
             try {
-                _column = _context.DataGrid.CurrentCell.Column;
+                if (_parameter is not DataGridBeginningEditEventArgs e)
+                    throw new NullReferenceException();
+
+                _column = e.Column;
             }
             catch (Exception ex) {
                 Console.WriteLine($"Error: {ex.Message}");
@@ -32,10 +35,10 @@ public class RememberCellCommand : BaseCommand
             try {
                 var dg = _context.DataGrid;
 
-                if (_parameter is not DataGridRow raw)
+                if (_parameter is not DataGridBeginningEditEventArgs raw)
                     throw new NullReferenceException();
                 
-                var cell = dg.GetCell(raw, _column);
+                var cell = dg.GetCell(raw.Row, _column);
                 if (cell == null)
                     throw new NullReferenceException();
                 
