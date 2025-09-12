@@ -7,13 +7,12 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberInputTextCommand : BaseCommand<DataGridCellEditEndingEventArgs>
+public class RememberInputTextCommand : BaseCommand<DataGridBeginningEditEventArgs>
 {
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
-    public RememberInputTextCommand(DataGridCellEditEndingEventArgs parameter, 
-                                    DataGridPropertyRestoreService<ConditionalDesignation> propertyRestoreService) 
+    public RememberInputTextCommand(DataGridBeginningEditEventArgs parameter) 
         : base(parameter) {
-        _propertyRestoreService = propertyRestoreService;
+        _propertyRestoreService = _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();
     }
 
     public override async Task ExecuteAsync() {
@@ -30,9 +29,6 @@ public class RememberInputTextCommand : BaseCommand<DataGridCellEditEndingEventA
 
     public override async Task UndoAsync() {
         _propertyRestoreService.RollbackEdit(_item!);
-        // Даем время WPF обработать изменение данных
         await Task.Delay(50); 
     }
-    
-    
 }

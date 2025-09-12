@@ -3,7 +3,7 @@ using Infrastructure.Command.TransactionSupportive;
 
 namespace Infrastructure.Command.Heterochromic;
 
-public class HeterochromicCommandScheduler<T, TTransaction> : TransactionalCommandScheduler<T, TTransaction> 
+public class HeterochromicCommandScheduler<T, TTransaction> : TransactionalCommandScheduler<T, TTransaction>, IHeterochromicCommandScheduler<T, TTransaction>
     where T : IDeferredCommand
     where TTransaction : ITransaction<T>, new()
 {
@@ -12,5 +12,14 @@ public class HeterochromicCommandScheduler<T, TTransaction> : TransactionalComma
             var command = _undoStack.Pop();
             await command.ExecuteDeferredAsync();
         }
+    }
+
+    /// <summary>
+    /// То есть добавить в график команду, которая уже была выполнена
+    /// </summary>
+    public virtual void PushDeferredCommand(T command) {
+        _undoStack.Push(command);
+        _redoStack.Clear();
+        OnCommandExecuted?.Invoke(CommandAction.Executed, command);
     }
 }

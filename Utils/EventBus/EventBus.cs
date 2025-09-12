@@ -32,7 +32,7 @@ public static class EventBus<TBaseModuleType>
                 action.Invoke(subscriber as TSubscriber);
             }
             catch (Exception e) {
-                Console.WriteLine(e);
+                //Console.WriteLine(e);
             }
         }
 

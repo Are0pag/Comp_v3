@@ -1,10 +1,8 @@
-using System.Windows.Controls;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
 using Infrastructure;
-using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
 
@@ -13,21 +11,20 @@ public class ActionUpdateItem : BaseAction
     public ActionUpdateItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
-    public async Task PerformOnFirstEditAsync(DataGridBeginningEditEventArgs e) {
-        _scheduler.BeginTransaction<TransactionUpdateItem>();
-        await RememberEnv(e);
-        _scheduler.CommitTransaction<TransactionUpdateItem>();
-    }
-
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
-        if (parameter is not DataGridBeginningEditEventArgs e) {
-            new InvalidCastException().Log(this);
+        if (parameter is not Args args) {
+            new InvalidOperationException().Log(this);
             return this;
         }
-        _scheduler.BeginTransaction<TransactionUpdateItem>();
-        await RememberEnv(e);
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new UpdateItemCommand(_context))
+        
+        _scheduler.BeginTransaction<TrEditCell>();
+        _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
+        /*_scheduler.RegisterCommandInto<TrEditCell>(_rememberInputTextCommand!);*/
+        await _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(null))
                         .ExecuteLastRegisteredAsync();
+        await _scheduler.RegisterCommandInto<TrEditCell>(new CellChangeStateCommand(_context, args.Cell, args.Cell.GetState<CellStateIdle>()))
+                        .ExecuteLastRegisteredAsync();
+        _scheduler.CommitTransaction<TrEditCell>();
         /*  Next transaction managing responsibility is shifted to key input handling */
         return this;
     }
@@ -36,24 +33,12 @@ public class ActionUpdateItem : BaseAction
         return true;
     }
 
-    public override async Task CancelAsync(object? parameter = null) {
-        try {
-            _scheduler.CommitTransaction<TransactionUpdateItem>();
-        }
-        catch (Exception e) {
-            Console.WriteLine(e);
-        } 
+    public override Task CancelAsync(object? parameter = null) {
+        return Task.CompletedTask;
     }
 
-    protected async Task RememberEnv(DataGridBeginningEditEventArgs e) {
-        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(false));
-        
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(e))
-                        .ExecuteLastRegisteredAsync();
-        
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberInputTextCommand(e))
-                        .ExecuteLastRegisteredAsync();
-        
-        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(true));
+    public class Args(RememberCellCommand rememberCellCommand, Cell cell) {
+        public RememberCellCommand RememberCellCommand { get; set; } = rememberCellCommand;
+        public Cell Cell { get; set; } = cell;
     }
 }

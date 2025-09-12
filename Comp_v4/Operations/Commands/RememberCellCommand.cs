@@ -8,18 +8,15 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberCellCommand : BaseCommand<DataGridCellEditEndingEventArgs>
+public class RememberCellCommand : BaseCommand<DataGridBeginningEditEventArgs>
 {
     protected DataGridCell? _cell;
-    public RememberCellCommand(DataGridCellEditEndingEventArgs parameter) : base(parameter) {
+    
+    public RememberCellCommand(DataGridBeginningEditEventArgs parameter) : base(parameter) {
     }
 
     public override async Task ExecuteAsync() {
-        if (_parameter!.EditingElement is not DataGridCell cell) {
-            new InvalidOperationException().Log(this);
-            return;
-        }
-        _cell = cell;
+        _cell = _moduleContext.DataGrid.GetCell(_parameter.Row, _parameter.Column);
     }
 
     public override async Task UndoAsync() {
@@ -27,6 +24,7 @@ public class RememberCellCommand : BaseCommand<DataGridCellEditEndingEventArgs>
         await App.Current.Dispatcher.InvokeAsync(() => {
             try {
                 _cell!.Focus();
+                _moduleContext.DataGrid.SelectedItem = _cell;
                 _moduleContext.DataGrid.BeginEdit();
             }
             catch (Exception ex) {

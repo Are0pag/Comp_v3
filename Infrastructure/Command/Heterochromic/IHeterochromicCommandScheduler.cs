@@ -7,4 +7,5 @@ public interface IHeterochromicCommandScheduler<T, TTransaction> : ITransactiona
     where TTransaction : ITransaction<T>, new()
 {
     Task CommitDeferredChanges();
+    void PushDeferredCommand(T command);
 }

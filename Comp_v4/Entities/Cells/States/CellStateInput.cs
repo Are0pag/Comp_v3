@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
-using Comp.ModelData.TechnicalItems;
 using WPF.Extensions.View.Elements;
 
 namespace WPF.Templates.TableWindow.States;
@@ -12,7 +11,8 @@ namespace WPF.Templates.TableWindow.States;
 public class CellStateInput : BaseCellState
 {
     protected readonly ActionUpdateItem _actionUpdateItem;
-    protected readonly HashSet<string> _editedCells = new HashSet<string>();
+    protected RememberInputTextCommand? _rememberInputTextCommand;
+    protected RememberCellCommand? _rememberCellCommand;
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
 
     public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, ActionUpdateItem actionUpdateItem) : base(scheduler, context) {
@@ -20,24 +20,27 @@ public class CellStateInput : BaseCellState
     }
 
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
-        var cell = e.Column.GetCellContent(e.Row);
-        if (cell != null) {
-            var cellKey = $"{e.Row.GetHashCode()}_{e.Column.DisplayIndex}";
-            
-            if (!_editedCells.Contains(cellKey)) {
-                _editedCells.Add(cellKey);
-                await _actionUpdateItem.PerformOnFirstEditAsync(e);
-            }
-        }
+        if (!_scheduler.IsInTransaction<TrSelectingCell>())
+            return;
+        
+        _rememberCellCommand = new RememberCellCommand(e);
+        await _rememberCellCommand.ExecuteAsync();
+        await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
+                        .ExecuteLastRegisteredAsync();
+        
+        _rememberInputTextCommand = new RememberInputTextCommand(e);
+        await _rememberInputTextCommand.ExecuteAsync();
+        _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberInputTextCommand!);
+        _scheduler.CommitTransaction<TrSelectingCell>();
         _lastCellEditBeginningEditEventArgs = e;
     }
 
-    public override async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
+    /*public override async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
         if (_context.DataGrid.IsEditing() && !_context.DataGrid.IsClickInEditingArea(e)) {
             await _actionUpdateItem.CancelAsync();
             await new CellChangeStateCommand(null, owner, owner.GetState<CellStateIdle>()).ExecuteAsync();
         }
-    }
+    }*/
 
     /// <summary>
     /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
@@ -45,17 +48,13 @@ public class CellStateInput : BaseCellState
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
-            case Key.Tab when _context.DataGrid.CurrentColumn.IsLastVisibleEditableColumn(_context.DataGrid):
-                await _actionUpdateItem.PerformAsync(_lastCellEditBeginningEditEventArgs);
-                await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new CellChangeStateCommand(_context, owner, owner.GetState<CellStateIdle>()))
-                                .ExecuteLastRegisteredAsync();
-                
-                _scheduler.CommitTransaction<TransactionUpdateItem>();
+            //case Key.Tab when _context.DataGrid.CurrentColumn.IsLastVisibleEditableColumn(_context.DataGrid):
+            case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
+                await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
                 break;
             
             case Key.Tab: /* завершается текущая транзакция и явно стимулируется вызов новой */
-                await _actionUpdateItem.PerformAsync(_lastCellEditBeginningEditEventArgs);
-                _scheduler.CommitTransaction<TransactionUpdateItem>();
+                await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
                 
                 // Явно переходим к следующей ячейке на основе текущего редактирования
                 e.Handled = true;
@@ -67,17 +66,8 @@ public class CellStateInput : BaseCellState
                 break;
             
             case Key.Escape:
-                await _actionUpdateItem.CancelAsync();
+                //await _actionUpdateItem.CancelAsync();
                 break;
-        }
-    }
-    
-    /// <summary>
-    /// Transaction maybe can be started from Idle state
-    /// </summary>
-    protected void EnsureUpdateTransactionStarted() {
-        if (!_scheduler.IsInTransaction<TransactionUpdateItem>()) { 
-            _scheduler.BeginTransaction<TransactionUpdateItem>();
         }
     }
 }

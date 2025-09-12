@@ -8,8 +8,8 @@ public class AddItemCommand : BaseCommand<object>
 {
     protected readonly IConditionalDesignationRepository _repository;
 
-    public AddItemCommand(object? parameter, IConditionalDesignationRepository repository) : base(parameter) {
-        _repository = repository;
+    public AddItemCommand(object parameter) : base(parameter) {
+        _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
     }
 
     public override async Task ExecuteDeferredAsync() {

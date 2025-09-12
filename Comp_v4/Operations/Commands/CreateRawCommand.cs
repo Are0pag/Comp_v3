@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
+using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
@@ -7,8 +8,8 @@ namespace Comp_v4.Operations.Commands;
 public class CreateRawCommand : BaseCommand<object>
 {
     protected readonly ModuleContext _context;
-    public CreateRawCommand(object? parameter, ModuleContext context) : base(parameter) {
-        _context = context;
+    public CreateRawCommand(object parameter) : base(parameter) {
+        _context = App.Host.Services.GetRequiredService<ModuleContext>();
     }
 
     public ConditionalDesignation Item { get; protected set; }
