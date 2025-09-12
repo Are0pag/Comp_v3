@@ -21,7 +21,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
     {
         if (!CanContinueWorking) return this;
         if (_creatingTransactions.ContainsKey(typeof(TCurrentTransaction))) 
-            throw new InvalidOperationException("Transaction already exists");
+            new InvalidOperationException("Transaction already exists").Log(this);
         
         var transaction = new TCurrentTransaction() {
             Description = descr
@@ -37,7 +37,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
             throw new InvalidOperationException("Do not call BeginTransaction before calling BeginTransaction");
         
         if (!_creatingTransactions.TryGetValue(_lastCreatingTransaction!, out var transaction))
-            throw new InvalidOperationException("The transaction was not created");
+            new InvalidOperationException("The transaction was not created").Log(this);
         
         transaction.AddCommand(command);
         return this;
@@ -49,7 +49,7 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         if (!CanContinueWorking) return this;
         
         if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
-            throw new InvalidOperationException("The transaction was not created");
+            new InvalidOperationException("The transaction was not created").Log(this);
         
         transaction.AddCommand(command);
         _lastCreatingTransaction = typeof(TCurrentTransaction);
@@ -59,13 +59,13 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
     public virtual async Task<T> ExecuteLastRegisteredAsync() {
         if (!CanContinueWorking) return default;
         if (_lastCreatingTransaction == null)
-            throw new InvalidOperationException("Do not call BeginTransaction before calling BeginTransaction");
+            new InvalidOperationException("Do not call BeginTransaction before calling BeginTransaction").Log(this);
         
         if (!_creatingTransactions.TryGetValue(_lastCreatingTransaction!, out var transaction))
-            throw new InvalidOperationException("The transaction was not created");
+            new InvalidOperationException("The transaction was not created").Log(this);
         
         if (!transaction.GetCommands().Any())
-            throw new InvalidOperationException("The transaction has not any registered commands");
+            new InvalidOperationException("The transaction has not any registered commands").Log(this);
 
         var command = transaction.GetCommands().Last();
         await command.ExecuteAsync();
@@ -78,10 +78,10 @@ public class TransactionalCommandScheduler<T, TTransaction> : CommandScheduler<T
         if (!CanContinueWorking) return this;
         
         if (!_creatingTransactions.TryGetValue(typeof(TCurrentTransaction), out var transaction))
-            throw new InvalidOperationException("The transaction was not created or already commited");
+            new InvalidOperationException("The transaction was not created or already commited").Log(this);
 
         if (!transaction.GetCommands().Any()) 
-            throw new InvalidOperationException("The transaction has not any commands");
+            new InvalidOperationException("The transaction has not any commands").Log(this);
 
         if (transaction is not T typedTransaction) 
             throw new InvalidOperationException("Transaction cannot be added to undo stack");

@@ -73,7 +73,7 @@ public class CellStateInput : BaseCellState
     }
     
     /// <summary>
-    /// Transaction maybe can started from Idle state
+    /// Transaction maybe can be started from Idle state
     /// </summary>
     protected void EnsureUpdateTransactionStarted() {
         if (!_scheduler.IsInTransaction<TransactionUpdateItem>()) { 
