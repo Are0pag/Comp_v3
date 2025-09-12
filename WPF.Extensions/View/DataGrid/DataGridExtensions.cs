@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace WPF.Extensions.View.Elements;
 
@@ -21,12 +22,29 @@ public static class DataGridExtensions
         return dataGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
     }
 
+    public static async Task<DataGridRow> GetRowFromItemAsync(this DataGrid dataGrid, object item) {
+        var row = dataGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+        if (row != null) return row;
+    
+        // Ждем создания контейнеров
+        await Application.Current.Dispatcher.InvokeAsync(() => {
+            dataGrid.ScrollIntoView(item);
+            dataGrid.UpdateLayout();
+        }, DispatcherPriority.Loaded);
+    
+        return dataGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+    }
+    
     /// <summary>
     /// Получает ячейку в указанном столбце для заданной строки. Необходимо обернуть в Dispatcher.CurrentDispatcher.BeginInvoke
     /// </summary>
-    public static DataGridCell GetCellInColumn(this DataGridRow row, DataGridColumn column) {
+    public static DataGridCell GetCellInColumn(this DataGridRow row, DataGridColumn column)
+    {
         var presenter = row.GetVisualChildRecursive<DataGridCellsPresenter>();
-        return presenter?.ItemContainerGenerator.ContainerFromIndex(column.DisplayIndex) as DataGridCell;
+        if (presenter == null)
+            return null;
+    
+        return presenter.ItemContainerGenerator.ContainerFromIndex(column.DisplayIndex) as DataGridCell;
     }
 
     /// <summary>
@@ -42,7 +60,11 @@ public static class DataGridExtensions
     private static T GetVisualChildRecursive<T>(this DependencyObject parent) 
         where T : DependencyObject
     {
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++) {
+        if (parent == null)
+            return null;
+        
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
             DependencyObject child = VisualTreeHelper.GetChild(parent, i);
             if (child is T typedChild)
                 return typedChild;

@@ -45,7 +45,6 @@ public class CellStateInput : BaseCellState
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
-            //case Key.Tab when _context.DataGrid.CurrentColumn.IsLastVisibleEditableColumn(_context.DataGrid):
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
                 await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
                 break;

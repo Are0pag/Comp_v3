@@ -13,12 +13,12 @@ public class FocusCellCommand : BaseCommand<ConditionalDesignation>
     }
 
     public override async Task ExecuteAsync() {
-        await Task.Delay(100);
         var dg = _moduleContext.DataGrid;
-        Dispatcher.CurrentDispatcher.BeginInvoke(() => {
+        Dispatcher.CurrentDispatcher.BeginInvoke(async () => {
             try {
                 var column = dg.GetFirstEditableColumn();
-                var raw = dg.GetRowFromItem(_parameter!);
+                await Task.Delay(200);
+                var raw = await dg.GetRowFromItemAsync(_parameter!);
                 var cell = dg.GetCell(raw, column);
 
                 dg.CurrentCell = new DataGridCellInfo(_parameter!, column);

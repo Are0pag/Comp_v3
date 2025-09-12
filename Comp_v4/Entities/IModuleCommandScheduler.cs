@@ -13,13 +13,13 @@ public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCom
 {
     public override TransactionalCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> BeginTransaction<TCurrentTransaction>(string? descr = null) {
         var r = base.BeginTransaction<TCurrentTransaction>(descr);;
-        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+        Notify();
         return r;
     }
 
     public override TransactionalCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> CommitTransaction<TCurrentTransaction>() {
         var r = base.CommitTransaction<TCurrentTransaction>();
-        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+        Notify();
         return r;
     }
 
@@ -33,7 +33,11 @@ public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCom
                 });
             });
         }
-            
+        Notify();
         return base.UndoAsync();
+    }
+
+    static private void Notify() {
+        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
     }
 }

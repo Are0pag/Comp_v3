@@ -33,7 +33,7 @@ public partial class App : Application
                             
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
 
-                             s.AddScoped<DataGridViewModel>();
+                             s.AddSingleton<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
 
                              s.AddScoped<ActionAddItem>();
@@ -72,8 +72,8 @@ public partial class App : Application
         
         _mainScope = Host.Services.CreateScope();
         new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
-        new PersistenceManager(Host.Services.GetRequiredService<IModuleCommandScheduler>(),
-                               Host.Services.GetRequiredService<ActionSave>());
+        new PersistenceManager(Host.Services.GetRequiredService<IModuleCommandScheduler>(), Host.Services.GetRequiredService<ActionSave>());
+        new TableCommandBinder();
         
         /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);*/
