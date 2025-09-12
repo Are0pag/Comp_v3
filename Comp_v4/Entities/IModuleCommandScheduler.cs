@@ -26,10 +26,8 @@ public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCom
     public override Task<object> UndoAsync() {
         if (!CanUndo()) {
             // Запускаем в отдельном потоке чтобы не блокировать UI
-            Task.Run(() =>
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
+            Task.Run(() => {
+                Application.Current.Dispatcher.Invoke(() => {
                     var notification = new NotificationWindow("Undo Stack = 0");
                     notification.Show();
                 });

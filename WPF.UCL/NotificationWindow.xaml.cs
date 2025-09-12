@@ -5,6 +5,24 @@ using System.Windows.Threading;
 
 namespace WPF.UCL;
 
+/// <summary>
+/// Создает и отображает всплывающее уведомление поверх активного окна.
+/// </summary>
+/// <param name="message">Текст уведомления для отображения</param>
+/// <remarks>
+/// Уведомление автоматически исчезает через 3 секунды.
+/// Может быть вызвано из любого потока с использованием Dispatcher.
+/// </remarks>
+/// <example>
+/// Пример использования в асинхронном контексте:
+/// <code>
+/// Task.Run(() => {
+///     Application.Current.Dispatcher.Invoke(() => {
+///         NotificationWindow.Show("Undo Stack = 0");
+///     });
+/// });
+/// </code>
+/// </example>
 public partial class NotificationWindow : Window
 {
     private readonly DispatcherTimer _closeTimer;
