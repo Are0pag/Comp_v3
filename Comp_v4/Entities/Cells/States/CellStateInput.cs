@@ -11,7 +11,6 @@ namespace WPF.Templates.TableWindow.States;
 public class CellStateInput : BaseCellState
 {
     protected readonly ActionUpdateItem _actionUpdateItem;
-    protected RememberInputTextCommand? _rememberInputTextCommand;
     protected RememberCellCommand? _rememberCellCommand;
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
 
@@ -28,9 +27,7 @@ public class CellStateInput : BaseCellState
         await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
                         .ExecuteLastRegisteredAsync();
         
-        _rememberInputTextCommand = new RememberInputTextCommand(e);
-        await _rememberInputTextCommand.ExecuteAsync();
-        _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberInputTextCommand!);
+        await _scheduler.RegisterCommandInto<TrSelectingCell>(new RememberInputTextCommand(e)).ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrSelectingCell>();
         _lastCellEditBeginningEditEventArgs = e;
     }
@@ -53,7 +50,7 @@ public class CellStateInput : BaseCellState
                 await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
                 break;
             
-            case Key.Tab: /* завершается текущая транзакция и явно стимулируется вызов новой */
+            case Key.Tab: 
                 await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
                 
                 // Явно переходим к следующей ячейке на основе текущего редактирования
@@ -63,10 +60,6 @@ public class CellStateInput : BaseCellState
                 await Application.Current.Dispatcher.InvokeAsync(() => {
                     _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!);
                 }, System.Windows.Threading.DispatcherPriority.Input);
-                break;
-            
-            case Key.Escape:
-                //await _actionUpdateItem.CancelAsync();
                 break;
         }
     }

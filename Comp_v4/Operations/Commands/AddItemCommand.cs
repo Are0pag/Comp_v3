@@ -1,4 +1,5 @@
 using Comp.Db.Contracts;
+using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates;
 
@@ -13,6 +14,10 @@ public class AddItemCommand : BaseCommand<object>
     }
 
     public override async Task ExecuteDeferredAsync() {
-        await _repository.AddAsync(_item!);
+        if (_parameter is not ConditionalDesignation conditionalDesignation) {
+            new InvalidOperationException("Parameter is not a conditional designation").Log(this);
+            return;
+        }
+        await _repository.AddAsync(conditionalDesignation);
     }
 }

@@ -7,23 +7,29 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class FocusCellCommand : BaseCommand<object>
+public class FocusCellCommand : BaseCommand<ConditionalDesignation>
 {
-    public FocusCellCommand(object? parameter) : base(parameter) {
+    public FocusCellCommand(ConditionalDesignation parameter) : base(parameter) {
     }
 
-    public override Task ExecuteAsync() {
-        /*var dg = _context.DataGrid;
-        
+    public override async Task ExecuteAsync() {
+        await Task.Delay(100);
+        var dg = _moduleContext.DataGrid;
         Dispatcher.CurrentDispatcher.BeginInvoke(() => {
-            var column = dg.GetFirstEditableColumn();
-            var raw = dg.GetRowFromItem(Item!);
-            var cell = dg.GetCell(raw, column);
+            try {
+                var column = dg.GetFirstEditableColumn();
+                var raw = dg.GetRowFromItem(_parameter!);
+                var cell = dg.GetCell(raw, column);
 
-            dg.CurrentCell = new DataGridCellInfo(Item!, column);
-            cell.Focus();
-            dg.BeginEdit();
-        }, DispatcherPriority.ContextIdle);*/
-        return Task.CompletedTask;
+                dg.CurrentCell = new DataGridCellInfo(_parameter!, column);
+                cell.Focus();
+                dg.BeginEdit();
+            }
+            catch (Exception e) {
+                e.Log(this);
+                throw;
+            }
+        }, DispatcherPriority.ContextIdle);
+        return;
     }
 }

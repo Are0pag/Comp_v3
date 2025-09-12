@@ -16,7 +16,6 @@ public class ActionStackTracker : IPreviewKeyDownHandler
         EventBus<IGlobSubscriber>.Unsubscribe(this);
     }
 
-    public void Initialize() {}
     public async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Z when e.KeyboardDevice.Modifiers == ModifierKeys.Control:

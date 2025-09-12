@@ -1,5 +1,6 @@
 using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates;
 
@@ -11,18 +12,23 @@ public class CreateRawCommand : BaseCommand<object>
     public CreateRawCommand(object parameter) : base(parameter) {
         _context = App.Host.Services.GetRequiredService<ModuleContext>();
     }
-
     public ConditionalDesignation Item { get; protected set; }
 
     public override Task ExecuteAsync() {
-        _item = new ConditionalDesignation("", "");
-        _context.DataGridViewModel.Items.Add(_item);
-        _context.DataGridViewModel.SelectedItem = _item;
+        try {
+            Item = new ConditionalDesignation("", "");
+            _context.DataGridViewModel.Items.Add(Item);
+            _context.DataGridViewModel.SelectedItem = Item;
+        }
+        catch (Exception e) {
+            e.Log(this);
+            throw;
+        }
         return Task.CompletedTask;
     }
 
     public override Task UndoAsync() {
-        _context.DataGridViewModel.Items.Remove(_item);
+        _context.DataGridViewModel.Items.Remove(Item);
         return Task.CompletedTask;
     }
 }

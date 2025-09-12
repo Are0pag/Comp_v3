@@ -26,7 +26,7 @@ public class PersistenceManager : IPreviewKeyDownHandler
                     await _saveAction.PerformAsync();
                 }
                 catch (Exception ex) {
-                    Console.WriteLine(ex);
+                    ex.Log(this);
                 }
                 break;
         }

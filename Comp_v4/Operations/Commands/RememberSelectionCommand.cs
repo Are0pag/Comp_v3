@@ -7,14 +7,14 @@ public class RememberSelectionCommand : BaseCommand<object>
     public RememberSelectionCommand(object? parameter = null) : base(parameter) {
     }
 
-    /*public override Task ExecuteAsync() {
-        _item = _context.DataGridViewModel.SelectedItem;
+    public override Task ExecuteAsync() {
+        _item = _moduleContext.DataGridViewModel.SelectedItem;
         return Task.CompletedTask;
     }
 
     public override Task UndoAsync() {
-        _context.DataGridViewModel.SelectedItem = _item;
-        _context.DataGrid.Focus();
+        _moduleContext.DataGridViewModel.SelectedItem = _item;
+        _moduleContext.DataGrid.Focus();
         return Task.CompletedTask;
-    }*/
+    }
 }

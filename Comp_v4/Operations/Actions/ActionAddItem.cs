@@ -14,20 +14,23 @@ public class ActionAddItem : BaseAction
     }
 
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
-        await _scheduler.BeginTransaction<TransactionAddItem>()
-                        .RegisterCommand(new RememberSelectionCommand(_context))
+        _scheduler.BeginTransaction<TransactionAddItem>();
+        
+        var createRawCommand = new CreateRawCommand(_context);
+
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new RememberSelectionCommand(_context))
                         .ExecuteLastRegisteredAsync();
         
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new CreateRawCommand(_context))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
                         .ExecuteLastRegisteredAsync();
 
-        _scheduler.RegisterCommandInto<TransactionAddItem>(new AddItemCommand(null));
+        _scheduler.RegisterCommandInto<TransactionAddItem>(new AddItemCommand(createRawCommand.Item));
 
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(_context))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(createRawCommand.Item))
                         .ExecuteLastRegisteredAsync();
 
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateInput>()))
-                        .ExecuteLastRegisteredAsync();
+        /*await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateInput>()))
+                        .ExecuteLastRegisteredAsync();*/
 
         _scheduler.CommitTransaction<TransactionAddItem>();
         return this;
