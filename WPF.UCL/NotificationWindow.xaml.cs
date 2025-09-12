@@ -5,17 +5,33 @@ namespace WPF.UCL;
 
 public partial class NotificationWindow : Window
 {
-    public NotificationWindow(string message)
-    {
+    public NotificationWindow(string message) {
         InitializeComponent();
 
-        // Установка сообщения
         MessageTextBlock.Text = message;
 
-        // Позиционирование (например, в правом нижнем углу)
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        Left = SystemParameters.WorkArea.Width - Width - 20;
-        Top = SystemParameters.WorkArea.Height - Height - 20;
+        // Получаем текущее активное окно
+        Window activeWindow = Application.Current.Windows
+                                         .OfType<Window>()
+                                         .FirstOrDefault(w => w.IsActive);
+
+        if (activeWindow != null)
+        {
+            // Позиционирование над активным окном
+            Owner = activeWindow;
+            WindowStartupLocation = WindowStartupLocation.Manual;
+
+            // Расчет позиции по центру над активным окном
+            Left = activeWindow.Left + (activeWindow.Width - Width) / 2;
+            Top = activeWindow.Top - Height - 10; // Немного отступа сверху
+        }
+        else
+        {
+            // Резервный вариант - в правом нижнем углу экрана
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = SystemParameters.WorkArea.Width - Width - 20;
+            Top = SystemParameters.WorkArea.Height - Height - 20;
+        }
     }
 
     protected override void OnSourceInitialized(EventArgs e)
