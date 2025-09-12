@@ -1,3 +1,4 @@
+using System.Windows;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.Command.TransactionSupportive;
 using Utils.EventBus;
@@ -23,8 +24,18 @@ public class ModuleCommandScheduler : HeterochromicCommandScheduler<IDeferredCom
     }
 
     public override Task<object> UndoAsync() {
-        if (!CanUndo())
-            NotificationWindow.Show("Uno Stack count = 0");
+        if (!CanUndo()) {
+            // Запускаем в отдельном потоке чтобы не блокировать UI
+            Task.Run(() =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var notification = new NotificationWindow("Undo Stack = 0");
+                    notification.Show();
+                });
+            });
+        }
+            
         return base.UndoAsync();
     }
 }
