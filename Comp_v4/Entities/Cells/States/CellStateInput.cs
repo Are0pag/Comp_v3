@@ -53,7 +53,7 @@ public class CellStateInput : BaseCellState
                 _scheduler.CommitTransaction<TransactionUpdateItem>();
                 break;
             
-            case Key.Tab:
+            case Key.Tab: /* завершается текущая транзакция и явно стимулируется вызов новой */
                 await _actionUpdateItem.PerformAsync(_lastCellEditBeginningEditEventArgs);
                 _scheduler.CommitTransaction<TransactionUpdateItem>();
                 

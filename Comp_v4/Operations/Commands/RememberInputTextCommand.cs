@@ -18,13 +18,13 @@ public class RememberInputTextCommand : BaseCommand
     public override async Task ExecuteAsync() {
         await Task.Delay(100);
         
-        if (_parameter is not DataGridRow raw)
+        if (_parameter is not DataGridBeginningEditEventArgs e)
             throw new InvalidCastException();
         
-        if (raw.Item is not ConditionalDesignation conditionalDesignation)
+        if (e.Row.Item is not ConditionalDesignation conditionalDesignation)
             throw new InvalidCastException();
         
-        _propertyRestoreService.RememberValue(conditionalDesignation, _context.DataGrid.CurrentCell.Column.GetPropertyName());
+        _propertyRestoreService.RememberValue(conditionalDesignation, e.Column.GetPropertyName());
         _item = conditionalDesignation;
     }
 
