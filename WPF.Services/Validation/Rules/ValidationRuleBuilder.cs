@@ -26,17 +26,25 @@ public class ValidationRuleBuilder<T>
     }
 
     public ValidationRuleBuilder<T> Custom(Func<T, bool> validationFunc, 
-                                           string ruleName, 
-                                           string errorMessage,
-                                           ValidationSeverity severity = ValidationSeverity.Error)
+                                         string ruleName, 
+                                         string errorMessage,
+                                         ValidationSeverity severity = ValidationSeverity.Error)
     {
         _rules.Add(new CustomValidationRule<T>(_currentPropertyName, ruleName, errorMessage, severity, validationFunc));
         return this;
     }
 
+    // Первый вариант Regex - только pattern и errorMessage
     public ValidationRuleBuilder<T> Regex(string pattern, string errorMessage = "Invalid format")
     {
         _rules.Add(new RegexRule<T>(_currentPropertyName, pattern, errorMessage));
+        return this;
+    }
+
+    // Второй вариант Regex - с RegexOptions
+    public ValidationRuleBuilder<T> Regex(string pattern, System.Text.RegularExpressions.RegexOptions options, string errorMessage = "Invalid format")
+    {
+        _rules.Add(new AdvancedRegexRule<T>(_currentPropertyName, pattern, options, errorMessage));
         return this;
     }
 
