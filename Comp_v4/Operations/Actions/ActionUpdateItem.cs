@@ -48,10 +48,10 @@ public class ActionUpdateItem : BaseAction
     protected async Task RememberEnv(DataGridBeginningEditEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(false));
         
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(_context, e))
+        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberCellCommand(e))
                         .ExecuteLastRegisteredAsync();
         
-        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberInputTextCommand(_context, e))
+        await _scheduler.RegisterCommandInto<TransactionUpdateItem>(new RememberInputTextCommand(e))
                         .ExecuteLastRegisteredAsync();
         
         EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.SetAccessToHandleCellEvents(true));

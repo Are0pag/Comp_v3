@@ -7,24 +7,24 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberInputTextCommand : BaseCommand
+public class RememberInputTextCommand : BaseCommand<DataGridCellEditEndingEventArgs>
 {
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
-    
-    public RememberInputTextCommand(ModuleContext context, object? parameter) : base(context, parameter) {
-        _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();
+    public RememberInputTextCommand(DataGridCellEditEndingEventArgs parameter, 
+                                    DataGridPropertyRestoreService<ConditionalDesignation> propertyRestoreService) 
+        : base(parameter) {
+        _propertyRestoreService = propertyRestoreService;
     }
 
     public override async Task ExecuteAsync() {
         await Task.Delay(100);
+
+        if (_parameter.Row.Item is not ConditionalDesignation conditionalDesignation) {
+            new InvalidCastException().Log(this);
+            return;
+        }
         
-        if (_parameter is not DataGridBeginningEditEventArgs e)
-            throw new InvalidCastException();
-        
-        if (e.Row.Item is not ConditionalDesignation conditionalDesignation)
-            throw new InvalidCastException();
-        
-        _propertyRestoreService.RememberValue(conditionalDesignation, e.Column.GetPropertyName());
+        _propertyRestoreService.RememberValue(conditionalDesignation, _parameter.Column.GetPropertyName());
         _item = conditionalDesignation;
     }
 

@@ -7,16 +7,13 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class FocusCellCommand : BaseCommand
+public class FocusCellCommand : BaseCommand<object>
 {
-    protected readonly Cell _cell;
-
-    public FocusCellCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
-        _cell = App.Host.Services.GetRequiredService<Cell>();
+    public FocusCellCommand(object? parameter) : base(parameter) {
     }
 
     public override Task ExecuteAsync() {
-        var dg = _context.DataGrid;
+        /*var dg = _context.DataGrid;
         
         Dispatcher.CurrentDispatcher.BeginInvoke(() => {
             var column = dg.GetFirstEditableColumn();
@@ -26,7 +23,7 @@ public class FocusCellCommand : BaseCommand
             dg.CurrentCell = new DataGridCellInfo(Item!, column);
             cell.Focus();
             dg.BeginEdit();
-        }, DispatcherPriority.ContextIdle);
+        }, DispatcherPriority.ContextIdle);*/
         return Task.CompletedTask;
     }
 }

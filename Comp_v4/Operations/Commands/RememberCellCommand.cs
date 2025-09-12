@@ -8,42 +8,26 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberCellCommand : BaseCommand
+public class RememberCellCommand : BaseCommand<DataGridCellEditEndingEventArgs>
 {
-    protected DataGridColumn _column;
-
-    public RememberCellCommand(ModuleContext context, object? parameter) : base(context, parameter) { }
+    protected DataGridCell? _cell;
+    public RememberCellCommand(DataGridCellEditEndingEventArgs parameter) : base(parameter) {
+    }
 
     public override async Task ExecuteAsync() {
-        await Task.Delay(100);
-        await App.Current.Dispatcher.InvokeAsync(() => {
-            try {
-                if (_parameter is not DataGridBeginningEditEventArgs e)
-                    throw new NullReferenceException();
-
-                _column = e.Column;
-            }
-            catch (Exception ex) {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-        });
+        if (_parameter!.EditingElement is not DataGridCell cell) {
+            new InvalidOperationException().Log(this);
+            return;
+        }
+        _cell = cell;
     }
 
     public override async Task UndoAsync() {
         await Task.Delay(100);
         await App.Current.Dispatcher.InvokeAsync(() => {
             try {
-                var dg = _context.DataGrid;
-
-                if (_parameter is not DataGridBeginningEditEventArgs raw)
-                    throw new NullReferenceException();
-                
-                var cell = dg.GetCell(raw.Row, _column);
-                if (cell == null)
-                    throw new NullReferenceException();
-                
-                cell.Focus();
-                dg.BeginEdit();
+                _cell!.Focus();
+                _moduleContext.DataGrid.BeginEdit();
             }
             catch (Exception ex) {
                 Console.WriteLine($"Error: {ex.Message}");

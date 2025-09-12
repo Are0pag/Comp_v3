@@ -4,9 +4,11 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class CreateRawCommand : BaseCommand
+public class CreateRawCommand : BaseCommand<object>
 {
-    public CreateRawCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
+    protected readonly ModuleContext _context;
+    public CreateRawCommand(object? parameter, ModuleContext context) : base(parameter) {
+        _context = context;
     }
 
     public ConditionalDesignation Item { get; protected set; }
@@ -15,7 +17,6 @@ public class CreateRawCommand : BaseCommand
         _item = new ConditionalDesignation("", "");
         _context.DataGridViewModel.Items.Add(_item);
         _context.DataGridViewModel.SelectedItem = _item;
-        Item = _item;
         return Task.CompletedTask;
     }
 

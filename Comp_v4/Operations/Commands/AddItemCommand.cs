@@ -4,12 +4,12 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class AddItemCommand : BaseCommand
+public class AddItemCommand : BaseCommand<object>
 {
     protected readonly IConditionalDesignationRepository _repository;
 
-    public AddItemCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
-        _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
+    public AddItemCommand(object? parameter, IConditionalDesignationRepository repository) : base(parameter) {
+        _repository = repository;
     }
 
     public override async Task ExecuteDeferredAsync() {

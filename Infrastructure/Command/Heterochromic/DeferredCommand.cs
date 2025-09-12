@@ -1,14 +1,8 @@
 namespace Infrastructure.Command.Heterochromic;
 
-public abstract class DeferredCommand<TContext, TItem> : IDeferredCommand
+public abstract class DeferredCommand<TItem> : IDeferredCommand
 {
-    protected readonly TContext _context;
     protected TItem? _item;
-
-    public DeferredCommand(TContext context) {
-        _context = context;
-    }
-
     public string? Description { get; set; }
 
     public abstract Task ExecuteAsync();

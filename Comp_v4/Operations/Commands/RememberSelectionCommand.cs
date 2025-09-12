@@ -2,12 +2,12 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberSelectionCommand : BaseCommand
+public class RememberSelectionCommand : BaseCommand<object>
 {
-    public RememberSelectionCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
+    public RememberSelectionCommand(object? parameter = null) : base(parameter) {
     }
 
-    public override Task ExecuteAsync() {
+    /*public override Task ExecuteAsync() {
         _item = _context.DataGridViewModel.SelectedItem;
         return Task.CompletedTask;
     }
@@ -16,5 +16,5 @@ public class RememberSelectionCommand : BaseCommand
         _context.DataGridViewModel.SelectedItem = _item;
         _context.DataGrid.Focus();
         return Task.CompletedTask;
-    }
+    }*/
 }

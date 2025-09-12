@@ -7,14 +7,13 @@ using WPF.Templates.TableWindow.Events;
 
 namespace Comp_v4.Operations.Commands;
 
-public class UpdateItemCommand : BaseCommand
+public class UpdateItemCommand : BaseCommand<object>
 {
     protected readonly IConditionalDesignationRepository _repository;
 
 
-    public UpdateItemCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
+    public UpdateItemCommand(object? parameter = null) : base(parameter) {
         _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
-        _item = Item;
     }
 
     public override async Task ExecuteDeferredAsync() {

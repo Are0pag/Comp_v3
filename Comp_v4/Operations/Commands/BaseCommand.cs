@@ -5,19 +5,13 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public abstract class BaseCommand : DeferredCommand<ModuleContext, ConditionalDesignation>
+public abstract class BaseCommand<TParameter> : DeferredCommand<ConditionalDesignation>
 {
-    protected readonly object? _parameter;
-    protected BaseCommand(ModuleContext context, object? parameter = null) : base(context) {
+    protected readonly TParameter _parameter;
+    protected readonly ModuleContext _moduleContext;
+    protected BaseCommand(TParameter parameter) {
         _parameter = parameter;
-    }
-
-    public ConditionalDesignation Item {
-        get {
-            if (_context.DataGrid.SelectedItem is not ConditionalDesignation conditionalDesignation)
-                throw new InvalidCastException();
-            return conditionalDesignation;
-        }
+        _moduleContext = App.Host.Services.GetRequiredService<ModuleContext>();
     }
     
     public override Task ExecuteAsync() {

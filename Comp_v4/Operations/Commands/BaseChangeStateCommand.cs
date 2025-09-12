@@ -3,7 +3,7 @@ using WPF.Templates.TableWindow.States;
 
 namespace Comp_v4.Operations.Commands;
 
-public abstract class BaseChangeStateCommand<TBaseState, TStateMachine> : BaseCommand
+public abstract class BaseChangeStateCommand<TBaseState, TStateMachine> : BaseCommand<object>
     where TBaseState : Infrastructure.StateMachine.StateBase<Cell>
     where TStateMachine : Infrastructure.StateMachine.GenericStateMachine<TBaseState, Cell>
 {
@@ -11,7 +11,7 @@ public abstract class BaseChangeStateCommand<TBaseState, TStateMachine> : BaseCo
     protected readonly TBaseState _fromState;
     protected readonly TBaseState _targetState;
 
-    public BaseChangeStateCommand(ModuleContext context, TStateMachine stateMachine, TBaseState targetState) : base(context) {
+    public BaseChangeStateCommand(object? parameter, TStateMachine stateMachine, TBaseState targetState) : base(parameter) {
         _stateMachine = stateMachine;
         _fromState = stateMachine.CurrentState;
         _targetState = targetState;
