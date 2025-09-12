@@ -62,8 +62,8 @@ public class CellStateInput : BaseCellState
             
                 // Используем Dispatcher для гарантированного выполнения после текущих операций
                 await Application.Current.Dispatcher.InvokeAsync(() => {
-                                                                     _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!); 
-                                                                 }, System.Windows.Threading.DispatcherPriority.Input);
+                    _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!);
+                }, System.Windows.Threading.DispatcherPriority.Input);
                 break;
             
             case Key.Escape:
