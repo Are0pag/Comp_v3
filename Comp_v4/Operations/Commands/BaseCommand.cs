@@ -8,10 +8,7 @@ namespace Comp_v4.Operations.Commands;
 public abstract class BaseCommand : DeferredCommand<ModuleContext, ConditionalDesignation>
 {
     protected readonly object? _parameter;
-    
-    protected BaseCommand(ModuleContext context) : base(context) { }
-
-    protected BaseCommand(ModuleContext context, object? parameter) : base(context) {
+    protected BaseCommand(ModuleContext context, object? parameter = null) : base(context) {
         _parameter = parameter;
     }
 

@@ -6,7 +6,7 @@ namespace Comp_v4.Operations.Commands;
 
 public class CreateRawCommand : BaseCommand
 {
-    public CreateRawCommand(ModuleContext context) : base(context) {
+    public CreateRawCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
     }
 
     public ConditionalDesignation Item { get; protected set; }

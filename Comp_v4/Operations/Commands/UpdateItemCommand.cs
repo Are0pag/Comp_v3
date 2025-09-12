@@ -10,8 +10,9 @@ namespace Comp_v4.Operations.Commands;
 public class UpdateItemCommand : BaseCommand
 {
     protected readonly IConditionalDesignationRepository _repository;
-    
-    public UpdateItemCommand(ModuleContext context) : base(context) {
+
+
+    public UpdateItemCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
         _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
         _item = Item;
     }

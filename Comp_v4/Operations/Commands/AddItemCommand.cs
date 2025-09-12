@@ -7,7 +7,8 @@ namespace Comp_v4.Operations.Commands;
 public class AddItemCommand : BaseCommand
 {
     protected readonly IConditionalDesignationRepository _repository;
-    public AddItemCommand(ModuleContext context) : base(context) {
+
+    public AddItemCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
         _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
     }
 

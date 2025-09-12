@@ -10,12 +10,12 @@ namespace Comp_v4.Operations.Commands;
 public class FocusCellCommand : BaseCommand
 {
     protected readonly Cell _cell;
-    public FocusCellCommand(ModuleContext context) : base(context) {
+
+    public FocusCellCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
         _cell = App.Host.Services.GetRequiredService<Cell>();
     }
 
     public override Task ExecuteAsync() {
-        //_cell.IsEnabled = true;
         var dg = _context.DataGrid;
         
         Dispatcher.CurrentDispatcher.BeginInvoke(() => {
@@ -26,7 +26,6 @@ public class FocusCellCommand : BaseCommand
             dg.CurrentCell = new DataGridCellInfo(Item!, column);
             cell.Focus();
             dg.BeginEdit();
-            //_cell.IsEnabled = false;
         }, DispatcherPriority.ContextIdle);
         return Task.CompletedTask;
     }

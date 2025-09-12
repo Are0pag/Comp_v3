@@ -4,7 +4,7 @@ namespace Comp_v4.Operations.Commands;
 
 public class RememberSelectionCommand : BaseCommand
 {
-    public RememberSelectionCommand(ModuleContext context) : base(context) {
+    public RememberSelectionCommand(ModuleContext context, object? parameter = null) : base(context, parameter) {
     }
 
     public override Task ExecuteAsync() {
