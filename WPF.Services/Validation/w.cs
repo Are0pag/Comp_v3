@@ -8,14 +8,58 @@ namespace WPF.Services.Validation;
 
 public class ValidationWarning : ValidationError { }
 
+// Статический helper класс для удобства
+public static class Pattern
+{
+    public static RegexPatternBuilder Create() => RegexPatternBuilder.Create();
+    
+    public static string Email() => Create().Email().Build();
+    public static string Phone() => Create().Phone().Build();
+    
+    public static string SimpleEmail() => 
+        Create().StartsWith().Alphanumeric(1).Text("@").Alphanumeric(1).Text(".").Letters(2).EndsWith().Build();
+}
 public class UserValidator : Validator<UserRegistrationDto>
 {
     public UserValidator() {
+        var emailPattern = Pattern.Create()
+                                  .StartsWith()    //  ^
+                                  .Alphanumeric(1) // [a-zA-Z0-9]{1}  (минимум 1 буква/цифра)
+                                  .Text("@")       // @
+                                  .Alphanumeric(1) // [a-zA-Z0-9]{1} (минимум 1 буква/цифра)
+                                  .Text(".")       // \.
+                                  .Letters(2, 4)   // [a-zA-Z]{2,4} (от 2 до 4 букв)
+                                  .EndsWith()      // $
+                                  .Build();        // ^[a-zA-Z0-9]{1}@[a-zA-Z0-9]{1}\.[a-zA-Z]{2,4}$
+
+        var phonePattern = Pattern.Create()
+                                  .StartsWith()
+                                  .Text("+").Optional()
+                                  .Digits(1, 3)
+                                  .Digits(10)
+                                  .EndsWith()
+                                  .Build(); // ^\+?\d{1,3}\d{10}$
+
+        
+        // Сложный пример с группами
+        var complexPattern = Pattern.Create()
+                                    .StartsWith()
+                                    .Group(b => b
+                                               .Text("http")
+                                               .Text("s").Optional()
+                                               .Text("://")
+                                     )
+                                    .Alphanumeric(1)
+                                    .Text(".")
+                                    .Letters(2, 4)
+                                    .EndsWith()
+                                    .Build();
+        
         var rules = CreateRules()
                    .ForProperty(u => u.Email)
                    .Required("Email is required")
                     // Правильный вызов - 2 параметра
-                   .Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", "Invalid email format")
+                   .Regex(/*@"^[^@\s]+@[^@\s]+\.[^@\s]+$"*/ emailPattern, "Invalid email format")
                     // Правильный вызов - 3 параметра
                    .Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", 
                           System.Text.RegularExpressions.RegexOptions.IgnoreCase, 
