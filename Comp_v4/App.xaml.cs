@@ -14,10 +14,21 @@ using WPF.Templates.TableWindow.Vm;
 
 namespace Comp_v4;
 
+public interface ICondDesServiceScope : IServiceScope {}
+
 public partial class App : Application
 {
     public static IHost Host { get; protected set; }
     protected IServiceScope _mainScope;
+
+
+    /* TODO */
+    protected static readonly Dictionary<Type, IServiceScope> _scopes = new Dictionary<Type, IServiceScope>();
+    public static ICondDesServiceScope TestScope { get; protected set; }
+
+    public static IServiceScope ProvideTransientCommandInScope<T>() where T : IServiceScope {
+        return _scopes[typeof(T)];
+    }
 
     public App() {
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder().

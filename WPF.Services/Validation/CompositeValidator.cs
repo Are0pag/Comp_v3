@@ -37,7 +37,7 @@ public class CompositeValidator<T> : IValidator<T>
         else
         {
             // Или создаем новый простой валидатор
-            var validator = new Validator<T>();
+            var validator = new ValidatorBase<T>();
             validator.AddRule(rule);
             _validators.Add(validator);
         }

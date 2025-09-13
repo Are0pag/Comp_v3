@@ -19,7 +19,7 @@ public static class Pattern
     public static string SimpleEmail() => 
         Create().StartsWith().Alphanumeric(1).Text("@").Alphanumeric(1).Text(".").Letters(2).EndsWith().Build();
 }
-public class UserValidator : Validator<UserRegistrationDto>
+public class UserValidator : ValidatorBase<UserRegistrationDto>
 {
     public UserValidator() {
         var emailPattern = Pattern.Create()
@@ -75,6 +75,20 @@ public class UserValidator : Validator<UserRegistrationDto>
         foreach (var rule in rules) {
             AddRule(rule);
         }
+
+        if (ValidateAsync(new UserRegistrationDto()).Result is { IsValid: true } result) {
+            
+        }
+        
+        switch (ValidateAsync(new UserRegistrationDto()).Result) {
+            case {IsValid: true}:
+                
+                break;
+        }
+    }
+
+    protected override void AddRules() {
+        throw new NotImplementedException();
     }
 }
 
@@ -89,7 +103,7 @@ public class UserRegistrationDto
 }
 
 // Пример с телефоном
-public class UserValidatorWithPhone : Validator<UserRegistrationDto>
+public class UserValidatorWithPhone : ValidatorBase<UserRegistrationDto>
 {
     public UserValidatorWithPhone()
     {
@@ -103,6 +117,10 @@ public class UserValidatorWithPhone : Validator<UserRegistrationDto>
         {
             AddRule(rule);
         }
+    }
+
+    protected override void AddRules() {
+        throw new NotImplementedException();
     }
 }
 

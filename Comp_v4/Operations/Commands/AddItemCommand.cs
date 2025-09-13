@@ -11,6 +11,11 @@ public class AddItemCommand : BaseCommand<object>
 
     public AddItemCommand(object parameter) : base(parameter) {
         _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
+        // TODO
+        //_repository = App.TestScope.ServiceProvider.GetRequiredService<IConditionalDesignationRepository>();
+        // не, надо регать как трансиент
+        /*var scope = App.ProvideTransientCommandInScope<ICondDesServiceScope>();
+        _repository = scope.ServiceProvider.GetRequiredService<IConditionalDesignationRepository>();*/
     }
 
     public override async Task ExecuteDeferredAsync() {

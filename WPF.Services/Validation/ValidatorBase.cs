@@ -1,8 +1,30 @@
 namespace WPF.Services.Validation;
 
-public class Validator<T> : IValidator<T>
+public abstract class ValidatorBase<T> : IValidator<T>
 {
     private readonly Dictionary<string, IValidationRule<T>> _rules = new();
+
+    protected ValidatorBase() {
+        AddRules();
+    }
+    protected abstract void AddRules();
+
+    /// Валидация только одного свойства
+    public async Task<ValidationResult> ValidatePropertyAsync(T value, string propertyName) {
+        var result = new ValidationResult { IsValid = true };
+        var propertyRules = _rules.Values.Where(r => r.PropertyName == propertyName);
+
+        foreach (var rule in propertyRules) {
+            var ruleResult = await rule.ValidateAsync(value);
+
+            if (!ruleResult.IsValid) {
+                result.IsValid = false;
+                result.Errors.AddRange(ruleResult.Errors);
+            }
+        }
+
+        return result;
+    }
 
     public async Task<ValidationResult> ValidateAsync(T value) {
         var result = new ValidationResult { IsValid = true };

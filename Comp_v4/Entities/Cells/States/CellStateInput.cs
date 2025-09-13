@@ -43,6 +43,12 @@ public class CellStateInput : BaseCellState
     /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     /// </summary>
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
+        // Validation
+        
+        await HadleKeyInput(owner, e);
+    }
+
+    protected virtual async Task HadleKeyInput(Cell owner, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):

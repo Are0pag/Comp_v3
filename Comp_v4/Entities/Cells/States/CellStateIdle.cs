@@ -11,10 +11,9 @@ public class CellStateIdle : BaseCellState
     }
 
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
-        var targetState = owner.GetState<CellStateInput>();
-
         _scheduler.BeginTransaction<TrSelectingCell>();
-
+        
+        var targetState = owner.GetState<CellStateInput>();
         await _scheduler.RegisterCommandInto<TrSelectingCell>(new CellChangeStateCommand(_context, owner, targetState) {
             Description = "Id = 1. Maybe will have logic to remove any focus and selection on Undo"
         }).ExecuteLastRegisteredAsync();
