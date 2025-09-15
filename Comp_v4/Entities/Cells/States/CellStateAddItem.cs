@@ -1,22 +1,18 @@
 using System.Windows.Controls;
-using System.Windows.Input;
 using Comp_v4.Entities;
-using WPF.Extensions.View.Elements;
+using Comp_v4.Operations.Commands;
 
 namespace WPF.Templates.TableWindow.States;
 
-public class CellStateAddItem : BaseCellState
+public class CellStateAddItem : BaseCellStateInput
 {
-    protected readonly ActionAddItem _actionAddItem;
-    protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
-
-    public CellStateAddItem(IModuleCommandScheduler scheduler, ModuleContext context, ActionAddItem actionAddItem) : base(scheduler, context) {
-        _actionAddItem = actionAddItem;
+    public CellStateAddItem(IModuleCommandScheduler scheduler, ModuleContext context, Validator validator, ActionAddItem actionAddItem) : base(scheduler, context, validator) {
+        _action = actionAddItem;
     }
 
     public override Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
+        _rememberCellCommand = new RememberCellCommand(e);
         _lastCellEditBeginningEditEventArgs = e;
         return Task.CompletedTask;
     }
-
 }

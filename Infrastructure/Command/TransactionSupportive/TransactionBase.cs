@@ -27,6 +27,10 @@ public abstract class TransactionBase<T> : ITransaction<T>
     }
 
     public virtual async Task UndoAsync() {
+        #if DEBUG
+        var currentTransaction = this.GetType();
+        #endif 
+        
         for (var i = _commands.Count - 1; i >= 0; i--) {
             var command = _commands[i];
             await command.UndoAsync().ConfigureAwait(false);

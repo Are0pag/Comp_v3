@@ -49,16 +49,17 @@ public partial class App : Application
                              s.AddSingleton<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
 
-                             s.AddScoped<ActionAddNewRow>();
+                             s.AddScoped<ActionStartAddingNewItem>();
                              s.AddScoped<ActionAddItem>();
                              s.AddScoped<ActionUpdateItem>();
+                             s.AddScoped<ActionDeleteItem>();
                              s.AddScoped<ActionSave>();
                              
                              s.AddSingleton<CellStateIdle>();
-                             s.AddSingleton<CellStateInput>();
+                             s.AddSingleton<CellStateUpdate>();
                              s.AddSingleton<CellStateAddItem>();
                              s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
-                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
+                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateUpdate>());
                              s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateAddItem>());
                              s.AddSingleton<Cell>(provider => {
                                                    var states = provider.GetServices<BaseCellState>();
@@ -69,6 +70,7 @@ public partial class App : Application
 
                              s.AddScoped<ButtonVmAddItem>();
                              s.AddSingleton<ButtonVmSave>();
+                             s.AddSingleton<ButtonVmDeleteItem>();
                              
                              s.AddTransient<TargetWindow>();
 
@@ -87,7 +89,7 @@ public partial class App : Application
         _mainScope = Host.Services.CreateScope();
         new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
         new PersistenceManager(Host.Services.GetRequiredService<IModuleCommandScheduler>(), Host.Services.GetRequiredService<ActionSave>());
-        new TableCommandBinder();
+        new TableCommandBinder(Host.Services.GetRequiredService<ActionStartAddingNewItem>(), Host.Services.GetRequiredService<ActionDeleteItem>());
         
         /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);*/

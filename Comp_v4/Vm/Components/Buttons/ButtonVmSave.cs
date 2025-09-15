@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using Comp_v4.Operations.Commands;
 using WPF.Templates.Core;
 
 namespace WPF.Templates;
@@ -6,12 +7,7 @@ namespace WPF.Templates;
 public partial class ButtonVmSave : BaseButtonsVm<ActionSave>
 {
     public ButtonVmSave(ActionSave context) : base(context) {
-        /*Task.Factory.StartNew(() => {
-            while (true) {
-                Task.Delay(1000).Wait();
-                NotifyCanExecute();
-            }
-        });*/
+        
     }
 
     [RelayCommand(CanExecute = nameof(CanSave))]

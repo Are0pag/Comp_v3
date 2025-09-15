@@ -5,11 +5,11 @@ using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
 
-public class ActionAddNewRow : BaseAction
+public class ActionStartAddingNewItem : BaseAction
 {
     protected readonly Cell _cell;
     
-    public ActionAddNewRow(IModuleCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
+    public ActionStartAddingNewItem(IModuleCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
         _cell = cell;
     }
 
@@ -24,17 +24,18 @@ public class ActionAddNewRow : BaseAction
         await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
                         .ExecuteLastRegisteredAsync();
 
-        _scheduler.RegisterCommandInto<TransactionAddItem>(new AddItemCommand(createRawCommand.Item));
-
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(createRawCommand.Item))
                         .ExecuteLastRegisteredAsync();
 
         _scheduler.CommitTransaction<TransactionAddItem>();
+
+        await new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()).ExecuteAsync();
+        
         return this;
     }
 
     public override bool CanPerform() {
-        return _cell.CurrentState is not CellStateInput;
+        return _cell.CurrentState is CellStateIdle;
     }
 
     public override async Task CancelAsync(object? parameter = null) {

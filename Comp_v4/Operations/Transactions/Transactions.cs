@@ -7,3 +7,4 @@ public class Transactions{}
 public class TransactionAddItem : TransactionDeferredSupportive { }
 public class TrSelectingCell : TransactionDeferredSupportive { }
 public class TrEditCell : TransactionDeferredSupportive { }
+public class TrDeleteCell : TransactionDeferredSupportive { }

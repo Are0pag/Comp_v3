@@ -19,16 +19,18 @@ public class ActionUpdateItem : BaseAction
         }
         
         _scheduler.BeginTransaction<TrEditCell>();
-        _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
-        SaveToDb(args.Item);
+
+        await InitTransaction(args);
         await _scheduler.RegisterCommandInto<TrEditCell>(new CellChangeStateCommand(_context, args.Cell, args.Cell.GetState<CellStateIdle>()))
                         .ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrEditCell>();
         return this;
     }
 
-    protected virtual void SaveToDb(ConditionalDesignation cd) {
-        _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(cd));
+    protected virtual Task InitTransaction(Args args) {
+        _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
+        _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(args.Item));
+        return Task.CompletedTask;
     }
 
     public override bool CanPerform() {

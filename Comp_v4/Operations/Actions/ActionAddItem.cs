@@ -10,7 +10,9 @@ public class ActionAddItem : ActionUpdateItem
     public ActionAddItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
     }
 
-    protected override void SaveToDb(ConditionalDesignation cd) {
-        _scheduler.RegisterCommandInto<TrEditCell>(new AddItemCommand(cd));
+    protected override async Task InitTransaction(Args args) {
+        await _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand)
+                        .ExecuteLastRegisteredAsync();
+        _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(args.Item));
     }
 }
