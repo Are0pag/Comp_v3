@@ -36,13 +36,6 @@ public class CellStateInput : BaseCellState
         _lastCellEditBeginningEditEventArgs = e;
     }
 
-    /*public override async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
-        if (_context.DataGrid.IsEditing() && !_context.DataGrid.IsClickInEditingArea(e)) {
-            await _actionUpdateItem.CancelAsync();
-            await new CellChangeStateCommand(null, owner, owner.GetState<CellStateIdle>()).ExecuteAsync();
-        }
-    }*/
-
     /// <summary>
     /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     /// </summary>
@@ -50,26 +43,26 @@ public class CellStateInput : BaseCellState
         switch (e.Key) {
             case Key.Enter:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
-                await Continue(async () => {
+                await ContinueWithValidation(async () => {
                     await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
-                });
+                }, owner);
                 break;
             
             case Key.Tab:
-                await Continue(async () => {
+                await ContinueWithValidation(async () => {
                     await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
 
                     e.Handled = true; // Используем Dispatcher для гарантированного выполнения после текущих операций
                     await Application.Current.Dispatcher.InvokeAsync(() => {
                         _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!);
                     }, System.Windows.Threading.DispatcherPriority.Input);
-                });
+                }, owner);
                 break;
         }
 
     }
 
-    protected virtual async Task Continue(Func<Task> action) {
+    protected virtual async Task ContinueWithValidation(Func<Task> action, Cell owner) {
         if (_lastCellEditBeginningEditEventArgs!.Row.Item is not ConditionalDesignation item) {
             new Exception().Log(this);
             return;
@@ -80,6 +73,7 @@ public class CellStateInput : BaseCellState
         }
         else {
             await _scheduler.UndoAsync();
+            await owner.CurrentState.OnBeginning(owner, null, _lastCellEditBeginningEditEventArgs);
         }
     }
 }

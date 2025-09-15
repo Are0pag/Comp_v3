@@ -19,8 +19,3 @@ public abstract class BaseAction
     
     public abstract Task CancelAsync(object? parameter = null);
 }
-
-public abstract class BaseActionPartial
-{
-    
-}
