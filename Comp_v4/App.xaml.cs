@@ -46,7 +46,8 @@ public partial class App : Application
                             
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
 
-                             s.AddSingleton<DataGridViewModel>();
+                             s.AddSingleton<DataGridViewModel, DataGridViewModelFiltered>();
+                             s.AddSingleton<DataGridViewModelFiltered>();
                              s.AddScoped<ModuleContext>();
 
                              s.AddScoped<ActionStartAddingNewItem>();
@@ -72,7 +73,7 @@ public partial class App : Application
                              s.AddSingleton<ButtonVmSave>();
                              s.AddSingleton<ButtonVmDeleteItem>();
                              
-                             s.AddTransient<TargetWindow>();
+                             s.AddTransient<TargetWindowFiltered>();
 
                          }).Build();
     }
@@ -93,7 +94,7 @@ public partial class App : Application
         
         /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);*/
-        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
+        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindowFiltered>(); 
         mainWindow.Closed += (_, _) => _mainScope?.Dispose();
         mainWindow.Show();
         

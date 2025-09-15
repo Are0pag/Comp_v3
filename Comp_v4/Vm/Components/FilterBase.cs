@@ -32,10 +32,7 @@ public abstract partial class FilterBase : ObservableObject
         if (string.IsNullOrEmpty(filter)) return true;
         if (string.IsNullOrEmpty(source)) return false;
 
-        var comparison = IsCaseSensitive 
-            ? StringComparison.CurrentCulture 
-            : StringComparison.CurrentCultureIgnoreCase;
-
+        var comparison = IsCaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
         return source.Contains(filter, comparison);
     }
 }

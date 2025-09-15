@@ -1,92 +1,146 @@
-<Window x:Class="Comp_v4.TargetWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Comp_v4"
-        mc:Ignorable="d"
-        Title="TargetWindow" Height="750" Width="800"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        PreviewMouseDown="TargetWindow_OnPreviewMouseDown">
+<Window
+    x:Class = "Comp_v4.TargetWindow"
+    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable = "d"
+    Title = "TargetWindow"
+    Height = "750"
+    Width = "800"
+    PreviewKeyDown = "Window_PreviewKeyDown"
+    PreviewMouseDown = "TargetWindow_OnPreviewMouseDown">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition
+                Height = "Auto" />
+            <RowDefinition
+                Height = "*" />
+            <RowDefinition
+                Height = "Auto" />
         </Grid.RowDefinitions>
-        
+
         <!-- Панель настроек фильтрации -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Left">
-            <CheckBox x:Name="CaseSensitiveCheckBox"
-                      Content="Учитывать регистр"
-                      IsChecked="{Binding IsCaseSensitive}"
-                      VerticalAlignment="Center"
-                      Margin="0,0,10,0"/>
-            <Button Content="Очистить фильтры" 
-                    Command="{Binding ClearFiltersCommand}"
-                    Margin="10,0,0,0"
-                    Padding="5,2"/>
+        <StackPanel
+            Grid.Row = "0"
+            Orientation = "Horizontal"
+            Margin = "10,5"
+            HorizontalAlignment = "Left">
+            <CheckBox
+                x:Name = "CaseSensitiveCheckBox"
+                Content = "Учитывать регистр"
+                IsChecked = "{Binding IsCaseSensitive}"
+                VerticalAlignment = "Center"
+                Margin = "0,0,10,0" />
+            <Button
+                x:Name = "ClearFiltersButton"
+                Content = "Очистить фильтры"
+                Command = "{Binding ClearFiltersCommand}"
+                Margin = "10,0,0,0"
+                Padding = "5,2" />
         </StackPanel>
-        
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" 
-                  AutoGenerateColumns="False" 
-                  CanUserAddRows="False"
-                  SelectionMode="Single" 
-                  x:Name="MainDataGrid" 
-                  CellEditEnding="DataGrid_CellEditEnding"
-                  BeginningEdit="InfoDataGrid_OnBeginningEdit" 
-                  SelectedItem="{Binding SelectedItem}">
-            
+
+        <DataGrid
+            Grid.Row = "1"
+            ItemsSource = "{Binding Items}"
+            AutoGenerateColumns = "False"
+            CanUserAddRows = "False"
+            SelectionMode = "Single"
+            x:Name = "MainDataGrid"
+            CellEditEnding = "DataGrid_CellEditEnding"
+            BeginningEdit = "InfoDataGrid_OnBeginningEdit"
+            SelectedItem = "{Binding SelectedItem}">
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn
+                    Header = "Id"
+                    Binding = "{Binding Id}"
+                    IsReadOnly = "True"
+                    Width = "*" />
+
                 <!-- Колонка Designation с фильтром -->
-                <DataGridTextColumn x:Name="DataGridTextColumnDesignation" Header="Designation" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                <DataGridTextColumn
+                    x:Name = "DataGridTextColumnDesignation"
+                    Header = "Designation"
+                    Binding = "{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Width = "*">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="Designation" HorizontalAlignment="Center"/>
-                                <TextBox Width="120"
-                                         Text="{
-                                                Binding DataContext.DesignationFilter, 
-                                                RelativeSource={RelativeSource AncestorType=Window}, 
-                                                UpdateSourceTrigger=PropertyChanged}"
-                                         Margin="2"
-                                         Padding="2" />
+                                <TextBlock
+                                    Text = "Designation"
+                                    HorizontalAlignment = "Center" />
+                                <TextBox
+                                    Width = "120"
+                                    Text = "{Binding Path=DataContext.DesignationFilter.FilterText, 
+                                     RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
+                                     UpdateSourceTrigger=PropertyChanged}"
+                                    Margin = "2"
+                                    Padding = "2" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                
+
                 <!-- Колонка Name с фильтром -->
-                <DataGridTextColumn x:Name="DataGridTextColumnName" Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                <DataGridTextColumn
+                    x:Name = "DataGridTextColumnName"
+                    Header = "Name"
+                    Binding = "{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Width = "*">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="Name" HorizontalAlignment="Center"/>
-                                <TextBox Width="120" 
-                                         Text="{Binding DataContext.NameFilter, RelativeSource={RelativeSource AncestorType=Window}, UpdateSourceTrigger=PropertyChanged}"
-                                         Margin="2"
-                                         Padding="2"/>
+                                <TextBlock
+                                    Text = "Name"
+                                    HorizontalAlignment = "Center" />
+                                <TextBox
+                                    Width = "120"
+                                    Text = "{Binding Path=DataContext.NameFilter.FilterText, 
+                                     RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
+                                     UpdateSourceTrigger=PropertyChanged}"
+                                    Margin = "2"
+                                    Padding = "2" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
             </DataGrid.Columns>
-            
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
-                              Header="Новое обозначение" Command="{Binding AddItemCommand}"></MenuItem>
-                    <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
-                              Header="Удалить" Command="{Binding DeleteItemCommand}"></MenuItem>
+                    <MenuItem
+                        x:Name = "InfoDataGridContextMenuAddNewItemCommand"
+                        Header = "Новое обозначение"
+                        Command = "{Binding AddItemCommand}" />
+                    <MenuItem
+                        x:Name = "InfoDataGridContextMenuDeleteItemCommand"
+                        Header = "Удалить"
+                        Command = "{Binding DeleteItemCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
-            
+
         </DataGrid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
-            <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
-            <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
-            <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
+        <StackPanel
+            Grid.Row = "2"
+            Orientation = "Horizontal"
+            HorizontalAlignment = "Center"
+            VerticalAlignment = "Bottom"
+            Margin = "10">
+            <Button
+                x:Name = "AddNewItemButton"
+                Content = "Добавить"
+                Command = "{Binding AddItemCommand}"
+                Margin = "5" />
+            <Button
+                x:Name = "DeleteItemButton"
+                Content = "Удалить"
+                Command = "{Binding DeleteCommand}"
+                Margin = "5" />
+            <Button
+                x:Name = "SaveChangesButton"
+                Content = "Сохранить"
+                Command = "{Binding SaveCommand}"
+                Margin = "5" />
         </StackPanel>
     </Grid>
 </Window>
