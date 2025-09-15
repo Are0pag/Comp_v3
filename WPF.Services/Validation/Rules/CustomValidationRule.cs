@@ -12,9 +12,9 @@ public class CustomValidationRule<T> : BaseValidationRule<T>
         _validationFunc = validationFunc;
     }
 
-    public override Task<ValidationResult> ValidateAsync(T value)
+    public override Task<ValidationResult> ValidateAsync(T item)
     {
-        var isValid = _validationFunc(value);
+        var isValid = _validationFunc(item);
         return Task.FromResult(new ValidationResult
         {
             IsValid = isValid,

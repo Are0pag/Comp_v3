@@ -13,9 +13,9 @@ public class LengthRule<T> : BaseValidationRule<T>
         _maxLength = maxLength;
     }
 
-    public override Task<ValidationResult> ValidateAsync(T value)
+    public override Task<ValidationResult> ValidateAsync(T item)
     {
-        var str = value?.ToString() ?? string.Empty;
+        var str = item?.ToString() ?? string.Empty;
         var isValid = str.Length >= _minLength && str.Length <= _maxLength;
         
         return Task.FromResult(new ValidationResult

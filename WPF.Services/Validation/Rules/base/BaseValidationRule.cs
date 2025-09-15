@@ -14,5 +14,5 @@ public abstract class BaseValidationRule<T> : IValidationRule<T>
         ErrorMessage = errorMessage;
     }
 
-    public abstract Task<ValidationResult> ValidateAsync(T value);
+    public abstract Task<ValidationResult> ValidateAsync(T item);
 }

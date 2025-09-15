@@ -10,9 +10,9 @@ public class RegexRule<T> : BaseValidationRule<T>
         _regex = new System.Text.RegularExpressions.Regex(pattern);
     }
 
-    public override Task<ValidationResult> ValidateAsync(T value)
+    public override Task<ValidationResult> ValidateAsync(T item)
     {
-        var str = value?.ToString() ?? string.Empty;
+        var str = item?.ToString() ?? string.Empty;
         var isValid = _regex.IsMatch(str);
         
         return Task.FromResult(new ValidationResult

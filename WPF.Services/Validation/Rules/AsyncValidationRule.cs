@@ -12,9 +12,9 @@ public class AsyncValidationRule<T> : BaseValidationRule<T>
         _asyncValidationFunc = asyncValidationFunc;
     }
 
-    public override async Task<ValidationResult> ValidateAsync(T value)
+    public override async Task<ValidationResult> ValidateAsync(T item)
     {
-        var isValid = await _asyncValidationFunc(value);
+        var isValid = await _asyncValidationFunc(item);
         return new ValidationResult
         {
             IsValid = isValid,

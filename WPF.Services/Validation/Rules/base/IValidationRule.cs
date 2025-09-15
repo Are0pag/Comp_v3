@@ -6,5 +6,5 @@ public interface IValidationRule<T>
     string PropertyName { get; }
     string ErrorMessage { get; }
     ValidationSeverity Severity { get; }
-    Task<ValidationResult> ValidateAsync(T value);
+    Task<ValidationResult> ValidateAsync(T item);
 }

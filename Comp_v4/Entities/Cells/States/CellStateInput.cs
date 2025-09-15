@@ -78,7 +78,8 @@ public class CellStateInput : BaseCellState
         if (_validator.ValidateAsync(item).Result is { IsValid: true }) {
             await action();
         }
-
-        await _scheduler.UndoAsync();
+        else {
+            await _scheduler.UndoAsync();
+        }
     }
 }
