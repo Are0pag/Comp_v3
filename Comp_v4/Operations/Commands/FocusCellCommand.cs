@@ -4,6 +4,7 @@ using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Extensions.View.Elements;
 using WPF.Templates;
+using WPF.Templates.TableWindow.Vm;
 
 namespace Comp_v4.Operations.Commands;
 
@@ -14,15 +15,18 @@ public class FocusCellCommand : BaseCommand<ConditionalDesignation>
 
     public override async Task ExecuteAsync() {
         var dg = _moduleContext.DataGrid;
-        Dispatcher.CurrentDispatcher.BeginInvoke(async () => {
+
+        if (_moduleContext.DataGridViewModel is DataGridViewModelFiltered filteredViewModel && !filteredViewModel.FilteredItems.Contains(_parameter)) {
+            filteredViewModel.ClearFiltersCommand.Execute(null);
+            await Task.Delay(100);
+        }
+
+        dg.ScrollIntoView(_parameter);
+
+        Dispatcher.CurrentDispatcher.BeginInvoke(() => {
             try {
                 var column = dg.GetFirstEditableColumn();
-                await Task.Delay(200);
-                var raw = await dg.GetRowFromItemAsync(_parameter!);
-                var cell = dg.GetCell(raw, column);
-
                 dg.CurrentCell = new DataGridCellInfo(_parameter!, column);
-                cell.Focus();
                 dg.BeginEdit();
             }
             catch (Exception e) {
@@ -30,6 +34,5 @@ public class FocusCellCommand : BaseCommand<ConditionalDesignation>
                 throw;
             }
         }, DispatcherPriority.ContextIdle);
-        return;
     }
 }
