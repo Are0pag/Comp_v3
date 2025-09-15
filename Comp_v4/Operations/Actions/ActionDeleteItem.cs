@@ -3,6 +3,8 @@ using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
+using Utils.EventBus;
+using WPF.Templates.TableWindow.Events;
 using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
@@ -28,6 +30,7 @@ public class ActionDeleteItem : BaseAction
         await _scheduler.RegisterCommandInto<TrDeleteCell>(new RemoveItemCommand(item))
                         .ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrDeleteCell>();
+        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
         return this;
     }
 

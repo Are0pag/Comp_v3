@@ -25,12 +25,14 @@ public class TableCommandBinder : IPreviewKeyDownHandler
             case Key.OemPlus when _actionStartAddingNewItem.CanPerform():
                 await _actionStartAddingNewItem.PerformAsync();
                 break;
-            case Key.Delete:
+            
+            case Key.Delete when _actionDeleteItem.CanPerform():
+                await _actionDeleteItem.PerformAsync();
                 break;
         }
     }
 
-    public async Task OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-        throw new NotImplementedException();
+    public Task OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+        return Task.CompletedTask;
     }
 }

@@ -21,8 +21,8 @@ public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignat
         get => _selectedItem;
         set {
             _selectedItem = value;
-            OnPropertyChanged();
             EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());
+            OnPropertyChanged();
         }
     }
 
