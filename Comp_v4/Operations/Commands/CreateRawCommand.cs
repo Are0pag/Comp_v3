@@ -3,6 +3,7 @@ using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates;
+using WPF.Templates.TableWindow.Vm;
 
 namespace Comp_v4.Operations.Commands;
 
@@ -18,6 +19,7 @@ public class CreateRawCommand : BaseCommand<object>
         try {
             Item = new ConditionalDesignation("", "");
             _context.DataGridViewModel.Items.Add(Item);
+            ((DataGridViewModelFiltered)_context.DataGridViewModel).RefreshFilters();
             _context.DataGridViewModel.SelectedItem = Item;
         }
         catch (Exception e) {
@@ -29,6 +31,7 @@ public class CreateRawCommand : BaseCommand<object>
 
     public override Task UndoAsync() {
         _context.DataGridViewModel.Items.Remove(Item);
+        ((DataGridViewModelFiltered)_context.DataGridViewModel).RefreshFilters();
         return Task.CompletedTask;
     }
 }

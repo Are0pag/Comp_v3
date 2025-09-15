@@ -42,7 +42,7 @@
 
         <DataGrid
             Grid.Row = "1"
-            ItemsSource = "{Binding Items}"
+            ItemsSource="{Binding FilteredItems}"
             AutoGenerateColumns = "False"
             CanUserAddRows = "False"
             SelectionMode = "Single"

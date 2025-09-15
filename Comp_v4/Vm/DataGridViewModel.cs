@@ -15,6 +15,7 @@ public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignat
     public DataGridViewModel(IConditionalDesignationRepository repository) {
         _repository = repository;
         LoadDataAsync();
+        Items.CollectionChanged += (sender, args) => OnItemsChanged();
     }
 
     public override ConditionalDesignation? SelectedItem { 
@@ -26,9 +27,13 @@ public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignat
         }
     }
 
-    private async void LoadDataAsync() {  /* VmRepo : базы */
+    protected virtual async void LoadDataAsync() {  /* VmRepo : базы */
         var items = await _repository.GetAllAsync();
         Items = new ObservableCollection<ConditionalDesignation?>(items!);
         OnPropertyChanged(nameof(Items));
+    }
+    
+    protected virtual void OnItemsChanged() {
+        
     }
 }

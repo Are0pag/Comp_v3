@@ -2,6 +2,7 @@ using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates;
+using WPF.Templates.TableWindow.Vm;
 
 namespace Comp_v4.Operations.Commands;
 
@@ -26,11 +27,13 @@ public class RemoveItemCommand : BaseCommand<ConditionalDesignation>
 
     public override Task ExecuteAsync() {
         _context.DataGridViewModel.Items.Remove(_parameter);
+        ((DataGridViewModelFiltered)_context.DataGridViewModel).RefreshFilters();
         return Task.CompletedTask;
     }
 
     public override Task UndoAsync() {
         _context.DataGridViewModel.Items.Add(_parameter);
+        ((DataGridViewModelFiltered)_context.DataGridViewModel).RefreshFilters();
         _context.DataGrid.ScrollIntoView(_parameter);
         return Task.CompletedTask;
     }

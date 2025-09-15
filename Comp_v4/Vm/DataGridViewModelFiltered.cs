@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Windows.Data;
 using CommunityToolkit.Mvvm.Input;
 using Comp.Db.Contracts;
 using WPF.Templates.TableWindow.Vm.Components;
@@ -7,15 +8,17 @@ namespace WPF.Templates.TableWindow.Vm;
 
 public partial class DataGridViewModelFiltered : DataGridViewModel
 {
-    protected ICollectionView _filteredItems;
-    protected bool _isCaseSensitive;
+    private ICollectionView _filteredItems;
+    private bool _isCaseSensitive;
 
     public DataGridViewModelFiltered(IConditionalDesignationRepository repository) : base(repository) {
         DesignationFilter = new DesignationFilter();
         NameFilter = new NameFilter();
 
-        DesignationFilter.PropertyChanged += (s, e) => ApplyFilters();
-        NameFilter.PropertyChanged += (s, e) => ApplyFilters();
+        OnItemsChanged();
+        
+        DesignationFilter.PropertyChanged += OnFilterPropertyChanged;
+        NameFilter.PropertyChanged += OnFilterPropertyChanged;
     }
 
     public ICollectionView FilteredItems => _filteredItems;
@@ -26,21 +29,41 @@ public partial class DataGridViewModelFiltered : DataGridViewModel
         get => _isCaseSensitive;
         set {
             if (_isCaseSensitive == value) return;
+
             _isCaseSensitive = value;
             DesignationFilter.IsCaseSensitive = value;
             NameFilter.IsCaseSensitive = value;
             OnPropertyChanged();
+            ApplyFilters();
         }
     }
 
+    /// Метод для обновления фильтров после изменений в коллекции
+    public void RefreshFilters() {
+        ApplyFilters();
+    }
+    
     [RelayCommand]
-    private void ClearFilters() {
+    public void ClearFilters() {
         DesignationFilter.FilterText = string.Empty;
         NameFilter.FilterText = string.Empty;
     }
 
+    protected override void OnItemsChanged() {
+        base.OnItemsChanged();
+
+        // Инициализируем FilteredItems после загрузки данных
+        _filteredItems = CollectionViewSource.GetDefaultView(Items);
+        _filteredItems.Filter = CombinedFilter;
+        OnPropertyChanged(nameof(FilteredItems));
+    }
+
     private bool CombinedFilter(object item) {
         return DesignationFilter.Filter(item) && NameFilter.Filter(item);
+    }
+
+    private void OnFilterPropertyChanged(object sender, PropertyChangedEventArgs e) {
+        ApplyFilters();
     }
 
     private void ApplyFilters() {
