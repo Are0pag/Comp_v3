@@ -9,7 +9,26 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="TargetWindow_OnPreviewMouseDown">
     <Grid>
-        <DataGrid ItemsSource="{Binding Items}" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Панель настроек фильтрации -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Left">
+            <CheckBox x:Name="CaseSensitiveCheckBox"
+                      Content="Учитывать регистр"
+                      IsChecked="{Binding IsCaseSensitive}"
+                      VerticalAlignment="Center"
+                      Margin="0,0,10,0"/>
+            <Button Content="Очистить фильтры" 
+                    Command="{Binding ClearFiltersCommand}"
+                    Margin="10,0,0,0"
+                    Padding="5,2"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   SelectionMode="Single" 
@@ -20,8 +39,38 @@
             
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Designation" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <!-- Колонка Designation с фильтром -->
+                <DataGridTextColumn x:Name="DataGridTextColumnDesignation" Header="Designation" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="Designation" HorizontalAlignment="Center"/>
+                                <TextBox Width="120"
+                                         Text="{
+                                                Binding DataContext.DesignationFilter, 
+                                                RelativeSource={RelativeSource AncestorType=Window}, 
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="2"
+                                         Padding="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                
+                <!-- Колонка Name с фильтром -->
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="Name" HorizontalAlignment="Center"/>
+                                <TextBox Width="120" 
+                                         Text="{Binding DataContext.NameFilter, RelativeSource={RelativeSource AncestorType=Window}, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="2"
+                                         Padding="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
             </DataGrid.Columns>
             
             <DataGrid.ContextMenu>
@@ -34,7 +83,7 @@
             </DataGrid.ContextMenu>
             
         </DataGrid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
             <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
             <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
