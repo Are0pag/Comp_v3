@@ -58,7 +58,7 @@
                 </DataGridTextColumn>
                 
                 <!-- Колонка Name с фильтром -->
-                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                <DataGridTextColumn x:Name="DataGridTextColumnName" Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
