@@ -5,11 +5,11 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class AddItemCommand : BaseCommand<object>
+public class AddItemCommand : BaseCommand<ConditionalDesignation>
 {
     protected readonly IConditionalDesignationRepository _repository;
 
-    public AddItemCommand(object parameter) : base(parameter) {
+    public AddItemCommand(ConditionalDesignation parameter) : base(parameter) {
         _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
         // TODO
         //_repository = App.TestScope.ServiceProvider.GetRequiredService<IConditionalDesignationRepository>();
@@ -19,10 +19,6 @@ public class AddItemCommand : BaseCommand<object>
     }
 
     public override async Task ExecuteDeferredAsync() {
-        if (_parameter is not ConditionalDesignation conditionalDesignation) {
-            new InvalidOperationException("Parameter is not a conditional designation").Log(this);
-            return;
-        }
-        await _repository.AddAsync(conditionalDesignation);
+        await _repository.AddAsync(_parameter);
     }
 }

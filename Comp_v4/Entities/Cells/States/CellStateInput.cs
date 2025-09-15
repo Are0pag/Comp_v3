@@ -43,14 +43,14 @@ public class CellStateInput : BaseCellState
         switch (e.Key) {
             case Key.Enter:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
-                await ContinueWithValidation(async () => {
-                    await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
+                await ContinueWithValidation(async cd => {
+                    await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner, cd));
                 }, owner);
                 break;
             
             case Key.Tab:
-                await ContinueWithValidation(async () => {
-                    await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
+                await ContinueWithValidation(async cd => {
+                    await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner, cd));
 
                     e.Handled = true; // Используем Dispatcher для гарантированного выполнения после текущих операций
                     await Application.Current.Dispatcher.InvokeAsync(() => {
@@ -59,17 +59,16 @@ public class CellStateInput : BaseCellState
                 }, owner);
                 break;
         }
-
     }
 
-    protected virtual async Task ContinueWithValidation(Func<Task> action, Cell owner) {
+    protected virtual async Task ContinueWithValidation(Func<ConditionalDesignation, Task> action, Cell owner) {
         if (_lastCellEditBeginningEditEventArgs!.Row.Item is not ConditionalDesignation item) {
             new Exception().Log(this);
             return;
         }
 
         if (_validator.ValidateAsync(item).Result is { IsValid: true }) {
-            await action();
+            await action(item);
         }
         else {
             await _scheduler.UndoAsync();

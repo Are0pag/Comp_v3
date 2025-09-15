@@ -49,16 +49,17 @@ public partial class App : Application
                              s.AddSingleton<DataGridViewModel>();
                              s.AddScoped<ModuleContext>();
 
+                             s.AddScoped<ActionAddNewRow>();
                              s.AddScoped<ActionAddItem>();
                              s.AddScoped<ActionUpdateItem>();
                              s.AddScoped<ActionSave>();
                              
                              s.AddSingleton<CellStateIdle>();
                              s.AddSingleton<CellStateInput>();
-                             /*s.AddScoped<BaseCellState, CellStateIdle>();
-                             s.AddScoped<BaseCellState, CellStateInput>();*/
+                             s.AddSingleton<CellStateAddItem>();
                              s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
                              s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateInput>());
+                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateAddItem>());
                              s.AddSingleton<Cell>(provider => {
                                                    var states = provider.GetServices<BaseCellState>();
                                                    var initialState = provider.GetService<CellStateIdle>();

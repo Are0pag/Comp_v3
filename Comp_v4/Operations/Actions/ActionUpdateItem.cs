@@ -1,6 +1,7 @@
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
+using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using WPF.Templates.TableWindow.States;
 
@@ -19,14 +20,15 @@ public class ActionUpdateItem : BaseAction
         
         _scheduler.BeginTransaction<TrEditCell>();
         _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
-        /*_scheduler.RegisterCommandInto<TrEditCell>(_rememberInputTextCommand!);*/
-        await _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(null))
-                        .ExecuteLastRegisteredAsync();
+        SaveToDb(args.Item);
         await _scheduler.RegisterCommandInto<TrEditCell>(new CellChangeStateCommand(_context, args.Cell, args.Cell.GetState<CellStateIdle>()))
                         .ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrEditCell>();
-        /*  Next transaction managing responsibility is shifted to key input handling */
         return this;
+    }
+
+    protected virtual void SaveToDb(ConditionalDesignation cd) {
+        _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(cd));
     }
 
     public override bool CanPerform() {
@@ -37,8 +39,9 @@ public class ActionUpdateItem : BaseAction
         return Task.CompletedTask;
     }
 
-    public class Args(RememberCellCommand rememberCellCommand, Cell cell) {
+    public class Args(RememberCellCommand rememberCellCommand, Cell cell, ConditionalDesignation item) {
         public RememberCellCommand RememberCellCommand { get; set; } = rememberCellCommand;
         public Cell Cell { get; set; } = cell;
+        public ConditionalDesignation Item {get; set;} = item;
     }
 }

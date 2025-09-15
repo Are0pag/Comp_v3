@@ -3,9 +3,9 @@ using WPF.Templates.Core;
 
 namespace WPF.Templates;
 
-public partial class ButtonVmAddItem : BaseButtonsVm<ActionAddItem>
+public partial class ButtonVmAddItem : BaseButtonsVm<ActionAddNewRow>
 {
-    public ButtonVmAddItem(ActionAddItem context) : base(context) {
+    public ButtonVmAddItem(ActionAddNewRow context) : base(context) {
     }
 
     [RelayCommand(CanExecute = nameof(CanAddItem))]
