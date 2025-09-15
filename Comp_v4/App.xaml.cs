@@ -40,6 +40,8 @@ public partial class App : Application
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
                              s.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
 
+                             s.AddSingleton<Validator>();
+
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
                             
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();

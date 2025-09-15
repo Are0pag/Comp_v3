@@ -4,6 +4,8 @@ using System.Windows.Input;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
+using Comp.ModelData.TechnicalItems;
+using Infrastructure;
 using WPF.Extensions.View.Elements;
 
 namespace WPF.Templates.TableWindow.States;
@@ -11,11 +13,13 @@ namespace WPF.Templates.TableWindow.States;
 public class CellStateInput : BaseCellState
 {
     protected readonly ActionUpdateItem _actionUpdateItem;
+    protected readonly Validator _validator;
     protected RememberCellCommand? _rememberCellCommand;
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
 
-    public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, ActionUpdateItem actionUpdateItem) : base(scheduler, context) {
+    public CellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, ActionUpdateItem actionUpdateItem, Validator validator) : base(scheduler, context) {
         _actionUpdateItem = actionUpdateItem;
+        _validator = validator;
     }
 
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
@@ -43,29 +47,38 @@ public class CellStateInput : BaseCellState
     /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     /// </summary>
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
-        // Validation
-        
-        await HadleKeyInput(owner, e);
-    }
-
-    protected virtual async Task HadleKeyInput(Cell owner, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
-                await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
+                await Continue(async () => {
+                    await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
+                });
                 break;
             
-            case Key.Tab: 
-                await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
-                
-                // Явно переходим к следующей ячейке на основе текущего редактирования
-                e.Handled = true;
-            
-                // Используем Dispatcher для гарантированного выполнения после текущих операций
-                await Application.Current.Dispatcher.InvokeAsync(() => {
-                    _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!);
-                }, System.Windows.Threading.DispatcherPriority.Input);
+            case Key.Tab:
+                await Continue(async () => {
+                    await _actionUpdateItem.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner));
+
+                    e.Handled = true; // Используем Dispatcher для гарантированного выполнения после текущих операций
+                    await Application.Current.Dispatcher.InvokeAsync(() => {
+                        _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!);
+                    }, System.Windows.Threading.DispatcherPriority.Input);
+                });
                 break;
         }
+
+    }
+
+    protected virtual async Task Continue(Func<Task> action) {
+        if (_lastCellEditBeginningEditEventArgs!.Row.Item is not ConditionalDesignation item) {
+            new Exception().Log(this);
+            return;
+        }
+
+        if (_validator.ValidateAsync(item).Result is { IsValid: true }) {
+            await action();
+        }
+
+        await _scheduler.UndoAsync();
     }
 }

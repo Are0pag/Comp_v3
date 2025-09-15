@@ -25,4 +25,9 @@
     <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Operations\Commands\Db\" />
+    <Folder Include="Operations\Commands\Ui\" />
+  </ItemGroup>
+
 </Project>

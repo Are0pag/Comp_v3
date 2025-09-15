@@ -48,13 +48,10 @@ public class ValidationRuleBuilder<T>
     }
 
     private string GetPropertyName(Expression<Func<T, object>> expression) {
-        if (expression.Body is MemberExpression memberExpression)
-            return memberExpression.Member.Name;
-
-        if (expression.Body is UnaryExpression unaryExpression &&
-            unaryExpression.Operand is MemberExpression unaryMemberExpression)
-            return unaryMemberExpression.Member.Name;
-
-        throw new ArgumentException("Invalid property expression");
+        return expression.Body switch {
+            MemberExpression memberExpression => memberExpression.Member.Name,
+            UnaryExpression { Operand: MemberExpression unaryMemberExpression } => unaryMemberExpression.Member.Name,
+            _ => throw new ArgumentException("Invalid property expression")
+        };
     }
 }

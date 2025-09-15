@@ -5,9 +5,9 @@ public abstract class ValidatorBase<T> : IValidator<T>
     private readonly Dictionary<string, IValidationRule<T>> _rules = new();
 
     protected ValidatorBase() {
-        AddRules();
+        SetRules();
     }
-    protected abstract void AddRules();
+    protected abstract void SetRules();
 
     /// Валидация только одного свойства
     public async Task<ValidationResult> ValidatePropertyAsync(T value, string propertyName) {

@@ -87,7 +87,7 @@ public class UserValidator : ValidatorBase<UserRegistrationDto>
         }
     }
 
-    protected override void AddRules() {
+    protected override void SetRules() {
         throw new NotImplementedException();
     }
 }
@@ -119,7 +119,7 @@ public class UserValidatorWithPhone : ValidatorBase<UserRegistrationDto>
         }
     }
 
-    protected override void AddRules() {
+    protected override void SetRules() {
         throw new NotImplementedException();
     }
 }

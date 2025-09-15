@@ -27,6 +27,7 @@ public abstract class BaseChangeStateCommand<TBaseState, TStateMachine> : BaseCo
     public override Task ExecuteDeferredAsync() => Task.CompletedTask;
 }
 
+
 public class CellChangeStateCommand : BaseChangeStateCommand<BaseCellState, Cell>
 {
     public CellChangeStateCommand(ModuleContext context, Cell stateMachine, BaseCellState targetState) : base(context, stateMachine, targetState) {
