@@ -1,4 +1,4 @@
-using System.ComponentModel;
+/*using System.ComponentModel;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands.Filtering;
 using WPF.Templates.TableWindow.Vm.Components;
@@ -31,4 +31,4 @@ public class CellStateFiltered : BaseCellStateInput, IDisposable
     public virtual void Dispose() {
         _filtersVm.PropertyChanged -= OnFiltersChanged;
     }
-}
+}*/

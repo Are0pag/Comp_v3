@@ -20,7 +20,7 @@ public class ActionStartAddingNewItem : BaseAction
         
         var createRawCommand = new CreateRawCommand(_context);
         
-        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.ClearFilters());
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnNewItemCreating());
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()))
                         .ExecuteLastRegisteredAsync();

@@ -25,6 +25,10 @@ public class RemoveItemCommand : BaseCommand<ConditionalDesignation>
     }
 
     public override Task ExecuteAsync() {
+        if (_context.DataGrid.ItemsSource != _context.DataGridViewModel.Items) {
+            _context.DataGrid.ItemsSource = _context.DataGridViewModel.Items;
+        }
+        
         _context.DataGridViewModel.Items.Remove(_parameter);
         return Task.CompletedTask;
     }

@@ -8,7 +8,7 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace WPF.Templates;
 
-public class ActionFilter : BaseAction
+public class ActionFilter : BaseAction, IFilteringHandler
 {
     protected readonly FiltersVm _filtersVm;
     protected readonly Cell _cell;
@@ -16,6 +16,8 @@ public class ActionFilter : BaseAction
     public ActionFilter(IModuleCommandScheduler scheduler, ModuleContext context, FiltersVm filtersVm, Cell cell) : base(scheduler, context) {
         _filtersVm = filtersVm;
         _cell = cell;
+        _filtersVm.PropertyChanged += filtersVmOnPropertyChanged();
+        EventBus<IGlobSubscriber>.Subscribe(this);
     }
 
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
@@ -30,5 +32,23 @@ public class ActionFilter : BaseAction
 
     public override async Task CancelAsync(object? parameter = null) {
         await _scheduler.UndoAsync();
+    }
+
+    public void Dispose() {
+        _filtersVm.PropertyChanged -= filtersVmOnPropertyChanged();
+        EventBus<IGlobSubscriber>.Unsubscribe(this);
+    }
+
+    object? IFilteringHandler.OnNewItemCreating() {
+        _filtersVm.FilterName = null;
+        _filtersVm.FilterDesignation = null;
+        _scheduler.UndoAsync();
+        return null;
+    }
+
+    protected PropertyChangedEventHandler? filtersVmOnPropertyChanged() {
+        return async (_, __) => {
+            await PerformAsync();
+        };
     }
 }

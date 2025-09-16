@@ -18,8 +18,9 @@ public class CreateRawCommand : BaseCommand<ModuleContext>
     public override Task ExecuteAsync() {
         try {
             Item = new ConditionalDesignation("", "");
-            /*var currentDataSource = (ObservableCollection<ConditionalDesignation>)_context.DataGrid.ItemsSource;
-            currentDataSource.Add(Item);*/
+            if (_context.DataGrid.ItemsSource != _context.DataGridViewModel.Items) {
+                _context.DataGrid.ItemsSource = _context.DataGridViewModel.Items;
+            }
             _context.DataGridViewModel.Items.Add(Item);
             _context.DataGridViewModel.SelectedItem = Item;
         }
