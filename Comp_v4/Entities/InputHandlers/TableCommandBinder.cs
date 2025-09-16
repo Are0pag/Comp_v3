@@ -19,7 +19,7 @@ public class TableCommandBinder : IPreviewKeyDownHandler
         EventBus<IGlobSubscriber>.Unsubscribe(this);
     }
 
-    public async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
+    public virtual async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Add when _actionStartAddingNewItem.CanPerform():
             case Key.OemPlus when _actionStartAddingNewItem.CanPerform():

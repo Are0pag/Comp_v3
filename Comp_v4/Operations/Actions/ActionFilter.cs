@@ -30,8 +30,9 @@ public class ActionFilter : BaseAction, IFilteringHandler
         return _cell.CurrentState is CellStateIdle;
     }
 
-    public override async Task CancelAsync(object? parameter = null) {
-        await _scheduler.UndoAsync();
+    public override Task CancelAsync(object? parameter = null) {
+        return Task.CompletedTask;
+        //await _scheduler.UndoAsync();
     }
 
     public void Dispose() {
@@ -42,7 +43,7 @@ public class ActionFilter : BaseAction, IFilteringHandler
     object? IFilteringHandler.OnNewItemCreating() {
         _filtersVm.FilterName = null;
         _filtersVm.FilterDesignation = null;
-        _scheduler.UndoAsync();
+        //_scheduler.UndoAsync();
         return null;
     }
 

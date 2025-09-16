@@ -13,6 +13,7 @@ namespace Comp_v4;
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
     protected readonly DataGridViewModel _dataGridViewModel;
+    
     public TargetWindow(DataGridViewModel dataGridViewModel, FiltersVm filtersVm, ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
         InitializeComponent();
         _dataGridViewModel = dataGridViewModel;
@@ -44,9 +45,17 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
         EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnEnding(sender, e));
     }
 
-    public void GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
+    void IDataGridRequestResolver<TargetWindow>.GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
 
     private void TargetWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewMouseDown(sender, e));
+    }
+
+    private void TextBox_GotFocus(object sender, RoutedEventArgs e) {
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserStartFiltering());
+    }
+
+    private void TextBox_LostFocus(object sender, RoutedEventArgs e) {
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
     }
 }

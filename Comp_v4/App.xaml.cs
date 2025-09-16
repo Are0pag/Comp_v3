@@ -92,7 +92,7 @@ public partial class App : Application
         var scheduler = Host.Services.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);
         new PersistenceManager(scheduler, Host.Services.GetRequiredService<ActionSave>());
-        new TableCommandBinder(Host.Services.GetRequiredService<ActionStartAddingNewItem>(), Host.Services.GetRequiredService<ActionDeleteItem>());
+        new TableCommandBinderFilteringCompatible(Host.Services.GetRequiredService<ActionStartAddingNewItem>(), Host.Services.GetRequiredService<ActionDeleteItem>());
 
         var filtersVm = Host.Services.GetRequiredService<FiltersVm>();
         var mContext = Host.Services.GetRequiredService<ModuleContext>();
