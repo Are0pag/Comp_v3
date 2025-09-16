@@ -4,30 +4,6 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4.Operations.Commands.Filtering;
 
-public class SortingObservableCollection<T> : ObservableCollection<T> 
-{
-    public void AddAndNotify(T item) {
-        Add(item);
-        
-    }
-}
-
-public class FilteringView<T>
-{
-    public ObservableCollection<T> Origin { get; protected set; } = new();
-    public List<T> Sorted { get; protected set; } = new();
-
-    public void Add(T item) {
-        Origin.Add(item);
-        Sorted.Add(item);
-    }
-
-    public void Remove(T item) {
-        Origin.Remove(item);
-        Sorted.Remove(item);
-    }
-}
-
 public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
 {
     protected readonly Args _args;
@@ -38,12 +14,17 @@ public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
     }
 
     public override Task ExecuteAsync() {
+        var comparisonType = _args.Filters.IgnoreCase 
+            ? StringComparison.OrdinalIgnoreCase 
+            : StringComparison.Ordinal;
+
         _sortedItems = _args.Items.Where(item =>
-                                                                     (string.IsNullOrEmpty(_args.Filters.FilterDesignation) ||
-                                                                      item.Designation.Contains(_args.Filters.FilterDesignation)) &&
-                                                                     (string.IsNullOrEmpty(_args.Filters.FilterName) ||
-                                                                      item.Name.Contains(_args.Filters.FilterName))
-                                                                ).ToList();
+                                             (string.IsNullOrEmpty(_args.Filters.FilterDesignation) ||
+                                              item.Designation.Contains(_args.Filters.FilterDesignation, comparisonType)) &&
+                                             (string.IsNullOrEmpty(_args.Filters.FilterName) ||
+                                              item.Name.Contains(_args.Filters.FilterName, comparisonType))
+                                        ).ToList();
+        
         _moduleContext.DataGrid.ItemsSource = _sortedItems;
         return Task.CompletedTask;
     }
