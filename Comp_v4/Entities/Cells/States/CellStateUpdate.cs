@@ -8,10 +8,3 @@ public class CellStateUpdate : BaseCellStateInput
         _action = actionUpdateItem;
     }
 }
-
-public class CellStateFiltered : BaseCellStateInput
-{
-    public CellStateFiltered(IModuleCommandScheduler scheduler, ModuleContext context, Validator validator) : base(scheduler, context, validator) {
-    }
-    
-}
