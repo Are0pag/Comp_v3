@@ -18,6 +18,8 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
+        
+        IgnoreCaseCheckBox.DataContext = filtersVm;
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;

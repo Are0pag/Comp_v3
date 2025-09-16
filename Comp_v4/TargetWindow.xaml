@@ -9,13 +9,26 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="TargetWindow_OnPreviewMouseDown">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/> <!-- Левая узкая колонка для CheckBox -->
+            <ColumnDefinition Width="*"/> <!-- Основная колонка -->
+        </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height = "Auto" />
             <RowDefinition Height = "*" />
             <RowDefinition Height = "Auto" />
         </Grid.RowDefinitions>
         
-        <StackPanel Grid.Row="0" x:Name="FiltersStackPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
+        <!-- CheckBox в левой колонке, напротив FiltersStackPanel -->
+        <CheckBox Grid.Row="0" Grid.Column="0" x:Name="IgnoreCaseCheckBox"
+                  Content="Ignore Case" 
+                  IsChecked="{Binding IgnoreCase, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Center"
+                  Margin="5"/>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1"  x:Name="FiltersStackPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
             
             <TextBox Text="{Binding FilterDesignation, UpdateSourceTrigger=PropertyChanged}" 
                      Width="{Binding ElementName=MainDataGrid, Path=Columns[0].ActualWidth}" 
@@ -25,7 +38,7 @@
                      Margin="2"/>
         </StackPanel>
         
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" 
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   SelectionMode="Single" 
@@ -50,7 +63,7 @@
             
         </DataGrid>
         
-        <StackPanel Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+        <StackPanel Grid.Row="2" Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
             <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
             <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>

@@ -9,7 +9,7 @@ public class FiltersVm : ObservableObject
 {
     protected string? _filterDesignation;
     protected string? _filterName;
-    protected bool _ignoreCase;
+    protected bool _ignoreCase = true;
 
     public string? FilterDesignation {
         get => _filterDesignation;
@@ -30,7 +30,6 @@ public class FiltersVm : ObservableObject
     public bool IgnoreCase {
         get => _ignoreCase;
         set {
-            if (_ignoreCase != value) return;
             _ignoreCase = value;
             OnPropertyChanged();
         }

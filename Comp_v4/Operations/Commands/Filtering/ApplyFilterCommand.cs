@@ -39,14 +39,11 @@ public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
 
     public override Task ExecuteAsync() {
         _sortedItems = _args.Items.Where(item =>
-                                             (string.IsNullOrEmpty(_args.Filters.FilterDesignation) ||
-                                              (string.Equals(item.Designation, _args.Filters.FilterDesignation, 
-                                                             _args.Filters.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal))) &&
-                                             (string.IsNullOrEmpty(_args.Filters.FilterName) ||
-                                              (string.Equals(item.Name, _args.Filters.FilterName, 
-                                                             _args.Filters.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal)))
-                                        ).ToList();
-
+                                                                     (string.IsNullOrEmpty(_args.Filters.FilterDesignation) ||
+                                                                      item.Designation.Contains(_args.Filters.FilterDesignation)) &&
+                                                                     (string.IsNullOrEmpty(_args.Filters.FilterName) ||
+                                                                      item.Name.Contains(_args.Filters.FilterName))
+                                                                ).ToList();
         _moduleContext.DataGrid.ItemsSource = _sortedItems;
         return Task.CompletedTask;
     }
