@@ -16,14 +16,12 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" x:Name="FiltersStackPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
-            <TextBox Text="{Binding FilterId, UpdateSourceTrigger=PropertyChanged}" 
+            
+            <TextBox Text="{Binding FilterDesignation, UpdateSourceTrigger=PropertyChanged}" 
                      Width="{Binding ElementName=MainDataGrid, Path=Columns[0].ActualWidth}" 
                      Margin="2"/>
-            <TextBox Text="{Binding FilterDesignation, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="{Binding ElementName=MainDataGrid, Path=Columns[1].ActualWidth}" 
-                     Margin="2"/>
             <TextBox Text="{Binding FilterName, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="{Binding ElementName=MainDataGrid, Path=Columns[2].ActualWidth}" 
+                     Width="{Binding ElementName=MainDataGrid, Path=Columns[1].ActualWidth}" 
                      Margin="2"/>
         </StackPanel>
         
@@ -37,7 +35,6 @@
                   SelectedItem="{Binding SelectedItem}">
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Designation" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
             </DataGrid.Columns>

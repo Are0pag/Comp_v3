@@ -7,8 +7,9 @@ namespace WPF.Templates.TableWindow.Vm.Components;
 
 public class FiltersVm : ObservableObject
 {
-    private string? _filterDesignation;
-    private string? _filterName;
+    protected string? _filterDesignation;
+    protected string? _filterName;
+    protected bool _ignoreCase;
 
     public string? FilterDesignation {
         get => _filterDesignation;
@@ -22,6 +23,15 @@ public class FiltersVm : ObservableObject
         get => _filterName;
         set {
             _filterName = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IgnoreCase {
+        get => _ignoreCase;
+        set {
+            if (_ignoreCase != value) return;
+            _ignoreCase = value;
             OnPropertyChanged();
         }
     }
