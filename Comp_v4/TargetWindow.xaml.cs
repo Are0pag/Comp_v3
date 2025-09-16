@@ -6,16 +6,18 @@ using WPF.Templates;
 using WPF.Templates.TableWindow.Events;
 using WPF.Templates.TableWindow.Events.Requests;
 using WPF.Templates.TableWindow.Vm;
+using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4;
 
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
     protected readonly DataGridViewModel _dataGridViewModel;
-    public TargetWindow(DataGridViewModel dataGridViewModel, ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
+    public TargetWindow(DataGridViewModel dataGridViewModel, FiltersVm filtersVm, ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
         InitializeComponent();
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
+        FiltersStackPanel.DataContext = filtersVm;
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;

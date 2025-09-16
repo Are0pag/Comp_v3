@@ -11,6 +11,7 @@ using WPF.Services.UserActionsHandling.InputText;
 using WPF.Templates;
 using WPF.Templates.TableWindow.States;
 using WPF.Templates.TableWindow.Vm;
+using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4;
 
@@ -47,6 +48,7 @@ public partial class App : Application
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
 
                              s.AddSingleton<DataGridViewModel>();
+                             s.AddSingleton<FiltersVm>();
                              s.AddScoped<ModuleContext>();
 
                              s.AddScoped<ActionStartAddingNewItem>();

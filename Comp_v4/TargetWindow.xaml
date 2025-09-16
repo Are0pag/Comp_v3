@@ -9,7 +9,25 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="TargetWindow_OnPreviewMouseDown">
     <Grid>
-        <DataGrid ItemsSource="{Binding Items}" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "Auto" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "Auto" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" x:Name="FiltersStackPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
+            <TextBox Text="{Binding FilterId, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="{Binding ElementName=MainDataGrid, Path=Columns[0].ActualWidth}" 
+                     Margin="2"/>
+            <TextBox Text="{Binding FilterDesignation, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="{Binding ElementName=MainDataGrid, Path=Columns[1].ActualWidth}" 
+                     Margin="2"/>
+            <TextBox Text="{Binding FilterName, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="{Binding ElementName=MainDataGrid, Path=Columns[2].ActualWidth}" 
+                     Margin="2"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   SelectionMode="Single" 
@@ -34,7 +52,8 @@
             </DataGrid.ContextMenu>
             
         </DataGrid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+        
+        <StackPanel Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
             <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
             <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
