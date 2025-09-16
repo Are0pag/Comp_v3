@@ -73,8 +73,11 @@ public class BaseCellStateInput : BaseCellState
             await action(item);
         }
         else {
+            var prevState = owner.CurrentState;
             await _scheduler.UndoAsync();
-            await owner.CurrentState.OnBeginning(owner, null, _lastCellEditBeginningEditEventArgs);
+            if (prevState is not CellStateAddItem) {
+                await owner.CurrentState.OnBeginning(owner, null, _lastCellEditBeginningEditEventArgs);
+            }
         }
     }
 }
