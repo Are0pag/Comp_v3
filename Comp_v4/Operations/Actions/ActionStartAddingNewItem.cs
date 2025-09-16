@@ -18,9 +18,12 @@ public class ActionStartAddingNewItem : BaseAction
         
         var createRawCommand = new CreateRawCommand(_context);
 
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new RememberSelectionCommand(_context))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()))
                         .ExecuteLastRegisteredAsync();
         
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new RememberSelectionCommand(_context))
+                        .ExecuteLastRegisteredAsync();
+
         await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
                         .ExecuteLastRegisteredAsync();
 
@@ -28,8 +31,6 @@ public class ActionStartAddingNewItem : BaseAction
                         .ExecuteLastRegisteredAsync();
 
         _scheduler.CommitTransaction<TransactionAddItem>();
-
-        await new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()).ExecuteAsync();
         
         return this;
     }

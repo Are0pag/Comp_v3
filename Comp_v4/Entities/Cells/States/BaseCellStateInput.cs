@@ -43,6 +43,7 @@ public class BaseCellStateInput : BaseCellState
     public override async Task OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
+            case Key.Escape:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
                 await ContinueWithValidation(async cd => {
                     await _action.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner, cd));
