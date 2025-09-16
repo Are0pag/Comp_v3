@@ -18,6 +18,7 @@ public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, 
     }
 
     public bool IsEnabled { get; protected set; } = true;
+    public void SetAccessToHandleCellEvents(bool isEnable) => IsEnabled = isEnable;
 
     public override Task ChangeState(BaseCellState newState, Cell context) {
         var changeState = base.ChangeState(newState, context);
@@ -33,8 +34,6 @@ public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, 
         return changeState;
     }
 
-    public void SetAccessToHandleCellEvents(bool isEnable) => IsEnabled = isEnable;
-
     public async Task OnEnding(object? sender, DataGridCellEditEndingEventArgs e) {
         if (!IsEnabled) return;
         await CurrentState.OnEnding(this, sender, e);
@@ -45,7 +44,7 @@ public class Cell : GenericStateMachine<BaseCellState, Cell>, ICellEditHandler, 
         await CurrentState.OnBeginning(this, sender, e);
     }
 
-    public async Task  OnPreviewKeyDown(object sender, KeyEventArgs e) {
+    public async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
         await CurrentState.OnPreviewKeyDown(this, sender, e);
     }
 

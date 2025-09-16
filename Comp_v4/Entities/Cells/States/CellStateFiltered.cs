@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Comp_v4.Entities;
+using Comp_v4.Operations.Commands.Filtering;
 using WPF.Templates.TableWindow.Vm.Components;
 
 namespace WPF.Templates.TableWindow.States;
@@ -23,12 +24,8 @@ public class CellStateFiltered : BaseCellStateInput, IDisposable
     }
 
     protected virtual void OnFiltersChanged(object? sender, PropertyChangedEventArgs e) {
-        var sortedItems = _context.DataGridViewModel.Items.Where(item =>
-                                                   (string.IsNullOrEmpty(_filtersVm.FilterDesignation) ||
-                                                    item.Designation.Contains(_filtersVm.FilterDesignation)) &&
-                                                   (string.IsNullOrEmpty(_filtersVm.FilterName) ||
-                                                    item.Name.Contains(_filtersVm.FilterName))
-                                              ).ToList();
+        var parameter = new ApplyFilterCommand.Args(_context.DataGridViewModel.Items, _filtersVm);
+        _scheduler.ExecuteCommand(new ApplyFilterCommand(parameter));
     }
 
     public virtual void Dispose() {

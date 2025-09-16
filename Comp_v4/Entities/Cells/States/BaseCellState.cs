@@ -16,17 +16,19 @@ public abstract class BaseCellState : StateBase<Cell>
         _context = context;
     }
 
-    public virtual async Task OnEnding(Cell owner, object? sender, DataGridCellEditEndingEventArgs e) {
-        
+    public virtual Task OnEnding(Cell owner, object? sender, DataGridCellEditEndingEventArgs e) {
+        return Task.CompletedTask;
     }
 
-    public virtual async Task  OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
-        
+    public virtual Task  OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
+        return Task.CompletedTask;
     }
 
-    public virtual async Task  OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
-        
+    public virtual Task  OnPreviewKeyDown(Cell owner, object sender, KeyEventArgs e) {
+        return Task.CompletedTask;
     }
     
-    public virtual async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {}
+    public virtual Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
+        return Task.CompletedTask;
+    }
 }

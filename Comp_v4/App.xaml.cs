@@ -89,9 +89,16 @@ public partial class App : Application
         
         
         _mainScope = Host.Services.CreateScope();
-        new ActionStackTracker(Host.Services.GetRequiredService<IModuleCommandScheduler>());
-        new PersistenceManager(Host.Services.GetRequiredService<IModuleCommandScheduler>(), Host.Services.GetRequiredService<ActionSave>());
+        var scheduler = Host.Services.GetRequiredService<IModuleCommandScheduler>();
+        new ActionStackTracker(scheduler);
+        new PersistenceManager(scheduler, Host.Services.GetRequiredService<ActionSave>());
         new TableCommandBinder(Host.Services.GetRequiredService<ActionStartAddingNewItem>(), Host.Services.GetRequiredService<ActionDeleteItem>());
+
+        var filtersVm = Host.Services.GetRequiredService<FiltersVm>();
+        var mContext = Host.Services.GetRequiredService<ModuleContext>();
+        var cell = Host.Services.GetRequiredService<Cell>();
+        
+        new ActionFilter(scheduler, mContext, filtersVm, cell);
         
         /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);*/

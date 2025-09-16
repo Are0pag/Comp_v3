@@ -1,6 +1,8 @@
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
+using Utils.EventBus;
+using WPF.Templates.TableWindow.Events;
 using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
@@ -17,6 +19,8 @@ public class ActionStartAddingNewItem : BaseAction
         _scheduler.BeginTransaction<TransactionAddItem>();
         
         var createRawCommand = new CreateRawCommand(_context);
+        
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.ClearFilters());
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()))
                         .ExecuteLastRegisteredAsync();

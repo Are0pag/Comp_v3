@@ -1,13 +1,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Utils.EventBus;
+using WPF.Templates.TableWindow.Events;
 
 namespace WPF.Templates.TableWindow.Vm.Components;
 
 public class FiltersVm : ObservableObject
 {
-    private string _filterDesignation;
-    private string _filterName;
+    private string? _filterDesignation;
+    private string? _filterName;
 
-    public string FilterDesignation {
+    public string? FilterDesignation {
         get => _filterDesignation;
         set {
             _filterDesignation = value;
@@ -15,7 +17,7 @@ public class FiltersVm : ObservableObject
         }
     }
 
-    public string FilterName {
+    public string? FilterName {
         get => _filterName;
         set {
             _filterName = value;
