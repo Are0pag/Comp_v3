@@ -37,6 +37,8 @@
                      Margin="2"/>
             <TextBox Text="{Binding FilterName, UpdateSourceTrigger=PropertyChanged}" 
                      Width="{Binding ElementName=MainDataGrid, Path=Columns[1].ActualWidth}" 
+                     GotFocus="TextBox_GotFocus"
+                     LostFocus="TextBox_LostFocus"
                      Margin="2"/>
         </StackPanel>
         
