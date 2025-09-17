@@ -9,7 +9,7 @@ public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
 {
     protected readonly ModuleContext _moduleContext;
     protected readonly Args _args;
-    protected List<ConditionalDesignation>? _sortedItems;
+    protected readonly List<ConditionalDesignation> _removedByLastFilter = new ();
     
     public ApplyFilterCommand(Args parameter, ModuleContext moduleContext) : base(parameter) {
         _args = parameter;
@@ -21,19 +21,24 @@ public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
             ? StringComparison.OrdinalIgnoreCase 
             : StringComparison.Ordinal;
 
-        _sortedItems = _args.Items.Where(item =>
+        var sorted = _args.Items.Where(item =>
                                              (string.IsNullOrEmpty(_args.Filters.FilterDesignation) ||
                                               item.Designation.Contains(_args.Filters.FilterDesignation, comparisonType)) &&
                                              (string.IsNullOrEmpty(_args.Filters.FilterName) ||
                                               item.Name.Contains(_args.Filters.FilterName, comparisonType))
                                         ).ToList();
-        
-        _moduleContext.DataGrid.ItemsSource = _sortedItems;
+
+        foreach (var item in _args.Items) {
+            if (sorted.Contains(item)) continue;
+            _removedByLastFilter.Add(item);
+        }
+
+        foreach (var removed in _removedByLastFilter) _args.Items.Remove(removed);
         return Task.CompletedTask;
     }
 
     public override Task UndoAsync() {
-        _moduleContext.DataGrid.ItemsSource = _args.Items;
+        foreach (var item in _removedByLastFilter) _args.Items.Add(item);
         return Task.CompletedTask;
     }
 

@@ -38,7 +38,7 @@ public class ActionDeleteItem : BaseAction
         return _cell.CurrentState is CellStateIdle && _context.DataGrid.SelectedItem != null;
     }
 
-    public override async Task CancelAsync(object? parameter = null) {
-        throw new NotImplementedException();
+    public override Task CancelAsync(object? parameter = null) {
+        return Task.CompletedTask;
     }
 }

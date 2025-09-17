@@ -13,6 +13,7 @@ public class ActionFilter : BaseAction, IFilteringHandler
 {
     protected readonly FiltersVm _filtersVm;
     protected readonly Cell _cell;
+    protected ApplyFilterCommand? _previousFilterCommand;
     
     public ActionFilter(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory, FiltersVm filtersVm, Cell cell) : base(scheduler, context, commandFactory) {
         _filtersVm = filtersVm;
@@ -22,8 +23,14 @@ public class ActionFilter : BaseAction, IFilteringHandler
     }
 
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
+        if (_previousFilterCommand != null) {
+            await _previousFilterCommand.UndoAsync();
+        }
+        
         var arg = new ApplyFilterCommand.Args(_context.DataGridViewModel.Items!, _filtersVm);
-        await _commandFactory.CreateCommand<ApplyFilterCommand, ApplyFilterCommand.Args>(arg).ExecuteAsync();
+        var filterCommand = _commandFactory.CreateCommand<ApplyFilterCommand, ApplyFilterCommand.Args>(arg);
+        await filterCommand.ExecuteAsync();
+        _previousFilterCommand = filterCommand;
         return this;
     }
 
@@ -33,7 +40,6 @@ public class ActionFilter : BaseAction, IFilteringHandler
 
     public override Task CancelAsync(object? parameter = null) {
         return Task.CompletedTask;
-        //await _scheduler.UndoAsync();
     }
 
     public void Dispose() {
