@@ -21,7 +21,7 @@ public class RemoveItemCommand : BaseCommand<ConditionalDesignation>
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStartEditing());
         await Task.Delay(100);
         var collection = _context.DataGridViewModel.Items;
-        
+
         collection.Add(_parameter);
         
         _context.DataGrid.ScrollIntoView(_parameter);

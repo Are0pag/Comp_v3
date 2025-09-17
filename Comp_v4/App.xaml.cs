@@ -46,10 +46,10 @@ public partial class App : Application
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
 
-                             s.AddScoped<DataGridViewModel>();
-                             s.AddScoped<FiltersVm>();
+                             s.AddSingleton<DataGridViewModel>();
+                             s.AddSingleton<FiltersVm>();
 
-                             s.AddScoped<ModuleContext>();
+                             s.AddSingleton<ModuleContext>();
 
                              s.AddScoped<ActionStartAddingNewItem>();
                              s.AddScoped<ActionAddItem>();
