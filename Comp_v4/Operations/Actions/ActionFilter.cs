@@ -47,10 +47,16 @@ public class ActionFilter : BaseAction, IFilteringHandler
         EventBus<IGlobSubscriber>.Unsubscribe(this);
     }
 
-    object? IFilteringHandler.OnSourceCollectionEditing() {
+    object? IFilteringHandler.OnSourceCollectionStartEditing() {
         _filtersVm.FilterName = null;
         _filtersVm.FilterDesignation = null;
-        //_scheduler.UndoAsync();
+        _filtersVm.PropertyChanged -= filtersVmOnPropertyChanged();
+        return null;
+    }
+
+    object? IFilteringHandler.OnSourceCollectionStopEditing() {
+        _filtersVm.PropertyChanged += filtersVmOnPropertyChanged();
+        PerformAsync();
         return null;
     }
 

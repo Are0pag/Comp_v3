@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Utils.WPF.VmEnumerableInteractiveData;
@@ -15,4 +16,6 @@ public class VmEnumerableInteractiveData<T> : ObservableObject
             OnPropertyChanged();
         }
     }
+    
+    public void EnsureNotifyItemsChanged() => OnPropertyChanged(nameof(Items));
 }

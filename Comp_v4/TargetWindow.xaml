@@ -47,6 +47,8 @@
                   CanUserAddRows="False"
                   SelectionMode="Single" 
                   x:Name="MainDataGrid" 
+                  EnableRowVirtualization="False"
+                  EnableColumnVirtualization="False"
                   CellEditEnding="DataGrid_CellEditEnding"
                   BeginningEdit="InfoDataGrid_OnBeginningEdit" 
                   SelectedItem="{Binding SelectedItem}">

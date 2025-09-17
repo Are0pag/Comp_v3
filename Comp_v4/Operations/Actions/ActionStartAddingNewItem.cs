@@ -21,7 +21,7 @@ public class ActionStartAddingNewItem : BaseAction
         
         var createRawCommand = new CreateRawCommand(_context);
         
-        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionEditing());
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStartEditing());
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()))
                         .ExecuteLastRegisteredAsync();
@@ -35,6 +35,8 @@ public class ActionStartAddingNewItem : BaseAction
         var focusCommand = _commandFactory.CreateCommand<FocusCellCommand, ConditionalDesignation>(createRawCommand.Item);
         await _scheduler.RegisterCommandInto<TransactionAddItem>(focusCommand)
                         .ExecuteLastRegisteredAsync();
+        
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStopEditing());
 
         _scheduler.CommitTransaction<TransactionAddItem>();
         

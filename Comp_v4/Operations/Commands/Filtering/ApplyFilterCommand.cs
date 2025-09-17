@@ -33,12 +33,14 @@ public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
             _removedByLastFilter.Add(item);
         }
 
-        foreach (var removed in _removedByLastFilter) _args.Items.Remove(removed);
+        foreach (var removed in _removedByLastFilter) 
+            _args.Items.Remove(removed);
         return Task.CompletedTask;
     }
 
     public override Task UndoAsync() {
-        foreach (var item in _removedByLastFilter) _args.Items.Add(item);
+        foreach (var item in _removedByLastFilter) 
+            _args.Items.Add(item);
         return Task.CompletedTask;
     }
 

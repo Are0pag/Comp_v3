@@ -1,6 +1,7 @@
 using Comp.ModelData.TechnicalItems;
-using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 using WPF.Templates;
+using WPF.Templates.TableWindow.Events;
 
 namespace Comp_v4.Operations.Commands;
 
@@ -12,17 +13,18 @@ public class RemoveItemCommand : BaseCommand<ConditionalDesignation>
     }
 
     public override Task ExecuteAsync() {
-        if (_context.DataGrid.ItemsSource != _context.DataGridViewModel.Items) {
-            _context.DataGrid.ItemsSource = _context.DataGridViewModel.Items;
-        }
-        
         _context.DataGridViewModel.Items.Remove(_parameter);
         return Task.CompletedTask;
     }
 
-    public override Task UndoAsync() {
-        _context.DataGridViewModel.Items.Add(_parameter);
+    public override async Task UndoAsync() {
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStartEditing());
+        await Task.Delay(100);
+        var collection = _context.DataGridViewModel.Items;
+        
+        collection.Add(_parameter);
+        
         _context.DataGrid.ScrollIntoView(_parameter);
-        return Task.CompletedTask;
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStopEditing());
     }
 }

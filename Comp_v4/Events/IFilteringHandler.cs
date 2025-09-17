@@ -2,7 +2,8 @@ namespace WPF.Templates.TableWindow.Events;
 
 public interface IFilteringHandler : IGlobSubscriber, IDisposable
 {
-    object? OnSourceCollectionEditing();
+    object? OnSourceCollectionStartEditing();
+    object? OnSourceCollectionStopEditing();
 }
 
 public interface IFilteringInputHandler : IGlobSubscriber, IDisposable
