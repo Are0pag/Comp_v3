@@ -1,4 +1,5 @@
 using Comp_v4.Entities;
+using Comp_v4.Operations.Commands;
 using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
@@ -6,7 +7,7 @@ namespace WPF.Templates;
 public class ActionSave : BaseAction
 {
     protected readonly Cell _cell;
-    public ActionSave(IModuleCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
+    public ActionSave(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory, Cell cell) : base(scheduler, context, commandFactory) {
         _cell = cell;
     }
 

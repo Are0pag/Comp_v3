@@ -7,7 +7,7 @@ namespace WPF.Templates.TableWindow.States;
 
 public class CellStateIdle : BaseCellState
 {
-    public CellStateIdle(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
+    public CellStateIdle(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory factory) : base(scheduler, context, factory) {
     }
 
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {

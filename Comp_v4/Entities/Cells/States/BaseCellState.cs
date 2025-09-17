@@ -1,6 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.Entities;
+using Comp_v4.Operations.Commands;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.StateMachine;
 
@@ -9,11 +10,13 @@ namespace WPF.Templates.TableWindow.States;
 public abstract class BaseCellState : StateBase<Cell>
 {
     protected readonly IModuleCommandScheduler _scheduler;
+    protected readonly CommandFactory _commandFactory;
     protected readonly ModuleContext _context;
 
-    public BaseCellState(IModuleCommandScheduler scheduler, ModuleContext context) {
+    public BaseCellState(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory) {
         _scheduler = scheduler;
         _context = context;
+        _commandFactory = commandFactory;
     }
 
     public virtual Task OnEnding(Cell owner, object? sender, DataGridCellEditEndingEventArgs e) {

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Comp_v4.Entities;
+using Comp_v4.Operations.Commands;
 using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
@@ -40,6 +41,8 @@ public partial class App : Application
                              });
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
 
+                             s.AddSingleton<CommandFactory>(provider => new CommandFactory(provider));
+                             
                              s.AddSingleton<Validator>();
 
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
@@ -96,8 +99,9 @@ public partial class App : Application
         var filtersVm = Host.Services.GetRequiredService<FiltersVm>();
         var mContext = Host.Services.GetRequiredService<ModuleContext>();
         var cell = Host.Services.GetRequiredService<Cell>();
+        var comFactory = Host.Services.GetRequiredService<CommandFactory>();
         
-        new ActionFilter(scheduler, mContext, filtersVm, cell);
+        new ActionFilter(scheduler, mContext, comFactory, filtersVm, cell);
         
         /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);*/

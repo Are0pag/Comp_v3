@@ -9,7 +9,7 @@ namespace WPF.Templates;
 
 public class ActionUpdateItem : BaseAction
 {
-    public ActionUpdateItem(IModuleCommandScheduler scheduler, ModuleContext context) : base(scheduler, context) {
+    public ActionUpdateItem(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory) : base(scheduler, context, commandFactory) {
     }
 
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
@@ -29,7 +29,7 @@ public class ActionUpdateItem : BaseAction
 
     protected virtual Task InitTransaction(Args args) {
         _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
-        _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand(args.Item));
+        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<UpdateItemCommand, ConditionalDesignation>(args.Item));
         return Task.CompletedTask;
     }
 

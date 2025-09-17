@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Comp_v4.Entities;
+using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Commands.Filtering;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.Events;
@@ -13,7 +14,7 @@ public class ActionFilter : BaseAction, IFilteringHandler
     protected readonly FiltersVm _filtersVm;
     protected readonly Cell _cell;
     
-    public ActionFilter(IModuleCommandScheduler scheduler, ModuleContext context, FiltersVm filtersVm, Cell cell) : base(scheduler, context) {
+    public ActionFilter(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory, FiltersVm filtersVm, Cell cell) : base(scheduler, context, commandFactory) {
         _filtersVm = filtersVm;
         _cell = cell;
         _filtersVm.PropertyChanged += filtersVmOnPropertyChanged();
@@ -22,7 +23,7 @@ public class ActionFilter : BaseAction, IFilteringHandler
 
     public override async Task<BaseAction> PerformAsync(object? parameter = null) {
         var arg = new ApplyFilterCommand.Args(_context.DataGridViewModel.Items!, _filtersVm);
-        await new ApplyFilterCommand(arg).ExecuteAsync();
+        await _commandFactory.CreateCommand<ApplyFilterCommand, ApplyFilterCommand.Args>(arg).ExecuteAsync();
         return this;
     }
 

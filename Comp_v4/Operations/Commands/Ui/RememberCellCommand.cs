@@ -10,9 +10,11 @@ namespace Comp_v4.Operations.Commands;
 
 public class RememberCellCommand : BaseCommand<DataGridBeginningEditEventArgs>
 {
+    protected readonly ModuleContext _moduleContext;
     protected DataGridCell? _cell;
     
-    public RememberCellCommand(DataGridBeginningEditEventArgs parameter) : base(parameter) {
+    public RememberCellCommand(DataGridBeginningEditEventArgs parameter, ModuleContext moduleContext) : base(parameter) {
+        _moduleContext = moduleContext;
     }
 
     public override async Task ExecuteAsync() {

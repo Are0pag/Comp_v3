@@ -17,15 +17,15 @@ public class BaseCellStateInput : BaseCellState
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
     protected RememberCellCommand? _rememberCellCommand;
 
-    public BaseCellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, Validator validator) : base(scheduler, context) {
+    public BaseCellStateInput(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory factory, Validator validator) : base(scheduler, context, factory) {
         _validator = validator;
     }
     
     public override async Task OnBeginning(Cell owner, object? sender, DataGridBeginningEditEventArgs e) {
         if (!_scheduler.IsInTransaction<TrSelectingCell>())
             return;
-        
-        _rememberCellCommand = new RememberCellCommand(e);
+
+        _rememberCellCommand = _commandFactory.CreateCommand<RememberCellCommand, DataGridBeginningEditEventArgs>(e);
         //await _rememberCellCommand.ExecuteAsync();
         await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
                         .ExecuteLastRegisteredAsync();

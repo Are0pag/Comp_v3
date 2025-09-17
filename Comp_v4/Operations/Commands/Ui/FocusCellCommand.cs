@@ -9,7 +9,9 @@ namespace Comp_v4.Operations.Commands;
 
 public class FocusCellCommand : BaseCommand<ConditionalDesignation>
 {
-    public FocusCellCommand(ConditionalDesignation parameter) : base(parameter) {
+    protected readonly ModuleContext _moduleContext;
+    public FocusCellCommand(ConditionalDesignation parameter, ModuleContext moduleContext) : base(parameter) {
+        _moduleContext = moduleContext;
     }
 
     public override async Task ExecuteAsync() {

@@ -14,7 +14,7 @@ public class ActionDeleteItem : BaseAction
     protected readonly Cell _cell;
     protected new readonly ModuleContext _context;
     
-    public ActionDeleteItem(IModuleCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
+    public ActionDeleteItem(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory, Cell cell) : base(scheduler, context, commandFactory) {
         _context = context;
         _cell = cell;
     }
@@ -26,8 +26,8 @@ public class ActionDeleteItem : BaseAction
         }
         
         _scheduler.BeginTransaction<TrDeleteCell>();
-        _scheduler.RegisterCommandInto<TrDeleteCell>(new DeleteItemCommand(item));
-        await _scheduler.RegisterCommandInto<TrDeleteCell>(new RemoveItemCommand(item))
+        _scheduler.RegisterCommandInto<TrDeleteCell>(_commandFactory.CreateCommand<DeleteItemCommand, ConditionalDesignation>(item));
+        await _scheduler.RegisterCommandInto<TrDeleteCell>(_commandFactory.CreateCommand<RemoveItemCommand, ConditionalDesignation>(item))
                         .ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrDeleteCell>();
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());

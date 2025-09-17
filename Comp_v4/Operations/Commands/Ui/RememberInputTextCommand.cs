@@ -10,6 +10,8 @@ namespace Comp_v4.Operations.Commands;
 public class RememberInputTextCommand : BaseCommand<DataGridBeginningEditEventArgs>
 {
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
+    protected ConditionalDesignation? _item;
+    
     public RememberInputTextCommand(DataGridBeginningEditEventArgs parameter) 
         : base(parameter) {
         _propertyRestoreService = _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();

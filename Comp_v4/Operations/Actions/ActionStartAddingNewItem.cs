@@ -1,6 +1,7 @@
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
+using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.Events;
 using WPF.Templates.TableWindow.States;
@@ -11,7 +12,7 @@ public class ActionStartAddingNewItem : BaseAction
 {
     protected readonly Cell _cell;
     
-    public ActionStartAddingNewItem(IModuleCommandScheduler scheduler, ModuleContext context, Cell cell) : base(scheduler, context) {
+    public ActionStartAddingNewItem(IModuleCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory, Cell cell) : base(scheduler, context, commandFactory) {
         _cell = cell;
     }
 
@@ -25,13 +26,14 @@ public class ActionStartAddingNewItem : BaseAction
         await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand(_context, _cell, _cell.GetState<CellStateAddItem>()))
                         .ExecuteLastRegisteredAsync();
         
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new RememberSelectionCommand(_context))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(_commandFactory.CreateCommand<RememberSelectionCommand, object>(_context))
                         .ExecuteLastRegisteredAsync();
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
                         .ExecuteLastRegisteredAsync();
 
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new FocusCellCommand(createRawCommand.Item))
+        var focusCommand = _commandFactory.CreateCommand<FocusCellCommand, ConditionalDesignation>(createRawCommand.Item);
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(focusCommand)
                         .ExecuteLastRegisteredAsync();
 
         _scheduler.CommitTransaction<TransactionAddItem>();
