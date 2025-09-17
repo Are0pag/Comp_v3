@@ -21,7 +21,7 @@ public partial class App : Application
 {
     public static IHost Host { get; protected set; }
     protected IServiceScope _mainScope;
-
+    protected List<IDisposable> _disposable;
 
     /* TODO */
     protected static readonly Dictionary<Type, IServiceScope> _scopes = new Dictionary<Type, IServiceScope>();
@@ -46,8 +46,8 @@ public partial class App : Application
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
 
-                             s.AddSingleton<DataGridViewModel>();
-                             s.AddSingleton<FiltersVm>();
+                             s.AddScoped<DataGridViewModel>();
+                             s.AddScoped<FiltersVm>();
 
                              s.AddScoped<ModuleContext>();
 
@@ -90,7 +90,11 @@ public partial class App : Application
         CreateRequiredInstancesManually();
 
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
-        mainWindow.Closed += (_, _) => _mainScope?.Dispose();
+        mainWindow.Closed += (_, _) => {
+            foreach (var d in _disposable) d.Dispose();
+            _disposable.Clear();
+            _mainScope?.Dispose();
+        };
         mainWindow.Show();
         
         base.OnStartup(e);
@@ -107,16 +111,20 @@ public partial class App : Application
     /// This method exists because DI do not create that instances
     /// </summary>
     protected virtual void CreateRequiredInstancesManually() {
-        var scheduler = Host.Services.GetRequiredService<IModuleCommandScheduler>();
-        new ActionStackTracker(scheduler);
-        new PersistenceManager(scheduler, Host.Services.GetRequiredService<ActionSave>());
-        new TableCommandBinderFilteringCompatible(Host.Services.GetRequiredService<ActionStartAddingNewItem>(), Host.Services.GetRequiredService<ActionDeleteItem>());
-
-        var filtersVm = Host.Services.GetRequiredService<FiltersVm>();
-        var mContext = Host.Services.GetRequiredService<ModuleContext>();
-        var cell = Host.Services.GetRequiredService<Cell>();
-        var comFactory = Host.Services.GetRequiredService<CommandFactory>();
+        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
+        var filtersVm = _mainScope.ServiceProvider.GetRequiredService<FiltersVm>();
+        var mContext = _mainScope.ServiceProvider.GetRequiredService<ModuleContext>();
+        var cell = _mainScope.ServiceProvider.GetRequiredService<Cell>();
+        var comFactory = _mainScope.ServiceProvider.GetRequiredService<CommandFactory>();
         
-        new ActionFilter(scheduler, mContext, comFactory, filtersVm, cell);
+        _disposable = new List<IDisposable>() {
+            new ActionStackTracker(scheduler),
+            new PersistenceManager(scheduler, _mainScope.ServiceProvider.GetRequiredService<ActionSave>()),
+            new TableCommandBinderFilteringCompatible(
+                                                      _mainScope.ServiceProvider.GetRequiredService<ActionStartAddingNewItem>(), 
+                                                      _mainScope.ServiceProvider.GetRequiredService<ActionDeleteItem>()
+                                                      ),
+            new ActionFilter(scheduler, mContext, comFactory, filtersVm, cell)
+        };
     }
 }

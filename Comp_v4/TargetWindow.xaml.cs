@@ -14,7 +14,8 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 {
     protected readonly DataGridViewModel _dataGridViewModel;
     
-    public TargetWindow(DataGridViewModel dataGridViewModel, FiltersVm filtersVm, ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
+    public TargetWindow(DataGridViewModel dataGridViewModel, FiltersVm filtersVm, 
+                        ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
         InitializeComponent();
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;

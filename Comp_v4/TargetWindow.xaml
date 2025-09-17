@@ -61,7 +61,7 @@
                     <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
                               Header="Новое обозначение" Command="{Binding AddItemCommand}"></MenuItem>
                     <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
-                              Header="Удалить" Command="{Binding DeleteItemCommand}"></MenuItem>
+                              Header="Удалить" Command="{Binding DeleteCommand}"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             
