@@ -15,22 +15,13 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4;
 
-public interface ICondDesServiceScope : IServiceScope {}
 
 public partial class App : Application
 {
     public static IHost Host { get; protected set; }
     protected IServiceScope _mainScope;
     protected List<IDisposable> _disposable;
-
-    /* TODO */
-    protected static readonly Dictionary<Type, IServiceScope> _scopes = new Dictionary<Type, IServiceScope>();
-    public static ICondDesServiceScope TestScope { get; protected set; }
-
-    public static IServiceScope ProvideTransientCommandInScope<T>() where T : IServiceScope {
-        return _scopes[typeof(T)];
-    }
-
+    
     public App() {
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder().
                          ConfigureServices((hostContext, s /* services */) => {
@@ -78,6 +69,7 @@ public partial class App : Application
 
                          }).Build();
     }
+    
     protected override async void OnStartup(StartupEventArgs e) {
         await Host.StartAsync();
         
