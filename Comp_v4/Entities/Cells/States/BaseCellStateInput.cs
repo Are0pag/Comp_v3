@@ -31,7 +31,8 @@ public class BaseCellStateInput : BaseCellState
                         .ExecuteLastRegisteredAsync();
         
         if (_validator.ValidateAsync((ConditionalDesignation)e.Row.Item).Result is { IsValid: true })
-            await _scheduler.RegisterCommandInto<TrSelectingCell>(new RememberInputTextCommand(e)).ExecuteLastRegisteredAsync();
+            await _scheduler.RegisterCommandInto<TrSelectingCell>(_commandFactory.CreateCommand<RememberInputTextCommand, DataGridBeginningEditEventArgs>(e))
+                            .ExecuteLastRegisteredAsync();
         
         _scheduler.CommitTransaction<TrSelectingCell>();
         _lastCellEditBeginningEditEventArgs = e;

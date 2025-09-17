@@ -12,9 +12,9 @@ public class RememberInputTextCommand : BaseCommand<DataGridBeginningEditEventAr
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
     protected ConditionalDesignation? _item;
     
-    public RememberInputTextCommand(DataGridBeginningEditEventArgs parameter) 
+    public RememberInputTextCommand(DataGridBeginningEditEventArgs parameter, DataGridPropertyRestoreService<ConditionalDesignation> propertyRestoreService) 
         : base(parameter) {
-        _propertyRestoreService = _propertyRestoreService = App.Host.Services.GetRequiredService<DataGridPropertyRestoreService<ConditionalDesignation>>();
+        _propertyRestoreService = propertyRestoreService;
     }
 
     public override async Task ExecuteAsync() {
