@@ -37,6 +37,12 @@ public class BaseCellStateInput : BaseCellState
         _scheduler.CommitTransaction<TrSelectingCell>();
         _lastCellEditBeginningEditEventArgs = e;
     }
+    
+    public override async Task OnPreviewMouseDown(Cell owner, object sender, MouseButtonEventArgs e) {
+        if (_context.DataGrid.IsEditing() && !_context.DataGrid.IsClickInEditingArea(e)) {
+            await _action.CancelAsync();
+        }
+    }
 
     /// <summary>
     /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)

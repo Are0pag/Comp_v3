@@ -37,8 +37,10 @@ public class ActionUpdateItem : BaseAction
         return true;
     }
 
-    public override Task CancelAsync(object? parameter = null) {
-        return Task.CompletedTask;
+    public override async Task CancelAsync(object? parameter = null) {
+        //_context.DataGrid.CurrentCell.
+        await _scheduler.UndoAsync();
+        _context.DataGrid.CancelEdit();
     }
 
     public class Args(RememberCellCommand rememberCellCommand, Cell cell, ConditionalDesignation item) {
