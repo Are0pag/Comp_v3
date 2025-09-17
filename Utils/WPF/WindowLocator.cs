@@ -21,8 +21,9 @@ public static class WindowLocator
         public int Y;
     }
 
-    public static T LocateBy<T>(T window, WindowLocationOptions options = WindowLocationOptions.CenterScreen)
-        where T : Window {
+    public static T LocateBy<T>(T window, WindowLocationOptions options = WindowLocationOptions.CursorOnLeftTopCorner)
+        where T : Window 
+    {
         GetCursorPos(out POINT point);
         window.WindowStartupLocation = WindowStartupLocation.Manual;
         
