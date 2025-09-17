@@ -9,9 +9,9 @@ namespace Comp_v4.Operations.Commands;
 
 public class UpdateItemCommand : BaseCommand<ConditionalDesignation>
 {
-    protected readonly IConditionalDesignationRepository _repository;
+    protected readonly IRepository<ConditionalDesignation> _repository;
     public UpdateItemCommand(ConditionalDesignation parameter) : base(parameter) {
-        _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
+        _repository = App.Host.Services.GetRequiredService<IRepository<ConditionalDesignation>>();
     }
 
     public override async Task ExecuteDeferredAsync() {

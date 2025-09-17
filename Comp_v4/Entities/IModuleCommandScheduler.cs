@@ -1,4 +1,8 @@
 using System.Windows;
+using Comp.Db;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories;
+using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.Command.TransactionSupportive;
 using Utils.EventBus;
@@ -6,6 +10,14 @@ using WPF.Templates.TableWindow.Events;
 using WPF.UCL;
 
 namespace Comp_v4.Entities;
+
+public class ConditionalDesignationRepository : DbRepository<ConditionalDesignation>
+{
+    public ConditionalDesignationRepository(AppDbContext context) : base(context) {
+    }
+}
+
+
 
 public interface IModuleCommandScheduler : IHeterochromicCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> {}
 

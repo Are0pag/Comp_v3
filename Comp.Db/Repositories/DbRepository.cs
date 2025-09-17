@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Comp.Db.Repositories;
 
-public class DbRepository<T> : IRepository<T> where T : class
+public class DbRepository<T> : IRepository<T> 
+    where T : class
 {
     protected readonly AppDbContext _context;
 

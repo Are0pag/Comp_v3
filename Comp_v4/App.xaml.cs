@@ -39,7 +39,6 @@ public partial class App : Application
                                  options.UseSqlite(DbConfig.ConnectionString);
                              });
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
-                             s.AddTransient<IConditionalDesignationRepository, ConditionalDesignationRepository>();
 
                              s.AddSingleton<Validator>();
 

@@ -10,9 +10,9 @@ namespace WPF.Templates.TableWindow.Vm;
 
 public class DataGridViewModel : VmEnumerableInteractiveData<ConditionalDesignation>
 {
-    protected readonly IConditionalDesignationRepository _repository;
+    protected readonly IRepository<ConditionalDesignation> _repository;
     
-    public DataGridViewModel(IConditionalDesignationRepository repository) {
+    public DataGridViewModel(IRepository<ConditionalDesignation> repository) {
         _repository = repository;
         LoadDataAsync();
     }

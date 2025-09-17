@@ -7,10 +7,10 @@ namespace Comp_v4.Operations.Commands;
 
 public class AddItemCommand : BaseCommand<ConditionalDesignation>
 {
-    protected readonly IConditionalDesignationRepository _repository;
+    protected readonly IRepository<ConditionalDesignation> _repository;
 
     public AddItemCommand(ConditionalDesignation parameter) : base(parameter) {
-        _repository = App.Host.Services.GetRequiredService<IConditionalDesignationRepository>();
+        _repository = App.Host.Services.GetRequiredService<IRepository<ConditionalDesignation>>();
         // TODO
         //_repository = App.TestScope.ServiceProvider.GetRequiredService<IConditionalDesignationRepository>();
         // не, надо регать как трансиент
@@ -22,3 +22,4 @@ public class AddItemCommand : BaseCommand<ConditionalDesignation>
         await _repository.AddAsync(_parameter);
     }
 }
+
