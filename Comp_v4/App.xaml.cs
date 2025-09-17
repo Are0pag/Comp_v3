@@ -3,7 +3,6 @@ using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp.Db;
 using Comp.Db.Contracts;
-using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,15 +41,14 @@ public partial class App : Application
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
 
                              s.AddSingleton<CommandFactory>(provider => new CommandFactory(provider));
-                             
                              s.AddSingleton<Validator>();
 
-                             s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
-                            
                              s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
+                             s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
 
                              s.AddSingleton<DataGridViewModel>();
                              s.AddSingleton<FiltersVm>();
+
                              s.AddScoped<ModuleContext>();
 
                              s.AddScoped<ActionStartAddingNewItem>();
@@ -83,14 +81,32 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e) {
         await Host.StartAsync();
         
-        // Создаем БД при старте (используем scope)
         using (var scope = Host.Services.CreateScope()) {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await context.Database.EnsureCreatedAsync();
         } 
         
-        
         _mainScope = Host.Services.CreateScope();
+        CreateRequiredInstancesManually();
+
+        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
+        mainWindow.Closed += (_, _) => _mainScope?.Dispose();
+        mainWindow.Show();
+        
+        base.OnStartup(e);
+    }
+
+    protected override async void OnExit(ExitEventArgs e) {
+        _mainScope?.Dispose();
+        await Host.StopAsync();
+        Host.Dispose();
+        base.OnExit(e);
+    }
+
+    /// <summary>
+    /// This method exists because DI do not create that instances
+    /// </summary>
+    protected virtual void CreateRequiredInstancesManually() {
         var scheduler = Host.Services.GetRequiredService<IModuleCommandScheduler>();
         new ActionStackTracker(scheduler);
         new PersistenceManager(scheduler, Host.Services.GetRequiredService<ActionSave>());
@@ -102,22 +118,5 @@ public partial class App : Application
         var comFactory = Host.Services.GetRequiredService<CommandFactory>();
         
         new ActionFilter(scheduler, mContext, comFactory, filtersVm, cell);
-        
-        /*var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
-        new ActionStackTracker(scheduler);*/
-        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<TargetWindow>(); 
-        mainWindow.Closed += (_, _) => _mainScope?.Dispose();
-        mainWindow.Show();
-        
-        
-        
-        base.OnStartup(e);
-    }
-
-    protected override async void OnExit(ExitEventArgs e) {
-        _mainScope?.Dispose();
-        await Host.StopAsync();
-        Host.Dispose();
-        base.OnExit(e);
     }
 }
