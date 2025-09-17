@@ -4,7 +4,6 @@ using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using Utils.WPF.VmEnumerableInteractiveData;
 using WPF.Templates.TableWindow.Events;
-using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates.TableWindow.Vm;
 

@@ -1,6 +1,5 @@
 using System.Windows;
 using Comp.Db;
-using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;

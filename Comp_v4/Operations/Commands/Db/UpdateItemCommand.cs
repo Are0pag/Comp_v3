@@ -1,9 +1,5 @@
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
-using Microsoft.Extensions.DependencyInjection;
-using Utils.EventBus;
-using WPF.Templates;
-using WPF.Templates.TableWindow.Events;
 
 namespace Comp_v4.Operations.Commands;
 

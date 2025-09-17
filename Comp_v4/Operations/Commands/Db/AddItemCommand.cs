@@ -1,8 +1,5 @@
-using Comp_v4.Entities;
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
-using Microsoft.Extensions.DependencyInjection;
-using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 

@@ -2,7 +2,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
-using Infrastructure.Command.Heterochromic;
 using Infrastructure.StateMachine;
 
 namespace WPF.Templates.TableWindow.States;

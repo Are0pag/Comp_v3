@@ -1,9 +1,7 @@
 using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
-using Microsoft.Extensions.DependencyInjection;
 using WPF.Extensions.View.Elements;
 using WPF.Services.UserActionsHandling.InputText;
-using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 

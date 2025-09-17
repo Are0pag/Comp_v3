@@ -1,8 +1,4 @@
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Threading;
-using Comp.ModelData.TechnicalItems;
-using Microsoft.Extensions.DependencyInjection;
 using WPF.Extensions.View.Elements;
 using WPF.Templates;
 

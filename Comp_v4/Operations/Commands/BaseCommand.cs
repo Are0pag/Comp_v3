@@ -1,8 +1,5 @@
-using System.Reflection.Metadata;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
-using Microsoft.Extensions.DependencyInjection;
-using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 

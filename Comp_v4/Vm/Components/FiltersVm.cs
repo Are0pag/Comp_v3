@@ -1,7 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Comp_v4.Operations.Commands.Filtering;
-using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
 
 namespace WPF.Templates.TableWindow.Vm.Components;
 
