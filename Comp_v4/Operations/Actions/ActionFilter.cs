@@ -41,7 +41,7 @@ public class ActionFilter : BaseAction, IFilteringHandler
         EventBus<IGlobSubscriber>.Unsubscribe(this);
     }
 
-    object? IFilteringHandler.OnNewItemCreating() {
+    object? IFilteringHandler.OnSourceCollectionEditing() {
         _filtersVm.FilterName = null;
         _filtersVm.FilterDesignation = null;
         //_scheduler.UndoAsync();
