@@ -12,15 +12,16 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace WPF.Templates;
 
-public class ActionFilter<TWindow, T> : BaseAction<TWindow, T>, IFilteringHandler
+public class ActionFilter<TWindow, T,TFiltersSource> : BaseAction<TWindow, T>, IFilteringHandler
     where TWindow : Window
     where T : class, IDbEntity
+    where TFiltersSource : FiltersVmBase
 {
-    protected readonly FiltersVm _filtersVm;
+    protected readonly TFiltersSource _filtersVm;
     protected readonly Cell<TWindow, T> _cell;
-    protected ApplyFilterCommand<TWindow, T>? _previousFilterCommand;
+    protected ApplyFilterCommand<TWindow, T, TFiltersSource>? _previousFilterCommand;
     
-    public ActionFilter(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, FiltersVm filtersVm, Cell<TWindow, T> cell) : base(scheduler, context, commandFactory) {
+    public ActionFilter(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, TFiltersSource filtersVm, Cell<TWindow, T> cell) : base(scheduler, context, commandFactory) {
         _filtersVm = filtersVm;
         _cell = cell;
         _filtersVm.PropertyChanged += filtersVmOnPropertyChanged();
@@ -32,8 +33,8 @@ public class ActionFilter<TWindow, T> : BaseAction<TWindow, T>, IFilteringHandle
             await _previousFilterCommand.UndoAsync();
         }
         
-        var arg = new ApplyFilterCommand<TWindow, T>.Args(_context.DataGridViewModel.Items!, _filtersVm);
-        var filterCommand = _commandFactory.CreateCommand<ApplyFilterCommand<TWindow, T>, ApplyFilterCommand<TWindow, T>.Args>(arg);
+        var arg = new ApplyFilterCommand<TWindow, T, TFiltersSource>.Args(_context.DataGridViewModel.Items!, _filtersVm);
+        var filterCommand = _commandFactory.CreateCommand<ApplyFilterCommand<TWindow, T, TFiltersSource>, ApplyFilterCommand<TWindow, T, TFiltersSource>.Args>(arg);
         await filterCommand.ExecuteAsync();
         _previousFilterCommand = filterCommand;
         return this;
@@ -53,8 +54,7 @@ public class ActionFilter<TWindow, T> : BaseAction<TWindow, T>, IFilteringHandle
     }
 
     object? IFilteringHandler.OnSourceCollectionStartEditing() {
-        _filtersVm.FilterName = null;
-        _filtersVm.FilterDesignation = null;
+        ObjectStringCleaner.SetStringPropertiesToNull(_filtersVm);
         _filtersVm.PropertyChanged -= filtersVmOnPropertyChanged();
         return null;
     }

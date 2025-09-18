@@ -13,6 +13,7 @@ namespace Comp_v4;
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
     protected readonly DataGridViewModel _dataGridViewModel;
+    protected readonly FiltersVm _filtersVm;
     
     public TargetWindow(DataGridViewModel dataGridViewModel, FiltersVm filtersVm, 
                         ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
@@ -20,6 +21,7 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
+        _filtersVm = filtersVm;
         
         IgnoreCaseCheckBox.DataContext = filtersVm;
 
@@ -35,6 +37,7 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
     public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
 
     void IDataGridRequestResolver<TargetWindow>.GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
+
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewKeyDown(sender, e));
