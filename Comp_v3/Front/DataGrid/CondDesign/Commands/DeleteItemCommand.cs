@@ -4,7 +4,7 @@ using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class DeleteItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
+public class DeleteItemCommand : DeferredCommandBase<>
 {
     public DeleteItemCommand(CognDesignGridVm context) : base(context) {
     }

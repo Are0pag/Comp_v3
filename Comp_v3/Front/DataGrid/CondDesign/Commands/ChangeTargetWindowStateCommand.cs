@@ -5,7 +5,7 @@ using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class ChangeTargetWindowStateCommand : DeferredCommand<CognDesignGridWindow, ConditionalDesignation>
+public class ChangeTargetWindowStateCommand : DeferredCommandBase<>
 {
     protected readonly StateWindow _fromState;
     protected readonly StateWindow _targetState;

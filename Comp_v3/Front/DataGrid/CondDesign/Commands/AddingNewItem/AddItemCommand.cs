@@ -9,7 +9,7 @@ using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 
-public class AddItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
+public class AddItemCommand : DeferredCommandBase<>
 {
     public AddItemCommand(CognDesignGridVm context, ConditionalDesignation item) : base(context) {
         _item = item;

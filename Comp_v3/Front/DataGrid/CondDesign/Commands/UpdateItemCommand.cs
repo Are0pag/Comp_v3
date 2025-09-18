@@ -13,7 +13,7 @@ using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class UpdateItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
+public class UpdateItemCommand : DeferredCommandBase<>
 {
     
     protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyValueRestoreService;
@@ -43,7 +43,7 @@ public class UpdateItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDe
     }
 }
 
-public class FocusOnUpdatingItemCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
+public class FocusOnUpdatingItemCommand : DeferredCommandBase<>
 {
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     public FocusOnUpdatingItemCommand(CognDesignGridVm context) : base(context) {

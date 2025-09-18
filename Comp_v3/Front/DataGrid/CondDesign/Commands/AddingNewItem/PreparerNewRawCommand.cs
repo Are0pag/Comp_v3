@@ -4,7 +4,7 @@ using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 
-public class PreparerNewRawCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
+public class PreparerNewRawCommand : DeferredCommandBase<>
 {
     public PreparerNewRawCommand(CognDesignGridVm context) : base(context) {
     }

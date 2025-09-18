@@ -8,7 +8,7 @@ using Utils.EventBus;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class CancelEditCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>//, IDataGridRequester<CognDesignGridWindow>
+public class CancelEditCommand : DeferredCommandBase<>//, IDataGridRequester<CognDesignGridWindow>
 {
     protected object _sender;
     public CancelEditCommand(CognDesignGridVm context, object sender) : base(context) {

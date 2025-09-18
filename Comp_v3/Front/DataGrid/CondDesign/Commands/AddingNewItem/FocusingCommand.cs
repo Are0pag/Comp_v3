@@ -8,7 +8,7 @@ using WPF.Services.View.AutoNavigation.Focusing;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands.AddingNewItem;
 
-public class FocusingCommand : DeferredCommand<CognDesignGridWindow, ConditionalDesignation>, IDataGridRequester<CognDesignGridWindow>
+public class FocusingCommand : DeferredCommandBase<>, IDataGridRequester<CognDesignGridWindow>
 {
     protected readonly CursorPositionService<System.Windows.Controls.DataGrid> _cursorPositionService;
     protected DataGridMemento? _dataGridMemento;

@@ -34,13 +34,13 @@ public partial class App : Application
                              s.AddSingleton<CommandFactory>(provider => new CommandFactory(provider));
                              s.AddSingleton<Validator>();
 
-                             s.AddSingleton<IModuleCommandScheduler, ModuleCommandScheduler>();
+                             s.AddSingleton<IDataGridCommandScheduler, DataGridCommandScheduler>();
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
 
-                             s.AddSingleton<DataGridViewModel>();
+                             s.AddSingleton<DataGridViewModel<ConditionalDesignation>>();
                              s.AddSingleton<FiltersVm>();
 
-                             s.AddSingleton<ModuleContext>();
+                             s.AddSingleton<ModuleContext<TargetWindow, ConditionalDesignation>>();
 
                              s.AddScoped<ActionStartAddingNewItem>();
                              s.AddScoped<ActionAddItem>();
@@ -103,9 +103,9 @@ public partial class App : Application
     /// This method exists because DI do not create that instances
     /// </summary>
     protected virtual void CreateRequiredInstancesManually() {
-        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IModuleCommandScheduler>();
+        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IDataGridCommandScheduler>();
         var filtersVm = _mainScope.ServiceProvider.GetRequiredService<FiltersVm>();
-        var mContext = _mainScope.ServiceProvider.GetRequiredService<ModuleContext>();
+        var mContext = _mainScope.ServiceProvider.GetRequiredService<ModuleContext<TargetWindow, ConditionalDesignation>>();
         var cell = _mainScope.ServiceProvider.GetRequiredService<Cell>();
         var comFactory = _mainScope.ServiceProvider.GetRequiredService<CommandFactory>();
         

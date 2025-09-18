@@ -5,7 +5,7 @@ using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v3.Front.DataGrid.CondDesign.Commands;
 
-public class ChangeTargetVmStateCommand : DeferredCommand<CognDesignGridVm, ConditionalDesignation>
+public class ChangeTargetVmStateCommand : DeferredCommandBase<>
 {
     protected readonly StateDataGrid _fromState;
     protected readonly StateDataGrid _targetState;

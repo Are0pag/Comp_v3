@@ -1,9 +1,11 @@
 using System.Reflection;
+using Infrastructure.Command;
+using Infrastructure.Command.Heterochromic;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Comp_v4.Operations.Commands;
 
-public class CommandFactory
+public class CommandFactory : ICommandFactory
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -12,7 +14,7 @@ public class CommandFactory
     }
 
     public TCommand CreateCommand<TCommand, TParameter>(TParameter parameter)
-        where TCommand : BaseCommand<TParameter> 
+        where TCommand : DeferredCommandBase<TParameter> 
     {
         // Получаем конструктор команды
         var constructorInfo = typeof(TCommand).GetConstructors()
