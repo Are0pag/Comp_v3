@@ -10,6 +10,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Comp_v4.TableWindows.ConditionalDesignation;
 
+static public class ComponentRegistrationExtensions
+{
+    static public void NonLazy<TService>(this ComponentRegistration<TService> registration) 
+        where TService : class
+    {
+        // Логика регистрации компонента
+        Console.WriteLine($"Регистрация компонента для типа: {typeof(TService).Name}");
+        // думаю та же логика что и CommandFactory + выделить из этого функционал
+    }
+}
+
+
 public class Installer : IWindsorInstaller
 {
     public void Install(IWindsorContainer container, IConfigurationStore store) {
