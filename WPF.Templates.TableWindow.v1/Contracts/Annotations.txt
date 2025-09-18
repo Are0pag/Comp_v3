@@ -2,3 +2,4 @@
 Required External types:
     - target window;
     - target data type;
+    - target filter type
