@@ -1,18 +1,22 @@
+using System.Windows;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Transactions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
+using Infrastructure.Command;
 using WPF.Templates.TableWindow.States;
 
 namespace WPF.Templates;
 
-public class ActionUpdateItem : BaseAction
+public class ActionUpdateItem<TWindow, T> : BaseAction<TWindow, T>
+    where TWindow : Window
+    where T : class, IDbEntity
 {
-    public ActionUpdateItem(IDataGridCommandScheduler scheduler, ModuleContext context, CommandFactory commandFactory) : base(scheduler, context, commandFactory) {
+    public ActionUpdateItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory) : base(scheduler, context, commandFactory) {
     }
 
-    public override async Task<BaseAction> PerformAsync(object? parameter = null) {
+    public override async Task<BaseAction<TWindow, T>> PerformAsync(object? parameter = null) {
         if (parameter is not Args args) {
             new InvalidOperationException().Log(this);
             return this;
@@ -21,7 +25,7 @@ public class ActionUpdateItem : BaseAction
         _scheduler.BeginTransaction<TrEditCell>();
 
         await InitTransaction(args);
-        await _scheduler.RegisterCommandInto<TrEditCell>(new CellChangeStateCommand(_context, args.Cell, args.Cell.GetState<CellStateIdle>()))
+        await _scheduler.RegisterCommandInto<TrEditCell>(new CellChangeStateCommand<TWindow, T>(_context, args.Cell, args.Cell.GetState<CellStateIdle<TWindow, T>>()))
                         .ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrEditCell>();
         return this;
@@ -29,7 +33,7 @@ public class ActionUpdateItem : BaseAction
 
     protected virtual Task InitTransaction(Args args) {
         _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
-        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<UpdateItemCommand, ConditionalDesignation>(args.Item));
+        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<UpdateItemCommand<T>, T>(args.Item));
         return Task.CompletedTask;
     }
 
@@ -43,9 +47,9 @@ public class ActionUpdateItem : BaseAction
         _context.DataGrid.CancelEdit();
     }
 
-    public class Args(RememberCellCommand rememberCellCommand, Cell cell, ConditionalDesignation item) {
-        public RememberCellCommand RememberCellCommand { get; set; } = rememberCellCommand;
-        public Cell Cell { get; set; } = cell;
-        public ConditionalDesignation Item {get; set;} = item;
+    public class Args(RememberCellCommand<TWindow, T> rememberCellCommand, Cell<TWindow, T> cell, T item) {
+        public RememberCellCommand<TWindow, T> RememberCellCommand { get; set; } = rememberCellCommand;
+        public Cell<TWindow, T> Cell { get; set; } = cell;
+        public T Item {get; set;} = item;
     }
 }

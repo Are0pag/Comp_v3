@@ -4,6 +4,7 @@ using Infrastructure.Command.Heterochromic;
 namespace Comp_v4.Operations.Commands;
 
 public abstract class BaseCommand<TParameter> : DeferredCommandBase<TParameter>
+    where TParameter : class
 {
     protected BaseCommand(TParameter parameter) : base(parameter) {
     }

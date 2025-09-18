@@ -6,7 +6,7 @@ namespace Utils.WPF.VmEnumerableInteractiveData;
 
 public class VmEnumerableInteractiveData<T> : ObservableObject
 {
-    public required ObservableCollection<T?> Items { get; set; } /* свойство должно быть обязательно инициализировано при создании объекта */
+    public required ObservableCollection<T> Items { get; set; } /* свойство должно быть обязательно инициализировано при создании объекта */
 
     protected T? _selectedItem;
     public virtual T? SelectedItem { 

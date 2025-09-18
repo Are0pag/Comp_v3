@@ -1,11 +1,15 @@
+using System.Windows;
 using CommunityToolkit.Mvvm.Input;
+using Comp.ModelData.TechnicalItems;
 using WPF.Templates.Core;
 
 namespace WPF.Templates;
 
-public partial class ButtonVmDeleteItem : BaseButtonsVm<ActionDeleteItem>
+public partial class ButtonVmDeleteItem<TWindow, T> : BaseButtonsVm<TWindow, T, ActionDeleteItem<TWindow, T>>
+    where TWindow : Window
+    where T : class, IDbEntity
 {
-    public ButtonVmDeleteItem(ActionDeleteItem context) : base(context) {
+    public ButtonVmDeleteItem(ActionDeleteItem<TWindow, T> context) : base(context) {
     }
 
     [RelayCommand(CanExecute = nameof(CanDelete))]

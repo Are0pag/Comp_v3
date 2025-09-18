@@ -1,11 +1,15 @@
+using System.Windows;
 using CommunityToolkit.Mvvm.Input;
+using Comp.ModelData.TechnicalItems;
 using WPF.Templates.Core;
 
 namespace WPF.Templates;
 
-public partial class ButtonVmAddItem : BaseButtonsVm<ActionStartAddingNewItem>
+public partial class ButtonVmAddItem<TWindow, T> : BaseButtonsVm<TWindow, T, ActionStartAddingNewItem<TWindow, T>>
+    where TWindow : Window
+    where T : class, IDbEntity, new()
 {
-    public ButtonVmAddItem(ActionStartAddingNewItem context) : base(context) {
+    public ButtonVmAddItem(ActionStartAddingNewItem<TWindow, T> context) : base(context) {
     }
 
     [RelayCommand(CanExecute = nameof(CanAddItem))]

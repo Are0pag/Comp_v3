@@ -1,11 +1,15 @@
+using System.Windows;
 using CommunityToolkit.Mvvm.Input;
+using Comp.ModelData.TechnicalItems;
 using WPF.Templates.Core;
 
 namespace WPF.Templates;
 
-public partial class ButtonVmSave : BaseButtonsVm<ActionSave>
+public partial class ButtonVmSave<TWindow, T> : BaseButtonsVm<TWindow, T, ActionSave<TWindow, T>>
+    where TWindow : Window
+    where T : class, IDbEntity
 {
-    public ButtonVmSave(ActionSave context) : base(context) {
+    public ButtonVmSave(ActionSave<TWindow, T> context) : base(context) {
         
     }
 

@@ -3,11 +3,12 @@ using Comp.ModelData.TechnicalItems;
 
 namespace Comp_v4.Operations.Commands;
 
-public class AddItemCommand : BaseCommand<ConditionalDesignation>
+public class AddItemCommand<T> : BaseCommand<T>
+    where T : class, IDbEntity
 {
-    protected readonly IRepository<ConditionalDesignation> _repository;
+    protected readonly IRepository<T> _repository;
 
-    public AddItemCommand(ConditionalDesignation parameter, IRepository<ConditionalDesignation> repository) : base(parameter) {
+    public AddItemCommand(T parameter, IRepository<T> repository) : base(parameter) {
         _repository = repository;
     }
 

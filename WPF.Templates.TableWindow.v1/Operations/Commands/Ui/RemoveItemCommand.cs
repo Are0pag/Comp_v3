@@ -1,3 +1,4 @@
+using System.Windows;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates;
@@ -5,10 +6,12 @@ using WPF.Templates.TableWindow.Events;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RemoveItemCommand : BaseCommand<ConditionalDesignation>
+public class RemoveItemCommand<TWindow, T> : BaseCommand<T>
+    where TWindow : Window
+    where T : class
 {
-    protected readonly ModuleContext _context;
-    public RemoveItemCommand(ConditionalDesignation parameter, ModuleContext context) : base(parameter) {
+    protected readonly ModuleContext<TWindow, T> _context;
+    public RemoveItemCommand(T parameter, ModuleContext<TWindow, T> context) : base(parameter) {
         _context = context;
     }
 

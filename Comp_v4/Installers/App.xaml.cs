@@ -31,6 +31,9 @@ public partial class App : Application
                              });
                              s.AddTransient<IRepository<ConditionalDesignation>, ConditionalDesignationRepository>();
 
+                             System.Windows.Threading.Dispatcher disp = App.Current.Dispatcher;
+                             var d = App.Current.Dispatcher;
+                             
                              s.AddSingleton<CommandFactory>(provider => new CommandFactory(provider));
                              s.AddSingleton<Validator>();
 

@@ -1,17 +1,34 @@
 using System.Collections.ObjectModel;
+using System.Windows;
 using Comp.ModelData.TechnicalItems;
 using WPF.Templates;
 using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4.Operations.Commands.Filtering;
 
-public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
+public interface IFilter<T> where T : class, IDbEntity
 {
-    protected readonly ModuleContext _moduleContext;
-    protected readonly Args _args;
-    protected readonly List<ConditionalDesignation> _removedByLastFilter = new ();
+    Func<T, bool> ApplyFilter { get; init; }
+}
+
+public class Filter : IFilter<ConditionalDesignation>
+{
+    public Filter() {
+        ApplyFilter = x => true;
+    }
     
-    public ApplyFilterCommand(Args parameter, ModuleContext moduleContext) : base(parameter) {
+    public Func<ConditionalDesignation, bool> ApplyFilter { get; init; }
+}
+
+public class ApplyFilterCommand<TWindow, T> : BaseCommand<ApplyFilterCommand<TWindow, T>.Args>
+    where TWindow : Window
+    where T : class, IDbEntity
+{
+    protected readonly ModuleContext<TWindow, T> _moduleContext;
+    protected readonly Args _args;
+    protected readonly List<T> _removedByLastFilter = new ();
+    
+    public ApplyFilterCommand(Args parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
         _args = parameter;
         _moduleContext = moduleContext;
     }
@@ -45,9 +62,9 @@ public class ApplyFilterCommand : BaseCommand<ApplyFilterCommand.Args>
     }
 
 
-    public class Args(ObservableCollection<ConditionalDesignation> items, FiltersVm filters)
+    public class Args(ObservableCollection<T> items, FiltersVm filters)
     {
-        public ObservableCollection<ConditionalDesignation> Items { get; set; } = items;
+        public ObservableCollection<T> Items { get; set; } = items;
         public FiltersVm Filters { get; set; } = filters;
     }
 }

@@ -1,14 +1,18 @@
+using System.Windows;
 using System.Windows.Input;
+using Comp.ModelData.TechnicalItems;
 using WPF.Templates;
 using WPF.Templates.TableWindow.Events;
 
 namespace Comp_v4.Entities;
 
-public class TableCommandBinderFilteringCompatible : TableCommandBinder, IFilteringInputHandler
+public class TableCommandBinderFilteringCompatible<TWindow, T> : TableCommandBinder<TWindow, T>, IFilteringInputHandler
+    where TWindow : Window
+    where T : class, IDbEntity, new()
 {
     protected bool _isGridEditingCommandByKeyEnabled = true;
     
-    public TableCommandBinderFilteringCompatible(ActionStartAddingNewItem actionStartAddingNewItem, ActionDeleteItem actionDeleteItem) 
+    public TableCommandBinderFilteringCompatible(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, ActionDeleteItem<TWindow, T> actionDeleteItem) 
         : base(actionStartAddingNewItem, actionDeleteItem) {
     }
 

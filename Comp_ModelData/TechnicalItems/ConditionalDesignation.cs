@@ -5,7 +5,7 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.TechnicalItems;
 
 [Table(nameof(ConditionalDesignation) + "s")]
-public class ConditionalDesignation : NotifyPropertyChanged, ICloneable
+public class ConditionalDesignation : NotifyPropertyChanged, IDbEntity, ICloneable
 {
     protected string _name;
     protected string _designation;
@@ -13,7 +13,10 @@ public class ConditionalDesignation : NotifyPropertyChanged, ICloneable
     public const byte MAX_NAME_LENGTH = 250;
     public const byte MAX_DESIGNATION_LENGTH = 100;
 
-    public ConditionalDesignation() {}
+    public ConditionalDesignation() {
+        Name = string.Empty;
+        Designation = string.Empty;
+    }
     public ConditionalDesignation(string name, string designation) {
         _name = name;
         _designation = designation;

@@ -1,19 +1,23 @@
+using System.Windows;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure;
 using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class CreateRawCommand : BaseCommand<ModuleContext>
+public class CreateRawCommand<TWindow, T> : BaseCommand<ModuleContext<TWindow, T>>
+    where TWindow : Window
+    where T : class, new()
 {
-    protected readonly ModuleContext _context;
-    public CreateRawCommand(ModuleContext parameter) : base(parameter) {
+    protected readonly ModuleContext<TWindow, T> _context;
+    public CreateRawCommand(ModuleContext<TWindow, T> parameter) : base(parameter) {
         _context = parameter;
     }
-    public ConditionalDesignation Item { get; protected set; }
+    public T Item { get; protected set; }
 
     public override Task ExecuteAsync() {
         try {
-            Item = new ConditionalDesignation("", "");
+            Item = new T();
             _context.DataGridViewModel.Items.Add(Item);
             _context.DataGridViewModel.SelectedItem = Item;
         }

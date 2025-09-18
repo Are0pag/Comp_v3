@@ -1,12 +1,14 @@
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure.Command.Heterochromic;
 
 namespace Comp_v4.Operations.Commands;
 
-public class UpdateItemCommand : BaseCommand<ConditionalDesignation>
+public class UpdateItemCommand<T> : DeferredCommandBase<T>
+    where T : class, IDbEntity
 {
-    protected readonly IRepository<ConditionalDesignation> _repository;
-    public UpdateItemCommand(ConditionalDesignation parameter, IRepository<ConditionalDesignation> repository) : base(parameter) {
+    protected readonly IRepository<T> _repository;
+    public UpdateItemCommand(T parameter, IRepository<T> repository) : base(parameter) {
         _repository = repository;
     }
 

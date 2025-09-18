@@ -1,11 +1,15 @@
+using System.Windows;
 using System.Windows.Controls;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure;
 using WPF.Extensions.View.Elements;
 using WPF.Services.UserActionsHandling.InputText;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberInputTextCommand : BaseCommand<DataGridBeginningEditEventArgs>
+public class RememberInputTextCommand<TWindow, T> : BaseCommand<DataGridBeginningEditEventArgs>
+    where TWindow : Window
+    where T : class
 {
     protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
     protected ConditionalDesignation? _item;

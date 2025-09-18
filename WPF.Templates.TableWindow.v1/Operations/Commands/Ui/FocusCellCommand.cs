@@ -1,15 +1,19 @@
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Comp.ModelData.TechnicalItems;
+using Infrastructure;
 using WPF.Extensions.View.Elements;
 using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class FocusCellCommand : BaseCommand<ConditionalDesignation>
+public class FocusCellCommand<TWindow, T> : BaseCommand<T>
+    where TWindow : Window
+    where T : class, new()
 {
-    protected readonly ModuleContext _moduleContext;
-    public FocusCellCommand(ConditionalDesignation parameter, ModuleContext moduleContext) : base(parameter) {
+    protected readonly ModuleContext<TWindow, T> _moduleContext;
+    public FocusCellCommand(T parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
         _moduleContext = moduleContext;
     }
 

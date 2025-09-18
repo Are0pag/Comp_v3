@@ -1,14 +1,17 @@
+using System.Windows;
 using Comp.ModelData.TechnicalItems;
 using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberSelectionCommand : BaseCommand<object>
+public class RememberSelectionCommand<TWindow, T> : BaseCommand<object>
+    where TWindow : Window
+    where T : class
 {
-    protected readonly ModuleContext _moduleContext;
-    protected ConditionalDesignation? _item;
+    protected readonly ModuleContext<TWindow, T> _moduleContext;
+    protected T? _item;
     
-    public RememberSelectionCommand(object parameter, ModuleContext moduleContext) : base(parameter) {
+    public RememberSelectionCommand(object parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
         _moduleContext = moduleContext;
     }
 

@@ -16,13 +16,12 @@ namespace WPF.Templates.TableWindow.States;
 
 public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     where TWindow : Window
-    where T : class
-
+    where T : class, IDbEntity
 {
     protected readonly ValidatorBase<T> _validator;
-    protected BaseAction _action;
+    protected BaseAction<TWindow, T> _action;
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
-    protected RememberCellCommand? _rememberCellCommand;
+    protected RememberCellCommand<TWindow, T>? _rememberCellCommand;
 
     public BaseCellStateInput(IDataGridCommandScheduler scheduler, 
                               ModuleContext<TWindow, T> context, 
@@ -36,13 +35,13 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
         if (!_scheduler.IsInTransaction<TrSelectingCell>())
             return;
 
-        _rememberCellCommand = _commandFactory.CreateCommand<RememberCellCommand, DataGridBeginningEditEventArgs>(e);
+        _rememberCellCommand = _commandFactory.CreateCommand<RememberCellCommand<TWindow, T>, DataGridBeginningEditEventArgs>(e);
         //await _rememberCellCommand.ExecuteAsync();
         await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
                         .ExecuteLastRegisteredAsync();
         
         if (_validator.ValidateAsync((T)e.Row.Item).Result is { IsValid: true })
-            await _scheduler.RegisterCommandInto<TrSelectingCell>(_commandFactory.CreateCommand<RememberInputTextCommand, DataGridBeginningEditEventArgs>(e))
+            await _scheduler.RegisterCommandInto<TrSelectingCell>(_commandFactory.CreateCommand<RememberInputTextCommand<TWindow, T>, DataGridBeginningEditEventArgs>(e))
                             .ExecuteLastRegisteredAsync();
         
         _scheduler.CommitTransaction<TrSelectingCell>();
@@ -64,13 +63,13 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
             case Key.Escape:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
                 await ContinueWithValidation(async cd => {
-                    await _action.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner, cd));
+                    await _action.PerformAsync(new ActionUpdateItem<TWindow, T>.Args(_rememberCellCommand!, owner, cd));
                 }, owner);
                 break;
             
             case Key.Tab:
                 await ContinueWithValidation(async cd => {
-                    await _action.PerformAsync(new ActionUpdateItem.Args(_rememberCellCommand!, owner, cd));
+                    await _action.PerformAsync(new ActionUpdateItem<TWindow, T>.Args(_rememberCellCommand!, owner, cd));
 
                     e.Handled = true; // Используем Dispatcher для гарантированного выполнения после текущих операций
                     await Application.Current.Dispatcher.InvokeAsync(() => {

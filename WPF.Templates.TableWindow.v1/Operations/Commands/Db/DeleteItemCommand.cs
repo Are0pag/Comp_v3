@@ -3,10 +3,11 @@ using Comp.ModelData.TechnicalItems;
 
 namespace Comp_v4.Operations.Commands;
 
-public class DeleteItemCommand : BaseCommand<ConditionalDesignation>
+public class DeleteItemCommand<T> : BaseCommand<T>
+    where T : class, IDbEntity
 {
-    protected readonly IRepository<ConditionalDesignation> _repository;
-    public DeleteItemCommand(ConditionalDesignation parameter, IRepository<ConditionalDesignation> repository) : base(parameter) {
+    protected readonly IRepository<T> _repository;
+    public DeleteItemCommand(T parameter, IRepository<T> repository) : base(parameter) {
         _repository = repository;
     }
 

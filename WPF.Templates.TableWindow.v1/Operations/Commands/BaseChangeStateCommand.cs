@@ -37,7 +37,9 @@ public class CellChangeStateCommand<TWindow, T> : BaseChangeStateCommand<TWindow
 {
     /*public CellChangeStateCommand(ModuleContext context, Cell stateMachine, BaseCellState targetState) : base(context, stateMachine, targetState) {
     }*/
-    public CellChangeStateCommand(ModuleContext<TWindow, T> parameter, Cell<TWindow, T> stateMachine, BaseCellState<TWindow, T> targetState) 
+    public CellChangeStateCommand(ModuleContext<TWindow, T> parameter, 
+                                  Cell<TWindow, T> stateMachine, 
+                                  BaseCellState<TWindow, T> targetState) 
         : base(parameter, stateMachine, targetState) {
     }
 }
