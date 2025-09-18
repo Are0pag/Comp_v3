@@ -34,29 +34,29 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 
     public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
 
+    void IDataGridRequestResolver<TargetWindow>.GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
+
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewKeyDown(sender, e));
     }
 
-    private void InfoDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
-       EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnBeginning(sender, e));
-    }
-
-    private void DataGrid_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) {
-        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnEnding(sender, e));
-    }
-
-    void IDataGridRequestResolver<TargetWindow>.GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
-
-    private void TargetWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+    private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewMouseDown(sender, e));
     }
 
-    private void TextBox_GotFocus(object sender, RoutedEventArgs e) {
+    private void MainDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
+       EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnBeginning(sender, e));
+    }
+
+    private void MainDataGrid_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) {
+        EventBus<IGlobSubscriber>.RaiseEvent<ICellEditHandler>(h => h.OnEnding(sender, e));
+    }
+
+    private void FilterTextBox_GotFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserStartFiltering());
     }
 
-    private void TextBox_LostFocus(object sender, RoutedEventArgs e) {
+    private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
     }
 }

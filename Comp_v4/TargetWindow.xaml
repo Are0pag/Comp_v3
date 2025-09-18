@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="TargetWindow" Height="750" Width="800"
         PreviewKeyDown="Window_PreviewKeyDown"
-        PreviewMouseDown="TargetWindow_OnPreviewMouseDown">
+        PreviewMouseDown="Window_OnPreviewMouseDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/> <!-- Левая узкая колонка для CheckBox -->
@@ -32,13 +32,13 @@
             
             <TextBox Text="{Binding FilterDesignation, UpdateSourceTrigger=PropertyChanged}" 
                      Width="{Binding ElementName=MainDataGrid, Path=Columns[0].ActualWidth}" 
-                     GotFocus="TextBox_GotFocus"
-                     LostFocus="TextBox_LostFocus"
+                     GotFocus="FilterTextBox_GotFocus"
+                     LostFocus="FilterTextBox_LostFocus"
                      Margin="2"/>
             <TextBox Text="{Binding FilterName, UpdateSourceTrigger=PropertyChanged}" 
                      Width="{Binding ElementName=MainDataGrid, Path=Columns[1].ActualWidth}" 
-                     GotFocus="TextBox_GotFocus"
-                     LostFocus="TextBox_LostFocus"
+                     GotFocus="FilterTextBox_GotFocus"
+                     LostFocus="FilterTextBox_LostFocus"
                      Margin="2"/>
         </StackPanel>
         
@@ -49,8 +49,8 @@
                   x:Name="MainDataGrid" 
                   EnableRowVirtualization="False"
                   EnableColumnVirtualization="False"
-                  CellEditEnding="DataGrid_CellEditEnding"
-                  BeginningEdit="InfoDataGrid_OnBeginningEdit" 
+                  CellEditEnding="MainDataGrid_CellEditEnding"
+                  BeginningEdit="MainDataGrid_OnBeginningEdit" 
                   SelectedItem="{Binding SelectedItem}">
             
             <DataGrid.Columns>
