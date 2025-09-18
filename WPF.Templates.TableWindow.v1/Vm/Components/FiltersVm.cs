@@ -2,20 +2,21 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WPF.Templates.TableWindow.Vm.Components;
 
-public class FiltersVm : ObservableObject
+public abstract class FiltersVmBase : ObservableObject
 {
-    protected string? _filterDesignation;
-    protected string? _filterName;
     protected bool _ignoreCase = true;
-
-    public string? FilterDesignation {
-        get => _filterDesignation;
+    public bool IgnoreCase {
+        get => _ignoreCase;
         set {
-            _filterDesignation = value;
+            _ignoreCase = value;
             OnPropertyChanged();
         }
     }
+}
 
+public abstract class FiltersVmBaseWithName : FiltersVmBase
+{
+    protected string? _filterName;
     public string? FilterName {
         get => _filterName;
         set {
@@ -23,11 +24,16 @@ public class FiltersVm : ObservableObject
             OnPropertyChanged();
         }
     }
+}
 
-    public bool IgnoreCase {
-        get => _ignoreCase;
+public class FiltersVm : FiltersVmBaseWithName
+{
+    protected string? _filterDesignation;
+
+    public string? FilterDesignation {
+        get => _filterDesignation;
         set {
-            _ignoreCase = value;
+            _filterDesignation = value;
             OnPropertyChanged();
         }
     }
