@@ -22,8 +22,16 @@
     <ProjectReference Include="..\Utils\Utils.csproj" />
     <ProjectReference Include="..\WPF.Extensions\WPF.Extensions.csproj" />
     <ProjectReference Include="..\WPF.Services\WPF.Services.csproj" />
-    <ProjectReference Include="..\WPF.Templates\WPF.Templates.csproj" />
+    <ProjectReference Include="..\WPF.Templates.TableWindow.v1\WPF.Templates.TableWindow.v1.csproj" />
     <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="Installers\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
   </ItemGroup>
 
 </Project>
