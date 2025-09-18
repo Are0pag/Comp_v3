@@ -16,6 +16,9 @@ public class CommandFactory : ICommandFactory
     public TCommand CreateCommand<TCommand, TParameter>(TParameter parameter)
         where TCommand : DeferredCommandBase<TParameter> 
     {
+        new NotImplementedException("CommandFactory is not implemented for asserting when command have more then one constructor.").Log(this);
+        
+        
         // Получаем конструктор команды
         var constructorInfo = typeof(TCommand).GetConstructors()
                                               .OrderByDescending(c => c.GetParameters().Length)
