@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Castle.Windsor;
+using Castle.Windsor.Installer;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Commands.Filtering;
@@ -25,11 +26,16 @@ namespace Comp_v4;
 public partial class App : Application
 {
     public static IHost Host { get; protected set; }
+    
+    public static WindsorContainer RootWindsorContainer { get; protected set; }
+    
     protected IServiceScope _mainScope;
     protected List<IDisposable> _disposable;
     
     public App() {
-        
+        RootWindsorContainer = new WindsorContainer();
+        // adds and configures all components using WindsorInstallers from executing assembly
+        RootWindsorContainer.Install(FromAssembly.This());
         
         
         
