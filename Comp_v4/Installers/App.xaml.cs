@@ -41,32 +41,32 @@ public partial class App : Application
                              s.AddTransient<DataGridPropertyRestoreService<ConditionalDesignation>>();
 
                              s.AddSingleton<DataGridViewModel<ConditionalDesignation>>();
-                             s.AddSingleton<FiltersVm>();
+                             s.AddSingleton<FiltersVmCd>();
 
                              s.AddSingleton<ModuleContext<TargetWindow, ConditionalDesignation>>();
 
-                             s.AddScoped<ActionStartAddingNewItem>();
-                             s.AddScoped<ActionAddItem>();
-                             s.AddScoped<ActionUpdateItem>();
-                             s.AddScoped<ActionDeleteItem>();
-                             s.AddScoped<ActionSave>();
+                             s.AddScoped<ActionStartAddingNewItem<TargetWindow, ConditionalDesignation>>();
+                             s.AddScoped<ActionAddItem<TargetWindow, ConditionalDesignation>>();
+                             s.AddScoped<ActionUpdateItem<TargetWindow, ConditionalDesignation>>();
+                             s.AddScoped<ActionDeleteItem<TargetWindow, ConditionalDesignation>>();
+                             s.AddScoped<ActionSave<TargetWindow, ConditionalDesignation>>();
                              
-                             s.AddSingleton<CellStateIdle>();
-                             s.AddSingleton<CellStateUpdate>();
-                             s.AddSingleton<CellStateAddItem>();
-                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateIdle>());
-                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateUpdate>());
-                             s.AddSingleton<BaseCellState>(provider => provider.GetRequiredService<CellStateAddItem>());
-                             s.AddSingleton<Cell>(provider => {
-                                                   var states = provider.GetServices<BaseCellState>();
-                                                   var initialState = provider.GetService<CellStateIdle>();
-                                                   return new Cell(states, initialState!);
+                             s.AddSingleton<CellStateIdle<TargetWindow, ConditionalDesignation>>();
+                             s.AddSingleton<CellStateUpdate<TargetWindow, ConditionalDesignation>>();
+                             s.AddSingleton<CellStateAddItem<TargetWindow, ConditionalDesignation>>();
+                             s.AddSingleton<BaseCellState<TargetWindow, ConditionalDesignation>>(provider => provider.GetRequiredService<CellStateIdle<TargetWindow, ConditionalDesignation>>());
+                             s.AddSingleton<BaseCellState<TargetWindow, ConditionalDesignation>>(provider => provider.GetRequiredService<CellStateUpdate<TargetWindow, ConditionalDesignation>>());
+                             s.AddSingleton<BaseCellState<TargetWindow, ConditionalDesignation>>(provider => provider.GetRequiredService<CellStateAddItem<TargetWindow, ConditionalDesignation>>());
+                             s.AddSingleton<Cell<TargetWindow, ConditionalDesignation>>(provider => {
+                                                   var states = provider.GetServices<BaseCellState<TargetWindow, ConditionalDesignation>>();
+                                                   var initialState = provider.GetService<CellStateIdle<TargetWindow, ConditionalDesignation>>();
+                                                   return new Cell<TargetWindow, ConditionalDesignation>(states, initialState!);
                                                });
                              
 
-                             s.AddScoped<ButtonVmAddItem>();
-                             s.AddSingleton<ButtonVmSave>();
-                             s.AddSingleton<ButtonVmDeleteItem>();
+                             s.AddScoped<ButtonVmAddItem<TargetWindow, ConditionalDesignation>>();
+                             s.AddSingleton<ButtonVmSave<TargetWindow, ConditionalDesignation>>();
+                             s.AddSingleton<ButtonVmDeleteItem<TargetWindow, ConditionalDesignation>>();
                              
                              s.AddTransient<TargetWindow>();
 
@@ -107,19 +107,19 @@ public partial class App : Application
     /// </summary>
     protected virtual void CreateRequiredInstancesManually() {
         var scheduler = _mainScope.ServiceProvider.GetRequiredService<IDataGridCommandScheduler>();
-        var filtersVm = _mainScope.ServiceProvider.GetRequiredService<FiltersVm>();
+        var filtersVm = _mainScope.ServiceProvider.GetRequiredService<FiltersVmCd>();
         var mContext = _mainScope.ServiceProvider.GetRequiredService<ModuleContext<TargetWindow, ConditionalDesignation>>();
-        var cell = _mainScope.ServiceProvider.GetRequiredService<Cell>();
+        var cell = _mainScope.ServiceProvider.GetRequiredService<Cell<TargetWindow, ConditionalDesignation>>();
         var comFactory = _mainScope.ServiceProvider.GetRequiredService<CommandFactory>();
         
         _disposable = new List<IDisposable>() {
             new ActionStackTracker(scheduler),
-            new PersistenceManager(scheduler, _mainScope.ServiceProvider.GetRequiredService<ActionSave>()),
-            new TableCommandBinderFilteringCompatible(
-                                                      _mainScope.ServiceProvider.GetRequiredService<ActionStartAddingNewItem>(), 
-                                                      _mainScope.ServiceProvider.GetRequiredService<ActionDeleteItem>()
+            new PersistenceManager<TargetWindow, ConditionalDesignation>(scheduler, _mainScope.ServiceProvider.GetRequiredService<ActionSave<TargetWindow, ConditionalDesignation>>()),
+            new TableCommandBinderFilteringCompatible<TargetWindow, ConditionalDesignation>(
+                                                      _mainScope.ServiceProvider.GetRequiredService<ActionStartAddingNewItem<TargetWindow, ConditionalDesignation>>(), 
+                                                      _mainScope.ServiceProvider.GetRequiredService<ActionDeleteItem<TargetWindow, ConditionalDesignation>>()
                                                       ),
-            new ActionFilter(scheduler, mContext, comFactory, filtersVm, cell)
+            new ActionFilter<TargetWindow, ConditionalDesignation, FiltersVmCd>(scheduler, mContext, comFactory, filtersVm, cell)
         };
     }
 }

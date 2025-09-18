@@ -12,7 +12,7 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace WPF.Templates;
 
-public class ActionFilter<TWindow, T,TFiltersSource> : BaseAction<TWindow, T>, IFilteringHandler
+public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, IFilteringHandler
     where TWindow : Window
     where T : class, IDbEntity
     where TFiltersSource : FiltersVmBase
@@ -21,7 +21,8 @@ public class ActionFilter<TWindow, T,TFiltersSource> : BaseAction<TWindow, T>, I
     protected readonly Cell<TWindow, T> _cell;
     protected ApplyFilterCommand<TWindow, T, TFiltersSource>? _previousFilterCommand;
     
-    public ActionFilter(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, TFiltersSource filtersVm, Cell<TWindow, T> cell) : base(scheduler, context, commandFactory) {
+    public ActionFilter(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, TFiltersSource filtersVm, Cell<TWindow, T> cell) 
+        : base(scheduler, context, commandFactory) {
         _filtersVm = filtersVm;
         _cell = cell;
         _filtersVm.PropertyChanged += filtersVmOnPropertyChanged();

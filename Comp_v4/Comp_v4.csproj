@@ -34,4 +34,12 @@
     </ApplicationDefinition>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="TableWindows\ConditionalDesignation\TargetWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

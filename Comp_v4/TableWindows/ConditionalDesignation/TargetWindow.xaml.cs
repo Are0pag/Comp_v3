@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates;
 using WPF.Templates.TableWindow.Events;
@@ -12,11 +13,13 @@ namespace Comp_v4;
 
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
-    protected readonly DataGridViewModel _dataGridViewModel;
-    protected readonly FiltersVm _filtersVm;
+    protected readonly DataGridViewModel<ConditionalDesignation> _dataGridViewModel;
+    protected readonly FiltersVmCd _filtersVm;
     
-    public TargetWindow(DataGridViewModel dataGridViewModel, FiltersVm filtersVm, 
-                        ButtonVmAddItem buttonVmAddItem, ButtonVmSave buttonVmSave, ButtonVmDeleteItem buttonVmDeleteItem) {
+    public TargetWindow(DataGridViewModel<ConditionalDesignation> dataGridViewModel, FiltersVmCd filtersVm, 
+                        ButtonVmAddItem<TargetWindow, ConditionalDesignation> buttonVmAddItem, 
+                        ButtonVmSave<TargetWindow, ConditionalDesignation> buttonVmSave, 
+                        ButtonVmDeleteItem<TargetWindow, ConditionalDesignation> buttonVmDeleteItem) {
         InitializeComponent();
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
