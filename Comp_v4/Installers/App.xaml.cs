@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Comp_v4.Entities;
@@ -32,15 +33,77 @@ public partial class App : Application
     protected IServiceScope _mainScope;
     protected List<IDisposable> _disposable;
     
+    protected IDisposable _appScope;
+    
     public App() {
         RootWindsorContainer = new WindsorContainer();
         // adds and configures all components using WindsorInstallers from executing assembly
         RootWindsorContainer.Install(FromAssembly.This());
         
+        //BuildByMicrosoft();
+    }
+
+    protected override async void OnStartup(StartupEventArgs e) {
+        //await Host.StartAsync();
         
+        /*using (var scope = Host.Services.CreateScope()) {
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await context.Database.EnsureCreatedAsync();
+        } 
         
+        _mainScope = Host.Services.CreateScope();*/
         
+        // !!!!!  CreateRequiredInstancesManually();
+
+        //var mainWindow = _mainScope.ServiceProvider.GetRequiredService<Tw>(); 
         
+        _appScope = RootWindsorContainer.BeginScope();
+        var mainWindow = RootWindsorContainer.Resolve<TargetWindow>();
+        /*RootWindsorContainer.Resolve<ActionStackTracker>();
+        RootWindsorContainer.Resolve<PersistenceManager<Tw, Cd>>();
+        RootWindsorContainer.Resolve<TableCommandBinder<Tw, Cd>>();
+        RootWindsorContainer.Resolve<ActionFilter<Tw, Cd, FiltersVmCd>>();*/
+        mainWindow.Closed += (_, _) => {
+            //foreach (var d in _disposable) d.Dispose();
+            //_disposable.Clear();
+            //_mainScope?.Dispose();
+            _appScope.Dispose();
+        };
+        mainWindow.Show();
+        
+        base.OnStartup(e);
+    }
+
+    protected override async void OnExit(ExitEventArgs e) {
+        //_mainScope?.Dispose();
+        // /await Host.StopAsync();
+        //Host.Dispose();
+        base.OnExit(e);
+    }
+
+    /// <summary>
+    /// This method exists because DI do not create that instances
+    /// </summary>
+    protected virtual void CreateRequiredInstancesManually() {
+        //return;
+        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IDataGridCommandScheduler>();
+        var filtersVm = _mainScope.ServiceProvider.GetRequiredService<FiltersVmCd>();
+        var mContext = _mainScope.ServiceProvider.GetRequiredService<ModuleContext<Tw, Cd>>();
+        var cell = _mainScope.ServiceProvider.GetRequiredService<Cell<Tw, Cd>>();
+        var comFactory = _mainScope.ServiceProvider.GetRequiredService<ICommandFactory>();
+        
+        _disposable = new List<IDisposable>() {
+            new ActionStackTracker(scheduler),
+            new PersistenceManager<Tw, Cd>(scheduler, _mainScope.ServiceProvider.GetRequiredService<ActionSave<Tw, Cd>>()),
+            new TableCommandBinderFilteringCompatible<Tw, Cd>(
+                                                              _mainScope.ServiceProvider.GetRequiredService<ActionStartAddingNewItem<Tw, Cd>>(), 
+                                                              _mainScope.ServiceProvider.GetRequiredService<ActionDeleteItem<Tw, Cd>>()
+                                                             ),
+            new ActionFilter<Tw, Cd, FiltersVmCd>(scheduler, mContext, comFactory, filtersVm, cell)
+        };
+    }
+
+    private static void BuildByMicrosoft() {
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder().
                          ConfigureServices((hostContext, s /* services */) => {
                              
@@ -50,9 +113,9 @@ public partial class App : Application
                              s.AddTransient<IRepository<Cd>, ConditionalDesignationRepository>();
 
                              s.AddSingleton<System.Windows.Threading.Dispatcher>(provider => App.Current.Dispatcher);
-                             
-                             s.AddSingleton<ICommandFactory, CommandFactory>(provider => new CommandFactory(provider));
+
                              s.AddSingleton<ValidatorBase<Cd>, Validator>();
+                             s.AddSingleton<ICommandFactory, CommandFactory>(provider => new CommandFactory(provider));
 
                              s.AddSingleton<IDataGridCommandScheduler, DataGridCommandScheduler>();
                              s.AddTransient<DataGridPropertyRestoreService<Cd>>();
@@ -76,10 +139,10 @@ public partial class App : Application
                              s.AddSingleton<BaseCellState<Tw, Cd>>(provider => provider.GetRequiredService<CellStateUpdate<Tw, Cd>>());
                              s.AddSingleton<BaseCellState<Tw, Cd>>(provider => provider.GetRequiredService<CellStateAddItem<Tw, Cd>>());
                              s.AddSingleton<Cell<Tw, Cd>>(provider => {
-                                                   var states = provider.GetServices<BaseCellState<Tw, Cd>>();
-                                                   var initialState = provider.GetService<CellStateIdle<Tw, Cd>>();
-                                                   return new Cell<Tw, Cd>(states, initialState!);
-                                               });
+                                 var states = provider.GetServices<BaseCellState<Tw, Cd>>();
+                                 var initialState = provider.GetService<CellStateIdle<Tw, Cd>>();
+                                 return new Cell<Tw, Cd>(states, initialState!);
+                             });
                              
 
                              s.AddScoped<ButtonVmAddItem<Tw, Cd>>();
@@ -89,55 +152,5 @@ public partial class App : Application
                              s.AddTransient<Tw>();
 
                          }).Build();
-    }
-    
-    protected override async void OnStartup(StartupEventArgs e) {
-        await Host.StartAsync();
-        
-        using (var scope = Host.Services.CreateScope()) {
-            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await context.Database.EnsureCreatedAsync();
-        } 
-        
-        _mainScope = Host.Services.CreateScope();
-        CreateRequiredInstancesManually();
-
-        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<Tw>(); 
-        mainWindow.Closed += (_, _) => {
-            foreach (var d in _disposable) d.Dispose();
-            _disposable.Clear();
-            _mainScope?.Dispose();
-        };
-        mainWindow.Show();
-        
-        base.OnStartup(e);
-    }
-
-    protected override async void OnExit(ExitEventArgs e) {
-        _mainScope?.Dispose();
-        await Host.StopAsync();
-        Host.Dispose();
-        base.OnExit(e);
-    }
-
-    /// <summary>
-    /// This method exists because DI do not create that instances
-    /// </summary>
-    protected virtual void CreateRequiredInstancesManually() {
-        var scheduler = _mainScope.ServiceProvider.GetRequiredService<IDataGridCommandScheduler>();
-        var filtersVm = _mainScope.ServiceProvider.GetRequiredService<FiltersVmCd>();
-        var mContext = _mainScope.ServiceProvider.GetRequiredService<ModuleContext<Tw, Cd>>();
-        var cell = _mainScope.ServiceProvider.GetRequiredService<Cell<Tw, Cd>>();
-        var comFactory = _mainScope.ServiceProvider.GetRequiredService<ICommandFactory>();
-        
-        _disposable = new List<IDisposable>() {
-            new ActionStackTracker(scheduler),
-            new PersistenceManager<Tw, Cd>(scheduler, _mainScope.ServiceProvider.GetRequiredService<ActionSave<Tw, Cd>>()),
-            new TableCommandBinderFilteringCompatible<Tw, Cd>(
-                                                              _mainScope.ServiceProvider.GetRequiredService<ActionStartAddingNewItem<Tw, Cd>>(), 
-                                                              _mainScope.ServiceProvider.GetRequiredService<ActionDeleteItem<Tw, Cd>>()
-                                                             ),
-            new ActionFilter<Tw, Cd, FiltersVmCd>(scheduler, mContext, comFactory, filtersVm, cell)
-        };
     }
 }

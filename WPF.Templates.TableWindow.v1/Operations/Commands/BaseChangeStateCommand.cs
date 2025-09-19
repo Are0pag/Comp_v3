@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp.ModelData.TechnicalItems;
 using WPF.Templates;
 using WPF.Templates.TableWindow.States;
 
@@ -6,7 +7,7 @@ namespace Comp_v4.Operations.Commands;
 
 public abstract class BaseChangeStateCommand<TWindow, T, TBaseState, TStateMachine> : BaseCommand<object>
     where TWindow : Window
-    where T : class
+    where T : class, IDbEntity
     where TBaseState : Infrastructure.StateMachine.StateBase<Cell<TWindow, T>>
     where TStateMachine : Infrastructure.StateMachine.GenericStateMachine<TBaseState, Cell<TWindow, T>>
 {
@@ -33,7 +34,7 @@ public abstract class BaseChangeStateCommand<TWindow, T, TBaseState, TStateMachi
 
 public class CellChangeStateCommand<TWindow, T> : BaseChangeStateCommand<TWindow, T, BaseCellState<TWindow, T>, Cell<TWindow, T> >
     where TWindow : Window
-    where T : class
+    where T : class, IDbEntity
 {
     /*public CellChangeStateCommand(ModuleContext context, Cell stateMachine, BaseCellState targetState) : base(context, stateMachine, targetState) {
     }*/

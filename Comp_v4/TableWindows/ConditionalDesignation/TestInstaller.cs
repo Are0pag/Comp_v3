@@ -1,4 +1,5 @@
 using Castle.Core;
+using Castle.Facilities.Startable;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -10,21 +11,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Comp_v4.TableWindows.ConditionalDesignation;
 
-static public class ComponentRegistrationExtensions
-{
-    static public void NonLazy<TService>(this ComponentRegistration<TService> registration) 
-        where TService : class
-    {
-        // Логика регистрации компонента
-        Console.WriteLine($"Регистрация компонента для типа: {typeof(TService).Name}");
-        // думаю та же логика что и CommandFactory + выделить из этого функционал
-    }
-}
 
 
-public class Installer : IWindsorInstaller
+
+public class TestInstaller : IWindsorInstaller
 {
     public void Install(IWindsorContainer container, IConfigurationStore store) {
+        return;
         IKernel kernel = new DefaultKernel();
         kernel.AddFacility<TypedFactoryFacility>();
         kernel.Register(Component.For<IDummyComponentFactory>()
@@ -63,7 +56,7 @@ public class Installer : IWindsorInstaller
         container2.Register(Component.For<CurrentWindow>().LifestyleTransient());
         container2.Register(Component.For<IDummyComponent>().ImplementedBy<SmiledComponent>().LifestyleBoundTo<CurrentWindow>());
 
-        container2.Register(Component.For<ActionsTracker>().LifestyleBoundTo<CurrentWindow>().UsingFactoryMethod(() => new ActionsTracker())); // как сразу создать экземпляр??
+        container2.Register(Component.For<ActionsTracker>().LifestyleBoundTo<CurrentWindow>().Start()); // как сразу создать экземпляр??
         //
         container2.Dispose();
 

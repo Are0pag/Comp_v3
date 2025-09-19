@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.Entities;
 using Comp_v4.Operations.Commands;
+using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using Infrastructure.StateMachine;
 
@@ -10,7 +11,7 @@ namespace WPF.Templates.TableWindow.States;
 
 public abstract class BaseCellState<TWindow, T> : StateBase<Cell<TWindow, T>>
     where TWindow : Window
-    where T : class
+    where T : class, IDbEntity
 {
     protected readonly IDataGridCommandScheduler _scheduler;
     protected readonly ICommandFactory _commandFactory;

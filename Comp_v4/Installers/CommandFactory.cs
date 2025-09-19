@@ -1,9 +1,29 @@
 using System.Reflection;
+using Castle.MicroKernel;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Infrastructure.Command;
 using Infrastructure.Command.Heterochromic;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Comp_v4.Operations.Commands;
+
+public class WindsorCommandFactory : ICommandFactory
+{
+    private readonly IWindsorContainer _container;
+
+    public WindsorCommandFactory(IWindsorContainer container) {
+        _container = container;
+    }
+
+    public TCommand CreateCommand<TCommand, TParameter>(TParameter parameter)
+        where TCommand : DeferredCommandBase<TParameter>
+    {
+        return _container.Resolve<TCommand>(new Arguments {
+            { "parameter", parameter }
+        });
+    }
+}
 
 public class CommandFactory : ICommandFactory
 {

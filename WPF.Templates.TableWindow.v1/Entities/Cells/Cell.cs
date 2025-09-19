@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp.ModelData.TechnicalItems;
 using Infrastructure.StateMachine;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.Events;
@@ -10,7 +11,7 @@ namespace WPF.Templates;
 
 public class Cell<TWindow, T> : GenericStateMachine<BaseCellState<TWindow, T>, Cell<TWindow, T>>, ICellEditHandler, IPreviewKeyDownHandler
     where TWindow : Window
-    where T : class
+    where T : class, IDbEntity
 {
     public Cell(IEnumerable<BaseCellState<TWindow, T>> states, BaseCellState<TWindow, T> initialState) : base(states, initialState) {
         EventBus<IGlobSubscriber>.Subscribe(this);
