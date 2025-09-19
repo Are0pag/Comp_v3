@@ -12,4 +12,18 @@
       <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Castle.Windsor" Version="6.0.0" />
+      <PackageReference Include="Castle.Windsor.Extensions.DependencyInjection" Version="6.0.0" />
+      <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Castle\Entities\Ui\TestWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
 </Project>
