@@ -44,42 +44,18 @@ public partial class App : Application
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-        //await Host.StartAsync();
-        
-        /*using (var scope = Host.Services.CreateScope()) {
-            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await context.Database.EnsureCreatedAsync();
-        } 
-        
-        _mainScope = Host.Services.CreateScope();*/
-        
-        // !!!!!  CreateRequiredInstancesManually();
-
-        //var mainWindow = _mainScope.ServiceProvider.GetRequiredService<Tw>(); 
-        
         _appScope = RootWindsorContainer.BeginScope();
         var mainWindow = RootWindsorContainer.Resolve<TargetWindow>();
 
         mainWindow.Closed += (_, _) => {
-            //foreach (var d in _disposable) d.Dispose();
-            //_disposable.Clear();
-            //_mainScope?.Dispose();
             _appScope.Dispose();
         };
         mainWindow.Show();
-        
-        /*RootWindsorContainer.Resolve<ActionStackTracker>();
-        RootWindsorContainer.Resolve<PersistenceManager<Tw, Cd>>();
-        RootWindsorContainer.Resolve<TableCommandBinder<Tw, Cd>>();
-        RootWindsorContainer.Resolve<ActionFilter<Tw, Cd, FiltersVmCd>>();*/
         
         base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e) {
-        //_mainScope?.Dispose();
-        // /await Host.StopAsync();
-        //Host.Dispose();
         base.OnExit(e);
     }
 

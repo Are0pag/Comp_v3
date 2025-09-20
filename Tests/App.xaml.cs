@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Tests.Castle.Entities.Ui;
 
 namespace Tests;
 
@@ -18,5 +20,10 @@ public partial class App : Application
     
     protected override void OnStartup(StartupEventArgs e) {
         base.OnStartup(e);
+        
+        //var scope = _rootContainer.BeginScope();
+        var window = _rootContainer.Resolve<FloatingWindow>();
+        //window.Closed += (o, args) => scope.Dispose();
+        window.Show();
     }
 }

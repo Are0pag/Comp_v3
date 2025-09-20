@@ -39,7 +39,11 @@ public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, 
         }
         
         var arg = new ApplyFilterCommand<TWindow, T, TFiltersSource>.Args(_context.DataGridViewModel.Items!, _filtersVm);
-        var filterCommand = _commandFactory.CreateCommand<ApplyFilterCommand<TWindow, T, TFiltersSource>, ApplyFilterCommand<TWindow, T, TFiltersSource>.Args>(arg);
+        var filterCommand = _commandFactory
+           .CreateCommand<
+                ApplyFilterCommand<TWindow, T, TFiltersSource>, 
+                ApplyFilterCommand<TWindow, T, TFiltersSource>.Args
+            >(arg);
         await filterCommand.ExecuteAsync();
         _previousFilterCommand = filterCommand;
         return this;

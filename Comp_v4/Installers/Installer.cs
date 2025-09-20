@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using Castle.Facilities.Startable;
-using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -43,11 +40,18 @@ public class Installer: IWindsorInstaller
                                     .LifestyleTransient());
 
         // потом подумать про освобождение ресурсов
-        container.Register(Component.For<ICommandFactory>().ImplementedBy<WindsorCommandFactory>().UsingFactoryMethod(kernel => new WindsorCommandFactory(container)),
-                           Classes.FromAssemblyNamed(_targetAssemblyName)
-                                  .BasedOn(typeof(DeferredCommandBase<>))
-                                  .WithServiceSelf()
-                                  .LifestyleTransient());
+        container.Register(
+            Component.For<ICommandFactory>().ImplementedBy<WindsorCommandFactory>().LifestyleBoundTo<Tw>(),
+            Component.For<ApplyFilterCommand<Tw, Cd, FiltersVmCd>>()
+                     .DependsOn(Property.ForKey<ApplyFilterCommand<Tw, Cd, FiltersVmCd>.Args>())
+                     .LifestyleBoundTo<Tw>()
+            /*Classes.FromAssemblyNamed(_targetAssemblyName)
+                   .BasedOn(typeof(DeferredCommandBase<>))
+                   .WithServiceSelf()
+                   .LifestyleBoundTo<Tw>()*/);
+        
+        
+
         
         
         container.Register(Component.For<System.Windows.Threading.Dispatcher>()
@@ -67,12 +71,6 @@ public class Installer: IWindsorInstaller
                            Component.For<ActionUpdateItem<Tw, Cd>>().LifestyleBoundTo<Tw>(),
                            Component.For<ActionDeleteItem<Tw, Cd>>().LifestyleBoundTo<Tw>(),
                            Component.For<ActionSave<Tw, Cd>>().LifestyleBoundTo<Tw>());
-        
-        /*container.Register(Classes.FromAssemblyNamed(_targetAssemblyName) 
-                                  .BasedOn<BaseCellState<Tw, Cd>>()
-                                  .WithServiceSelf()
-                                  .WithServiceBase() // регистрируем также как BaseCellState
-                                  .LifestyleBoundTo<Tw>());*/
 
         container.Register( // Конкретные состояния
                            Component.For<CellStateIdle<Tw, Cd>>().LifestyleSingleton(),
@@ -97,7 +95,6 @@ public class Installer: IWindsorInstaller
         container.Register(Component.For<ButtonVmSave<Tw, Cd>>().LifestyleBoundTo<Tw>());
         container.Register(Component.For<ButtonVmDeleteItem<Tw, Cd>>().LifestyleBoundTo<Tw>());
 
-        /* компонент относится к window scope но не требуется в его конструкторе */
         container.Register(
             Component.For<ActionStackTracker>().LifestyleBoundTo<Tw>(),
             Component.For<PersistenceManager<Tw, Cd>>().LifestyleBoundTo<Tw>(),
@@ -107,12 +104,5 @@ public class Installer: IWindsorInstaller
             Component.For<DummyWindowEventsHandler<Tw, Cd, FiltersVmCd>>().LifestyleBoundTo<Tw>());
 
         container.Register(Component.For<Tw>().LifestyleTransient());
-    }
-}
-
-public class NoTargetWindowScopedEntity
-{
-    public NoTargetWindowScopedEntity() {
-        int i = 10;
     }
 }
