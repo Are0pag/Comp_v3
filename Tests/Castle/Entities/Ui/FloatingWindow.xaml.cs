@@ -4,10 +4,10 @@ namespace Tests.Castle.Entities.Ui;
 
 public partial class FloatingWindow : Window
 {
-    protected readonly FloatingVm _floatingVm;
+    protected readonly DogInt _dogInt;
     
-    public FloatingWindow(FloatingVm floatingVm) {
+    public FloatingWindow(DogInt dogInt) {
         InitializeComponent();
-        _floatingVm = floatingVm;
+        _dogInt = dogInt;
     }
 }

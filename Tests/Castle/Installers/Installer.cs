@@ -9,7 +9,8 @@ public class Installer : IWindsorInstaller
 {
     public void Install(IWindsorContainer container, IConfigurationStore store) {
         container.Register(
-            Component.For<FloatingVm>(),
+            Component.For<Cat>(),
+            Component.For<DogInt>().DependsOn(Property.ForKey<int>()),
             Component.For<FloatingWindow>()
             );
     }

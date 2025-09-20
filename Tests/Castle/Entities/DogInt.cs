@@ -2,9 +2,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Tests;
 
-public class FloatingVm : ObservableObject
+public class DogInt : ObservableObject
 {
-    public FloatingVm(int value) {
+    public DogInt(int value, Cat cat) {
         Console.WriteLine($"Value: {value}");
     }
+}
+
+public class Cat
+{
+    
 }
