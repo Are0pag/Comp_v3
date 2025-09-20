@@ -15,12 +15,17 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 {
     protected readonly DataGridViewModel<ConditionalDesignation> _dataGridViewModel;
     protected readonly FiltersVmCd _filtersVm;
+    protected readonly DummyWindowEventsHandler<TargetWindow, ConditionalDesignation, FiltersVmCd> _eventBus;
     
     public TargetWindow(DataGridViewModel<ConditionalDesignation> dataGridViewModel, FiltersVmCd filtersVm, 
                         ButtonVmAddItem<TargetWindow, ConditionalDesignation> buttonVmAddItem, 
                         ButtonVmSave<TargetWindow, ConditionalDesignation> buttonVmSave, 
-                        ButtonVmDeleteItem<TargetWindow, ConditionalDesignation> buttonVmDeleteItem) {
+                        ButtonVmDeleteItem<TargetWindow, ConditionalDesignation> buttonVmDeleteItem,
+                        DummyWindowEventsHandler<TargetWindow, ConditionalDesignation, FiltersVmCd> eventManager) 
+    {
         InitializeComponent();
+
+        Id = new Guid();
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
@@ -34,11 +39,14 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
+        _eventBus = eventManager;
         EventBus<IGlobSubscriber>.Subscribe(this);
     }
 
     public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
 
+    public required Guid Id { get; init; }
+    
     void IDataGridRequestResolver<TargetWindow>.GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
 
 

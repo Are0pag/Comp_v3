@@ -9,7 +9,6 @@ using Comp_v4.Operations.Commands;
 using Comp_v4.Operations.Commands.Filtering;
 using Comp.Db;
 using Comp.Db.Contracts;
-using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using Infrastructure.Command.Heterochromic;
 using Microsoft.EntityFrameworkCore;
@@ -97,14 +96,23 @@ public class Installer: IWindsorInstaller
         container.Register(Component.For<ButtonVmAddItem<Tw, Cd>>().LifestyleBoundTo<Tw>());
         container.Register(Component.For<ButtonVmSave<Tw, Cd>>().LifestyleBoundTo<Tw>());
         container.Register(Component.For<ButtonVmDeleteItem<Tw, Cd>>().LifestyleBoundTo<Tw>());
-        
-        container.Register(Component.For<Tw>().LifestyleTransient());
 
-        container.Register(Component.For<ActionStackTracker>().LifestyleBoundTo<Tw>(),
-                           Component.For<PersistenceManager<Tw, Cd>>().LifestyleBoundTo<Tw>(),
-                           Component.For<TableCommandBinder<Tw, Cd>>()
-                                    .ImplementedBy<TableCommandBinderFilteringCompatible<Tw, Cd>>()
-                                    .LifestyleBoundTo<Tw>(),
-                           Component.For<ActionFilter<Tw, Cd, FiltersVmCd>>().LifestyleBoundTo<Tw>());
+        /* компонент относится к window scope но не требуется в его конструкторе */
+        container.Register(
+            Component.For<ActionStackTracker>().LifestyleBoundTo<Tw>(),
+            Component.For<PersistenceManager<Tw, Cd>>().LifestyleBoundTo<Tw>(),
+            Component.For<TableCommandBinder<Tw, Cd>>()
+                     .ImplementedBy<TableCommandBinderFilteringCompatible<Tw, Cd>>().LifestyleBoundTo<Tw>(),
+            Component.For<ActionFilter<Tw, Cd, FiltersVmCd>>().LifestyleBoundTo<Tw>(),
+            Component.For<DummyWindowEventsHandler<Tw, Cd, FiltersVmCd>>().LifestyleBoundTo<Tw>());
+
+        container.Register(Component.For<Tw>().LifestyleTransient());
+    }
+}
+
+public class NoTargetWindowScopedEntity
+{
+    public NoTargetWindowScopedEntity() {
+        int i = 10;
     }
 }

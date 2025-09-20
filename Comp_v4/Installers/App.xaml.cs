@@ -59,10 +59,7 @@ public partial class App : Application
         
         _appScope = RootWindsorContainer.BeginScope();
         var mainWindow = RootWindsorContainer.Resolve<TargetWindow>();
-        /*RootWindsorContainer.Resolve<ActionStackTracker>();
-        RootWindsorContainer.Resolve<PersistenceManager<Tw, Cd>>();
-        RootWindsorContainer.Resolve<TableCommandBinder<Tw, Cd>>();
-        RootWindsorContainer.Resolve<ActionFilter<Tw, Cd, FiltersVmCd>>();*/
+
         mainWindow.Closed += (_, _) => {
             //foreach (var d in _disposable) d.Dispose();
             //_disposable.Clear();
@@ -70,6 +67,11 @@ public partial class App : Application
             _appScope.Dispose();
         };
         mainWindow.Show();
+        
+        /*RootWindsorContainer.Resolve<ActionStackTracker>();
+        RootWindsorContainer.Resolve<PersistenceManager<Tw, Cd>>();
+        RootWindsorContainer.Resolve<TableCommandBinder<Tw, Cd>>();
+        RootWindsorContainer.Resolve<ActionFilter<Tw, Cd, FiltersVmCd>>();*/
         
         base.OnStartup(e);
     }

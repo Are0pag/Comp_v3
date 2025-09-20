@@ -21,7 +21,11 @@ public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, 
     protected readonly Cell<TWindow, T> _cell;
     protected ApplyFilterCommand<TWindow, T, TFiltersSource>? _previousFilterCommand;
     
-    public ActionFilter(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, TFiltersSource filtersVm, Cell<TWindow, T> cell) 
+    public ActionFilter(IDataGridCommandScheduler scheduler, 
+                        ModuleContext<TWindow, T> context, 
+                        ICommandFactory commandFactory, 
+                        TFiltersSource filtersVm, 
+                        Cell<TWindow, T> cell) 
         : base(scheduler, context, commandFactory) {
         _filtersVm = filtersVm;
         _cell = cell;
