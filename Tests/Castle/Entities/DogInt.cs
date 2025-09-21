@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Tests;
 
+public class ViewModel {}
+
 public class DogInt : ObservableObject
 {
     public DogInt(int value, Cat cat) {
@@ -9,10 +11,7 @@ public class DogInt : ObservableObject
     }
 }
 
-public class Cat
-{
-    
-}
+public class Cat { }
 
 public class CatMom
 {
@@ -22,3 +21,5 @@ public class CatMom
         _cat = cat;
     }
 }
+
+public class WildBeer { }

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Castle.Windsor;
+using Tests.Castle.Entities.Ui;
 using WPF.Services;
 
 namespace Tests;
@@ -20,5 +21,8 @@ public partial class App : Application
         base.OnStartup(e);
         
         var catMom = _myRootContainer.Resolve<CatMom>();
+        
+        var window = _myRootContainer.Resolve<FloatingWindow>();
+        window.Show();
     }
 }
