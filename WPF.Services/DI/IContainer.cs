@@ -3,62 +3,10 @@ using Infrastructure;
 
 namespace WPF.Services;
 
-public abstract class AbstractInstaller
-{
-    public abstract void Install(Container container);
-}
-
-public enum LifeTime
-{
-    Transient,
-    Singleton
-}
-
-public class ContainerRegistration
-{
-    public ContainerRegistration(Type serviceType) {
-        ServiceType = serviceType;
-    }
-
-    public Type ServiceType { get; set; }
-    public Type? ImplementationType { get; set; }
-    public LifeTime LifeTime { get; set; }
-    public object? Instance { get; set; }
-    public ConstructorInfo? ConstructorInfo { get; set; }
-}
-
-
-public class RegistrationBuilder
-{
-    protected readonly ContainerRegistration _registration;
-    protected readonly Container _container;
-
-    public RegistrationBuilder(ContainerRegistration registration, Container container) {
-        _registration = registration;
-        _container = container;
-    }
-
-
-    public RegistrationBuilder To<TImplementation>() {
-        return _container.To<TImplementation>();
-    }
-
-    public RegistrationBuilder AsTransient() {
-        _registration.LifeTime = LifeTime.Transient;
-
-        return this;
-    }
-
-    public RegistrationBuilder AsSingleton() {
-        _registration.LifeTime = LifeTime.Singleton;
-
-        return this;
-    }
-}
-
 public class Container
 {
     private readonly List<ContainerRegistration> _registrations = new();
+    protected readonly Dictionary<Type, object> _scopeInstances = new();
     private readonly object _lock = new();
 
     public void Install() {
@@ -150,6 +98,42 @@ public class Container
         }
 
         return instance;
+    }
+
+    protected virtual object GetScopedInstance(ContainerRegistration registration) {
+        lock (_lock) {
+            if (_scopeInstances.TryGetValue(registration.ServiceType, out var scopedInstance))
+                return scopedInstance;
+
+            var constructor = registration.ImplementationType.GetConstructors().FirstOrDefault();
+
+            if (constructor == null)
+                throw new InvalidOperationException($"No public constructor found for {registration.ImplementationType.Name}");
+
+            var parameters = constructor.GetParameters();
+            var parameterInstances = parameters.Select(p => Resolve(p.ParameterType)).ToArray();
+
+            var instance = constructor.Invoke(parameterInstances);
+            _scopeInstances[registration.ServiceType] = instance;
+
+            return instance;
+        }
+    }
+
+    public virtual void ReleaseScope(Type scopeOwnerType) {
+        lock (_lock) {
+            var scopedServices = _registrations
+                                .Where(r => r.LifeTime == LifeTime.Scoped && r.ScopeOwnerType == scopeOwnerType)
+                                .Select(r => r.ServiceType)
+                                .ToList();
+
+            foreach (var serviceType in scopedServices) {
+                if (_scopeInstances.TryGetValue(serviceType, out var disposable)) {
+                    (disposable as IDisposable)?.Dispose();
+                    _scopeInstances.Remove(serviceType);
+                }
+            }
+        }
     }
 
     // Вспомогательные методы для проверки
