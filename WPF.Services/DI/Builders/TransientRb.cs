@@ -5,7 +5,7 @@ public class TransientRb : IRegistrationBuilder
     public TransientRb(RegistrationProxy proxy) {
         Registration = proxy;
     }
-    public RegistrationProxy Registration { get; init; }
+    public RegistrationProxy Registration { get; }
 
     public virtual object Resolve(Container container) {
         if (Registration.GetImplementation().GetConstructors() is not { Length: 1 } constructorInfos)
@@ -19,3 +19,20 @@ public class TransientRb : IRegistrationBuilder
         return constructorInfos[0].Invoke(parameterInstances);
     }
 }
+
+public class ScopedRd : SingletonRb
+{
+    public ScopedRd(RegistrationProxy proxy, Type scopeRoot) : base(proxy) {
+        ScopeRoot = scopeRoot;
+    }
+    
+    public Type ScopeRoot { get; }
+    public bool IsRootActive { get; set; }
+
+    public override object Resolve(Container container) {
+        if (!IsRootActive)
+            throw new InvalidOperationException($"Scope {ScopeRoot.Name} is not active");
+        return base.Resolve(container);
+    }
+}
+

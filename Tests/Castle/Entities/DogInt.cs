@@ -13,12 +13,16 @@ public class DogInt : ObservableObject
 
 public class Cat { }
 
-public class CatMom
+public class CatMom : IDisposable
 {
     protected readonly Cat _cat;
 
     public CatMom(Cat cat) {
         _cat = cat;
+    }
+
+    public void Dispose() {
+        
     }
 }
 

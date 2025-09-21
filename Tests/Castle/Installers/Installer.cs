@@ -19,14 +19,14 @@ public class Installer : IWindsorInstaller
 
 public class MyInstaller : AbstractInstaller
 {
-    public override void Install(Container container) {
+    protected override void InstallBindings(Container container) {
         /*container.Add<Cat>().AsSingleton();
         container.Add<CatMom>().AsSingleton();
 
         container.Add<ViewModel>().AsScoped<FloatingWindow>();
         container.Add<FloatingWindow>().AsTransient();*/
 
-        container.Add<Cat>().AsSingleton();
+        container.Add<Cat>().AsScoped<CatMom>();
         container.Add<CatMom>().AsSingleton();
     }
 }
