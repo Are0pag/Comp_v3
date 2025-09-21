@@ -10,7 +10,8 @@ public abstract class AbstractInstaller
 public enum LifeTime
 {
     Transient,
-    Singleton
+    Singleton,
+    Scoped
 }
 
 public class ContainerRegistration
@@ -19,9 +20,11 @@ public class ContainerRegistration
         ServiceType = serviceType;
     }
 
-    public Type ServiceType { get; set; }
-    public Type? ImplementationType { get; set; }
-    public LifeTime LifeTime { get; set; }
-    public object? Instance { get; set; }
-    public ConstructorInfo? ConstructorInfo { get; set; }
+    public Type ServiceType { get; set; }                 // base
+    public Type? ImplementationType { get; set; }         // base
+    public ConstructorInfo? ConstructorInfo { get; set; } // base
+    public object? Instance { get; set; }                 // singleton & scoped
+    public Type ScopeOwnerType { get; set; }              // scoped
+    public LifeTime LifeTime { get; set; }                // to objects 
 }
+

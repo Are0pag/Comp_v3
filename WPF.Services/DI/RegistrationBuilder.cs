@@ -1,5 +1,10 @@
 namespace WPF.Services;
 
+public class ScopeBuilder
+{
+    
+}
+
 public class RegistrationBuilder
 {
     protected readonly ContainerRegistration _registration;
@@ -28,6 +33,6 @@ public class RegistrationBuilder
     }
 
     public RegistrationBuilder AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
-        return this;
+        return _container.AsScoped<TScopeOwner>();
     }
 }

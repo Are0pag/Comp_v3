@@ -8,6 +8,7 @@ public class Container
     private readonly List<ContainerRegistration> _registrations = new();
     protected readonly Dictionary<Type, object> _scopeInstances = new();
     private readonly object _lock = new();
+    protected Type? _selectedScopeOwnerType;
 
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
@@ -51,12 +52,35 @@ public class Container
         return new RegistrationBuilder(lastRegistration, this);
     }
 
+    public RegistrationBuilder AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
+        var lastRegistration = _registrations.LastOrDefault();
+        lastRegistration.LifeTime = LifeTime.Scoped;
+        lastRegistration.ScopeOwnerType = typeof(TScopeOwner);
+        return new RegistrationBuilder(lastRegistration, this);
+    }
+
     public T Resolve<T>() {
         return (T)Resolve(typeof(T));
     }
 
+    public Container Select<TScopeOwner>() where TScopeOwner : class, IDisposable {
+        _selectedScopeOwnerType = typeof(TScopeOwner);
+        return this;
+    }
+
     private object Resolve(Type serviceType) {
-        var registration = _registrations.FirstOrDefault(r => r.ServiceType == serviceType);
+        var registration = _registrations.FirstOrDefault(r => r.ServiceType == serviceType); 
+        // допустим один тип = scoped сервис, а не один экземпляр типа для одного scope, а другой для другого
+
+        if (registration.LifeTime == LifeTime.Scoped && _selectedScopeOwnerType == null) {
+            new InvalidOperationException("Cannot resolve service " + serviceType.Name + " from a scoped container without pointed on lifetime owner.").Log(this);
+        }
+        else {
+            var ownerRegistration = _registrations.FirstOrDefault(r => r.ServiceType == _selectedScopeOwnerType);
+            if (registration.LifeTime == LifeTime.Scoped && _selectedScopeOwnerType != null && ownerRegistration.Instance != null) {
+                return GetInstance(registration);
+            }
+        }
 
         if (registration == null)
             throw new InvalidOperationException($"Service {serviceType.Name} is not registered");
@@ -64,6 +88,8 @@ public class Container
         return GetInstance(registration);
     }
 
+    
+    
     private object GetInstance(ContainerRegistration registration) {
         // Если уже есть экземпляр (для синглтонов)
         if (registration.Instance != null)
