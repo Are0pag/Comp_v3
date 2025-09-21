@@ -50,11 +50,12 @@ public class Container
         return this;
     }
 
-    /*public Container AsSingleton() {
+    public Container AsSingleton() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
-        
-    }*/
+        _registrationBuilders.Add(new SingletonRb(_creatingRegistration));
+        return this;
+    }
 
     /*public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
         _registrations[^1] = new 

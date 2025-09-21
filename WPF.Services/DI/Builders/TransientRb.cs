@@ -2,13 +2,12 @@ namespace WPF.Services;
 
 public class TransientRb : IRegistrationBuilder
 {
-    // и ему НЕ ВАЖНО который из них
     public TransientRb(RegistrationProxy proxy) {
         Registration = proxy;
     }
     public RegistrationProxy Registration { get; init; }
 
-    public object Resolve(Container container) {
+    public virtual object Resolve(Container container) {
         if (Registration.GetImplementation().GetConstructors() is not { Length: 1 } constructorInfos)
             throw new InvalidOperationException($"Service {Registration.GetImplementation().Name} must have a public constructor");
         
