@@ -12,8 +12,13 @@ public class DogInt : ObservableObject
 }
 
 
-public interface ICat {}
-public class Cat : ICat { }
+public interface ICat : IDisposable {}
+public class Cat : ICat
+{
+    public void Dispose() {
+        
+    }
+}
 
 public interface ICatMom : IDisposable {}
 public class CatMom : ICatMom
@@ -25,7 +30,7 @@ public class CatMom : ICatMom
     }
 
     public void Dispose() {
-        
+        GC.SuppressFinalize(this);
     }
 }
 

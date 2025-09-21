@@ -21,8 +21,10 @@ public partial class App : Application
         base.OnStartup(e);
 
         var catMom = _myRootContainer.BeginScope<ICatMom>();
+        _myRootContainer.ReleaseScope<ICatMom>();
         
-        var window = _myRootContainer.Resolve<FloatingWindow>();
-        window.Show();
+        new ReferenceTracker().TrackObjectReferences(catMom);
+        /*var window = _myRootContainer.Resolve<FloatingWindow>();
+        window.Show();*/
     }
 }

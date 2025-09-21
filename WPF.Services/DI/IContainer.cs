@@ -6,6 +6,7 @@ namespace WPF.Services;
 public class Container
 {
     protected readonly List<IRegistrationBuilder> _registrationBuilders = new();
+    protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
     protected RegistrationProxy? _creatingRegistration;
 
     private readonly object _lock = new();
@@ -23,7 +24,7 @@ public class Container
         }
     }
     
-    public Container Add<TService>() {
+    public Container Add<TService>() where TService : IDisposable{
         if (IsRegistered<TService>())
             new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.").Log(this);
 
@@ -31,7 +32,7 @@ public class Container
         return this;
     }
 
-    public Container To<TImplementation>() {
+    public Container To<TImplementation>() where TImplementation : IDisposable {
         if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
             throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
 
@@ -71,8 +72,18 @@ public class Container
             targetScopeRegistration.IsRootActive = true;
         }
         
+        _scopes.Add(typeof(TScopeOwner), targetScopeRegistrations);
+        
         // Пусть пользовательский код регистрирует scopeRootType как Transient или как Singleton
         return Resolve<TScopeOwner>();
+    }
+
+    public void ReleaseScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
+        if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeRegistrations)) {
+            foreach (var scopeRegistration in scopeRegistrations) {
+                scopeRegistration.ReleaseInstance();
+            }
+        }
     }
 
     public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
