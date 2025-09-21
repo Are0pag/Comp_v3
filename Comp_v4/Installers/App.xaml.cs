@@ -122,7 +122,7 @@ public partial class App : Application
                                  return new Cell<Tw, Cd>(states, initialState!);
                              });
                              
-
+                             
                              s.AddScoped<ButtonVmAddItem<Tw, Cd>>();
                              s.AddSingleton<ButtonVmSave<Tw, Cd>>();
                              s.AddSingleton<ButtonVmDeleteItem<Tw, Cd>>();

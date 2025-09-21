@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\WPF.Services\WPF.Services.csproj" />
       <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
     </ItemGroup>
 

@@ -13,3 +13,12 @@ public class Cat
 {
     
 }
+
+public class CatMom
+{
+    protected readonly Cat _cat;
+
+    public CatMom(Cat cat) {
+        _cat = cat;
+    }
+}
