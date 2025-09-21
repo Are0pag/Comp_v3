@@ -20,7 +20,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e) {
         base.OnStartup(e);
 
-        var catMom = _myRootContainer.BeginScope<CatMom>();
+        var catMom = _myRootContainer.BeginScope<ICatMom>();
         
         var window = _myRootContainer.Resolve<FloatingWindow>();
         window.Show();

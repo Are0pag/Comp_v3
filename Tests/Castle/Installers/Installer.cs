@@ -26,7 +26,7 @@ public class MyInstaller : AbstractInstaller
         container.Add<ViewModel>().AsScoped<FloatingWindow>();
         container.Add<FloatingWindow>().AsTransient();*/
 
-        container.Add<Cat>().AsScoped<CatMom>();
-        container.Add<CatMom>().AsSingleton();
+        container.Add<ICat>().To<Cat>().AsScoped<ICatMom>();
+        container.Add<ICatMom>().To<CatMom>().AsSingleton();
     }
 }

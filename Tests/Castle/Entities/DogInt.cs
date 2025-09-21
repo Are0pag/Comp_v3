@@ -11,13 +11,16 @@ public class DogInt : ObservableObject
     }
 }
 
-public class Cat { }
 
-public class CatMom : IDisposable
+public interface ICat {}
+public class Cat : ICat { }
+
+public interface ICatMom : IDisposable {}
+public class CatMom : ICatMom
 {
-    protected readonly Cat _cat;
+    protected readonly ICat _cat;
 
-    public CatMom(Cat cat) {
+    public CatMom(ICat cat) {
         _cat = cat;
     }
 
