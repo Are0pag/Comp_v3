@@ -19,7 +19,7 @@ public class Installer : IWindsorInstaller
 
 public class MyInstaller : AbstractInstaller
 {
-    protected override void InstallBindings(Container container) {
+    protected override void InstallBindings(AreopagContainer container) {
         /*container.Add<Cat>().AsSingleton();
         container.Add<CatMom>().AsSingleton();
 

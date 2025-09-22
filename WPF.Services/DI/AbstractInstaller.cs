@@ -2,14 +2,14 @@ namespace WPF.Services;
 
 public abstract class AbstractInstaller
 {
-    public void Install(Container container) {
+    public void Install(AreopagContainer container) {
         InstallBindings(container);
         OnCreated(container);
     }
     
-    protected abstract void InstallBindings(Container container);
+    protected abstract void InstallBindings(AreopagContainer container);
 
-    protected virtual void OnCreated(Container container) {
+    protected virtual void OnCreated(AreopagContainer container) {
         
     }
 }

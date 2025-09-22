@@ -7,7 +7,7 @@ public class TransientRb : IRegistrationBuilder
     }
     public RegistrationProxy Registration { get; }
 
-    public virtual object Resolve(Container container) {
+    public virtual object Resolve(AreopagContainer container) {
         
         /* Код проверяет, что конструктор только один (Length: 1), но не проверяет его доступность.
          Если у класса есть несколько конструкторов (например, private и public), будет выброшено исключение, хотя разрешимый конструктор существует*/

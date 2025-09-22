@@ -12,7 +12,7 @@ public class FactoryRb : IRegistrationBuilder
 
     public RegistrationProxy Registration => _builder.Registration;
 
-    public object Resolve(Container container) {
+    public object Resolve(AreopagContainer container) {
         return _factory();
     }
 }

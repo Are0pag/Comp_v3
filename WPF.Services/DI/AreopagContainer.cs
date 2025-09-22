@@ -3,7 +3,7 @@ using Infrastructure;
 
 namespace WPF.Services;
 
-public class Container : IDisposable
+public class AreopagContainer : IDisposable
 {
     protected readonly List<IRegistrationBuilder> _registrationBuilders = new();
     protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
@@ -24,7 +24,7 @@ public class Container : IDisposable
         }
     }
     
-    public Container Add<TService>() where TService : IDisposable{
+    public AreopagContainer Add<TService>() where TService : IDisposable{
         if (IsRegistered<TService>())
             new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.").Log(this);
 
@@ -32,7 +32,7 @@ public class Container : IDisposable
         return this;
     }
 
-    public Container To<TImplementation>() where TImplementation : IDisposable {
+    public AreopagContainer To<TImplementation>() where TImplementation : IDisposable {
         if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
             throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
 
@@ -44,28 +44,28 @@ public class Container : IDisposable
         return this;
     }
 
-    public Container AsTransient() {
+    public AreopagContainer AsTransient() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         _registrationBuilders.Add(new TransientRb(_creatingRegistration));
         return this;
     }
 
-    public Container AsSingleton() {
+    public AreopagContainer AsSingleton() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         _registrationBuilders.Add(new SingletonRb(_creatingRegistration));
         return this;
     }
 
-    public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
+    public AreopagContainer AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         _registrationBuilders.Add(new ScopedRd(_creatingRegistration, typeof(TScopeOwner)));
         return this;
     }
 
-    public Container WithParameters(params Type[] parameterTypes) {
+    public AreopagContainer WithParameters(params Type[] parameterTypes) {
         if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
             throw new InvalidOperationException();
 
@@ -78,7 +78,7 @@ public class Container : IDisposable
         return this;
     }
 
-    public Container UsingFactoryMethod(Func<object> factoryMethod) {
+    public AreopagContainer UsingFactoryMethod(Func<object> factoryMethod) {
         if (_registrationBuilders.Count == 0)
             throw new InvalidOperationException();
         
@@ -86,7 +86,7 @@ public class Container : IDisposable
         return this;
     }
 
-    public Container NonLazy() {
+    public AreopagContainer NonLazy() {
         if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
             throw new InvalidOperationException();
 

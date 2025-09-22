@@ -10,10 +10,10 @@ namespace Tests;
 /// </summary>
 public partial class App : Application
 {
-    protected readonly Container _myRootContainer;
+    protected readonly AreopagContainer _myRootContainer;
 
     public App() {
-        _myRootContainer = new Container();
+        _myRootContainer = new AreopagContainer();
         _myRootContainer.Install();
     }
     

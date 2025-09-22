@@ -6,7 +6,7 @@ public class SingletonRb : TransientRb
     public SingletonRb(RegistrationProxy proxy) : base(proxy) {
     }
 
-    public override object Resolve(Container container) {
+    public override object Resolve(AreopagContainer container) {
         if (_instance is not null) 
             return _instance;
 
