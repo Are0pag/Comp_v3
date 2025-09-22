@@ -10,7 +10,6 @@ public class Container : IDisposable
     protected RegistrationProxy? _creatingRegistration;
 
     private readonly object _lock = new();
-    protected Type? _selectedScopeOwnerType;
 
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
@@ -114,6 +113,12 @@ public class Container : IDisposable
     }
 
     public virtual void Dispose() {
-        
+        foreach (var s in _registrationBuilders.OfType<SingletonRb>()) {
+            s.ReleaseInstance();
+        }
+        foreach (var scoped in _scopes) {
+            scoped.Value.ForEach(r => r.ReleaseInstance());
+        }
+        _scopes.Clear();
     }
 }

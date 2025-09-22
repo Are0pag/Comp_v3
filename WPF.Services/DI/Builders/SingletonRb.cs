@@ -13,4 +13,11 @@ public class SingletonRb : TransientRb
         _instance = base.Resolve(container);
         return _instance;
     }
+
+    public virtual void ReleaseInstance() {
+        if (_instance is null)
+            throw new InvalidOperationException($"Ну куда ты лезешь ёбана");
+
+        _instance = null;
+    }
 }

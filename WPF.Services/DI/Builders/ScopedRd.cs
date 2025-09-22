@@ -15,12 +15,4 @@ public class ScopedRd : SingletonRb
 
         return base.Resolve(container);
     }
-
-    public void ReleaseInstance() {
-        if (_instance is null)
-            throw new InvalidOperationException($"Ну куда ты лезешь ёбана");
-
-        _instance = null;
-        //((IDisposable)_instance)?.Dispose();
-    }
 }
