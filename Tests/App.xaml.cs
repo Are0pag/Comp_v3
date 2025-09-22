@@ -20,10 +20,12 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e) {
         base.OnStartup(e);
 
+        var dogInt = _myRootContainer.Resolve<DogInt>(144008);
+        
         var catMom = _myRootContainer.BeginScope<ICatMom>();
         _myRootContainer.ReleaseScope<ICatMom>();
         
-        new ReferenceTracker().TrackObjectReferences(catMom);
+        //new ReferenceTracker().TrackObjectReferences(catMom);
         /*var window = _myRootContainer.Resolve<FloatingWindow>();
         window.Show();*/
     }

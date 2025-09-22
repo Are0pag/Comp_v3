@@ -4,10 +4,16 @@ namespace Tests;
 
 public class ViewModel {}
 
-public class DogInt : ObservableObject
+public class DogInt : ObservableObject, IDisposable
 {
-    public DogInt(int value, Cat cat) {
+    protected readonly ICat _cat;
+    public DogInt(int value, ICat cat) {
+        _cat = cat;
         Console.WriteLine($"Value: {value}");
+    }
+
+    public void Dispose() {
+        _cat.Dispose();
     }
 }
 

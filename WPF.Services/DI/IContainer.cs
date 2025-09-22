@@ -10,6 +10,8 @@ public class Container : IDisposable
     protected RegistrationProxy? _creatingRegistration;
     private readonly HashSet<Type> _resolvingTypes = new();
 
+    public Dictionary<Type, List<(Type, object)>> RuntimeParameters { get; protected set; } = new();
+    
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
         var installerTypes = assembly.GetTypes()
@@ -95,7 +97,38 @@ public class Container : IDisposable
         return this;
     }
 
-    public T Resolve<T>() {
+    public Container WithParameters(params Type[] parameterTypes) {
+        if (_registrationBuilders.LastOrDefault() is not {} lastRegistrationBuilder) 
+            throw new InvalidOperationException();
+
+        var key = lastRegistrationBuilder.Registration.GetRegistration();
+        RuntimeParameters[key] = new List<(Type, object)>();
+        
+        foreach (var parameterType in parameterTypes) {
+            RuntimeParameters[key].Add((parameterType, null));
+        }
+        return this;
+    }
+
+    public T Resolve<T>(params object[] parameters) {
+        if (parameters.Length != 0) {
+            if (RuntimeParameters.TryGetValue(typeof(T), out var registrationParams)) {
+                if (parameters.Length != registrationParams.Count) {
+                    throw new ArgumentException("Количество параметров не соответствует зарегистрированным типам");
+                }
+                var updatedParams = new List<(Type, object)>();
+                for (var i = 0; i < registrationParams.Count; i++) {
+                    // Проверяем совместимость типов
+                    if (!registrationParams[i].Item1.IsInstanceOfType(parameters[i])) 
+                        throw new ArgumentException($"Тип параметра {i} не соответствует зарегистрированному типу");
+
+                    // Добавляем кортеж с проставленным значением
+                    updatedParams.Add((registrationParams[i].Item1, parameters[i]));
+                }
+                RuntimeParameters[typeof(T)] = updatedParams;
+            }
+        }
+        
         return (T) Resolve(typeof(T));
     }
 
