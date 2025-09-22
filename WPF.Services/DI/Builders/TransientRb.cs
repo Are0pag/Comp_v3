@@ -32,4 +32,3 @@ public class TransientRb : IRegistrationBuilder
         return constructorInfos[0].Invoke(parameterInstances);
     }
 }
-

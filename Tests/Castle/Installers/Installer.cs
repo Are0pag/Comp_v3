@@ -31,5 +31,7 @@ public class MyInstaller : AbstractInstaller
         container.Add<ICat>().To<Cat>().AsScoped<ICatMom>();
         container.Add<DogInt>().AsScoped<ICatMom>().WithParameters(typeof(int), typeof(string));
         container.Add<ICatMom>().To<CatMom>().AsSingleton();
+        
+        container.Add<SmokeCat>().AsSingleton().UsingFactoryMethod(() => new SmokeCat(666, container.Resolve<WildBeer>()));
     }
 }

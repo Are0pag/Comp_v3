@@ -23,7 +23,9 @@ public partial class App : Application
         var catMom = _myRootContainer.BeginScope<ICatMom>();
         var dogInt = _myRootContainer.Resolve<DogInt>(144008, "Dog in fear dress OПГ Солнышко");
         _myRootContainer.ReleaseScope<ICatMom>();
-        
+
+        var sc = _myRootContainer.Resolve<SmokeCat>();
+
         //new ReferenceTracker().TrackObjectReferences(catMom);
         /*var window = _myRootContainer.Resolve<FloatingWindow>();
         window.Show();*/

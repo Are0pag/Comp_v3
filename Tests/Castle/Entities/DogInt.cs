@@ -4,6 +4,20 @@ namespace Tests;
 
 public class ViewModel {}
 
+public class SmokeCat : IDisposable
+{
+    protected readonly WildBeer _dogInt;
+    protected readonly int _id;
+    public SmokeCat(int id, WildBeer dogInt) {
+        _id = id;
+        _dogInt = dogInt;
+        Console.WriteLine($"{nameof(SmokeCat)} with number {id} and {dogInt})");
+    }
+    public void Dispose() {
+        
+    }
+}
+
 public class DogInt : ObservableObject, IDisposable
 {
     protected readonly ICat _cat;

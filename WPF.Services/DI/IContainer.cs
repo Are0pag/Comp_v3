@@ -66,7 +66,7 @@ public class Container : IDisposable
     }
 
     public Container WithParameters(params Type[] parameterTypes) {
-        if (_registrationBuilders.LastOrDefault() is not {} lastRegistrationBuilder) 
+        if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
             throw new InvalidOperationException();
 
         var key = lastRegistrationBuilder.Registration.GetRegistration();
@@ -78,8 +78,16 @@ public class Container : IDisposable
         return this;
     }
 
+    public Container UsingFactoryMethod(Func<object> factoryMethod) {
+        if (_registrationBuilders.Count == 0)
+            throw new InvalidOperationException();
+        
+        _registrationBuilders[^1] = new FactoryRb(_registrationBuilders[^1], factoryMethod);
+        return this;
+    }
+
     public Container NonLazy() {
-        if (_registrationBuilders.LastOrDefault() is not {} lastRegistrationBuilder) 
+        if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
             throw new InvalidOperationException();
 
         Resolve(lastRegistrationBuilder.Registration.GetRegistration());
