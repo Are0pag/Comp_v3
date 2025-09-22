@@ -26,6 +26,8 @@ public class MyInstaller : AbstractInstaller
         container.Add<ViewModel>().AsScoped<FloatingWindow>();
         container.Add<FloatingWindow>().AsTransient();*/
 
+        container.Add<WildBeer>().AsSingleton().NonLazy();
+        
         container.Add<ICat>().To<Cat>().AsScoped<ICatMom>();
         container.Add<DogInt>().AsScoped<ICatMom>().WithParameters(typeof(int), typeof(string));
         container.Add<ICatMom>().To<CatMom>().AsSingleton();

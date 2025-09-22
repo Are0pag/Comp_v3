@@ -41,4 +41,13 @@ public class CatMom : ICatMom
     }
 }
 
-public class WildBeer { }
+public class WildBeer : IDisposable
+{
+    public WildBeer() {
+        Console.WriteLine("Wild Beer have non lazy registration!");
+    }
+    public void Dispose() {
+        
+    }
+}
+

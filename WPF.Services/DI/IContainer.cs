@@ -58,6 +58,34 @@ public class Container : IDisposable
         return this;
     }
 
+    public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
+        if (_creatingRegistration == null)
+            throw new InvalidOperationException();
+        _registrationBuilders.Add(new ScopedRd(_creatingRegistration, typeof(TScopeOwner)));
+        return this;
+    }
+
+    public Container WithParameters(params Type[] parameterTypes) {
+        if (_registrationBuilders.LastOrDefault() is not {} lastRegistrationBuilder) 
+            throw new InvalidOperationException();
+
+        var key = lastRegistrationBuilder.Registration.GetRegistration();
+        RuntimeParameters[key] = new List<(Type, object)>();
+        
+        foreach (var parameterType in parameterTypes) {
+            RuntimeParameters[key].Add((parameterType, null));
+        }
+        return this;
+    }
+
+    public Container NonLazy() {
+        if (_registrationBuilders.LastOrDefault() is not {} lastRegistrationBuilder) 
+            throw new InvalidOperationException();
+
+        Resolve(lastRegistrationBuilder.Registration.GetRegistration());
+        return this;
+    }
+
     public TScopeOwner BeginScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
         if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeOwners)) {
             throw new InvalidOperationException($"Scope {typeof(TScopeOwner).Name} has already been scoped.");
@@ -88,26 +116,6 @@ public class Container : IDisposable
             }
         }
         _scopes.Remove(typeof(TScopeOwner));
-    }
-
-    public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
-        if (_creatingRegistration == null)
-            throw new InvalidOperationException();
-        _registrationBuilders.Add(new ScopedRd(_creatingRegistration, typeof(TScopeOwner)));
-        return this;
-    }
-
-    public Container WithParameters(params Type[] parameterTypes) {
-        if (_registrationBuilders.LastOrDefault() is not {} lastRegistrationBuilder) 
-            throw new InvalidOperationException();
-
-        var key = lastRegistrationBuilder.Registration.GetRegistration();
-        RuntimeParameters[key] = new List<(Type, object)>();
-        
-        foreach (var parameterType in parameterTypes) {
-            RuntimeParameters[key].Add((parameterType, null));
-        }
-        return this;
     }
 
     public T Resolve<T>(params object[] parameters) {
