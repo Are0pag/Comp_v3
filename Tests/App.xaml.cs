@@ -23,7 +23,9 @@ public partial class App : Application
         var catMom = _myRootContainer.BeginScope<ICatMom>();
         _myRootContainer.ReleaseScope<ICatMom>();
         
-        new ReferenceTracker().TrackObjectReferences(catMom);
+        #if DEBUG
+        //new ReferenceTracker().TrackObjectReferences(catMom);
+        #endif
         /*var window = _myRootContainer.Resolve<FloatingWindow>();
         window.Show();*/
     }

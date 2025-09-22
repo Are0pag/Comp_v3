@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Infrastructure;
 
 namespace WPF.Services;
@@ -59,7 +60,10 @@ public class Container
     }
 
     public TScopeOwner BeginScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
-
+        if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeOwners)) {
+            throw new InvalidOperationException($"Scope {typeof(TScopeOwner).Name} has already been scoped.");
+        }
+        
         var targetScopeRegistrations = _registrationBuilders
                                       .OfType<ScopedRd>()                             // Приводим только те, которые можно привести к ScopedRd
                                       .Where(r => r.ScopeRoot == typeof(TScopeOwner)) // Фильтруем по ScopeRoot
@@ -82,8 +86,10 @@ public class Container
         if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeRegistrations)) {
             foreach (var scopeRegistration in scopeRegistrations) {
                 scopeRegistration.ReleaseInstance();
+                scopeRegistration.IsRootActive = false;
             }
         }
+        _scopes.Remove(typeof(TScopeOwner));
     }
 
     public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
@@ -101,28 +107,33 @@ public class Container
         if (_registrationBuilders.FirstOrDefault(r => r.Registration.GetRegistration() == type) is not { } builder)
             throw new InvalidOperationException();
         
-        return builder.Resolve(this); // и ему НЕ ВАЖНО который из них!
+        return builder.Resolve(new ResolveArgs(this)); // и ему НЕ ВАЖНО который из них!
     }
-    
 
-    /*public virtual void ReleaseScope(Type scopeOwnerType) {
-        lock (_lock) {
-            var scopedServices = _registrations
-                                .Where(r => r.LifeTime == LifeTime.Scoped && r.ScopeOwnerType == scopeOwnerType)
-                                .Select(r => r.ServiceType)
-                                .ToList();
-
-            foreach (var serviceType in scopedServices) {
-                if (_scopeInstances.TryGetValue(serviceType, out var disposable)) {
-                    (disposable as IDisposable)?.Dispose();
-                    _scopeInstances.Remove(serviceType);
-                }
-            }
-        }
-    }*/
-
+    public IRegistrationBuilder FindRegistrationBuilderByName(Type type) {
+        var caller = _registrationBuilders.FirstOrDefault(r => 
+                                                              r.Registration.GetRegistration().FullName == 
+                                                              type.FullName);
+        return caller;
+    }
    
     public bool IsRegistered<T>() {
         return _registrationBuilders.Any(r => r.Registration.GetRegistration() == typeof(T));
+    }
+    
+    public Type GetActualDeclaringType() {
+        var stackTrace = new System.Diagnostics.StackTrace();
+
+        // Проходим по фреймам стека, начиная с самых верхних
+        for (var i = 1; i < stackTrace.FrameCount; i++) {
+            var frame = stackTrace.GetFrame(i);
+            var declaringType = frame.GetMethod().DeclaringType;
+
+            if (declaringType?.FullName == typeof(Container).FullName)
+                continue;
+            
+            return declaringType;
+        }
+        return null;
     }
 }

@@ -4,5 +4,5 @@ public interface IRegistrationBuilder
 {
     RegistrationProxy Registration { get; }
 
-    object Resolve(Container container);
+    object Resolve(ResolveArgs args);
 }

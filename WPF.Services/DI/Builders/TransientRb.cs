@@ -7,14 +7,14 @@ public class TransientRb : IRegistrationBuilder
     }
     public RegistrationProxy Registration { get; }
 
-    public virtual object Resolve(Container container) {
+    public virtual object Resolve(ResolveArgs args) {
         if (Registration.GetImplementation().GetConstructors() is not { Length: 1 } constructorInfos)
             throw new InvalidOperationException($"Service {Registration.GetImplementation().Name} must have a public constructor");
         
         var parameterInfos = constructorInfos[0].GetParameters();
         var parameterInstances = parameterInfos.Select(p => {
             var argParameterType = p.ParameterType;
-            return container.Resolve(argParameterType);
+            return args.Container.Resolve(argParameterType);
         }).ToArray();
         return constructorInfos[0].Invoke(parameterInstances);
     }
