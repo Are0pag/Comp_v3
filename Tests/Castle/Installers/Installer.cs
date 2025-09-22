@@ -27,7 +27,7 @@ public class MyInstaller : AbstractInstaller
         container.Add<FloatingWindow>().AsTransient();*/
 
         container.Add<ICat>().To<Cat>().AsScoped<ICatMom>();
-        container.Add<DogInt>().AsTransient().WithParameters(typeof(int));
+        container.Add<DogInt>().AsScoped<ICatMom>().WithParameters(typeof(int), typeof(string));
         container.Add<ICatMom>().To<CatMom>().AsSingleton();
     }
 }

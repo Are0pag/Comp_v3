@@ -10,7 +10,7 @@ public class Container : IDisposable
     protected RegistrationProxy? _creatingRegistration;
     private readonly HashSet<Type> _resolvingTypes = new();
 
-    public Dictionary<Type, List<(Type, object)>> RuntimeParameters { get; protected set; } = new();
+    public Dictionary<Type, List<(Type paramType, object value)>> RuntimeParameters { get; protected set; } = new();
     
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();

@@ -15,10 +15,15 @@ public class TransientRb : IRegistrationBuilder
             throw new InvalidOperationException($"Service {Registration.GetImplementation().Name} must have a public constructor");
         
         var parameterInfos = constructorInfos[0].GetParameters();
+        
         var parameterInstances = parameterInfos.Select(p => {
             // Проверяем, есть ли runtime-параметр для текущего типа
             if (container.RuntimeParameters.TryGetValue(Registration.GetRegistration(), out var runtimeParams)) {
-                return runtimeParams.FirstOrDefault(runtimeParam => runtimeParam.Item1 == p.ParameterType).Item2;
+                try {
+                    if (runtimeParams.First(runtimeParam => runtimeParam.Item1.Name == p.ParameterType.Name) is {} runtimeParameter)
+                        return runtimeParameter.Item2;
+                }
+                catch (InvalidOperationException ex) {}
             }
             // Если нет runtime-параметра, резолвим через контейнер
             return container.Resolve(p.ParameterType);

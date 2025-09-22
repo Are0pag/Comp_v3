@@ -20,9 +20,8 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e) {
         base.OnStartup(e);
 
-        var dogInt = _myRootContainer.Resolve<DogInt>(144008);
-        
         var catMom = _myRootContainer.BeginScope<ICatMom>();
+        var dogInt = _myRootContainer.Resolve<DogInt>(144008, "Dog in fear dress OПГ Солнышко");
         _myRootContainer.ReleaseScope<ICatMom>();
         
         //new ReferenceTracker().TrackObjectReferences(catMom);

@@ -7,9 +7,10 @@ public class ViewModel {}
 public class DogInt : ObservableObject, IDisposable
 {
     protected readonly ICat _cat;
-    public DogInt(int value, ICat cat) {
+    public DogInt(int value, ICat cat, string name) {
         _cat = cat;
         Console.WriteLine($"Value: {value}");
+        Console.WriteLine($"Name: {name}");
     }
 
     public void Dispose() {
