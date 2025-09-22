@@ -8,8 +8,7 @@ public class Container : IDisposable
     protected readonly List<IRegistrationBuilder> _registrationBuilders = new();
     protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
     protected RegistrationProxy? _creatingRegistration;
-
-    private readonly object _lock = new();
+    private readonly HashSet<Type> _resolvingTypes = new();
 
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
@@ -101,10 +100,19 @@ public class Container : IDisposable
     }
 
     public object Resolve(Type type) {
+        if (_resolvingTypes.Contains(type))
+            throw new InvalidOperationException($"Cyclic dependency detected for type {type.Name}");
+
         if (_registrationBuilders.FirstOrDefault(r => r.Registration.GetRegistration() == type) is not { } builder)
             throw new InvalidOperationException();
         
-        return builder.Resolve(this); // и ему НЕ ВАЖНО который из них!
+        try {
+            _resolvingTypes.Add(type);
+            return builder.Resolve(this); 
+        }
+        finally {
+            _resolvingTypes.Remove(type);
+        }
     }
 
    
