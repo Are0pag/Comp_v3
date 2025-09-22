@@ -3,7 +3,7 @@ using Infrastructure;
 
 namespace WPF.Services;
 
-public class Container
+public class Container : IDisposable
 {
     protected readonly List<IRegistrationBuilder> _registrationBuilders = new();
     protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
@@ -59,7 +59,9 @@ public class Container
     }
 
     public TScopeOwner BeginScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
-
+        if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeOwners)) {
+            throw new InvalidOperationException($"Scope {typeof(TScopeOwner).Name} has already been scoped.");
+        }
         var targetScopeRegistrations = _registrationBuilders
                                       .OfType<ScopedRd>()                             // Приводим только те, которые можно привести к ScopedRd
                                       .Where(r => r.ScopeRoot == typeof(TScopeOwner)) // Фильтруем по ScopeRoot
@@ -82,8 +84,10 @@ public class Container
         if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeRegistrations)) {
             foreach (var scopeRegistration in scopeRegistrations) {
                 scopeRegistration.ReleaseInstance();
+                scopeRegistration.IsRootActive = false;
             }
         }
+        _scopes.Remove(typeof(TScopeOwner));
     }
 
     public Container AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
@@ -103,26 +107,13 @@ public class Container
         
         return builder.Resolve(this); // и ему НЕ ВАЖНО который из них!
     }
-    
-
-    /*public virtual void ReleaseScope(Type scopeOwnerType) {
-        lock (_lock) {
-            var scopedServices = _registrations
-                                .Where(r => r.LifeTime == LifeTime.Scoped && r.ScopeOwnerType == scopeOwnerType)
-                                .Select(r => r.ServiceType)
-                                .ToList();
-
-            foreach (var serviceType in scopedServices) {
-                if (_scopeInstances.TryGetValue(serviceType, out var disposable)) {
-                    (disposable as IDisposable)?.Dispose();
-                    _scopeInstances.Remove(serviceType);
-                }
-            }
-        }
-    }*/
 
    
     public bool IsRegistered<T>() {
         return _registrationBuilders.Any(r => r.Registration.GetRegistration() == typeof(T));
+    }
+
+    public virtual void Dispose() {
+        
     }
 }

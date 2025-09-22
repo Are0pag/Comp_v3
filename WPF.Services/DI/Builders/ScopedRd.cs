@@ -20,6 +20,7 @@ public class ScopedRd : SingletonRb
         if (_instance is null)
             throw new InvalidOperationException($"Ну куда ты лезешь ёбана");
 
-        ((IDisposable)_instance)?.Dispose();
+        _instance = null;
+        //((IDisposable)_instance)?.Dispose();
     }
 }
