@@ -60,6 +60,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     public override async Task OnPreviewKeyDown(Cell<TWindow, T> owner, object sender, KeyEventArgs e) {
         switch (e.Key) {
             case Key.Enter:
+            //case Key.Return: // Return - старое название, появившееся еще в машинописных клавиатурах, где клавиша возвращала каретку на начало строки
             case Key.Escape:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
                 await ContinueWithValidation(async cd => {
@@ -81,7 +82,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     }
 
     protected virtual async Task ContinueWithValidation(Func<T, Task> action, Cell<TWindow, T> owner) {
-        if (_lastCellEditBeginningEditEventArgs!.Row.Item is not T item) {
+        if (_lastCellEditBeginningEditEventArgs.Row.Item is not T item) {
             new Exception().Log(this);
             return;
         }

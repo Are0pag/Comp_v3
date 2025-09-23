@@ -12,6 +12,7 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<DataGridBeginningEdit
 {
     protected readonly ModuleContext<TWindow, T> _moduleContext;
     protected readonly System.Windows.Threading.Dispatcher _dispatcher;
+    
     protected DataGridCell? _cell;
     
     public RememberCellCommand(DataGridBeginningEditEventArgs parameter, ModuleContext<TWindow, T> moduleContext, Dispatcher dispatcher) : base(parameter) {
@@ -36,5 +37,16 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<DataGridBeginningEdit
                 Console.WriteLine($"Error: {ex.Message}");
             }
         });
+    }
+
+    public class Args
+    {
+        public Args(DataGridBeginningEditEventArgs dataGridBeginningEditEventArgs, Dispatcher dispatcher) {
+            DataGridBeginningEditEventArgs = dataGridBeginningEditEventArgs;
+            Dispatcher = dispatcher;
+        }
+
+        public DataGridBeginningEditEventArgs DataGridBeginningEditEventArgs { get; }
+        public System.Windows.Threading.Dispatcher Dispatcher { get; }
     }
 }

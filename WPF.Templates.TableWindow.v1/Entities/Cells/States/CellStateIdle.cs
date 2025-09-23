@@ -16,6 +16,9 @@ public class CellStateIdle<TWindow, T> : BaseCellState<TWindow, T>
     }
 
     public override async Task OnBeginning(Cell<TWindow, T> owner, object? sender, DataGridBeginningEditEventArgs e) {
+        if (_scheduler.IsInTransaction<TrSelectingCell>())
+            return;
+        
         _scheduler.BeginTransaction<TrSelectingCell>();
         
         var targetState = owner.GetState<CellStateUpdate<TWindow, T>>();
