@@ -99,8 +99,8 @@ public class AreopagContainer : IDisposable
             throw new InvalidOperationException($"Scope {typeof(TScopeOwner).Name} has already been scoped.");
         }
         var targetScopeRegistrations = _registrationBuilders
-                                      .OfType<ScopedRd>()                             // Приводим только те, которые можно привести к ScopedRd
-                                      .Where(r => r.ScopeRoot == typeof(TScopeOwner)) // Фильтруем по ScopeRoot
+                                      .OfType<ScopedRd>()                             
+                                      .Where(r => r.ScopeRoot == typeof(TScopeOwner)) 
                                       .ToList();
 
         if (!targetScopeRegistrations.Any())

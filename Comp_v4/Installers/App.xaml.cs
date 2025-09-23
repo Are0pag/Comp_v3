@@ -13,14 +13,15 @@ namespace Comp_v4;
 public partial class App : Application
 {
     protected readonly AreopagContainer _rootContainer;
+    protected readonly Dictionary<Type, AreopagContainer> _subContainers = new();
     
     public App() {
         _rootContainer = new AreopagContainer();
         _rootContainer.Install();
+        
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-
         var window = _rootContainer.BeginScope<Tw>();
 
         window.Closed += (sender, args) => {
@@ -36,4 +37,19 @@ public partial class App : Application
     protected override async void OnExit(ExitEventArgs e) {
         base.OnExit(e);
     }
+
+    protected void ToDo() {
+        var installer = new CdWindowInstaller();
+        var subContainer = new AreopagContainer();
+        installer.Install(subContainer);
+        _subContainers[typeof(Tw)] = subContainer;
+
+        _rootContainer.Add<Tw>()
+                      .UsingFactoryMethod(() => {
+                           return _subContainers[typeof(Tw)].BeginScope<Tw>();
+                       });
+    }
 }
+
+public class ProgWindow {}
+public class CompWindow {}
