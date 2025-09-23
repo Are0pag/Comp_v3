@@ -20,19 +20,12 @@ namespace Comp_v4;
 public class CdWindowInstaller : AbstractInstaller
 {
     protected override void InstallBindings(AreopagContainer container) {
-        container.Add<AppDbContext>()
-                 .AsSingleton()
-                 .UsingFactoryMethod(() => {
-                      var options = new DbContextOptionsBuilder<AppDbContext>()
-                                   .UseSqlite(DbConfig.ConnectionString)
-                                   .Options;
-
-                      return new AppDbContext(options);
-                  });
-
         container.Add<IRepository<ConditionalDesignation>>().To<ConditionalDesignationRepository>().AsSingleton();
 
-        container.Add<ICommandFactory>().To<DataGridCommandFactory>().AsScoped<TargetWindow>().UsingFactoryMethod(() => new DataGridCommandFactory(container));
+        container.Add<ICommandFactory>()
+                 .To<DataGridCommandFactory>()
+                 .AsScoped<TargetWindow>()
+                 .UsingFactoryMethod(() => new DataGridCommandFactory(container));
 
         container.Add<AddItemCommand<ConditionalDesignation>>().AsTransient().WithParameters(typeof(ConditionalDesignation));
         container.Add<UpdateItemCommand<ConditionalDesignation>>().AsTransient().WithParameters(typeof(ConditionalDesignation));
