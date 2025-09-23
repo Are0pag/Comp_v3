@@ -6,28 +6,26 @@ using WPF.Templates;
 
 namespace Comp_v4.Operations.Commands;
 
-public class RememberCellCommand<TWindow, T> : BaseCommand<DataGridBeginningEditEventArgs>
+public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<TWindow, T>.Args>
     where TWindow : Window
     where T : class
 {
     protected readonly ModuleContext<TWindow, T> _moduleContext;
-    protected readonly System.Windows.Threading.Dispatcher _dispatcher;
     
     protected DataGridCell? _cell;
     
-    public RememberCellCommand(DataGridBeginningEditEventArgs parameter, ModuleContext<TWindow, T> moduleContext, Dispatcher dispatcher) : base(parameter) {
+    public RememberCellCommand(Args parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
         _moduleContext = moduleContext;
-        _dispatcher = dispatcher;
     }
 
     public override Task ExecuteAsync() {
-        _cell = _moduleContext.DataGrid.GetCell(_parameter.Row, _parameter.Column);
+        _cell = _moduleContext.DataGrid.GetCell(_parameter.EventArgs.Row, _parameter.EventArgs.Column);
         return Task.CompletedTask;
     }
 
     public override async Task UndoAsync() {
         await Task.Delay(100);
-        await _dispatcher.InvokeAsync(() => {
+        await _parameter.Dispatcher.InvokeAsync(() => {
             try {
                 _cell!.Focus();
                 _moduleContext.DataGrid.SelectedItem = _cell;
@@ -42,11 +40,11 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<DataGridBeginningEdit
     public class Args
     {
         public Args(DataGridBeginningEditEventArgs dataGridBeginningEditEventArgs, Dispatcher dispatcher) {
-            DataGridBeginningEditEventArgs = dataGridBeginningEditEventArgs;
+            EventArgs = dataGridBeginningEditEventArgs;
             Dispatcher = dispatcher;
         }
 
-        public DataGridBeginningEditEventArgs DataGridBeginningEditEventArgs { get; }
+        public DataGridBeginningEditEventArgs EventArgs { get; }
         public System.Windows.Threading.Dispatcher Dispatcher { get; }
     }
 }

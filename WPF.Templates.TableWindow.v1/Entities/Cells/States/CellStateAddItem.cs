@@ -19,7 +19,10 @@ public class CellStateAddItem<TWindow, T> : BaseCellStateInput<TWindow, T>
     }
 
     public override Task OnBeginning(Cell<TWindow, T> owner, object? sender, DataGridBeginningEditEventArgs e) {
-        _rememberCellCommand = _commandFactory.CreateCommand<RememberCellCommand<TWindow, T>, DataGridBeginningEditEventArgs>(e);
+        _rememberCellCommand = _commandFactory.CreateCommand<
+            RememberCellCommand<TWindow, T>, 
+            RememberCellCommand<TWindow, T>.Args>(new RememberCellCommand<TWindow, T>.Args(
+                                                      e, Application.Current.Dispatcher));
         _lastCellEditBeginningEditEventArgs = e;
         return Task.CompletedTask;
     }

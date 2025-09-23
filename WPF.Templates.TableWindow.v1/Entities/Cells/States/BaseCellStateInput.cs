@@ -35,7 +35,13 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
         if (!_scheduler.IsInTransaction<TrSelectingCell>())
             return;
 
-        _rememberCellCommand = _commandFactory.CreateCommand<RememberCellCommand<TWindow, T>, DataGridBeginningEditEventArgs>(e);
+        _rememberCellCommand = _commandFactory.CreateCommand<
+            RememberCellCommand<TWindow, T>, 
+            RememberCellCommand<TWindow, T>.Args>(new RememberCellCommand<TWindow, T>.Args(
+                                                      e, 
+                                                      Application.Current.Dispatcher
+                                                      )
+            );
         //await _rememberCellCommand.ExecuteAsync();
         await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
                         .ExecuteLastRegisteredAsync();
@@ -64,7 +70,12 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
             case Key.Escape:
             case Key.Tab when _lastCellEditBeginningEditEventArgs!.Column.IsLastVisibleEditableColumn(_context.DataGrid):
                 await ContinueWithValidation(async cd => {
-                    await _action.PerformAsync(new ActionUpdateItem<TWindow, T>.Args(_rememberCellCommand!, owner, cd));
+                    try {
+                        await _action.PerformAsync(new ActionUpdateItem<TWindow, T>.Args(_rememberCellCommand!, owner, cd));
+                    }
+                    catch (Exception exception) {
+                        throw new Exception(exception.Message);
+                    }
                 }, owner);
                 break;
             

@@ -42,7 +42,7 @@ public class CdWindowInstaller : AbstractInstaller
         container.Add<IRepository<Cd>>().To<ConditionalDesignationRepository>().AsSingleton();
 
         
-        container.Add<System.Windows.Threading.Dispatcher>().AsSingleton();
+        //container.Add<System.Windows.Threading.Dispatcher>().AsSingleton();
 
         container.Add<ICommandFactory>().To<DataGridCommandFactory>().AsScoped<Tw>().UsingFactoryMethod(() => new DataGridCommandFactory(container));
 
@@ -60,7 +60,7 @@ public class CdWindowInstaller : AbstractInstaller
 
         container.Add<RememberCellCommand<Tw, Cd>>()
                  .AsTransient()
-                 .WithParameters(typeof(DataGridBeginningEditEventArgs));
+                 .WithParameters(typeof(RememberCellCommand<Tw, Cd>.Args));
         
         container.Add<RememberInputTextCommand<Tw, Cd>>()
                  .AsTransient()

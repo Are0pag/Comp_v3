@@ -11,10 +11,10 @@ public class RememberInputTextCommand<TWindow, T> : BaseCommand<DataGridBeginnin
     where TWindow : Window
     where T : class
 {
-    protected readonly DataGridPropertyRestoreService<ConditionalDesignation> _propertyRestoreService;
+    protected readonly IPropertyValueRestoreService<ConditionalDesignation> _propertyRestoreService;
     protected ConditionalDesignation? _item;
     
-    public RememberInputTextCommand(DataGridBeginningEditEventArgs parameter, DataGridPropertyRestoreService<ConditionalDesignation> propertyRestoreService) 
+    public RememberInputTextCommand(DataGridBeginningEditEventArgs parameter, IPropertyValueRestoreService<ConditionalDesignation> propertyRestoreService) 
         : base(parameter) {
         _propertyRestoreService = propertyRestoreService;
     }
