@@ -50,13 +50,6 @@ public partial class App : Application
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-        /*_appScope = RootWindsorContainer.BeginScope();
-        var mainWindow = RootWindsorContainer.Resolve<TargetWindow>();
-
-        mainWindow.Closed += (_, _) => {
-            _appScope.Dispose();
-        };
-        mainWindow.Show();*/
 
         var window = _rootContainer.BeginScope<Tw>();
 

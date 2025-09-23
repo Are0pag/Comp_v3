@@ -27,10 +27,14 @@ public class ActionStartAddingNewItem<TWindow, T> : BaseAction<TWindow, T>
         
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStartEditing());
 
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(new CellChangeStateCommand<TWindow, T>(_context, _cell, _cell.GetState<CellStateAddItem<TWindow, T>>()))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(
+                             new CellChangeStateCommand<TWindow, T>(_context, _cell, _cell.GetState<CellStateAddItem<TWindow, T>>())
+                             )
                         .ExecuteLastRegisteredAsync();
         
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(_commandFactory.CreateCommand<RememberSelectionCommand<TWindow, T>, object>(_context))
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(
+                             _commandFactory.CreateCommand<RememberSelectionCommand<TWindow, T>, object>(_context)
+                             )
                         .ExecuteLastRegisteredAsync();
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)

@@ -1,3 +1,4 @@
+using System.Windows.Controls;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -10,6 +11,7 @@ using Infrastructure.Command;
 using Infrastructure.Command.Heterochromic;
 using Microsoft.EntityFrameworkCore;
 using WPF.Services;
+using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.Validation;
 using WPF.Templates;
 using WPF.Templates.TableWindow.States;
@@ -39,18 +41,56 @@ public class CdWindowInstaller : AbstractInstaller
 
         container.Add<IRepository<Cd>>().To<ConditionalDesignationRepository>().AsSingleton();
 
+        
         container.Add<System.Windows.Threading.Dispatcher>().AsSingleton();
 
         container.Add<ICommandFactory>().To<DataGridCommandFactory>().AsScoped<Tw>().UsingFactoryMethod(() => new DataGridCommandFactory(container));
-        //container.Add<ApplyFilterCommand<Tw, Cd, FiltersVmCd>>().AsTransient().WithParameters(typeof(ApplyFilterCommand<Tw, Cd, FiltersVmCd>.Args));
+
+        container.Add<AddItemCommand<Cd>>().AsTransient().WithParameters(typeof(Cd));
+        container.Add<UpdateItemCommand<Cd>>().AsTransient().WithParameters(typeof(Cd));
+        container.Add<DeleteItemCommand<Cd>>().AsTransient().WithParameters(typeof(Cd));
+
+        container.Add<CreateRawCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(ModuleContext<Tw, Cd>));
+
+        container.Add<FocusCellCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(Cd));
+
+        container.Add<RememberCellCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(DataGridBeginningEditEventArgs));
+        
+        container.Add<RememberInputTextCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(DataGridBeginningEditEventArgs));
+
+        container.Add<RememberSelectionCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(object));
+
+        container.Add<RemoveItemCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(Cd));
+
+        /*container.Add<CellChangeStateCommand<Tw, Cd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(object));*/
+        
+        container.Add<ApplyFilterCommand<Tw, Cd, FiltersVmCd>>()
+                 .AsTransient()
+                 .WithParameters(typeof(ApplyFilterCommand<Tw, Cd, FiltersVmCd>.Args));
+        
+        
 
         container.Add<ValidatorBase<Cd>>().To<Validator>().AsScoped<Tw>();
+        container.Add<IPropertyValueRestoreService<Cd>>().To<DataGridPropertyRestoreService<Cd>>().AsScoped<Tw>();
         container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<Tw>();
         container.Add<IFilter<Cd, FiltersVmCd>>().To<Filter>().AsScoped<Tw>();
 
         container.Add<DataGridViewModel<Cd>>().AsScoped<Tw>();
         container.Add<FiltersVmCd>().AsScoped<Tw>();
-
         container.Add<ModuleContext<Tw, Cd>>().AsScoped<Tw>();
 
         container.Add<ActionStartAddingNewItem<Tw, Cd>>().AsScoped<Tw>();
@@ -62,11 +102,6 @@ public class CdWindowInstaller : AbstractInstaller
         container.Add<CellStateAddItem<Tw, Cd>>().AsScoped<Tw>();
         container.Add<CellStateUpdate<Tw, Cd>>().AsScoped<Tw>();
         container.Add<CellStateIdle<Tw, Cd>>().AsScoped<Tw>();
-
-        /*container.Add<BaseCellState<Tw, Cd>>().To<CellStateAddItem<Tw, Cd>>().AsScoped<Tw>();
-        container.Add<BaseCellState<Tw, Cd>>().To<CellStateUpdate<Tw, Cd>>().AsScoped<Tw>();
-        container.Add<BaseCellState<Tw, Cd>>().To<CellStateIdle<Tw, Cd>>().AsScoped<Tw>();*/
-
         container.Add<Cell<Tw, Cd>>()
                  .AsScoped<Tw>()
                  .UsingFactoryMethod(() => {

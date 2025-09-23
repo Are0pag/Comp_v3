@@ -11,7 +11,8 @@ public class ActionAddItem<TWindow, T>  : ActionUpdateItem<TWindow, T>
     where TWindow : Window
     where T : class, IDbEntity
 {
-    public ActionAddItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T>  context, ICommandFactory commandFactory) : base(scheduler, context, commandFactory) {
+    public ActionAddItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T>  context, ICommandFactory commandFactory) 
+        : base(scheduler, context, commandFactory) {
     }
 
     protected override async Task InitTransaction(Args args) {
