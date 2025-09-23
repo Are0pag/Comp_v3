@@ -9,6 +9,7 @@ using Comp.Db.Contracts;
 using Infrastructure.Command;
 using Infrastructure.Command.Heterochromic;
 using Microsoft.EntityFrameworkCore;
+using WPF.Services;
 using WPF.Services.Validation;
 using WPF.Templates;
 using WPF.Templates.TableWindow.States;
@@ -18,7 +19,80 @@ using WPF.Templates.TableWindow.Vm.Components;
 using Tw = Comp_v4.TargetWindow;
 using Cd = Comp.ModelData.TechnicalItems.ConditionalDesignation;
 
+using W = Comp_v4.TargetWindow;
+using M = Comp.ModelData.TechnicalItems.ConditionalDesignation;
+
 namespace Comp_v4;
+
+public class CdWindowInstaller : AbstractInstaller
+{
+    protected override void InstallBindings(AreopagContainer container) {
+        container.Add<AppDbContext>()
+                 .AsSingleton()
+                 .UsingFactoryMethod(() => {
+                      var options = new DbContextOptionsBuilder<AppDbContext>()
+                                   .UseSqlite(DbConfig.ConnectionString)
+                                   .Options;
+
+                      return new AppDbContext(options);
+                  });
+
+        container.Add<IRepository<Cd>>().To<ConditionalDesignationRepository>().AsSingleton();
+
+        container.Add<System.Windows.Threading.Dispatcher>().AsSingleton();
+
+        container.Add<ICommandFactory>().To<DataGridCommandFactory>().AsScoped<Tw>().UsingFactoryMethod(() => new DataGridCommandFactory(container));
+        //container.Add<ApplyFilterCommand<Tw, Cd, FiltersVmCd>>().AsTransient().WithParameters(typeof(ApplyFilterCommand<Tw, Cd, FiltersVmCd>.Args));
+
+        container.Add<ValidatorBase<Cd>>().To<Validator>().AsScoped<Tw>();
+        container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<Tw>();
+        container.Add<IFilter<Cd, FiltersVmCd>>().To<Filter>().AsScoped<Tw>();
+
+        container.Add<DataGridViewModel<Cd>>().AsScoped<Tw>();
+        container.Add<FiltersVmCd>().AsScoped<Tw>();
+
+        container.Add<ModuleContext<Tw, Cd>>().AsScoped<Tw>();
+
+        container.Add<ActionStartAddingNewItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ActionAddItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ActionUpdateItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ActionDeleteItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ActionSave<Tw, Cd>>().AsScoped<Tw>();
+        
+        container.Add<CellStateAddItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<CellStateUpdate<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<CellStateIdle<Tw, Cd>>().AsScoped<Tw>();
+
+        /*container.Add<BaseCellState<Tw, Cd>>().To<CellStateAddItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<BaseCellState<Tw, Cd>>().To<CellStateUpdate<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<BaseCellState<Tw, Cd>>().To<CellStateIdle<Tw, Cd>>().AsScoped<Tw>();*/
+
+        container.Add<Cell<Tw, Cd>>()
+                 .AsScoped<Tw>()
+                 .UsingFactoryMethod(() => {
+                      var initialState = container.Resolve<CellStateIdle<Tw, Cd>>();
+                      
+                      var states = new List<BaseCellState<Tw, Cd>>() {
+                          initialState,
+                          container.Resolve<CellStateAddItem<Tw, Cd>>(),
+                          container.Resolve<CellStateUpdate<Tw, Cd>>(),
+                      };
+
+                      return new Cell<Tw, Cd>(states, initialState);
+                  });
+
+        container.Add<ButtonVmAddItem<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ButtonVmSave<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ButtonVmDeleteItem<Tw, Cd>>().AsScoped<Tw>();
+
+        container.Add<ActionStackTracker>().AsScoped<Tw>();
+        container.Add<PersistenceManager<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<TableCommandBinder<Tw, Cd>>().To<TableCommandBinderFilteringCompatible<Tw, Cd>>().AsScoped<Tw>();
+        container.Add<ActionFilter<Tw, Cd, FiltersVmCd>>().AsScoped<Tw>();
+
+        container.Add<Tw>().AsTransient();
+    }
+}
 
 public class Installer: IWindsorInstaller
 {
@@ -49,10 +123,6 @@ public class Installer: IWindsorInstaller
                    .BasedOn(typeof(DeferredCommandBase<>))
                    .WithServiceSelf()
                    .LifestyleBoundTo<Tw>()*/);
-        
-        
-
-        
         
         container.Register(Component.For<System.Windows.Threading.Dispatcher>()
                                     .LifestyleSingleton());

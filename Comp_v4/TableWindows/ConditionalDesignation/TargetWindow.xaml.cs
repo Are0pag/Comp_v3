@@ -15,13 +15,13 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 {
     protected readonly DataGridViewModel<ConditionalDesignation> _dataGridViewModel;
     protected readonly FiltersVmCd _filtersVm;
-    protected readonly DummyWindowEventsHandler<TargetWindow, ConditionalDesignation, FiltersVmCd> _eventBus;
     
-    public TargetWindow(DataGridViewModel<ConditionalDesignation> dataGridViewModel, FiltersVmCd filtersVm, 
+    public TargetWindow(DataGridViewModel<ConditionalDesignation> dataGridViewModel, 
+                        FiltersVmCd filtersVm, 
+                        
                         ButtonVmAddItem<TargetWindow, ConditionalDesignation> buttonVmAddItem, 
                         ButtonVmSave<TargetWindow, ConditionalDesignation> buttonVmSave, 
-                        ButtonVmDeleteItem<TargetWindow, ConditionalDesignation> buttonVmDeleteItem,
-                        DummyWindowEventsHandler<TargetWindow, ConditionalDesignation, FiltersVmCd> eventManager) 
+                        ButtonVmDeleteItem<TargetWindow, ConditionalDesignation> buttonVmDeleteItem) 
     {
         InitializeComponent();
 
@@ -39,7 +39,6 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
-        _eventBus = eventManager;
         EventBus<IGlobSubscriber>.Subscribe(this);
     }
 

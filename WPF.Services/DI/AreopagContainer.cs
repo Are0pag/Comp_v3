@@ -24,7 +24,7 @@ public class AreopagContainer : IDisposable
         }
     }
     
-    public AreopagContainer Add<TService>() where TService : IDisposable{
+    public AreopagContainer Add<TService>() /*where TService : IDisposable*/{
         if (IsRegistered<TService>())
             new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.").Log(this);
 
@@ -32,7 +32,7 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
-    public AreopagContainer To<TImplementation>() where TImplementation : IDisposable {
+    public AreopagContainer To<TImplementation>()/* where TImplementation : IDisposable*/ {
         if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
             throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
 

@@ -11,6 +11,7 @@ using Infrastructure.Command;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WPF.Services;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.Validation;
 using WPF.Templates;
@@ -34,24 +35,38 @@ public partial class App : Application
     protected List<IDisposable> _disposable;
     
     protected IDisposable _appScope;
+
+    protected readonly AreopagContainer _rootContainer;
     
     public App() {
-        RootWindsorContainer = new WindsorContainer();
+        /*RootWindsorContainer = new WindsorContainer();*/
         // adds and configures all components using WindsorInstallers from executing assembly
-        RootWindsorContainer.Install(FromAssembly.This());
+        /*RootWindsorContainer.Install(FromAssembly.This());*/
         
         //BuildByMicrosoft();
+        
+        _rootContainer = new AreopagContainer();
+        _rootContainer.Install();
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-        _appScope = RootWindsorContainer.BeginScope();
+        /*_appScope = RootWindsorContainer.BeginScope();
         var mainWindow = RootWindsorContainer.Resolve<TargetWindow>();
 
         mainWindow.Closed += (_, _) => {
             _appScope.Dispose();
         };
-        mainWindow.Show();
+        mainWindow.Show();*/
+
+        var window = _rootContainer.BeginScope<Tw>();
+
+        window.Closed += (sender, args) => {
+            _rootContainer.ReleaseScope<Tw>();
+        };
+
+        _rootContainer.Instantiate<ActionStackTracker, PersistenceManager<Tw, Cd>, TableCommandBinder<Tw, Cd>, ActionFilter<Tw, Cd, FiltersVmCd>>();
         
+        window.Show();
         base.OnStartup(e);
     }
 
