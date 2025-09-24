@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4"
         mc:Ignorable="d"
-        Title="TargetWindow" Height="750" Width="800"
+        Title="Таблица условных обозначений" Height="750" Width="800"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="Window_OnPreviewMouseDown">
     <Grid>

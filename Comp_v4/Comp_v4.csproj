@@ -47,7 +47,6 @@
 
   <ItemGroup>
     <Folder Include="NomDict\Installers\" />
-    <Folder Include="NomDict\View\" />
   </ItemGroup>
 
 </Project>

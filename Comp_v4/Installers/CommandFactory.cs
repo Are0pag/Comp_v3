@@ -48,39 +48,6 @@ public class WindsorCommandFactory : ICommandFactory
     }
 }
 
- /*public class WindsorCommandFactory : ICommandFactory
-{
-    private readonly IKernel _kernel;
-    
-    public WindsorCommandFactory(IKernel kernel) {
-        _kernel = kernel;
-    }
-
-    public TCommand CreateCommand<TCommand, TParameter>(TParameter parameter)
-        where TCommand : DeferredCommandBase<TParameter>
-    {
-        var constructorInfos = typeof(TCommand).GetConstructors();
-        if (constructorInfos.Length > 1)
-            new InvalidOperationException("CommandFactory is not implemented for asserting when command have more then one constructor.").Log(this);
-        
-        ParameterInfo[] parametersInfo = constructorInfos[0].GetParameters();
-        var constructorArgs = new object[parametersInfo.Length];
-
-        // Первый параметр - это TParameter
-        constructorArgs[0] = parameter;
-
-        // Остальные параметры получаем из DI
-        for (var i = 1; i < parametersInfo.Length; i++) {
-            var parameterType = parametersInfo[i].ParameterType;
-
-            bool isSimilar = parameterType == typeof(ModuleContext<Tw, Cd>);
-            
-            constructorArgs[i] = _kernel.Resolve(parameterType);
-        }
-
-        return (TCommand)constructorInfos[0].Invoke(constructorArgs);
-    }
-}*/
 
 public class CommandFactory : ICommandFactory
 {
