@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPF.UCL.UserControls.Fields"
              mc:Ignorable="d" 
              d:DesignWidth="450" MinWidth="300" 
-             d:DesignHeight="50" MinHeight="50"
+             d:DesignHeight="35" MinHeight="35"
              Background="Transparent">
     
     <Border Background="Bisque" CornerRadius="20">
