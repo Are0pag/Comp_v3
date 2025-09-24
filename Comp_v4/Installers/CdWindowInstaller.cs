@@ -66,7 +66,11 @@ public class CdWindowInstaller : AbstractInstaller
         
 
         container.Add<ValidatorBase<ConditionalDesignation>>().To<Validator>().AsScoped<TargetWindow>();
-        container.Add<IPropertyValueRestoreService<ConditionalDesignation>>().To<DataGridPropertyRestoreService<ConditionalDesignation>>().AsScoped<TargetWindow>();
+        
+        container.Add<IPropertyValueRestoreService<ConditionalDesignation>>()
+                 .To<DataGridPropertyRestoreService<ConditionalDesignation>>()
+                 .AsScoped<TargetWindow>();
+        
         container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<TargetWindow>();
         container.Add<IFilter<ConditionalDesignation, FiltersVmCd>>().To<Filter>().AsScoped<TargetWindow>();
 

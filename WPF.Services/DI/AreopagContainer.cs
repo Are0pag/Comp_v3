@@ -119,7 +119,12 @@ public class AreopagContainer : IDisposable
     public void ReleaseScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
         if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeRegistrations)) {
             foreach (var scopeRegistration in scopeRegistrations) {
-                scopeRegistration.ReleaseInstance();
+                try {
+                    scopeRegistration.ReleaseInstance();
+                }
+                catch (Exception ex) {
+                    throw new Exception(ex.Message, ex);
+                }
                 scopeRegistration.IsRootActive = false;
             }
         }

@@ -13,6 +13,7 @@ public class ScopedRd : SingletonRb
         if (!IsRootActive)
             throw new InvalidOperationException($"Scope {ScopeRoot.Name} is not active");
 
-        return base.Resolve(container);
+        var instance = base.Resolve(container);
+        return instance;
     }
 }

@@ -56,9 +56,9 @@
                                 <fields:InputTextFieldWithButtonUc x:Name="CdField"
                                     FieldName="{Binding Label}"
                                     InputText="{Binding Value, Mode=TwoWay}"
-                                    ButtonCommand="{Binding OpenNestedWindow}"
+                                    ButtonCommand="{Binding OpenNestedWindowCommand}"
                                     ButtonContent="🎲"
-                                    ButtonToolTip="Сгенерировать имя"/>
+                                    ButtonToolTip="Открыть таблицу"/>
                             </StackPanel>
                         </Border>
                         

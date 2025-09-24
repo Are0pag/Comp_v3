@@ -16,7 +16,7 @@ public class SingletonRb : TransientRb
 
     public virtual void ReleaseInstance() {
         if (_instance is null)
-            throw new InvalidOperationException($"Ну куда ты лезешь ёбана");
+            return;
 
         _instance = null;
     }

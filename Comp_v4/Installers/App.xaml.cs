@@ -19,13 +19,21 @@ public partial class App : Application
     
     public App() {
         _rootContainer = new AreopagContainer();
-        _rootContainer.Install();
+        var installer = new CdWindowInstaller();
+        var subContainer = new AreopagContainer();
+        new AppDbContextInstaller().Install(subContainer);
+        installer.Install(subContainer);
+        _subContainers[typeof(Tw)] = subContainer;
         
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
         new CompCardWindow(new CompCardVm(), new CdFieldVm(() => {
-            _subContainers[typeof(Tw)].BeginScope<Tw>();
+            var window = _subContainers[typeof(Tw)].BeginScope<Tw>();
+            window.Closed += (sender, args) => {
+                _subContainers[typeof(Tw)].ReleaseScope<Tw>();
+            };
+            window.Show();
         })).Show();
         return;
         
@@ -43,10 +51,7 @@ public partial class App : Application
     }
 
     protected void ToDo() {
-        var installer = new CdWindowInstaller();
-        var subContainer = new AreopagContainer();
-        installer.Install(subContainer);
-        _subContainers[typeof(Tw)] = subContainer;
+
 
         _rootContainer.Add<Tw>()
                       .UsingFactoryMethod(() => {
