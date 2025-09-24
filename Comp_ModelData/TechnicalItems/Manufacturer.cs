@@ -2,7 +2,7 @@ using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.TechnicalItems;
 
-public class Manufacturer : NotifyPropertyChanged
+public class Manufacturer : NotifyPropertyChanged, IDbEntity
 {
     protected string _designation;
     protected string _fullName;
