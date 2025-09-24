@@ -31,10 +31,18 @@
                 
                 <!-- ЧАСТЬ C (20% высоты B) -->
                 <Border Grid.Row="0" Name="PartC" BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <StackPanel>
-                        <fields:InputTextFieldUc></fields:InputTextFieldUc>
-                        <fields:InputTextFieldUc></fields:InputTextFieldUc>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+        
+                        <fields:InputTextFieldUc Grid.Row="0" />
+                        <fields:InputTextFieldUc Grid.Row="1" />
+                        <fields:InputTextFieldUc Grid.Row="2" />
+                    </Grid>
+
                     
                 </Border>
                 

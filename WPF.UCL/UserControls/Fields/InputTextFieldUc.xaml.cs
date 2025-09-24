@@ -9,6 +9,18 @@ public partial class InputTextFieldUc : UserControl
         InitializeComponent();
     }
     
+    public static readonly DependencyProperty FieldNameProperty = DependencyProperty.Register(
+     nameof(FieldName),
+     typeof(string),
+     typeof(InputTextFieldWithButtonUc),
+     new PropertyMetadata("Поле:")); // Значение по умолчанию
+
+    public string FieldName
+    {
+        get => (string)GetValue(FieldNameProperty);
+        set => SetValue(FieldNameProperty, value);
+    }
+    
     public static readonly DependencyProperty InputTextProperty = DependencyProperty.Register(
          nameof(InputText),
          typeof(string),

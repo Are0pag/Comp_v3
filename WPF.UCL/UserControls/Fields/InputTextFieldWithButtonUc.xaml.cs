@@ -18,12 +18,12 @@ namespace WPF.UCL.UserControls.Fields;
 ///     <TextBlock Text="Имя пользователя:" 
 ///                Margin="0,0,0,5" 
 ///                FontWeight="Bold" />
-///     <InputTextFieldWithButtonUc 
+///     <InputTextFieldWithButtonUc
+///         FieldName="Имя:"
 ///         InputText="{Binding UserName, Mode=TwoWay}"
 ///         ButtonContent="🎲"
 ///         ButtonCommand="{Binding GenerateUserNameCommand}"
-///         ButtonToolTip="Сгенерировать имя"
-///         Margin="0,0,0,15" />
+///         ButtonToolTip="Сгенерировать имя"/>
 /// </StackPanel>
 /// </code>
 /// </example>
@@ -32,6 +32,18 @@ public partial class InputTextFieldWithButtonUc : UserControl
 {
     public InputTextFieldWithButtonUc() {
         InitializeComponent();
+    }
+    
+    public static readonly DependencyProperty FieldNameProperty = DependencyProperty.Register(
+     nameof(FieldName),
+     typeof(string),
+     typeof(InputTextFieldWithButtonUc),
+     new PropertyMetadata("Поле:")); // Значение по умолчанию
+
+    public string FieldName
+    {
+        get => (string)GetValue(FieldNameProperty);
+        set => SetValue(FieldNameProperty, value);
     }
 
     public static readonly DependencyProperty InputTextProperty = DependencyProperty.Register(
