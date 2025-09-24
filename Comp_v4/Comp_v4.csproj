@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Utils\Utils.csproj" />
     <ProjectReference Include="..\WPF.Extensions\WPF.Extensions.csproj" />
     <ProjectReference Include="..\WPF.Services\WPF.Services.csproj" />
+    <ProjectReference Include="..\WPF.Templates.NomDictWindow_v1\WPF.Templates.NomDictWindow_v1.csproj" />
     <ProjectReference Include="..\WPF.Templates.TableWindow.v1\WPF.Templates.TableWindow.v1.csproj" />
     <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
   </ItemGroup>
@@ -42,6 +43,11 @@
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NomDict\Installers\" />
+    <Folder Include="NomDict\View\" />
   </ItemGroup>
 
 </Project>

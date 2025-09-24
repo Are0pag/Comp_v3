@@ -25,6 +25,7 @@ public partial class App : Application
         installer.Install(subContainer);
         _subContainers[typeof(Tw)] = subContainer;
         
+        
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
