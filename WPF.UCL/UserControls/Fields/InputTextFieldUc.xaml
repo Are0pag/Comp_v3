@@ -17,8 +17,7 @@
             </Grid.ColumnDefinitions>
             
             <TextBox Grid.Column="0" x:Name="InputTextBox"
-                     Text="{Binding InputText}" />
-            <!-- usage: InputText="{Binding [че там нам надо]}" -->
+                     Text="{Binding InputText, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <Button Grid.Column="1" 
                     Background="Tan" Content="❌" 
