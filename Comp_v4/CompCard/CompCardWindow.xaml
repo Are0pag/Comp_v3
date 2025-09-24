@@ -8,13 +8,72 @@
         mc:Ignorable="d"
         Title="CompCardWindow" Height="450" Width="800">
     
-    <StackPanel>
-        <TextBlock Text="Имя пользователя:" Margin="0,0,0,5" FontWeight="Bold" />
-        <fields:InputTextFieldWithButtonUc 
-            InputText="{Binding UserName, Mode=TwoWay}"
-            ButtonContent="🎲"
-            ButtonCommand="{Binding GenerateUserNameCommand}"
-            ButtonToolTip="Сгенерировать имя"
-            Margin="0,0,0,15" />
-    </StackPanel>
+      <Grid Background="White">
+        <!-- Основное разделение на верхнюю (60%) и нижнюю (40%) части -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>  <!-- Часть A: 60% высоты -->
+            <RowDefinition Height="4*"/>  <!-- Часть H: 40% высоты -->
+        </Grid.RowDefinitions>
+        
+        <!-- ===== ЧАСТЬ A (60% высоты) ===== -->
+        <Grid Grid.Row="0" Name="PartA" Background="LightBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>  <!-- Часть B: 70% ширины -->
+                <ColumnDefinition Width="3*"/>  <!-- Часть G: 30% ширины -->
+            </Grid.ColumnDefinitions>
+            
+            <!-- ===== ЧАСТЬ B (70% ширины части A) ===== -->
+            <Grid Grid.Column="0" Name="PartB" Background="LightYellow">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>  <!-- Часть C: 20% высоты B -->
+                    <RowDefinition Height="8*"/>  <!-- Часть D: 80% высоты B -->
+                </Grid.RowDefinitions>
+                
+                <!-- ЧАСТЬ C (20% высоты B) -->
+                <Border Grid.Row="0" Name="PartC" BorderBrush="Black" BorderThickness="1" Margin="1">
+                    <StackPanel>
+                        <fields:InputTextFieldUc></fields:InputTextFieldUc>
+                        <fields:InputTextFieldUc></fields:InputTextFieldUc>
+                    </StackPanel>
+                    
+                </Border>
+                
+                <!-- ===== ЧАСТЬ D (80% высоты B) ===== -->
+                <Grid Grid.Row="1" Name="PartD" Background="LightCoral">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>  <!-- Часть E: 60% ширины D -->
+                        <ColumnDefinition Width="4*"/>  <!-- Часть F: 40% ширины D -->
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- ЧАСТЬ E (60% ширины D) -->
+                    <Border Grid.Column="0" Name="PartE" BorderBrush="Black" BorderThickness="1" 
+                            Background="LightSalmon" Margin="1">
+                        <TextBlock Text="Часть E" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        
+                    </Border>
+                    
+                    <!-- ЧАСТЬ F (40% ширины D) -->
+                    <Border Grid.Column="1" Name="PartF" BorderBrush="Black" BorderThickness="1" 
+                            Background="LightPink" Margin="1">
+                        <TextBlock Text="Часть F" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        
+                    </Border>
+                </Grid>
+            </Grid>
+            
+            <!-- ===== ЧАСТЬ G (30% ширины части A) ===== -->
+            <Border Grid.Column="1" Name="PartG" BorderBrush="Black" BorderThickness="1" 
+                    Background="LightGray" Margin="1">
+                <TextBlock Text="Часть G" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                
+            </Border>
+        </Grid>
+        
+        <!-- ===== ЧАСТЬ H (40% высоты окна) ===== -->
+        <Border Grid.Row="1" Name="PartH" BorderBrush="Black" BorderThickness="1" 
+                Background="LightSeaGreen" Margin="1">
+            <TextBlock Text="Часть H" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            
+        </Border>
+    </Grid>
 </Window>

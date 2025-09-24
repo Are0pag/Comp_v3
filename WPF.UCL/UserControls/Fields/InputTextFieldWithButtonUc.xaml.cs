@@ -4,7 +4,31 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace WPF.UCL.UserControls.Fields;
 
+/// <summary>
+/// Пользовательский элемент управления для ввода текста с дополнительной кнопкой действия.
+/// </summary>
+/// <remarks>
+/// Этот элемент управления предоставляет текстовое поле ввода с возможностью добавления кастомной кнопки.
+/// Типичное использование - ввод имени пользователя с опцией автоматической генерации.
+/// </remarks>
+/// <example>
+/// Пример использования в XAML:
+/// <code>
+/// <StackPanel>
+///     <TextBlock Text="Имя пользователя:" 
+///                Margin="0,0,0,5" 
+///                FontWeight="Bold" />
+///     <InputTextFieldWithButtonUc 
+///         InputText="{Binding UserName, Mode=TwoWay}"
+///         ButtonContent="🎲"
+///         ButtonCommand="{Binding GenerateUserNameCommand}"
+///         ButtonToolTip="Сгенерировать имя"
+///         Margin="0,0,0,15" />
+/// </StackPanel>
+/// </code>
+/// </example>
 public partial class InputTextFieldWithButtonUc : UserControl
+
 {
     public InputTextFieldWithButtonUc() {
         InitializeComponent();
