@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.TechnicalItems;
 
+[Table(nameof(Manufacturer) + "s")]
 public class Manufacturer : NotifyPropertyChanged, IDbEntity
 {
     protected string _designation;
@@ -9,6 +12,12 @@ public class Manufacturer : NotifyPropertyChanged, IDbEntity
     protected string _url;
     protected string _remark;
 
+    public Manufacturer() {
+        _designation = string.Empty;
+        _fullName = string.Empty;
+        _url = string.Empty;
+        _remark = string.Empty;
+    }
     public Manufacturer(string designation, string fullName, string url, string remark) {
         _designation = designation;
         _fullName = fullName;
@@ -16,8 +25,12 @@ public class Manufacturer : NotifyPropertyChanged, IDbEntity
         _remark = remark;
     }
     
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    
+    [Required]
     public string Designation {
         get => _designation;
         set {

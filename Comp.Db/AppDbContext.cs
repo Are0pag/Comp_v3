@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
         : base(options) {
     }
     public virtual DbSet<ConditionalDesignation> ConditionalDesignations { get; set; }
-    //public DbSet<Manufacturer> Manufacturers { get; set; }
+    public DbSet<Manufacturer> Manufacturers { get; set; }
     //public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     //public DbSet<TypeSize> TypeSizes { get; set; }
     /* And all of thr tables  */
