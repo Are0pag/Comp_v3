@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Comp_v4.CompCard;
+using Comp_v4.CompCard.Vm;
 using Comp_v4.Entities;
 using WPF.Services;
 using WPF.Templates;
@@ -23,7 +24,9 @@ public partial class App : Application
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-        new CompCardWindow(new CompCardVm()).Show();
+        new CompCardWindow(new CompCardVm(), new CdFieldVm(() => {
+            _subContainers[typeof(Tw)].BeginScope<Tw>();
+        })).Show();
         return;
         
         var window = _rootContainer.BeginScope<Tw>();

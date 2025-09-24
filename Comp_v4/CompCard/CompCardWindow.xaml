@@ -9,7 +9,8 @@
         WindowStartupLocation="CenterScreen"
         Width="1500" Height="900"
         MinWidth="1200" MinHeight="720"
-        SizeToContent="Manual">
+        SizeToContent="Manual"
+        Title="Карточка компонента">
     
   <Viewbox Stretch="Uniform">
         <Grid Width="1500" Height="900" Background="White">
@@ -36,9 +37,9 @@
                     <!-- Часть C -->
                     <Border Grid.Row="0" Name="PartC" BorderBrush="Gray" BorderThickness="1" Margin="2">
                         <StackPanel Orientation="Vertical">
-                            <fields:InputTextFieldUc/>
-                            <fields:InputTextFieldUc/>
-                            <fields:InputTextFieldUc/>
+                            <fields:InputTextFieldUc 
+                                FieldName="Наименование: "
+                                InputText="{Binding Name, Mode=TwoWay}"/>
                         </StackPanel>
                     </Border>
                     
@@ -50,9 +51,15 @@
                         </Grid.ColumnDefinitions>
                         
                         <!-- Часть E -->
-                        <Border Grid.Column="0" Name="PartE" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                            <TextBlock Text="E" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            
+                        <Border Grid.Column="0" x:Name="PartE" BorderBrush="Gray" BorderThickness="1" Margin="2">
+                            <StackPanel Orientation="Vertical">
+                                <fields:InputTextFieldWithButtonUc x:Name="CdField"
+                                    FieldName="Условное обозначение: "
+                                    InputText="{Binding Value, Mode=TwoWay}"
+                                    ButtonCommand="{Binding OpenNestedWindow}"
+                                    ButtonContent="🎲"
+                                    ButtonToolTip="Сгенерировать имя"/>
+                            </StackPanel>
                         </Border>
                         
                         <!-- Часть F -->

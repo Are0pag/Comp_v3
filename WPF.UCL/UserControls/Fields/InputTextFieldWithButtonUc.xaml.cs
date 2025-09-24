@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.Input;
@@ -28,22 +29,32 @@ namespace WPF.UCL.UserControls.Fields;
 /// </code>
 /// </example>
 public partial class InputTextFieldWithButtonUc : UserControl
-
 {
     public InputTextFieldWithButtonUc() {
         InitializeComponent();
     }
     
-    public static readonly DependencyProperty FieldNameProperty = DependencyProperty.Register(
-     nameof(FieldName),
-     typeof(string),
-     typeof(InputTextFieldWithButtonUc),
-     new PropertyMetadata("Поле:")); // Значение по умолчанию
+    public static readonly DependencyProperty FieldNameProperty = 
+        RegisterSafe(nameof(FieldName), typeof(string), typeof(InputTextFieldWithButtonUc), 
+                     new PropertyMetadata("Поле:"));
 
-    public string FieldName
-    {
+    public string FieldName {
         get => (string)GetValue(FieldNameProperty);
         set => SetValue(FieldNameProperty, value);
+    }
+
+    private static DependencyProperty RegisterSafe(string name, Type propertyType, Type ownerType, PropertyMetadata metadata)
+    {
+        // Проверяем, существует ли свойство через Reflection
+        var field = ownerType.GetField(name + "Property", 
+                                       BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            
+        if (field != null && field.FieldType == typeof(DependencyProperty))
+        {
+            return (DependencyProperty)field.GetValue(null);
+        }
+        
+        return DependencyProperty.Register(name, propertyType, ownerType, metadata);
     }
 
     public static readonly DependencyProperty InputTextProperty = DependencyProperty.Register(
