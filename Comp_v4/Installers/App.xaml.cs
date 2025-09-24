@@ -30,10 +30,12 @@ public partial class App : Application
 
     protected override async void OnStartup(StartupEventArgs e) {
         new CompCardWindow(new CompCardVm(), new CdFieldVm(() => {
-            var window = _subContainers[typeof(Tw)].BeginScope<Tw>();
+            var contextContainer = _subContainers[typeof(Tw)];
+            var window = contextContainer.BeginScope<Tw>();
             window.Closed += (sender, args) => {
-                _subContainers[typeof(Tw)].ReleaseScope<Tw>();
+                contextContainer.ReleaseScope<Tw>();
             };
+            contextContainer.Instantiate<ActionStackTracker, PersistenceManager<Tw, Cd>, TableCommandBinder<Tw, Cd>, ActionFilter<Tw, Cd, FiltersVmCd>>();
             window.Show();
         })).Show();
         return;

@@ -8,10 +8,8 @@ public class Filter : IFilter<ConditionalDesignation, FiltersVmCd>
 {
     public Filter() {
         ApplyFilter = (item, vm, comparisonType ) =>
-            (string.IsNullOrEmpty(vm.FilterDesignation) ||
-             item.Designation.Contains(vm.FilterDesignation, comparisonType)) &&
-            (string.IsNullOrEmpty(vm.FilterName) ||
-             item.Name.Contains(vm.FilterName, comparisonType));
+            (string.IsNullOrEmpty(vm.FilterString) || item.Designation.Contains(vm.FilterString, comparisonType)) ||
+             item.Name.Contains(vm.FilterString, comparisonType);
     }
 
     public Func<ConditionalDesignation, FiltersVmCd, StringComparison, bool> ApplyFilter { get; init; }
