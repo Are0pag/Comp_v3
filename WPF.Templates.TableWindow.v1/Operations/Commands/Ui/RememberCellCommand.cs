@@ -11,7 +11,6 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
     where T : class
 {
     protected readonly ModuleContext<TWindow, T> _moduleContext;
-    
     protected DataGridCell? _cell;
     
     public RememberCellCommand(Args parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
@@ -25,6 +24,11 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
 
     public override async Task UndoAsync() {
         await Task.Delay(100);
+    #if DEBUG
+        var item = _parameter.EventArgs.Row.Item;
+        var columnName = _parameter.EventArgs.Column.Header ?? string.Empty;
+        Console.WriteLine($"RememberCellCommand rem value from {columnName} column");
+    #endif
         await _parameter.Dispatcher.InvokeAsync(() => {
             try {
                 _cell!.Focus();
