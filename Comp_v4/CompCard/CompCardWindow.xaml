@@ -54,7 +54,7 @@
                         <Border Grid.Column="0" x:Name="PartE" BorderBrush="Gray" BorderThickness="1" Margin="2">
                             <StackPanel Orientation="Vertical">
                                 <fields:InputTextFieldWithButtonUc x:Name="CdField"
-                                    FieldName="Условное обозначение: "
+                                    FieldName="{Binding Label}"
                                     InputText="{Binding Value, Mode=TwoWay}"
                                     ButtonCommand="{Binding OpenNestedWindow}"
                                     ButtonContent="🎲"
