@@ -26,28 +26,14 @@ public partial class App : Application
         var appDbContextInstaller = new AppDbContextInstaller();
         appDbContextInstaller.Install(_rootContainer);
 
-        var cdWindowInstaller = new TableWindowInstaller<Tw, Cd, CdValidator, CdFilter>();
-        var cdSubContainer = new AreopagContainer();
-        cdWindowInstaller.Install(cdSubContainer);
-        cdSubContainer.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
-        _subContainers[typeof(Tw)] = cdSubContainer;
-
-        var mWindowInstaller = new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>();
-        var mSubContainer = new AreopagContainer();
-        mSubContainer.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
-        mWindowInstaller.Install(mSubContainer);
-        
-        _subContainers[typeof(ManufacturersTableWindow)] = mSubContainer;
+        InstallTableWindowScope<Tw>(new TableWindowInstaller<Tw, Cd, CdValidator, CdFilter>());
+        InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
         new CompCardWindow(new CompCardVm(), 
-                           new CdFieldVm(() => {
-                               OpenTableWindow<Tw, Cd>();
-                           }),
-                           new ManFieldVm(() => {
-                               OpenTableWindow<ManufacturersTableWindow, Manufacturer>();
-                           })
+                           new CdFieldVm(OpenTableWindow<Tw, Cd>),
+                           new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>)
                           ).Show();
     }
 
@@ -55,18 +41,13 @@ public partial class App : Application
         base.OnExit(e);
     }
 
-    protected void InstallTableWindowScope<TWindow, TData>()
+    protected void InstallTableWindowScope<TWindow>(AbstractInstaller tableWindowInstaller) 
         where TWindow : Window, IDisposable
-        where TData : class, IDbEntity, new() 
     {
-        
-    }
-
-    protected void InstallTableWindowScope(AbstractInstaller tableWindowInstaller) {
         var cdSubContainer = new AreopagContainer();
         cdSubContainer.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
         tableWindowInstaller.Install(cdSubContainer);
-        _subContainers[typeof(Tw)] = cdSubContainer;
+        _subContainers[typeof(TWindow)] = cdSubContainer;
     }
     
     protected void OpenTableWindow<TWindow, TData>()
