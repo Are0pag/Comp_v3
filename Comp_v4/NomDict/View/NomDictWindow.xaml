@@ -70,7 +70,7 @@
             
             <!-- Основное содержимое части B -->
             <Border Grid.Row="1" Name="PartBContent" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Items}" 
+                <DataGrid ItemsSource="{Binding Items}" 
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False"
                           SelectionMode="Single" 
@@ -79,11 +79,12 @@
                           EnableColumnVirtualization="False"
                           CellEditEnding="MainDataGrid_CellEditEnding"
                           BeginningEdit="MainDataGrid_OnBeginningEdit" 
+                          MouseDoubleClick="DataGrid_OnMouseDoubleClick"
                           SelectedItem="{Binding SelectedItem}">
             
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                        <DataGridTextColumn Header="Производитель" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                        <DataGridTextColumn Header="Номенклатурный номер" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                     </DataGrid.Columns>
             
                     <DataGrid.ContextMenu>

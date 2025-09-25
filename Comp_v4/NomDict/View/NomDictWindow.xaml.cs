@@ -1,10 +1,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp_v4.NomDict.Events;
+using Utils.EventBus;
 
 namespace Comp_v4.NomDict.View;
 
-public partial class NomDictWindow : Window
+public partial class NomDictWindow : Window, IDisposable, IDataGridDoubleClickHandler
 {
     public NomDictWindow() {
         InitializeComponent();
@@ -24,5 +26,17 @@ public partial class NomDictWindow : Window
 
     private void MainDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
         throw new NotImplementedException();
+    }
+
+    private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        
+    }
+
+    public void Dispose() {
+        
+    }
+
+    public void OnDataGridDoubleClick(object args) {
+        EventBus<INomDictWindowSubscriber>.RaiseEvent<IDataGridDoubleClickHandler>(h => h?.OnDataGridDoubleClick(MainDataGrid));
     }
 }
