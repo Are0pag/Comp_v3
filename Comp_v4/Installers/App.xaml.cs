@@ -43,33 +43,46 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e) {
         new CompCardWindow(new CompCardVm(), 
                            new CdFieldVm(() => {
-                               var contextContainer = _subContainers[typeof(Tw)];
-                               var window = contextContainer.BeginScope<Tw>();
-                               window.Closed += (sender, args) => {
-                                   contextContainer.ReleaseScope<Tw>();
-                               };
-                               contextContainer
-                                  .Instantiate<ActionStackTracker, PersistenceManager<Tw, Cd>,
-                                       TableCommandBinder<Tw, Cd>, ActionFilter<Tw, Cd, FiltersVmBase>>();
-                               window.Show();
+                               OpenTableWindow<Tw, Cd>();
                            }),
                            new ManFieldVm(() => {
-                               var contextContainer = _subContainers[typeof(ManufacturersTableWindow)];
-                               var window = contextContainer.BeginScope<ManufacturersTableWindow>();
-                               window.Closed += (sender, args) => {
-                                   contextContainer.ReleaseScope<ManufacturersTableWindow>();
-                               };
-                               contextContainer
-                                  .Instantiate<ActionStackTracker,
-                                       PersistenceManager<ManufacturersTableWindow, Manufacturer>,
-                                       TableCommandBinder<ManufacturersTableWindow, Manufacturer>,
-                                       ActionFilter<ManufacturersTableWindow, Manufacturer, FiltersVmBase>>();
-                               window.Show();
+                               OpenTableWindow<ManufacturersTableWindow, Manufacturer>();
                            })
                           ).Show();
     }
 
     protected override async void OnExit(ExitEventArgs e) {
         base.OnExit(e);
+    }
+
+    protected void InstallTableWindowScope<TWindow, TData>()
+        where TWindow : Window, IDisposable
+        where TData : class, IDbEntity, new() 
+    {
+        
+    }
+
+    protected void InstallTableWindowScope(AbstractInstaller tableWindowInstaller) {
+        var cdSubContainer = new AreopagContainer();
+        cdSubContainer.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        tableWindowInstaller.Install(cdSubContainer);
+        _subContainers[typeof(Tw)] = cdSubContainer;
+    }
+    
+    protected void OpenTableWindow<TWindow, TData>()
+        where TWindow : Window, IDisposable
+        where TData : class, IDbEntity, new() 
+    {
+        var contextContainer = _subContainers[typeof(TWindow)];
+        var window = contextContainer.BeginScope<TWindow>();
+        window.Closed += (sender, args) => {
+            contextContainer.ReleaseScope<TWindow>();
+        };
+        contextContainer
+           .Instantiate<ActionStackTracker,
+                PersistenceManager<TWindow, TData>,
+                TableCommandBinder<TWindow, TData>,
+                ActionFilter<TWindow, TData, FiltersVmBase>>();
+        window.Show();
     }
 }
