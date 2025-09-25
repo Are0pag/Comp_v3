@@ -54,11 +54,18 @@
                         <Border Grid.Column="0" x:Name="PartE" BorderBrush="Gray" BorderThickness="1" Margin="2">
                             <StackPanel Orientation="Vertical">
                                 <fields:InputTextFieldWithButtonUc x:Name="CdField"
-                                    FieldName="{Binding Label}"
-                                    InputText="{Binding Value, Mode=TwoWay}"
-                                    ButtonCommand="{Binding OpenNestedWindowCommand}"
-                                    ButtonContent="🎲"
-                                    ButtonToolTip="Открыть таблицу"/>
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
+
+                                <fields:InputTextFieldWithButtonUc x:Name="ManField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
                             </StackPanel>
                         </Border>
                         

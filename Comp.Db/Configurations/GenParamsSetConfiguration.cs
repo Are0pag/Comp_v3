@@ -1,4 +1,4 @@
-using Comp.ModelData.Comp.GenericParams;
+/*using Comp.ModelData.Comp.GenericParams;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,4 +24,4 @@ public class GenParamsSetConfiguration : IEntityTypeConfiguration<GenParamsSet>
                .HasForeignKey(p => p.GenParamsSetId)
                .OnDelete(DeleteBehavior.Cascade);
     }
-}
+}*/

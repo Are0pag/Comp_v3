@@ -4,13 +4,32 @@ using System.Windows.Input;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
+using WPF.Templates.TableWindow.v1.Vm;
+using WPF.Templates.TableWindow.v1.Vm.Components;
+using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.Manufacturers;
 
 public partial class ManufacturersTableWindow : Window, IDisposable, IDataGridRequestResolver<ManufacturersTableWindow>
 {
-    public ManufacturersTableWindow() {
+    public ManufacturersTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.Manufacturer> dataGridViewModel, 
+                                    FiltersVmBase filtersVm, 
+                        
+                                    ButtonVmAddItem<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmAddItem, 
+                                    ButtonVmSave<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmSave, 
+                                    ButtonVmDeleteItem<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmDeleteItem) {
         InitializeComponent();
+        MainDataGrid.DataContext = dataGridViewModel;
+        FiltersStackPanel.DataContext = filtersVm;
+        IgnoreCaseCheckBox.DataContext = filtersVm;
+
+        AddNewItemButton.DataContext = buttonVmAddItem;
+        SaveChangesButton.DataContext = buttonVmSave;
+        DeleteItemButton.DataContext = buttonVmDeleteItem;
+
+        InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
+        InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
+        EventBus<IGlobSubscriber>.Subscribe(this);
     }
     
     public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);

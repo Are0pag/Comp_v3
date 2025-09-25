@@ -4,7 +4,7 @@ using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.TechnicalItems;
 
-[Table(nameof(Manufacturer) + "s")]
+[Table("Manufacturers")]
 public class Manufacturer : NotifyPropertyChanged, IDbEntity
 {
     protected string _designation;

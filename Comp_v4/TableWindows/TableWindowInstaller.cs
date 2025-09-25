@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp.Db.Contracts;
+using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Services;
@@ -19,14 +20,16 @@ using WPF.Templates.TableWindow.v1.Vm;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
-namespace Comp_v4.TableWindows.ConditionalDesignation.Installers;
+namespace Comp_v4.TableWindows;
 
-public class TableWindowInstaller<Tw, T> : AbstractInstaller
+public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstaller
     where Tw : Window, IDisposable
     where T : class, IDbEntity, new()
+    where TValidator : ValidatorBase<T>
+    where TFilter : IFilter<T, FiltersVmBase>
 {
     protected override void InstallBindings(AreopagContainer container) {
-        container.Add<IRepository<T>>().To<ConditionalDesignationRepository>().AsSingleton();
+        container.Add<IRepository<T>>().To<DbRepository<T>>().AsTransient();
 
         container.Add<ICommandFactory>()
                  .To<DataGridCommandFactory>()
@@ -68,17 +71,16 @@ public class TableWindowInstaller<Tw, T> : AbstractInstaller
         container.Add<ApplyFilterCommand<Tw, T, FiltersVmBase>>()
                  .AsTransient()
                  .WithParameters(typeof(ApplyFilterCommand<Tw, T, FiltersVmBase>.Args));
-        
-        
 
-        container.Add<ValidatorBase<T>>().To<Validator>().AsScoped<Tw>();
-        
+
         container.Add<IPropertyValueRestoreService<T>>()
                  .To<DataGridPropertyRestoreService<T>>()
                  .AsTransient();
-        
+
         container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<Tw>();
-        container.Add<IFilter<T, FiltersVmBase>>().To<Filter>().AsScoped<Tw>();
+        
+        container.Add<ValidatorBase<T>>().To<TValidator>().AsScoped<Tw>();
+        container.Add<IFilter<T, FiltersVmBase>>().To<TFilter>().AsScoped<Tw>();
 
         container.Add<DataGridViewModel<T>>().AsScoped<Tw>();
         container.Add<FiltersVmBase>().AsScoped<Tw>();

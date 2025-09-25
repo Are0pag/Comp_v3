@@ -13,7 +13,7 @@ public class AppDbContextInstaller : AbstractInstaller
                       var options = new DbContextOptionsBuilder<AppDbContext>()
                                    .UseSqlite(DbConfig.ConnectionString)
                                    .Options;
-
+                      
                       return new AppDbContext(options);
                   });
     }

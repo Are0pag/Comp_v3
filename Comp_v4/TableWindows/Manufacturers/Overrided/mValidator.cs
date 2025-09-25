@@ -3,7 +3,7 @@ using WPF.Services.Validation;
 
 namespace Comp_v4.TableWindows.Manufacturers.Overrided;
 
-public class Validator : ValidatorBase<Manufacturer>
+public class mValidator : ValidatorBase<Manufacturer>
 {
     protected override void SetRules() {
         var rules = CreateRules()

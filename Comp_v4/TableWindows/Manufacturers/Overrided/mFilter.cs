@@ -4,9 +4,9 @@ using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.Manufacturers.Overrided;
 
-public class Filter : IFilter<Manufacturer, FiltersVmBase>
+public class mFilter : IFilter<Manufacturer, FiltersVmBase>
 {
-    public Filter() {
+    public mFilter() {
         ApplyFilter = (item, vm, comparison) => {
             return string.IsNullOrEmpty(vm.FilterString) 
                    || item.Designation.Contains(vm.FilterString, comparison) 

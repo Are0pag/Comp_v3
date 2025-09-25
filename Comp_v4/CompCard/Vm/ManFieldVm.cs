@@ -2,10 +2,10 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Comp_v4.CompCard.Vm;
 
-public partial class CdFieldVm : BaseVmForFieldWithButton
+public partial class ManFieldVm : BaseVmForFieldWithButton
 {
-    public CdFieldVm(Action openWindow) : base(openWindow) {
-        _label = "Условное обозначение: ";
+    public ManFieldVm(Action openWindow) : base(openWindow) {
+        _label = "Производитель: ";
     }
 
     [RelayCommand]

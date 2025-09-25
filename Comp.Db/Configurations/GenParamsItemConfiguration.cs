@@ -1,4 +1,4 @@
-using Comp.ModelData.Comp.GenericParams;
+/*using Comp.ModelData.Comp.GenericParams;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,4 +25,4 @@ public class GenParamsItemConfiguration : IEntityTypeConfiguration<GenParamsItem
         builder.HasIndex(e => new { e.GenParamsSetId, e.GenKey })
                .IsUnique();
     }
-}
+}*/
