@@ -20,7 +20,7 @@ namespace Comp_v4;
 public class CdWindowInstaller : AbstractInstaller
 {
     protected override void InstallBindings(AreopagContainer container) {
-        container.Add<IRepository<ConditionalDesignation>>().To<ConditionalDesignationRepository>().AsSingleton();
+        /*container.Add<IRepository<ConditionalDesignation>>().To<ConditionalDesignationRepository>().AsSingleton();
 
         container.Add<ICommandFactory>()
                  .To<DataGridCommandFactory>()
@@ -57,7 +57,7 @@ public class CdWindowInstaller : AbstractInstaller
 
         /*container.Add<CellChangeStateCommand<Tw, Cd>>()
                  .AsTransient()
-                 .WithParameters(typeof(object));*/
+                 .WithParameters(typeof(object));#1#
         
         container.Add<ApplyFilterCommand<TargetWindow, ConditionalDesignation, FiltersVmCd>>()
                  .AsTransient()
@@ -110,6 +110,6 @@ public class CdWindowInstaller : AbstractInstaller
         container.Add<TableCommandBinder<TargetWindow, ConditionalDesignation>>().To<TableCommandBinderFilteringCompatible<TargetWindow, ConditionalDesignation>>().AsScoped<TargetWindow>();
         container.Add<ActionFilter<TargetWindow, ConditionalDesignation, FiltersVmCd>>().AsScoped<TargetWindow>();
 
-        container.Add<TargetWindow>().AsTransient();
+        container.Add<TargetWindow>().AsTransient();*/
     }
 }

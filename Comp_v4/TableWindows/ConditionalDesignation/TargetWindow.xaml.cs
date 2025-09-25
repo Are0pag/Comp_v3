@@ -14,10 +14,10 @@ namespace Comp_v4;
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
     protected readonly DataGridViewModel<ConditionalDesignation> _dataGridViewModel;
-    protected readonly FiltersVmCd _filtersVm;
+    protected readonly FiltersVmBase _filtersVm;
     
     public TargetWindow(DataGridViewModel<ConditionalDesignation> dataGridViewModel, 
-                        FiltersVmCd filtersVm, 
+                        FiltersVmBase filtersVm, 
                         
                         ButtonVmAddItem<TargetWindow, ConditionalDesignation> buttonVmAddItem, 
                         ButtonVmSave<TargetWindow, ConditionalDesignation> buttonVmSave, 

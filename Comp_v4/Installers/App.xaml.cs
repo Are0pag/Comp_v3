@@ -11,7 +11,6 @@ using Cd = Comp.ModelData.TechnicalItems.ConditionalDesignation;
 
 namespace Comp_v4;
 
-
 public partial class App : Application
 {
     protected readonly AreopagContainer _rootContainer;
@@ -19,13 +18,14 @@ public partial class App : Application
     
     public App() {
         _rootContainer = new AreopagContainer();
-        var installer = new CdWindowInstaller();
+        var cdWindowInstaller = new TableWindowInstaller<Tw, Cd>();
+        
         var subContainer = new AreopagContainer();
+        cdWindowInstaller.Install(subContainer);
+
         new AppDbContextInstaller().Install(subContainer);
-        installer.Install(subContainer);
+
         _subContainers[typeof(Tw)] = subContainer;
-        
-        
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
@@ -35,33 +35,12 @@ public partial class App : Application
             window.Closed += (sender, args) => {
                 contextContainer.ReleaseScope<Tw>();
             };
-            contextContainer.Instantiate<ActionStackTracker, PersistenceManager<Tw, Cd>, TableCommandBinder<Tw, Cd>, ActionFilter<Tw, Cd, FiltersVmCd>>();
+            contextContainer.Instantiate<ActionStackTracker, PersistenceManager<Tw, Cd>, TableCommandBinder<Tw, Cd>, ActionFilter<Tw, Cd, FiltersVmBase>>();
             window.Show();
         })).Show();
-        return;
-        
-        var window = _rootContainer.BeginScope<Tw>();
-        window.Closed += (sender, args) => {
-            _rootContainer.ReleaseScope<Tw>();
-        };
-        _rootContainer.Instantiate<ActionStackTracker, PersistenceManager<Tw, Cd>, TableCommandBinder<Tw, Cd>, ActionFilter<Tw, Cd, FiltersVmCd>>();
-        window.Show();
-        base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e) {
         base.OnExit(e);
     }
-
-    protected void ToDo() {
-
-
-        _rootContainer.Add<Tw>()
-                      .UsingFactoryMethod(() => {
-                           return _subContainers[typeof(Tw)].BeginScope<Tw>();
-                       });
-    }
 }
-
-public class ProgWindow {}
-public class CompWindow {}

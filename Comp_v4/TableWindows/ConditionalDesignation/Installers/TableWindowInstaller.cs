@@ -16,8 +16,8 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4;
 
-public abstract class TableWindowInstaller<Tw, T> : AbstractInstaller
-    where Tw : Window
+public class TableWindowInstaller<Tw, T> : AbstractInstaller
+    where Tw : Window, IDisposable
     where T : class, IDbEntity, new()
 {
     protected override void InstallBindings(AreopagContainer container) {
@@ -25,34 +25,34 @@ public abstract class TableWindowInstaller<Tw, T> : AbstractInstaller
 
         container.Add<ICommandFactory>()
                  .To<DataGridCommandFactory>()
-                 .AsScoped<TargetWindow>()
+                 .AsScoped<Tw>()
                  .UsingFactoryMethod(() => new DataGridCommandFactory(container));
 
         container.Add<AddItemCommand<T>>().AsTransient().WithParameters(typeof(T));
         container.Add<UpdateItemCommand<T>>().AsTransient().WithParameters(typeof(T));
         container.Add<DeleteItemCommand<T>>().AsTransient().WithParameters(typeof(T));
 
-        container.Add<CreateRawCommand<TargetWindow, T>>()
+        container.Add<CreateRawCommand<Tw, T>>()
                  .AsTransient()
-                 .WithParameters(typeof(ModuleContext<TargetWindow, T>));
+                 .WithParameters(typeof(ModuleContext<Tw, T>));
 
-        container.Add<FocusCellCommand<TargetWindow, T>>()
+        container.Add<FocusCellCommand<Tw, T>>()
                  .AsTransient()
                  .WithParameters(typeof(T));
 
-        container.Add<RememberCellCommand<TargetWindow, T>>()
+        container.Add<RememberCellCommand<Tw, T>>()
                  .AsTransient()
-                 .WithParameters(typeof(RememberCellCommand<TargetWindow, T>.Args));
+                 .WithParameters(typeof(RememberCellCommand<Tw, T>.Args));
         
-        container.Add<RememberInputTextCommand<TargetWindow, T>>()
+        container.Add<RememberInputTextCommand<Tw, T>>()
                  .AsTransient()
                  .WithParameters(typeof(DataGridBeginningEditEventArgs));
 
-        container.Add<RememberSelectionCommand<TargetWindow, T>>()
+        container.Add<RememberSelectionCommand<Tw, T>>()
                  .AsTransient()
                  .WithParameters(typeof(object));
 
-        container.Add<RemoveItemCommand<TargetWindow, T>>()
+        container.Add<RemoveItemCommand<Tw, T>>()
                  .AsTransient()
                  .WithParameters(typeof(T));
 
@@ -60,57 +60,57 @@ public abstract class TableWindowInstaller<Tw, T> : AbstractInstaller
                  .AsTransient()
                  .WithParameters(typeof(object));*/
         
-        container.Add<ApplyFilterCommand<TargetWindow, T, FiltersVmBase>>()
+        container.Add<ApplyFilterCommand<Tw, T, FiltersVmBase>>()
                  .AsTransient()
-                 .WithParameters(typeof(ApplyFilterCommand<TargetWindow, T, FiltersVmBase>.Args));
+                 .WithParameters(typeof(ApplyFilterCommand<Tw, T, FiltersVmBase>.Args));
         
         
 
-        container.Add<ValidatorBase<T>>().To<Validator>().AsScoped<TargetWindow>();
+        container.Add<ValidatorBase<T>>().To<Validator>().AsScoped<Tw>();
         
         container.Add<IPropertyValueRestoreService<T>>()
                  .To<DataGridPropertyRestoreService<T>>()
                  .AsTransient();
         
-        container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<TargetWindow>();
-        container.Add<IFilter<T, FiltersVmBase>>().To<Filter>().AsScoped<TargetWindow>();
+        container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<Tw>();
+        container.Add<IFilter<T, FiltersVmBase>>().To<Filter>().AsScoped<Tw>();
 
-        container.Add<DataGridViewModel<T>>().AsScoped<TargetWindow>();
-        container.Add<FiltersVmBase>().AsScoped<TargetWindow>();
-        container.Add<ModuleContext<TargetWindow, T>>().AsScoped<TargetWindow>();
+        container.Add<DataGridViewModel<T>>().AsScoped<Tw>();
+        container.Add<FiltersVmBase>().AsScoped<Tw>();
+        container.Add<ModuleContext<Tw, T>>().AsScoped<Tw>();
 
-        container.Add<ActionStartAddingNewItem<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ActionAddItem<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ActionUpdateItem<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ActionDeleteItem<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ActionSave<TargetWindow, T>>().AsScoped<TargetWindow>();
+        container.Add<ActionStartAddingNewItem<Tw, T>>().AsScoped<Tw>();
+        container.Add<ActionAddItem<Tw, T>>().AsScoped<Tw>();
+        container.Add<ActionUpdateItem<Tw, T>>().AsScoped<Tw>();
+        container.Add<ActionDeleteItem<Tw, T>>().AsScoped<Tw>();
+        container.Add<ActionSave<Tw, T>>().AsScoped<Tw>();
         
-        container.Add<CellStateAddItem<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<CellStateUpdate<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<CellStateIdle<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<Cell<TargetWindow, T>>()
-                 .AsScoped<TargetWindow>()
+        container.Add<CellStateAddItem<Tw, T>>().AsScoped<Tw>();
+        container.Add<CellStateUpdate<Tw, T>>().AsScoped<Tw>();
+        container.Add<CellStateIdle<Tw, T>>().AsScoped<Tw>();
+        container.Add<Cell<Tw, T>>()
+                 .AsScoped<Tw>()
                  .UsingFactoryMethod(() => {
-                      var initialState = container.Resolve<CellStateIdle<TargetWindow, T>>();
+                      var initialState = container.Resolve<CellStateIdle<Tw, T>>();
                       
-                      var states = new List<BaseCellState<TargetWindow, T>>() {
+                      var states = new List<BaseCellState<Tw, T>>() {
                           initialState,
-                          container.Resolve<CellStateAddItem<TargetWindow, T>>(),
-                          container.Resolve<CellStateUpdate<TargetWindow, T>>(),
+                          container.Resolve<CellStateAddItem<Tw, T>>(),
+                          container.Resolve<CellStateUpdate<Tw, T>>(),
                       };
 
-                      return new Cell<TargetWindow, T>(states, initialState);
+                      return new Cell<Tw, T>(states, initialState);
                   });
 
-        container.Add<ButtonVmAddItem<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ButtonVmSave<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ButtonVmDeleteItem<TargetWindow, T>>().AsScoped<TargetWindow>();
+        container.Add<ButtonVmAddItem<Tw, T>>().AsScoped<Tw>();
+        container.Add<ButtonVmSave<Tw, T>>().AsScoped<Tw>();
+        container.Add<ButtonVmDeleteItem<Tw, T>>().AsScoped<Tw>();
 
-        container.Add<ActionStackTracker>().AsScoped<TargetWindow>();
-        container.Add<PersistenceManager<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<TableCommandBinder<TargetWindow, T>>().To<TableCommandBinderFilteringCompatible<TargetWindow, T>>().AsScoped<TargetWindow>();
-        container.Add<ActionFilter<TargetWindow, T, FiltersVmBase>>().AsScoped<TargetWindow>();
+        container.Add<ActionStackTracker>().AsScoped<Tw>();
+        container.Add<PersistenceManager<Tw, T>>().AsScoped<Tw>();
+        container.Add<TableCommandBinder<Tw, T>>().To<TableCommandBinderFilteringCompatible<Tw, T>>().AsScoped<Tw>();
+        container.Add<ActionFilter<Tw, T, FiltersVmBase>>().AsScoped<Tw>();
 
-        container.Add<TargetWindow>().AsTransient();
+        container.Add<Tw>().AsTransient();
     }
 }
