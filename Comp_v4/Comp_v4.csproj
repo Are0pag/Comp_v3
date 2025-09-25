@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="TableWindows\ConditionalDesignation\TargetWindow.xaml">
+    <Page Update="TableWindows\ConditionalDesignation\CondDesignTableWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

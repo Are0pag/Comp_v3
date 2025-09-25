@@ -10,17 +10,17 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.ConditionalDesignation;
 
-public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
+public partial class CondDesignTableWindow : Window, IDisposable, IDataGridRequestResolver<CondDesignTableWindow>
 {
     protected readonly DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> _dataGridViewModel;
     protected readonly FiltersVmBase _filtersVm;
     
-    public TargetWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> dataGridViewModel, 
+    public CondDesignTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> dataGridViewModel, 
                         FiltersVmBase filtersVm, 
                         
-                        ButtonVmAddItem<TargetWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmAddItem, 
-                        ButtonVmSave<TargetWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmSave, 
-                        ButtonVmDeleteItem<TargetWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmDeleteItem) 
+                        ButtonVmAddItem<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmAddItem, 
+                        ButtonVmSave<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmSave, 
+                        ButtonVmDeleteItem<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmDeleteItem) 
     {
         InitializeComponent();
 
@@ -45,7 +45,7 @@ public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolve
 
     public required Guid Id { get; init; }
     
-    void IDataGridRequestResolver<TargetWindow>.GetGrid(IDataGridRequester<TargetWindow> requester) => requester.DataGrid = MainDataGrid;
+    void IDataGridRequestResolver<CondDesignTableWindow>.GetGrid(IDataGridRequester<CondDesignTableWindow> requester) => requester.DataGrid = MainDataGrid;
 
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {

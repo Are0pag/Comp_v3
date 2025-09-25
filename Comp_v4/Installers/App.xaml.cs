@@ -2,6 +2,7 @@
 using Comp_v4.CompCard;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.TableWindows;
+using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp_v4.TableWindows.Manufacturers;
 using Comp_v4.TableWindows.Manufacturers.Overrided;
@@ -11,8 +12,6 @@ using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
 using WPF.Templates.TableWindow.v1.Vm.Components;
-using Tw = Comp_v4.TableWindows.ConditionalDesignation.TargetWindow;
-using Cd = Comp.ModelData.TechnicalItems.ConditionalDesignation;
 
 namespace Comp_v4.Installers;
 
@@ -26,13 +25,13 @@ public partial class App : Application
         var appDbContextInstaller = new AppDbContextInstaller();
         appDbContextInstaller.Install(_rootContainer);
 
-        InstallTableWindowScope<Tw>(new TableWindowInstaller<Tw, Cd, CdValidator, CdFilter>());
+        InstallTableWindowScope<CondDesignTableWindow>(new TableWindowInstaller<CondDesignTableWindow, ConditionalDesignation, CdValidator, CdFilter>());
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
         new CompCardWindow(new CompCardVm(), 
-                           new CdFieldVm(OpenTableWindow<Tw, Cd>),
+                           new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>),
                            new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>)
                           ).Show();
     }
