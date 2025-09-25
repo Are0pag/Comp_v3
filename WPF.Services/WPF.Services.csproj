@@ -12,4 +12,8 @@
     <ProjectReference Include="..\WPF.Extensions\WPF.Extensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserActionsHandling\Converters\" />
+  </ItemGroup>
+
 </Project>

@@ -7,6 +7,7 @@ using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp_v4.TableWindows.Manufacturers;
 using Comp_v4.TableWindows.Manufacturers.Overrided;
 using Comp_v4.TableWindows.MeasurementUnits;
+using Comp_v4.TableWindows.TypeSizes;
 using Comp.Db;
 using Comp.ModelData.TechnicalItems;
 using WPF.Services;
@@ -29,13 +30,15 @@ public partial class App : Application
         InstallTableWindowScope<CondDesignTableWindow>(new TableWindowInstaller<CondDesignTableWindow, ConditionalDesignation, CdValidator, CdFilter>());
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
         InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
+        InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
         new CompCardWindow(new CompCardVm(), 
                            new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>),
                            new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>),
-                           new MuFieldVm(OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>)
+                           new MuFieldVm(OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>),
+                           new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>)
                           ).Show();
     }
 

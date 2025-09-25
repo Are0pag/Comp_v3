@@ -73,6 +73,13 @@
                                                                    ButtonCommand="{Binding OpenNestedWindowCommand}"
                                                                    ButtonContent="🎲"
                                                                    ButtonToolTip="Открыть таблицу" />
+                                
+                                <fields:InputTextFieldWithButtonUc x:Name="TsField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
                             </StackPanel>
                         </Border>
                         

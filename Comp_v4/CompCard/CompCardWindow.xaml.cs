@@ -7,12 +7,13 @@ public partial class CompCardWindow : Window
 {
     protected readonly CompCardVm _compCardVm;
     
-    public CompCardWindow(CompCardVm compCardVm, CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm) {
+    public CompCardWindow(CompCardVm compCardVm, CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm) {
         InitializeComponent();
         _compCardVm = compCardVm;
         DataContext = _compCardVm;
         CdField.DataContext = cdFieldVm;
         ManField.DataContext = manFieldVm;
         MuField.DataContext = muFieldVm;
+        TsField.DataContext = tsFieldVm;
     }
 }

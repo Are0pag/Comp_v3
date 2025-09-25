@@ -19,6 +19,7 @@ public class AppDbContext : DbContext
     public DbSet<ConditionalDesignation> ConditionalDesignations { get; set; }
     public DbSet<Manufacturer> Manufacturers { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
+    public DbSet<TypeSize> TypeSizes { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);

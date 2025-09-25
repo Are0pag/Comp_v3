@@ -4,19 +4,22 @@ using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.TechnicalItems;
 
-public class TypeSize : NotifyPropertyChanged
+[Table(nameof(TypeSize) + "s")]
+public class TypeSize : NotifyPropertyChanged, IDbEntity
 {
     protected string _designation = string.Empty;
     protected int _outputsNumber;
     protected bool _isUsingSmd;
     protected string _imagePath = string.Empty;
     protected string _description = string.Empty;
+
+    public TypeSize() { }
     
     [Key] // Primary key
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Autoincrement
     public int Id { get; set; }
 
-    [Key]
+    [Required]
     public string Designation {
         get => _designation;
         set {

@@ -1,0 +1,80 @@
+<Window x:Class="Comp_v4.TableWindows.TypeSizes.TypeSizesTableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Comp_v4.TableWindows.TypeSizes"
+        mc:Ignorable="d"
+        Title="Типоразмеры" Height="750" Width="800"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseDown="Window_OnPreviewMouseDown">
+    
+    <Window.Resources>
+        <local:BoolToTextConverter x:Key="BoolToTextConverter"/>
+    </Window.Resources>
+
+    
+    <Grid>
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/> <!-- Левая узкая колонка для CheckBox -->
+            <ColumnDefinition Width="*"/> <!-- Основная колонка -->
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "Auto" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "Auto" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1"  x:Name="FiltersStackPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
+            <TextBox Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="{Binding ElementName=MainDataGrid, Path=Columns[0].ActualWidth}" 
+                     GotFocus="FilterTextBox_GotFocus"
+                     LostFocus="FilterTextBox_LostFocus"
+                     Margin="2"/>
+            
+            <CheckBox Grid.Row="0" Grid.Column="0" x:Name="IgnoreCaseCheckBox"
+                      Content="Учёт регистра" 
+                      IsChecked="{Binding IgnoreCase, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Center"
+                      Margin="5"/>
+
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Items}" 
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False"
+                  SelectionMode="Single" 
+                  x:Name="MainDataGrid" 
+                  EnableRowVirtualization="False"
+                  EnableColumnVirtualization="False"
+                  CellEditEnding="MainDataGrid_CellEditEnding"
+                  BeginningEdit="MainDataGrid_OnBeginningEdit" 
+                  SelectedItem="{Binding SelectedItem}">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Обозначение" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridTextColumn Header="Число выводов" Binding="{Binding OutputsNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridCheckBoxColumn  Header="SMD" Binding="{Binding IsUsingSmd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+            </DataGrid.Columns>
+            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
+                              Header="Новое обозначение" Command="{Binding AddItemCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
+                              Header="Удалить" Command="{Binding DeleteCommand}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            
+        </DataGrid>
+        
+        <StackPanel Grid.Row="2" Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
+            <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
+            <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>
