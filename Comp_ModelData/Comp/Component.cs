@@ -8,10 +8,12 @@ namespace Comp.ModelData.Comp;
 [Table(nameof(Component) + "s")]
 public class Component : NotifyPropertyChanged 
 {
-    private ConditionalDesignation _conditionalDesignation;
-    private Manufacturer _manufacturer;
-    private MeasurementUnit _measurementUnit;
-    private TypeSize _typeSize;
+    protected string _name = string.Empty;
+    protected string _nomenclatureNumber = string.Empty;
+    protected ConditionalDesignation _conditionalDesignation;
+    protected Manufacturer _manufacturer;
+    protected MeasurementUnit _measurementUnit;
+    protected TypeSize _typeSize;
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -46,5 +48,27 @@ public class Component : NotifyPropertyChanged
     public TypeSize TypeSize { 
         get => _typeSize;
         set { _typeSize = value; OnPropertyChanged(); }
+    }
+    
+    [Required]
+    public string Name {
+        get => _name;
+        set {
+            if (value == _name)
+                return;
+            _name = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    [Required]
+    public string NomenclatureNumber {
+        get => _nomenclatureNumber;
+        set {
+            if (value == _nomenclatureNumber)
+                return;
+            _nomenclatureNumber = value;
+            OnPropertyChanged();
+        }
     }
 }

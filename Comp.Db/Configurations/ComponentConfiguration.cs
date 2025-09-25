@@ -11,6 +11,12 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
         
+        builder.HasIndex(c => c.Name).IsUnique();
+        builder.Property(c => c.Name).IsRequired();
+        
+        builder.HasIndex(c => c.NomenclatureNumber).IsUnique();
+        builder.Property(c => c.NomenclatureNumber).IsRequired();
+        
         builder.HasOne(c => c.ConditionalDesignation)
                .WithMany()
                .HasForeignKey(c => c.ConditionalDesignationId)
