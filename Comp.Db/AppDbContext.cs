@@ -1,3 +1,4 @@
+using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,8 @@ public class AppDbContext : DbContext
     public DbSet<Manufacturer> Manufacturers { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     public DbSet<TypeSize> TypeSizes { get; set; }
+    
+    public DbSet<Component> Components { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
