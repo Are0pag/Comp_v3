@@ -47,7 +47,6 @@
 
   <ItemGroup>
     <Folder Include="NomDict\Installers\" />
-    <Folder Include="TableWindows\Manufacturers\Installers\" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using WPF.Templates.TableWindow.Vm.Components;
 
 namespace Comp_v4;
 
-public class Filter : IFilter<ConditionalDesignation, FiltersVmCd>
+public class Filter : IFilter<ConditionalDesignation, FiltersVmBase>
 {
     public Filter() {
         ApplyFilter = (item, vm, comparisonType ) =>
@@ -12,5 +12,5 @@ public class Filter : IFilter<ConditionalDesignation, FiltersVmCd>
              item.Name.Contains(vm.FilterString, comparisonType);
     }
 
-    public Func<ConditionalDesignation, FiltersVmCd, StringComparison, bool> ApplyFilter { get; init; }
+    public Func<ConditionalDesignation, FiltersVmBase, StringComparison, bool> ApplyFilter { get; init; }
 }

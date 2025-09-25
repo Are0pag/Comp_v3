@@ -20,21 +20,19 @@
             <RowDefinition Height = "Auto" />
         </Grid.RowDefinitions>
         
-        <!-- CheckBox в левой колонке, напротив FiltersStackPanel -->
-        <CheckBox Grid.Row="0" Grid.Column="0" x:Name="IgnoreCaseCheckBox"
-                  Content="Ignore Case" 
-                  IsChecked="{Binding IgnoreCase, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                  VerticalAlignment="Center" 
-                  HorizontalAlignment="Center"
-                  Margin="5"/>
-        
         <StackPanel Grid.Row="0" Grid.Column="1"  x:Name="FiltersStackPanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
-            
             <TextBox Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" 
                      Width="{Binding ElementName=MainDataGrid, Path=Columns[0].ActualWidth}" 
                      GotFocus="FilterTextBox_GotFocus"
                      LostFocus="FilterTextBox_LostFocus"
                      Margin="2"/>
+            
+            <CheckBox Grid.Row="0" Grid.Column="0" x:Name="IgnoreCaseCheckBox"
+                      Content="Учёт регистра" 
+                      IsChecked="{Binding IgnoreCase, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Center"
+                      Margin="5"/>
 
         </StackPanel>
         
