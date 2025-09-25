@@ -1,9 +1,8 @@
 using System.Windows;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
 using Infrastructure.Command;
+using WPF.Templates.TableWindow.v1.Entities;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Operations.Actions;
 
 public abstract class BaseAction<TWindow, T>
     where TWindow : Window

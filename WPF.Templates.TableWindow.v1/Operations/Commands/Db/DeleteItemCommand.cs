@@ -1,7 +1,7 @@
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Db;
 
 public class DeleteItemCommand<T> : BaseCommand<T>
     where T : class, IDbEntity

@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace WPF.Templates.TableWindow.Events.Requests;
+namespace WPF.Templates.TableWindow.v1.Events.Requests;
 
 public interface IDataGridRequester<T>
     where T : Window

@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Comp.ModelData.TechnicalItems;
-using WPF.Templates;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
-namespace Comp_v4.Operations.Commands.Filtering;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
 
 public class ApplyFilterCommand<TWindow, T, TFiltersSource> : BaseCommand<ApplyFilterCommand<TWindow, T, TFiltersSource>.Args>
     where TWindow : Window

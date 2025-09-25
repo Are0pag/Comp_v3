@@ -2,8 +2,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
-using WPF.Templates.TableWindow.Events.Requests;
+using WPF.Templates.TableWindow.v1.Events;
+using WPF.Templates.TableWindow.v1.Events.Requests;
 
 namespace Comp_v4.TableWindows.Manufacturers;
 

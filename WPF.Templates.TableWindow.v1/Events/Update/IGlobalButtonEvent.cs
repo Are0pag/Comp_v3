@@ -1,4 +1,4 @@
-namespace WPF.Templates.TableWindow.Events;
+namespace WPF.Templates.TableWindow.v1.Events.Update;
 
 public interface IGlobalButtonEvent { }
 

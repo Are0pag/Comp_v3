@@ -1,12 +1,11 @@
 using System.Windows;
 using System.Windows.Controls;
-using Comp_v4;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
-using WPF.Templates.TableWindow.Events.Requests;
-using WPF.Templates.TableWindow.Vm;
+using WPF.Templates.TableWindow.v1.Events;
+using WPF.Templates.TableWindow.v1.Events.Requests;
+using WPF.Templates.TableWindow.v1.Vm;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Entities;
 
 public class ModuleContext<TWindow, T> : IDataGridRequester<TWindow>
     where TWindow : Window

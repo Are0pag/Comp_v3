@@ -1,9 +1,8 @@
 using System.Windows;
-using Comp.ModelData.TechnicalItems;
 using Infrastructure;
-using WPF.Templates;
+using WPF.Templates.TableWindow.v1.Entities;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
 public class CreateRawCommand<TWindow, T> : BaseCommand<ModuleContext<TWindow, T>>
     where TWindow : Window

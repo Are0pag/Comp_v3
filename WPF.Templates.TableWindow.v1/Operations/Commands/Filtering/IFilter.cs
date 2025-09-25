@@ -1,7 +1,7 @@
 using Comp.ModelData.TechnicalItems;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
-namespace Comp_v4.Operations.Commands.Filtering;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
 
 public interface IFilter<T, TSource> 
     where T : class, IDbEntity

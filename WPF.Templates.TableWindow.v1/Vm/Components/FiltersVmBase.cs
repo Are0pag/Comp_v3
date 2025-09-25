@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WPF.Templates.TableWindow.Vm.Components;
+namespace WPF.Templates.TableWindow.v1.Vm.Components;
 
 public class FiltersVmBase : ObservableObject
 {

@@ -1,12 +1,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using WPF.Extensions.View.Elements;
-using WPF.Templates;
+using WPF.Templates.TableWindow.v1.Entities;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
 public class FocusCellCommand<TWindow, T> : BaseCommand<T>
     where TWindow : Window

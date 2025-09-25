@@ -2,7 +2,7 @@ using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Db;
 
 public class UpdateItemCommand<T> : DeferredCommandBase<T>
     where T : class, IDbEntity

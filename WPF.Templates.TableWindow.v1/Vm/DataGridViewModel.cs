@@ -1,11 +1,10 @@
 using System.Collections.ObjectModel;
 using Comp.Db.Contracts;
-using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using Utils.WPF.VmEnumerableInteractiveData;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.v1.Events.Update;
 
-namespace WPF.Templates.TableWindow.Vm;
+namespace WPF.Templates.TableWindow.v1.Vm;
 
 public class DataGridViewModel<T> : VmEnumerableInteractiveData<T>
     where T : class

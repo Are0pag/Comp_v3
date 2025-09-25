@@ -1,8 +1,7 @@
 using System.Windows;
-using Comp.ModelData.TechnicalItems;
-using WPF.Templates;
+using WPF.Templates.TableWindow.v1.Entities;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
 public class RememberSelectionCommand<TWindow, T> : BaseCommand<object>
     where TWindow : Window

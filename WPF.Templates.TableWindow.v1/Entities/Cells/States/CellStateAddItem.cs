@@ -1,12 +1,12 @@
 using System.Windows;
 using System.Windows.Controls;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Services.Validation;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
-namespace WPF.Templates.TableWindow.States;
+namespace WPF.Templates.TableWindow.v1.Entities.Cells.States;
 
 public class CellStateAddItem<TWindow, T> : BaseCellStateInput<TWindow, T>
     where TWindow : Window

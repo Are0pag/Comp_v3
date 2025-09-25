@@ -1,15 +1,15 @@
 ﻿using System.Windows;
 using Comp_v4.CompCard;
 using Comp_v4.CompCard.Vm;
-using Comp_v4.Entities;
+using Comp_v4.TableWindows.ConditionalDesignation.Installers;
 using WPF.Services;
-using WPF.Templates;
-using WPF.Templates.TableWindow.Vm.Components;
-
-using Tw = Comp_v4.TargetWindow;
+using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Vm.Components;
+using Tw = Comp_v4.TableWindows.ConditionalDesignation.TargetWindow;
 using Cd = Comp.ModelData.TechnicalItems.ConditionalDesignation;
 
-namespace Comp_v4;
+namespace Comp_v4.Installers;
 
 public partial class App : Application
 {

@@ -2,7 +2,7 @@ using Comp.Db;
 using Microsoft.EntityFrameworkCore;
 using WPF.Services;
 
-namespace Comp_v4;
+namespace Comp_v4.Installers;
 
 public class AppDbContextInstaller : AbstractInstaller
 {

@@ -1,18 +1,16 @@
-using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Comp_v4;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
-using Comp_v4.Operations.Transactions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using Infrastructure.Command;
 using WPF.Extensions.View.Elements;
 using WPF.Services.Validation;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
+using WPF.Templates.TableWindow.v1.Operations.Transactions;
 
-namespace WPF.Templates.TableWindow.States;
+namespace WPF.Templates.TableWindow.v1.Entities.Cells.States;
 
 public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     where TWindow : Window

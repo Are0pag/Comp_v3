@@ -1,7 +1,6 @@
-using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command.Heterochromic;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands;
 
 public abstract class BaseCommand<TParameter> : DeferredCommandBase<TParameter>
     where TParameter : class

@@ -1,10 +1,10 @@
 using System.Windows;
 using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
-using WPF.Templates;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.v1.Events;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
 
-namespace Comp_v4.Entities;
+namespace WPF.Templates.TableWindow.v1.Entities.InputHandlers;
 
 public class TableCommandBinderFilteringCompatible<TWindow, T> : TableCommandBinder<TWindow, T>, IFilteringInputHandler
     where TWindow : Window

@@ -1,27 +1,26 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
-using WPF.Templates;
-using WPF.Templates.TableWindow.Events;
-using WPF.Templates.TableWindow.Events.Requests;
-using WPF.Templates.TableWindow.Vm;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Events;
+using WPF.Templates.TableWindow.v1.Events.Requests;
+using WPF.Templates.TableWindow.v1.Vm;
+using WPF.Templates.TableWindow.v1.Vm.Components;
+using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
-namespace Comp_v4;
+namespace Comp_v4.TableWindows.ConditionalDesignation;
 
 public partial class TargetWindow : Window, IDisposable, IDataGridRequestResolver<TargetWindow>
 {
-    protected readonly DataGridViewModel<ConditionalDesignation> _dataGridViewModel;
+    protected readonly DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> _dataGridViewModel;
     protected readonly FiltersVmBase _filtersVm;
     
-    public TargetWindow(DataGridViewModel<ConditionalDesignation> dataGridViewModel, 
+    public TargetWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> dataGridViewModel, 
                         FiltersVmBase filtersVm, 
                         
-                        ButtonVmAddItem<TargetWindow, ConditionalDesignation> buttonVmAddItem, 
-                        ButtonVmSave<TargetWindow, ConditionalDesignation> buttonVmSave, 
-                        ButtonVmDeleteItem<TargetWindow, ConditionalDesignation> buttonVmDeleteItem) 
+                        ButtonVmAddItem<TargetWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmAddItem, 
+                        ButtonVmSave<TargetWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmSave, 
+                        ButtonVmDeleteItem<TargetWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmDeleteItem) 
     {
         InitializeComponent();
 

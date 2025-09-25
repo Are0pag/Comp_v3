@@ -1,6 +1,6 @@
 using Infrastructure.Command.Heterochromic;
 
-namespace Comp_v4.Operations.Transactions;
+namespace WPF.Templates.TableWindow.v1.Operations.Transactions;
 
 public class Transactions{}
 

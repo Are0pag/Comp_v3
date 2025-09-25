@@ -1,9 +1,10 @@
 using System.Windows;
 using Comp.ModelData.TechnicalItems;
-using WPF.Templates;
-using WPF.Templates.TableWindow.States;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Entities.Cells;
+using WPF.Templates.TableWindow.v1.Entities.Cells.States;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands;
 
 public abstract class BaseChangeStateCommand<TWindow, T, TBaseState, TStateMachine> : BaseCommand<object>
     where TWindow : Window

@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace WPF.Templates.TableWindow.Events;
+namespace WPF.Templates.TableWindow.v1.Events;
 
 public interface ICellEditHandler : IGlobSubscriber, IDisposable
 {

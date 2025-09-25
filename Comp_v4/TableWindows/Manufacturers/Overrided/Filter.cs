@@ -1,6 +1,6 @@
-using Comp_v4.Operations.Commands.Filtering;
 using Comp.ModelData.TechnicalItems;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.Manufacturers.Overrided;
 

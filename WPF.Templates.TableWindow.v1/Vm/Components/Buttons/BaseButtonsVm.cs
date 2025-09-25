@@ -2,9 +2,10 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.v1.Events.Update;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
 
-namespace WPF.Templates.Core;
+namespace WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 public abstract class BaseButtonsVm<TWindow, T, TContext> : ObservableObject, INotifyConditionalsChanged
     where TWindow : Window

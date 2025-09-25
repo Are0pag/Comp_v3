@@ -1,12 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using System.Windows;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Services.Validation;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
 
-namespace WPF.Templates.TableWindow.States;
+namespace WPF.Templates.TableWindow.v1.Entities.Cells.States;
 
 public class CellStateUpdate<TWindow, T>  : BaseCellStateInput<TWindow, T>
     where TWindow : Window

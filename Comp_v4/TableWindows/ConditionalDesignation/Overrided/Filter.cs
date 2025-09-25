@@ -1,10 +1,9 @@
-using Comp_v4.Operations.Commands.Filtering;
-using Comp.ModelData.TechnicalItems;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
-namespace Comp_v4;
+namespace Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 
-public class Filter : IFilter<ConditionalDesignation, FiltersVmBase>
+public class Filter : IFilter<Comp.ModelData.TechnicalItems.ConditionalDesignation, FiltersVmBase>
 {
     public Filter() {
         ApplyFilter = (item, vm, comparisonType ) =>
@@ -12,5 +11,5 @@ public class Filter : IFilter<ConditionalDesignation, FiltersVmBase>
              item.Name.Contains(vm.FilterString, comparisonType);
     }
 
-    public Func<ConditionalDesignation, FiltersVmBase, StringComparison, bool> ApplyFilter { get; init; }
+    public Func<Comp.ModelData.TechnicalItems.ConditionalDesignation, FiltersVmBase, StringComparison, bool> ApplyFilter { get; init; }
 }

@@ -5,7 +5,7 @@ using Infrastructure;
 using WPF.Extensions.View.Elements;
 using WPF.Services.UserActionsHandling.InputText;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
 public class RememberInputTextCommand<TWindow, T> : BaseCommand<DataGridBeginningEditEventArgs>
     where TWindow : Window

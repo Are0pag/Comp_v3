@@ -2,9 +2,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using WPF.Extensions.View.Elements;
-using WPF.Templates;
+using WPF.Templates.TableWindow.v1.Entities;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
 public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<TWindow, T>.Args>
     where TWindow : Window

@@ -1,8 +1,8 @@
 using System.Windows.Input;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.v1.Events;
 
-namespace Comp_v4.Entities;
+namespace WPF.Templates.TableWindow.v1.Entities.InputHandlers;
 
 public class ActionStackTracker : IPreviewKeyDownHandler
 {

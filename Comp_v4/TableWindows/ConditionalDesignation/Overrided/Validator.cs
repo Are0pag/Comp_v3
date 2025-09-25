@@ -1,9 +1,8 @@
-using Comp.ModelData.TechnicalItems;
 using WPF.Services.Validation;
 
-namespace Comp_v4.Entities;
+namespace Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 
-public class Validator : ValidatorBase<ConditionalDesignation>
+public class Validator : ValidatorBase<Comp.ModelData.TechnicalItems.ConditionalDesignation>
 {
     protected override void SetRules() {
         var rules = CreateRules()

@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace WPF.Templates.TableWindow.Events;
+namespace WPF.Templates.TableWindow.v1.Events;
 
 public interface IPreviewKeyDownHandler : IGlobSubscriber, IDisposable
 {

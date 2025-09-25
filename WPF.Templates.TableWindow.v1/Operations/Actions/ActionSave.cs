@@ -1,11 +1,11 @@
 using System.Windows;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
-using WPF.Templates.TableWindow.States;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Entities.Cells;
+using WPF.Templates.TableWindow.v1.Entities.Cells.States;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Operations.Actions;
 
 public class ActionSave<TWindow, T> : BaseAction<TWindow, T> 
     where TWindow : Window

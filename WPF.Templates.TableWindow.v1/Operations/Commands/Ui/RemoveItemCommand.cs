@@ -1,10 +1,9 @@
 using System.Windows;
-using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
-using WPF.Templates;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Events;
 
-namespace Comp_v4.Operations.Commands;
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
 
 public class RemoveItemCommand<TWindow, T> : BaseCommand<T>
     where TWindow : Window

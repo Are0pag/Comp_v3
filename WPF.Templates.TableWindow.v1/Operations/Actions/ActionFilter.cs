@@ -1,16 +1,16 @@
 using System.ComponentModel;
 using System.Windows;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
-using Comp_v4.Operations.Commands.Filtering;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
-using WPF.Templates.TableWindow.States;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Entities.Cells;
+using WPF.Templates.TableWindow.v1.Entities.Cells.States;
+using WPF.Templates.TableWindow.v1.Events;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Operations.Actions;
 
 public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, IFilteringHandler
     where TWindow : Window

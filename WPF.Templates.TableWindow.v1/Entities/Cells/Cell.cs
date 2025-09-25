@@ -4,10 +4,11 @@ using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.StateMachine;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
-using WPF.Templates.TableWindow.States;
+using WPF.Templates.TableWindow.v1.Entities.Cells.States;
+using WPF.Templates.TableWindow.v1.Events;
+using WPF.Templates.TableWindow.v1.Events.Update;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Entities.Cells;
 
 public class Cell<TWindow, T> : GenericStateMachine<BaseCellState<TWindow, T>, Cell<TWindow, T>>, ICellEditHandler, IPreviewKeyDownHandler
     where TWindow : Window

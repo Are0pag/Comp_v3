@@ -1,4 +1,4 @@
-namespace WPF.Templates.TableWindow.Events;
+namespace WPF.Templates.TableWindow.v1.Events;
 
 public interface IFilteringHandler : IGlobSubscriber, IDisposable
 {

@@ -1,11 +1,11 @@
 using System.Windows;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
-using Comp_v4.Operations.Transactions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Db;
+using WPF.Templates.TableWindow.v1.Operations.Transactions;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Operations.Actions;
 
 public class ActionAddItem<TWindow, T>  : ActionUpdateItem<TWindow, T> 
     where TWindow : Window

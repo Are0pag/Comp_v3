@@ -1,12 +1,11 @@
 using System.Windows;
 using System.Windows.Controls;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
-using Comp_v4.Operations.Transactions;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
+using WPF.Templates.TableWindow.v1.Operations.Commands;
+using WPF.Templates.TableWindow.v1.Operations.Transactions;
 
-namespace WPF.Templates.TableWindow.States;
+namespace WPF.Templates.TableWindow.v1.Entities.Cells.States;
 
 public class CellStateIdle<TWindow, T> : BaseCellState<TWindow, T>
     where TWindow : Window

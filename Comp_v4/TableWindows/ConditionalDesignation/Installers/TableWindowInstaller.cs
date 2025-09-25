@@ -1,20 +1,25 @@
 using System.Windows;
 using System.Windows.Controls;
-using Comp_v4.Entities;
-using Comp_v4.Operations.Commands;
-using Comp_v4.Operations.Commands.Filtering;
+using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Services;
 using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.Validation;
-using WPF.Templates;
-using WPF.Templates.TableWindow.States;
-using WPF.Templates.TableWindow.Vm;
-using WPF.Templates.TableWindow.Vm.Components;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Entities.Cells;
+using WPF.Templates.TableWindow.v1.Entities.Cells.States;
+using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Db;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
+using WPF.Templates.TableWindow.v1.Vm;
+using WPF.Templates.TableWindow.v1.Vm.Components;
+using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
-namespace Comp_v4;
+namespace Comp_v4.TableWindows.ConditionalDesignation.Installers;
 
 public class TableWindowInstaller<Tw, T> : AbstractInstaller
     where Tw : Window, IDisposable

@@ -2,10 +2,10 @@ using System.Windows;
 using Infrastructure.Command.Heterochromic;
 using Infrastructure.Command.TransactionSupportive;
 using Utils.EventBus;
-using WPF.Templates.TableWindow.Events;
+using WPF.Templates.TableWindow.v1.Events.Update;
 using WPF.UCL;
 
-namespace Comp_v4.Entities;
+namespace WPF.Templates.TableWindow.v1.Entities;
 
 public interface IDataGridCommandScheduler : IHeterochromicCommandScheduler<IDeferredCommand, TransactionDeferredSupportive> {}
 

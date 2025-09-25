@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace WPF.Templates;
+namespace WPF.Templates.TableWindow.v1.Operations.Actions;
 
 public static class ObjectStringCleaner
 {
