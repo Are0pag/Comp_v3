@@ -37,8 +37,7 @@
                 <TreeView Grid.Row="0" Grid.Column="0" 
                           Name="CategoryTreeView" 
                           ItemsSource="{Binding Items}" 
-                          SelectedItemChanged="CategoriesTreeView_SelectedItemChanged"
-                          Margin="0,0,1239,0">
+                          SelectedItemChanged="CategoriesTreeView_SelectedItemChanged">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
