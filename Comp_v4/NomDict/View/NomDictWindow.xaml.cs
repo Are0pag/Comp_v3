@@ -7,7 +7,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.NomDict.View;
 
-public partial class NomDictWindow : Window, IDisposable, IDataGridDoubleClickHandler
+public partial class NomDictWindow : Window, IDisposable
 {
     public NomDictWindow(TreeViewVm treeViewVm) {
         InitializeComponent();
@@ -43,6 +43,6 @@ public partial class NomDictWindow : Window, IDisposable, IDataGridDoubleClickHa
     }
 
     private void CategoriesTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-        throw new NotImplementedException();
+        EventBus<INomDictWindowSubscriber>.RaiseEvent<ISelectedCategoryChangedHandler>(h => h?.OnSelectedCategoryChanged(CategoryTreeView));
     }
 }
