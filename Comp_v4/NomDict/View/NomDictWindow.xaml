@@ -81,14 +81,12 @@
                           x:Name="MainDataGrid" 
                           EnableRowVirtualization="False"
                           EnableColumnVirtualization="False"
-                          CellEditEnding="MainDataGrid_CellEditEnding"
-                          BeginningEdit="MainDataGrid_OnBeginningEdit" 
                           MouseDoubleClick="DataGrid_OnMouseDoubleClick"
                           SelectedItem="{Binding SelectedItem}">
             
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                        <DataGridTextColumn Header="Номенклатурный номер" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                        <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                        <DataGridTextColumn Header="Номенклатурный номер" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                     </DataGrid.Columns>
             
                     <DataGrid.ContextMenu>

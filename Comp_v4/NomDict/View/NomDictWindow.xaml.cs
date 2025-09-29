@@ -23,14 +23,6 @@ public partial class NomDictWindow : Window, IDisposable
         throw new NotImplementedException();
     }
 
-    private void MainDataGrid_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) {
-        throw new NotImplementedException();
-    }
-
-    private void MainDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
-        throw new NotImplementedException();
-    }
-
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         
     }
