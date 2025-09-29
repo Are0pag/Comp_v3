@@ -1,32 +1,70 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.SortingItems;
 
+[Table(nameof(Category) + "s")]
 public class Category : NotifyPropertyChanged
 {
+    protected string _name = string.Empty;
+    protected bool _isExpanded = false;
+    
+    public Category() { }
     public Category(string name, Category? parent) {
-        Name.Value = name;
+        Name = name;
         ParentCategory = parent;
     }
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-    public ObservableModelProperty<string> Name { get; set; } = new();
 
-    public ObservableModelProperty<bool> IsExpanded { get; set; } = new();
-
-    public Category? ParentCategory { get; set; }
-
-    public ObservableCollection<Category>? Subcategories {get; set; }
-
-    public void AddSubcategory(Category subcategory) {
-        Subcategories ??= new ();
-        Subcategories.Add(subcategory);
+    [Required]
+    public string Name {
+        get => _name;
+        set {
+            if (_name == value) return;
+            _name = value;
+            OnPropertyChanged();
+        }
     }
 
-    public override string ToString() => GetFullNameRecursive(this, Name.Value);
+    public bool IsExpanded {
+        get => _isExpanded;
+        set {
+            if (_isExpanded == value) return;
+            _isExpanded = value;
+            OnPropertyChanged();
+        }
+    }
+
+    // Внешний ключ для родительской категории (самореференсная связь)
+    public int? ParentCategoryId { get; set; }
+
+    // Навигационное свойство для родительской категории
+    [ForeignKey(nameof(ParentCategoryId))] 
+    public Category? ParentCategory { get; set; }
+
+    public virtual ObservableCollection<Category> Subcategories { get; set; } = new ObservableCollection<Category>();
+
+    public void AddSubcategory(Category subcategory) {
+        Subcategories ??= [];
+        Subcategories.Add(subcategory);
+        subcategory.ParentCategory = this;
+        subcategory.ParentCategoryId = this.Id;
+    }
+    
+    public void RemoveSubcategory(Category subcategory) {
+        Subcategories.Remove(subcategory);
+        subcategory.ParentCategory = null;
+        subcategory.ParentCategoryId = null;
+    }
+
+    public override string ToString() => GetFullNameRecursive(this, Name);
 
     public string GetFullNameRecursive(Category category, string name) {
-        return category.ParentCategory != null ? GetFullNameRecursive(category.ParentCategory, category.ParentCategory.Name.Value + "/" + name) : name;
+        return category.ParentCategory != null ? GetFullNameRecursive(category.ParentCategory, category.ParentCategory.Name + "/" + name) : name;
     }
 }

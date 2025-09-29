@@ -17,6 +17,11 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.HasIndex(c => c.NomenclatureNumber).IsUnique();
         builder.Property(c => c.NomenclatureNumber).IsRequired();
         
+        builder.HasOne(c => c.Category)
+               .WithMany() 
+               .HasForeignKey(c => c.CategoryId)
+               .OnDelete(DeleteBehavior.Restrict);
+        
         builder.HasOne(c => c.ConditionalDesignation)
                .WithMany()
                .HasForeignKey(c => c.ConditionalDesignationId)

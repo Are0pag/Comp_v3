@@ -2,14 +2,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.NomDict.Events;
+using Comp_v4.NomDict.Vm;
 using Utils.EventBus;
 
 namespace Comp_v4.NomDict.View;
 
 public partial class NomDictWindow : Window, IDisposable, IDataGridDoubleClickHandler
 {
-    public NomDictWindow() {
+    public NomDictWindow(TreeViewVm treeViewVm) {
         InitializeComponent();
+        CategoryTreeView.DataContext = treeViewVm;
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
@@ -38,5 +40,9 @@ public partial class NomDictWindow : Window, IDisposable, IDataGridDoubleClickHa
 
     public void OnDataGridDoubleClick(object args) {
         EventBus<INomDictWindowSubscriber>.RaiseEvent<IDataGridDoubleClickHandler>(h => h?.OnDataGridDoubleClick(MainDataGrid));
+    }
+
+    private void CategoriesTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+        throw new NotImplementedException();
     }
 }

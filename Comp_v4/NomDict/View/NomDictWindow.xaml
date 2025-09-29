@@ -34,7 +34,11 @@
             
             <!-- Основное содержимое части A -->
             <Border Grid.Row="1" Name="PartAContent" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <TreeView Grid.Row="0" Grid.Column="0" Name="CategoryTreeView" ItemsSource="{Binding Categories}" Margin="0,0,1239,0">
+                <TreeView Grid.Row="0" Grid.Column="0" 
+                          Name="CategoryTreeView" 
+                          ItemsSource="{Binding Items}" 
+                          SelectedItemChanged="CategoriesTreeView_SelectedItemChanged"
+                          Margin="0,0,1239,0">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
