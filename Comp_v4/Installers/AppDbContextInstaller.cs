@@ -16,5 +16,7 @@ public class AppDbContextInstaller : AbstractInstaller
                       
                       return new AppDbContext(options);
                   });
+        
+        container.Add<DatabaseInitializer>().AsTransient();
     }
 }

@@ -1,4 +1,5 @@
 using Comp.ModelData.Comp;
+using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,8 @@ public class AppDbContext : DbContext
             Console.WriteLine($"Error during database initialization: {ex.Message}");
         }
     }
+    
+    public DbSet<Category> Categories { get; set; }
     
     public DbSet<ConditionalDesignation> ConditionalDesignations { get; set; }
     public DbSet<Manufacturer> Manufacturers { get; set; }
@@ -35,4 +38,3 @@ public class AppDbContext : DbContext
     #endif
     }
 }
-

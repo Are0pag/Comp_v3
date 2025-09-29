@@ -34,6 +34,7 @@ public partial class App : Application
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
+        await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
         new CompCardWindow(new CompCardVm(), 
                            new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>),
                            new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>),
