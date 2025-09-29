@@ -21,11 +21,11 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
         _dataGridVm = dataGridVm;
         _repository = repository;
         _ = LoadDataSync();
-        var collectionView = CollectionViewSource.GetDefaultView(_dataGridVm.Items);
-        collectionView.Filter = ItemsFilter;
+        /*var collectionView = CollectionViewSource.GetDefaultView(_dataGridVm.Items);
+        collectionView.Filter = ItemsFilter;*/
     }
     
-    public ObservableCollection<Category> Items { get; set; } = new();
+    public ObservableCollection<Category> Items { get; set; } 
 
     protected async Task LoadDataSync() {
         var items = await _repository.GetAllAsync();

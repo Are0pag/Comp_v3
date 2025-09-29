@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using Comp_v4.CompCard;
 using Comp_v4.CompCard.Vm;
+using Comp_v4.NomDict.Installers;
+using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows;
 using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
@@ -31,16 +33,25 @@ public partial class App : Application
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
         InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
         InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
+
+        var ndInst = new NomDictInstaller();
+        _subContainers[typeof(NomDictWindow)] = new AreopagContainer();
+        _subContainers[typeof(NomDictWindow)].Add<AppDbContext>().AsSingleton()
+                                             .UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        ndInst.Install(_subContainers[typeof(NomDictWindow)]);
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
         await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
-        new CompCardWindow(new CompCardVm(), 
+        /*new CompCardWindow(new CompCardVm(), 
                            new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>),
                            new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>),
                            new MuFieldVm(OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>),
                            new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>)
-                          ).Show();
+                          ).Show();*/
+        var window = _subContainers[typeof(NomDictWindow)].BeginScope<NomDictWindow>();
+        window.Closed += (_, _) => _subContainers[typeof(NomDictWindow)].ReleaseScope<NomDictWindow>();
+        window.Show();
     }
 
     protected override async void OnExit(ExitEventArgs e) {

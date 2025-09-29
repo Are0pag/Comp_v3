@@ -9,9 +9,10 @@ namespace Comp_v4.NomDict.View;
 
 public partial class NomDictWindow : Window, IDisposable
 {
-    public NomDictWindow(TreeViewVm treeViewVm) {
+    public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm) {
         InitializeComponent();
         CategoryTreeView.DataContext = treeViewVm;
+        MainDataGrid.DataContext = dataGridVm;
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
