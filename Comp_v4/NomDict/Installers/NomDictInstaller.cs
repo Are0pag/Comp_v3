@@ -7,6 +7,7 @@ using Comp.Db.Repositories;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using WPF.Services;
+using WPF.UCL;
 
 namespace Comp_v4.NomDict.Installers;
 
@@ -21,12 +22,11 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<TreeViewVm>().AsScoped<NomDictWindow>();
 
 
+        container.Add<CategoryValidator>().AsScoped<NomDictWindow>();
+        container.Add<OneValueWindow>().AsTransient();
+        
         container.Add<AddNewCategoryButtonVm>().AsScoped<NomDictWindow>();
-        container.Add<AddCategoryAction>().AsScoped<NomDictWindow>()
-                 .UsingFactoryMethod(() => {
-                      return new AddCategoryAction(container.Resolve<AddNewCategoryButtonVm>(),
-                                                   container.Resolve<TreeViewVm>());
-                  });
+        container.Add<AddCategoryAction>().AsScoped<NomDictWindow>();
 
         container.Add<NomDictWindow>().AsTransient();
     }

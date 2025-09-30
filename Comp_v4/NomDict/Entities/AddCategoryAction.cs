@@ -1,23 +1,30 @@
 using Comp_v4.NomDict.Vm;
+using Comp_v4.NomDict.Vm.Buttons;
 using Comp.ModelData.SortingItems;
 using Utils.WPF;
 using Utils.WPF.Buttons;
+using WPF.UCL;
 
 namespace Comp_v4.NomDict.Entities;
 
 public class AddCategoryAction : BaseAsyncActionButtonInvoked
 {
     protected readonly TreeViewVm _treeViewVm;
+    protected readonly CategoryValidator _validator;
+    protected Category? _category;
 
-    public AddCategoryAction(BaseAsyncBButtonVm buttonVm, TreeViewVm treeViewVm) : base(buttonVm) {
+    public AddCategoryAction(AddNewCategoryButtonVm buttonVm, TreeViewVm treeViewVm, CategoryValidator validator) : base(buttonVm) {
         _treeViewVm = treeViewVm;
+        _validator = validator;
     }
 
     public override async Task PerformAsync(object? parameter) {
-        if (parameter is not Category subCategory)
-            throw new InvalidCastException();
-        
-        _treeViewVm.SelectedCategory!.AddSubcategory(subCategory);
+        _category = new Category();
+        var window = new OneValueWindow("Новая категория: ", s => {
+            _category.Name = s;
+            return _validator.ValidateAsync(_category).Result is { IsValid: true };
+        });
+        window.ShowDialog();
     }
 
     public override bool CanPerform() {
