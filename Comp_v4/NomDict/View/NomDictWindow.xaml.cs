@@ -3,16 +3,19 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.Vm;
+using Comp_v4.NomDict.Vm.Buttons;
 using Utils.EventBus;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.View;
 
 public partial class NomDictWindow : Window, IDisposable
 {
-    public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm) {
+    public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm, AddNewCategoryButtonVm addNewCategoryButtonVm) {
         InitializeComponent();
         CategoryTreeView.DataContext = treeViewVm;
         MainDataGrid.DataContext = dataGridVm;
+        TreeView_Button_Add.DataContext = addNewCategoryButtonVm;
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
@@ -20,7 +23,7 @@ public partial class NomDictWindow : Window, IDisposable
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-        throw new NotImplementedException();
+        EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
     }
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Comp_v4.CompCard;
 using Comp_v4.CompCard.Vm;
+using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Installers;
 using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows;
@@ -49,8 +50,10 @@ public partial class App : Application
                            new MuFieldVm(OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>),
                            new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>)
                           ).Show();*/
-        var window = _subContainers[typeof(NomDictWindow)].BeginScope<NomDictWindow>();
-        window.Closed += (_, _) => _subContainers[typeof(NomDictWindow)].ReleaseScope<NomDictWindow>();
+        var subContainer = _subContainers[typeof(NomDictWindow)];
+        var window = subContainer.BeginScope<NomDictWindow>();
+        window.Closed += (_, _) => subContainer.ReleaseScope<NomDictWindow>();
+        _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction>();
         window.Show();
     }
 
@@ -80,7 +83,8 @@ public partial class App : Application
            .Instantiate<ActionStackTracker,
                 PersistenceManager<TWindow, TData>,
                 TableCommandBinder<TWindow, TData>,
-                ActionFilter<TWindow, TData, FiltersVmBase>>();
+                ActionFilter<TWindow, TData, FiltersVmBase>
+            >();
         window.Show();
     }
 }

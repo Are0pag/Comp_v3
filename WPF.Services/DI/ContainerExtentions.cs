@@ -2,6 +2,10 @@ namespace WPF.Services;
 
 public static class ContainerExtentions
 {
+    public static void Instantiate<T1>(this AreopagContainer container) {
+        container.Resolve<T1>();
+    } 
+    
     public static void Instantiate<T1, T2>(this AreopagContainer container) {
         container.Resolve<T1>();
         container.Resolve<T2>();
