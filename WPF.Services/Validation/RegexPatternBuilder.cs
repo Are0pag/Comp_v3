@@ -41,7 +41,9 @@ public class RegexPatternBuilder
     }
 
     public RegexPatternBuilder Alphanumeric(int min = 1, int? max = null) {
-        _pattern += max.HasValue ? $"[a-zA-Z0-9]{{{min},{max}}}" : $"[a-zA-Z0-9]{{{min}}}";
+        _pattern += max.HasValue 
+            ? $"[a-zA-Zа-яА-ЯёЁ0-9]{{{min},{max}}}" 
+            : $"[a-zA-Zа-яА-ЯёЁ0-9]{{{min}}}";
         return this;
     }
 

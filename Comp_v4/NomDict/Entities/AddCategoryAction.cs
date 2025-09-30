@@ -25,6 +25,9 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
             return _validator.ValidateAsync(_category).Result is { IsValid: true };
         });
         WindowLocator.LocateBy(window).ShowDialog();
+        
+        _treeViewVm.SelectedCategory!.Subcategories.Add(_category);
+        _treeViewVm.SelectedCategory = _category;
     }
 
     public override bool CanPerform() {
