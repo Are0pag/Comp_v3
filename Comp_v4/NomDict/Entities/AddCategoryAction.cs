@@ -1,5 +1,6 @@
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
+using Comp.Db.Contracts;
 using Comp.ModelData.SortingItems;
 using Utils.WPF;
 using Utils.WPF.Buttons;
@@ -11,11 +12,13 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
 {
     protected readonly TreeViewVm _treeViewVm;
     protected readonly CategoryValidator _validator;
+    protected readonly IRepository<Category> _repository;
     protected Category? _category;
 
-    public AddCategoryAction(AddNewCategoryButtonVm buttonVm, TreeViewVm treeViewVm, CategoryValidator validator) : base(buttonVm) {
+    public AddCategoryAction(AddNewCategoryButtonVm buttonVm, TreeViewVm treeViewVm, CategoryValidator validator, IRepository<Category> repository) : base(buttonVm) {
         _treeViewVm = treeViewVm;
         _validator = validator;
+        _repository = repository;
     }
 
     public override async Task PerformAsync(object? parameter) {
@@ -25,9 +28,14 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
             return _validator.ValidateAsync(_category).Result is { IsValid: true };
         });
         WindowLocator.LocateBy(window).ShowDialog();
+
+        _category.ParentCategory = _treeViewVm.SelectedCategory;
+        _category.ParentCategoryId = _treeViewVm.SelectedCategory!.Id;
         
         _treeViewVm.SelectedCategory!.Subcategories.Add(_category);
         _treeViewVm.SelectedCategory = _category;
+
+        await _repository.AddAsync(_category);
     }
 
     public override bool CanPerform() {

@@ -108,6 +108,11 @@ public class RegexPatternBuilder
         return this;
     }
 
+    public RegexPatternBuilder CustomPattern(string pattern) {
+        _pattern += pattern;
+        return this;
+    }
+    
     public string Build() {
         return _pattern;
     }
