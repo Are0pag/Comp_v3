@@ -1,5 +1,7 @@
+using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
+using Comp_v4.NomDict.Vm.Buttons;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.Comp;
@@ -17,6 +19,13 @@ public class NomDictInstaller : AbstractInstaller
 
         container.Add<DataGridVm>().AsScoped<NomDictWindow>();
         container.Add<TreeViewVm>().AsScoped<NomDictWindow>();
+        
+        
+        container.Add<AddCategoryAction>().AsScoped<NomDictWindow>();
+        container.Add<AddNewCategoryButtonVm>().AsScoped<NomDictWindow>()
+                 .UsingFactoryMethod(() => {
+                    return new AddNewCategoryButtonVm(container.Resolve<AddCategoryAction>().CanPerform);
+        });
         
         container.Add<NomDictWindow>().AsTransient();
     }
