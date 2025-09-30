@@ -24,7 +24,7 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
             _category.Name = s;
             return _validator.ValidateAsync(_category).Result is { IsValid: true };
         });
-        window.ShowDialog();
+        WindowLocator.LocateBy(window).ShowDialog();
     }
 
     public override bool CanPerform() {

@@ -14,10 +14,14 @@ public partial class OneValueWindow : Window
         InitializeComponent();
         _isValidCheck = isValidCheck;
         ValueNameTextBlock.Text = valueName;
+        
+        Loaded += (s, e) => {
+            InputTextBox.Focus();
+            Keyboard.Focus(InputTextBox);
+        };
     }
     
     public string GetCurrentValue() => InputTextBox.Text;
-    protected TextBox GetInputTextBox() => InputTextBox;
 
     protected virtual void InputTextBox_OnTextChanged(object sender, TextChangedEventArgs e) {
         if (_isValidCheck.Invoke(InputTextBox.Text)) {
