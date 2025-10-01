@@ -20,7 +20,7 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
         _dataGridVm = dataGridVm;
         _repository = repository;
-        _ = LoadDataSync();
+        _ = LoadDataAsync();
         var collectionView = CollectionViewSource.GetDefaultView(_dataGridVm.Items);
         collectionView.Filter = ItemsFilter;
     }
@@ -31,7 +31,7 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
         set => _selectedCategory = value;
     }
 
-    protected async Task LoadDataSync() {
+    protected async Task LoadDataAsync() {
         var items = await _repository.GetAllAsync();
         var categoriesByParent = items
                                 .Where(c => c.ParentCategoryId.HasValue)
@@ -62,7 +62,7 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
 
     public virtual void NotifyUiForChanges() {
         Items.Clear();
-        _ = LoadDataSync();
+        _ = LoadDataAsync();
         OnPropertyChanged(nameof(Items));
     }
 
