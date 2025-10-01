@@ -43,13 +43,18 @@
             
             <!-- Основное содержимое части A -->
             <Border Grid.Row="1" Name="PartAContent" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <TreeView Grid.Row="0" Grid.Column="0" 
+                <TreeView Grid.Row="0" Grid.Column="0"  AllowDrop="True" Background="Transparent"
                           Name="CategoryTreeView" 
                           ItemsSource="{Binding Items}" 
                           SelectedItemChanged="CategoriesTreeView_SelectedItemChanged">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <EventSetter Event="DragEnter" Handler="TreeViewItem_DragEnter"/>
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                            <EventSetter Event="PreviewMouseMove" Handler="TreeViewItem_PreviewMouseMove"/>
+                            <EventSetter Event="Drop" Handler="TreeViewItem_Drop"/>
+                            <EventSetter Event="DragOver" Handler="TreeViewItem_DragOver"/>
                         </Style>
                     </TreeView.ItemContainerStyle>
                     <TreeView.ItemTemplate>
