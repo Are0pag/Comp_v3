@@ -1,5 +1,6 @@
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
+using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.ModelData.SortingItems;
 using Utils.WPF;
@@ -18,19 +19,32 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
 
     public override async Task PerformAsync(object? parameter) {
         var deletingCategory = _treeViewVm.SelectedCategory!;
+        
+        await DeleteCategoryRecursiveAsync(deletingCategory);
 
         _treeViewVm.SelectedCategory = null;
-        _treeViewVm.Items.Remove(deletingCategory);
-        await _repository.DeleteAsync(deletingCategory.Id);
         
+        if (deletingCategory.ParentCategory == null) {
+            _treeViewVm.Items.Remove(deletingCategory);
+        }
+        else {
+            deletingCategory.ParentCategory.RemoveSubcategory(deletingCategory);
+        }
         _treeViewVm.NotifyUiForChanges();
     }
 
     public override bool CanPerform() {
-        return _treeViewVm.SelectedCategory != null;
+        return _treeViewVm.SelectedCategory is { Name: not DatabaseInitializer.ROOT_CATEGORY_NAME };
     }
 
     public override async Task CancelAsync(object? parameter = null) {
         throw new NotImplementedException();
+    }
+
+    private async Task DeleteCategoryRecursiveAsync(Category category) {
+        foreach (var subcategory in category.Subcategories.ToList()) 
+            await DeleteCategoryRecursiveAsync(subcategory);
+
+        await _repository.DeleteAsync(category.Id);
     }
 }

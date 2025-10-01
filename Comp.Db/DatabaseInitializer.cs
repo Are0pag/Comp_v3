@@ -10,6 +10,8 @@ public class DatabaseInitializer
         _context = context;
     }
 
+    public const string ROOT_CATEGORY_NAME = "Компоненты";
+
     public async Task InitializeAsync() {
         await _context.Database.EnsureCreatedAsync();
         await EnsureRootCategoryExistsAsync();
@@ -21,7 +23,7 @@ public class DatabaseInitializer
                                                .AnyAsync(c => c.ParentCategoryId == null);
 
         if (!rootCategoryExists) {
-            var rootCategory = new Category("Компоненты", null);
+            var rootCategory = new Category(ROOT_CATEGORY_NAME, null);
             _context.Categories.Add(rootCategory);
             await _context.SaveChangesAsync();
         }
