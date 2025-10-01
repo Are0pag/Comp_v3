@@ -1,33 +1,32 @@
+using System.Text.RegularExpressions;
+
 namespace WPF.Services.Validation;
 
 public class RegexRule<T> : BaseValidationRule<T>
 {
-    private readonly System.Text.RegularExpressions.Regex _regex;
+    private readonly Regex _regex;
 
     public RegexRule(string propertyName, string pattern, string errorMessage = "Invalid format")
         : base(propertyName, "Regex", errorMessage)
     {
-        _regex = new System.Text.RegularExpressions.Regex(pattern);
+        _regex = new Regex(pattern);
     }
 
     public override Task<ValidationResult> ValidateAsync(T item)
     {
-        var str = item?.ToString() ?? string.Empty;
+        if (item == null)
+            return CreateErrorResult("Item is null");
+
+        if (!TryGetPropertyValue(item, out var value))
+            return CreateErrorResult($"Property '{PropertyName}' not found");
+
+        // Для null значений считаем невалидным
+        if (value == null)
+            return CreateErrorResult("Value cannot be null for regex validation");
+
+        var str = value.ToString();
         var isValid = _regex.IsMatch(str);
         
-        return Task.FromResult(new ValidationResult
-        {
-            IsValid = isValid,
-            Errors = isValid ? new List<ValidationError>() : new List<ValidationError>
-            {
-                new ValidationError
-                {
-                    PropertyName = PropertyName,
-                    ErrorMessage = ErrorMessage,
-                    Severity = Severity,
-                    RuleName = RuleName
-                }
-            }
-        });
+        return isValid ? CreateSuccessResult() : CreateErrorResult();
     }
 }

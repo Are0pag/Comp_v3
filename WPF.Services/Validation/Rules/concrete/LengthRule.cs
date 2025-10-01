@@ -15,22 +15,23 @@ public class LengthRule<T> : BaseValidationRule<T>
 
     public override Task<ValidationResult> ValidateAsync(T item)
     {
-        var str = item?.ToString() ?? string.Empty;
+        if (item == null)
+            return CreateErrorResult("Item is null");
+
+        if (!TryGetPropertyValue(item, out var value))
+            return CreateErrorResult($"Property '{PropertyName}' not found");
+
+        // Для null значений считаем невалидным (можно изменить логику если нужно)
+        if (value == null)
+            return CreateErrorResult("Value cannot be null for length validation");
+
+        var str = value.ToString();
         var isValid = str.Length >= _minLength && str.Length <= _maxLength;
         
-        return Task.FromResult(new ValidationResult
-        {
-            IsValid = isValid,
-            Errors = isValid ? new List<ValidationError>() : new List<ValidationError>
-            {
-                new ValidationError
-                {
-                    PropertyName = PropertyName,
-                    ErrorMessage = $"{ErrorMessage} (min: {_minLength}, max: {_maxLength})",
-                    Severity = Severity,
-                    RuleName = RuleName
-                }
-            }
-        });
+        if (isValid)
+            return CreateSuccessResult();
+        
+        var detailedMessage = $"{ErrorMessage} (current: {str.Length}, required: {_minLength}-{_maxLength})";
+        return CreateErrorResult(detailedMessage);
     }
 }
