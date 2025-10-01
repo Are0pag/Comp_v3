@@ -51,10 +51,6 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
         OnPropertyChanged(nameof(Items));
     }
 
-    protected virtual bool ItemsFilter(object item) {
-        return _selectedCategory != null && ((Component) item).Category == _selectedCategory;
-    }
-    
     public void OnSelectedCategoryChanged(object? args) {
         if (args is not TreeView treeView) 
             throw new ArgumentException();
@@ -62,6 +58,16 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
         _selectedCategory = treeView.SelectedItem as Category;
         
         CollectionViewSource.GetDefaultView(_dataGridVm.Items).Refresh();
+    }
+
+    public virtual void NotifyUiForChanges() {
+        Items.Clear();
+        _ = LoadDataSync();
+        OnPropertyChanged(nameof(Items));
+    }
+
+    protected virtual bool ItemsFilter(object item) {
+        return _selectedCategory != null && ((Component) item).Category == _selectedCategory;
     }
 
     public virtual void Dispose() {

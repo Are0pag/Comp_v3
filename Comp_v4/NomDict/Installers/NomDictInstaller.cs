@@ -28,6 +28,9 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<AddNewCategoryButtonVm>().AsScoped<NomDictWindow>();
         container.Add<AddCategoryAction>().AsScoped<NomDictWindow>();
 
+        container.Add<DeleteCategoryButtonVm>().AsScoped<NomDictWindow>();
+        container.Add<DeleteCategoryAction>().AsScoped<NomDictWindow>();
+
         container.Add<NomDictWindow>().AsTransient();
     }
 }

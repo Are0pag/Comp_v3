@@ -11,8 +11,8 @@ namespace Comp_v4.NomDict.Entities;
 public class AddCategoryAction : BaseAsyncActionButtonInvoked
 {
     protected readonly TreeViewVm _treeViewVm;
-    protected readonly CategoryValidator _validator;
     protected readonly IRepository<Category> _repository;
+    protected readonly CategoryValidator _validator;
     protected Category? _category;
 
     public AddCategoryAction(AddNewCategoryButtonVm buttonVm, TreeViewVm treeViewVm, CategoryValidator validator, IRepository<Category> repository) : base(buttonVm) {

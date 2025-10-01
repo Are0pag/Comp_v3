@@ -29,6 +29,10 @@
                             x:Name="TreeView_Button_Add"
                             Command="{Binding ClickCommand}"/>
                     <Button Content="A3" Margin="2" Padding="10,2"/>
+                    <Button Content="-" Margin="2" Padding="10,2"
+                            x:Name="TreeView_Button_Delete"
+                            Command="{Binding ClickCommand}"
+                            />
                     <!-- Добавьте свои инструменты для части A -->
                     
                 </StackPanel>

@@ -3,7 +3,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.Vm.Buttons;
 
-public partial class AddNewCategoryButtonVm : BaseAsyncBButtonVm
+public partial class DeleteCategoryButtonVm : BaseAsyncBButtonVm
 {
     [RelayCommand(CanExecute = nameof(CanClick))]
     public override async Task OnClickAsync() {
