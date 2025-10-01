@@ -19,7 +19,7 @@ public class Category : NotifyPropertyChanged
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public int? Id { get; set; } 
 
     [Required]
     public string Name {
@@ -47,7 +47,7 @@ public class Category : NotifyPropertyChanged
     [ForeignKey(nameof(ParentCategoryId))] 
     public Category? ParentCategory { get; set; }
 
-    public virtual ObservableCollection<Category> Subcategories { get; set; } = new ObservableCollection<Category>();
+    public virtual ObservableCollection<Category> Subcategories { get; set; } = new ();
 
     public void AddSubcategory(Category subcategory) {
         Subcategories ??= [];

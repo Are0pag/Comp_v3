@@ -30,12 +30,12 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
         WindowLocator.LocateBy(window).ShowDialog();
 
         _category.ParentCategory = _treeViewVm.SelectedCategory;
-        _category.ParentCategoryId = _treeViewVm.SelectedCategory!.Id;
-        
-        _treeViewVm.SelectedCategory!.Subcategories.Add(_category);
-        _treeViewVm.SelectedCategory = _category;
 
         await _repository.AddAsync(_category);
+        
+        _treeViewVm.SelectedCategory!.AddSubcategory(_category);
+        _treeViewVm.SelectedCategory = _category;
+        _category = null;
     }
 
     public override bool CanPerform() {
