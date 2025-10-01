@@ -29,11 +29,16 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
         });
         WindowLocator.LocateBy(window).ShowDialog();
 
-        _category.ParentCategory = _treeViewVm.SelectedCategory;
+        //_category.ParentCategory = _treeViewVm.SelectedCategory;
 
         await _repository.AddAsync(_category);
-        
+
+        _treeViewVm.SelectedCategory!.IsExpanded = true;
+        _category.ParentCategory = _treeViewVm.SelectedCategory;
         _treeViewVm.SelectedCategory!.AddSubcategory(_category);
+        await _repository.UpdateAsync(_category);
+        await _repository.UpdateAsync(_treeViewVm.SelectedCategory!);
+
         _treeViewVm.SelectedCategory = _category;
         _category = null;
     }

@@ -19,7 +19,7 @@ public partial class NomDictWindow : Window, IDisposable
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
-        throw new NotImplementedException();
+        
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {

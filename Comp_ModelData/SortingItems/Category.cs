@@ -9,17 +9,18 @@ namespace Comp.ModelData.SortingItems;
 public class Category : NotifyPropertyChanged
 {
     protected string _name = string.Empty;
-    protected bool _isExpanded = false;
+    protected bool _isExpanded;
     
     public Category() { }
     public Category(string name, Category? parent) {
         Name = name;
+        IsExpanded = false;
         ParentCategory = parent;
     }
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int? Id { get; set; } 
+    public int Id { get; set; } 
 
     [Required]
     public string Name {
@@ -52,8 +53,6 @@ public class Category : NotifyPropertyChanged
     public void AddSubcategory(Category subcategory) {
         Subcategories ??= [];
         Subcategories.Add(subcategory);
-        subcategory.ParentCategory = this;
-        subcategory.ParentCategoryId = this.Id;
     }
     
     public void RemoveSubcategory(Category subcategory) {
