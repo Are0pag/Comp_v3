@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Comp_v4.CompCard;
+using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Installers;
@@ -27,13 +28,11 @@ public partial class App : Application
     
     public App() {
         _rootContainer = new AreopagContainer();
-        var appDbContextInstaller = new AppDbContextInstaller();
-        appDbContextInstaller.Install(_rootContainer);
+        new AppDbContextInstaller().Install(_rootContainer);
 
-        InstallTableWindowScope<CondDesignTableWindow>(new TableWindowInstaller<CondDesignTableWindow, ConditionalDesignation, CdValidator, CdFilter>());
-        InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
-        InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
-        InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
+        var cont = new AreopagContainer();
+        new CompCardWindowInstaller(_rootContainer, _subContainers).Install(cont);
+        _subContainers[typeof(CompCardWindow)] = cont;
 
         var ndInst = new NomDictInstaller();
         _subContainers[typeof(NomDictWindow)] = new AreopagContainer();
@@ -43,48 +42,18 @@ public partial class App : Application
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-        await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
-        /*new CompCardWindow(new CompCardVm(), 
-                           new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>),
-                           new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>),
-                           new MuFieldVm(OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>),
-                           new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>)
-                          ).Show();*/
+        /*await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
+
         var subContainer = _subContainers[typeof(NomDictWindow)];
         var window = subContainer.BeginScope<NomDictWindow>();
         window.Closed += (_, _) => subContainer.ReleaseScope<NomDictWindow>();
         _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction, UpdateCategoryNameAction>();
-        window.Show();
+        window.Show();*/
+        
+        _subContainers[typeof(CompCardWindow)].BeginScope<CompCardWindow>().Show();
     }
 
     protected override async void OnExit(ExitEventArgs e) {
         base.OnExit(e);
-    }
-
-    protected void InstallTableWindowScope<TWindow>(AbstractInstaller tableWindowInstaller) 
-        where TWindow : Window, IDisposable
-    {
-        var cdSubContainer = new AreopagContainer();
-        cdSubContainer.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
-        tableWindowInstaller.Install(cdSubContainer);
-        _subContainers[typeof(TWindow)] = cdSubContainer;
-    }
-    
-    protected void OpenTableWindow<TWindow, TData>()
-        where TWindow : Window, IDisposable
-        where TData : class, IDbEntity, new() 
-    {
-        var contextContainer = _subContainers[typeof(TWindow)];
-        var window = contextContainer.BeginScope<TWindow>();
-        window.Closed += (sender, args) => {
-            contextContainer.ReleaseScope<TWindow>();
-        };
-        contextContainer
-           .Instantiate<ActionStackTracker,
-                PersistenceManager<TWindow, TData>,
-                TableCommandBinder<TWindow, TData>,
-                ActionFilter<TWindow, TData, FiltersVmBase>
-            >();
-        window.Show();
     }
 }

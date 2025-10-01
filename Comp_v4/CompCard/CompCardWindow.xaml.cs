@@ -3,7 +3,7 @@ using Comp_v4.CompCard.Vm;
 
 namespace Comp_v4.CompCard;
 
-public partial class CompCardWindow : Window
+public partial class CompCardWindow : Window, IDisposable
 {
     protected readonly CompCardVm _compCardVm;
     
@@ -16,4 +16,6 @@ public partial class CompCardWindow : Window
         MuField.DataContext = muFieldVm;
         TsField.DataContext = tsFieldVm;
     }
+
+    public void Dispose() { }
 }
