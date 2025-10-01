@@ -53,7 +53,7 @@ public partial class App : Application
         var subContainer = _subContainers[typeof(NomDictWindow)];
         var window = subContainer.BeginScope<NomDictWindow>();
         window.Closed += (_, _) => subContainer.ReleaseScope<NomDictWindow>();
-        _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction>();
+        _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction, UpdateCategoryNameAction>();
         window.Show();
     }
 

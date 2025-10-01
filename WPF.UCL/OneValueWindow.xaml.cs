@@ -10,10 +10,11 @@ public partial class OneValueWindow : Window
 {
     protected readonly Func<string, bool> _isValidCheck;
     
-    public OneValueWindow(string valueName, Func<string, bool> isValidCheck) {
+    public OneValueWindow(string valueName, Func<string, bool> isValidCheck, string? textInInputField = null) {
         InitializeComponent();
         _isValidCheck = isValidCheck;
         ValueNameTextBlock.Text = valueName;
+        if (textInInputField != null) InputTextBox.Text = textInInputField;
         
         Loaded += (s, e) => {
             InputTextBox.Focus();

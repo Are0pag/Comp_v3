@@ -12,12 +12,13 @@ namespace Comp_v4.NomDict.View;
 public partial class NomDictWindow : Window, IDisposable
 {
     public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm, 
-                         AddNewCategoryButtonVm addNewCategoryButtonVm, DeleteCategoryButtonVm deleteCategoryButtonVm) {
+                         AddNewCategoryButtonVm addNewCategoryButtonVm, DeleteCategoryButtonVm deleteCategoryButtonVm, UpdateCategoryNameButtonVm updateCategoryNameButtonVm) {
         InitializeComponent();
         CategoryTreeView.DataContext = treeViewVm;
         MainDataGrid.DataContext = dataGridVm;
         TreeView_Button_Add.DataContext = addNewCategoryButtonVm;
         TreeView_Button_Delete.DataContext = deleteCategoryButtonVm;
+        TreeView_Button_UpdateName.DataContext = updateCategoryNameButtonVm;
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
