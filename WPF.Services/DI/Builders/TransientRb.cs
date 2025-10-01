@@ -6,8 +6,11 @@ public class TransientRb : IRegistrationBuilder
         Registration = proxy;
     }
     public RegistrationProxy Registration { get; }
+    public Func<object>? FactoryResolve { get; set; }
 
     public virtual object Resolve(AreopagContainer container) {
+        if (FactoryResolve != null)
+            return FactoryResolve();
         
         /* Код проверяет, что конструктор только один (Length: 1), но не проверяет его доступность.
          Если у класса есть несколько конструкторов (например, private и public), будет выброшено исключение, хотя разрешимый конструктор существует*/

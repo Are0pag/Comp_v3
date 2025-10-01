@@ -6,7 +6,6 @@ namespace Comp.Db;
 public class DatabaseInitializer
 {
     private readonly AppDbContext _context;
-
     public DatabaseInitializer(AppDbContext context) {
         _context = context;
     }
