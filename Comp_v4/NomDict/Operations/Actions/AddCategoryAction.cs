@@ -29,8 +29,6 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
         });
         WindowLocator.LocateBy(window).ShowDialog();
 
-        //_category.ParentCategory = _treeViewVm.SelectedCategory;
-
         await _repository.AddAsync(_category);
 
         _treeViewVm.SelectedCategory!.IsExpanded = true;
