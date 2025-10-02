@@ -9,6 +9,7 @@ public class MoveCategoryAction
 {
     protected readonly TreeViewVm _treeViewVm;
     protected readonly IRepository<Category> _repository;
+    protected bool _isProcessing = false;
 
     public MoveCategoryAction(TreeViewVm treeViewVm, IRepository<Category> repository) {
         _treeViewVm = treeViewVm;
@@ -22,7 +23,7 @@ public class MoveCategoryAction
     }
     
     public async Task PerformAsync(Category sourceCategory, Category targetCategory) {
-        if (sourceCategory == null || targetCategory == null) 
+        if (sourceCategory == null || targetCategory == null || _isProcessing) 
             return;
 
         // Проверка на циклические ссылки
@@ -63,9 +64,10 @@ public class MoveCategoryAction
         targetCategory.IsExpanded = true;
         targetFromDb.IsExpanded = true;
 
-        //await _repository.UpdateAsync(sourceCategory);
+        _isProcessing = true;
         await _repository.UpdateAsync(sourceFromDb);
         await _repository.UpdateAsync(targetFromDb);
+        _isProcessing = false;
 
         _treeViewVm.NotifyUiForChanges();
     }
