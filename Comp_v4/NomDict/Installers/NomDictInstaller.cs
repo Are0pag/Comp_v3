@@ -1,4 +1,6 @@
+using Comp_v4.CompCard;
 using Comp_v4.NomDict.Entities;
+using Comp_v4.NomDict.Operations.Actions.Components;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
@@ -22,6 +24,7 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<DataGridVm>().AsScoped<NomDictWindow>();
         container.Add<TreeViewVm>().AsScoped<NomDictWindow>();
 
+        
 
         container.Add<CategoryValidator>().AsScoped<NomDictWindow>();
         container.Add<OneValueWindow>().AsTransient();
@@ -36,7 +39,12 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<UpdateCategoryNameAction>().AsScoped<NomDictWindow>();
 
         container.Add<MoveCategoryAction>().AsScoped<NomDictWindow>();
-        
+
+
+        container.Add<AddNewCategoryButtonVm>().AsScoped<NomDictWindow>();
+        container.Add<AddComponentAction>().AsScoped<NomDictWindow>();
+
+
         container.Add<NomDictWindow>().AsTransient();
     }
 }

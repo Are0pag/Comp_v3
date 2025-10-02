@@ -33,7 +33,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
         
         
-        container.Add<CompCardVm>().AsScoped<CompCardWindow>();
+        //container.Add<CompCardVm>().AsScoped<CompCardWindow>();
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
         
@@ -46,6 +46,11 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<TsFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>));
 
+
+        container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<NomenclatureNumberFieldVm>().AsScoped<CompCardWindow>();
+        
+        
         container.Add<CompCardWindow>().AsTransient();
     }
     

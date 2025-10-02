@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Comp_v4.CompCard;
 using Comp_v4.CompCard._Installers;
+using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Entities.InputHandlers;
@@ -30,6 +31,7 @@ public partial class App : Application
     public App() {
         _rootContainer = new AreopagContainer();
         new AppDbContextInstaller().Install(_rootContainer);
+        _rootContainer.Add<CardComponentManager>().AsSingleton();
 
         var cont = new AreopagContainer();
         new CompCardWindowInstaller(_rootContainer, _subContainers).Install(cont);
@@ -39,9 +41,11 @@ public partial class App : Application
         _subContainers[typeof(NomDictWindow)] = new AreopagContainer();
         _subContainers[typeof(NomDictWindow)].Add<AppDbContext>().AsSingleton()
                                              .UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        _subContainers[typeof(NomDictWindow)].Add<CardComponentManager>()
+                                             .AsSingleton()
+                                             .UsingFactoryMethod(() => _rootContainer.Resolve<CardComponentManager>());
         _subContainers[typeof(NomDictWindow)].Add<DataGridInputHandler>()
-                                             .AsScoped<NomDictWindow>()
-                                             .UsingFactoryMethod(() => new DataGridInputHandler(OpenCardComponentWindow));
+                                             .AsScoped<NomDictWindow>();
         var ndInst = new NomDictInstaller();
         ndInst.Install(_subContainers[typeof(NomDictWindow)]);
     }
