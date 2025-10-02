@@ -45,18 +45,14 @@ public partial class NomDictWindow : Window, IDisposable
     public void Dispose() {
     }
 
-    public void OnDataGridDoubleClick(object args) {
-        EventBus<INomDictWindowSubscriber>
-           .RaiseEvent<IDataGridDoubleClickHandler>(h => h?.OnDataGridDoubleClick(MainDataGrid));
-    }
-
     private void CategoriesTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<ISelectedCategoryChangedHandler>(h => h?.OnSelectedCategoryChanged(CategoryTreeView));
     }
 
     private void TreeViewItem_DragEnter(object sender, DragEventArgs e) {
-        if (e.Data.GetData(typeof(Category)) is not Category) return;
+        if (e.Data.GetData(typeof(Category)) is not Category) 
+            return;
         e.Effects = DragDropEffects.Move;
         e.Handled = true;
     }
@@ -68,7 +64,8 @@ public partial class NomDictWindow : Window, IDisposable
 
     // Обработчик движения мыши - отслеживает, когда начинается перетаскивание
     private void TreeViewItem_PreviewMouseMove(object sender, MouseEventArgs e) {
-        if (e.LeftButton != MouseButtonState.Pressed || _draggedItem == null) return;
+        if (e.LeftButton != MouseButtonState.Pressed || _draggedItem == null) 
+            return;
 
         var currentPoint = e.GetPosition(null);
 

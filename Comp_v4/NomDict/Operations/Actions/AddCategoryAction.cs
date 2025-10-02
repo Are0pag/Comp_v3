@@ -13,7 +13,8 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
     protected readonly TreeViewVm _treeViewVm;
     protected readonly IRepository<Category> _repository;
     protected readonly CategoryValidator _validator;
-    protected Category? _category;
+    protected Category? _creatingCategory;
+    protected Category? _selectedCategory;
 
     public AddCategoryAction(AddNewCategoryButtonVm buttonVm, TreeViewVm treeViewVm, CategoryValidator validator, IRepository<Category> repository) : base(buttonVm) {
         _treeViewVm = treeViewVm;
@@ -22,24 +23,28 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
     }
 
     public override async Task PerformAsync(object? parameter) {
-        _category = new Category();
+        if (_treeViewVm.SelectedCategory == null) 
+            return;
+        _selectedCategory = _treeViewVm.SelectedCategory;
+        _creatingCategory = new Category();
         var window = new OneValueWindow("Новая категория: ", s => {
-            _category.Name = s;
-            return _validator.ValidateAsync(_category).Result is { IsValid: true };
+            _creatingCategory.Name = s;
+            return _validator.ValidateAsync(_creatingCategory).Result is { IsValid: true };
         });
         WindowLocator.LocateBy(window).ShowDialog();
 
-        _category.Id = default;
-        await _repository.AddAsync(_category);
+        _creatingCategory.Id = default;
+        await _repository.AddAsync(_creatingCategory);
 
         _treeViewVm.SelectedCategory!.IsExpanded = true;
-        _category.ParentCategory = _treeViewVm.SelectedCategory;
-        _treeViewVm.SelectedCategory!.AddSubcategory(_category);
-        await _repository.UpdateAsync(_category);
+        _creatingCategory.ParentCategory = _treeViewVm.SelectedCategory;
+        _treeViewVm.SelectedCategory!.AddSubcategory(_creatingCategory);
+        await _repository.UpdateAsync(_creatingCategory);
         await _repository.UpdateAsync(_treeViewVm.SelectedCategory);
 
-        _treeViewVm.SelectedCategory = _category;
-        _category = null;
+        _treeViewVm.SelectedCategory = _creatingCategory;
+        _creatingCategory = null;
+        _selectedCategory = null;
     }
 
     public override bool CanPerform() {

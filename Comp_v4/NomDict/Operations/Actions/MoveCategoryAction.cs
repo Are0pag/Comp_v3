@@ -15,13 +15,38 @@ public class MoveCategoryAction
         _repository = repository;
     }
 
+    public async Task Do(int i) {
+        if (i == 5)
+            return;
+        await _repository.GetByIdAsync(i);
+    }
+    
     public async Task PerformAsync(Category sourceCategory, Category targetCategory) {
-        if (sourceCategory == null || targetCategory == null) return;
+        if (sourceCategory == null || targetCategory == null) 
+            return;
 
         // Проверка на циклические ссылки
-        if (IsChildOf(sourceCategory, targetCategory)) return;
-
-        var prevOwner = FindParentCategory(sourceCategory, _treeViewVm.Items);
+        if (IsChildOf(sourceCategory, targetCategory)) 
+            return;
+        
+        var prevOwnerFromUI = FindParentCategory(sourceCategory, _treeViewVm.Items);
+        
+        // Загружаем сущности из БД чтобы гарантировать, что работаем с отслеживаемыми экземплярами
+        var sourceFromDb = await _repository.GetByIdAsync(sourceCategory.Id);
+        var targetFromDb = await _repository.GetByIdAsync(targetCategory.Id);
+        
+        if (sourceFromDb == null || targetFromDb == null)
+            return;
+        
+        // 
+        var prevOwner = sourceFromDb.ParentCategoryId.HasValue 
+            ? await _repository.GetByIdAsync(sourceFromDb.ParentCategoryId.Value)
+            : null;
+        
+        // Проверяем, не пытаемся ли переместить в того же родителя
+        if (sourceFromDb.ParentCategoryId == targetFromDb.Id) 
+            return;
+        
         if (prevOwner == null) {
             if (sourceCategory.ParentCategory != null)
                 return;
@@ -29,19 +54,28 @@ public class MoveCategoryAction
         else {
             prevOwner.Subcategories.Remove(sourceCategory);
         }
-        
         targetCategory.AddSubcategory(sourceCategory);
-        sourceCategory.ParentCategory = targetCategory;
+        
+        sourceFromDb.ParentCategory = targetFromDb;
+        //  sourceFromDb.ParentCategoryId = targetFromDb.Id;
+        //sourceCategory.ParentCategory = targetCategory;
         
         targetCategory.IsExpanded = true;
+        targetFromDb.IsExpanded = true;
 
-        await _repository.UpdateAsync(sourceCategory);
+        //await _repository.UpdateAsync(sourceCategory);
+        await _repository.UpdateAsync(sourceFromDb);
+        await _repository.UpdateAsync(targetFromDb);
 
         _treeViewVm.NotifyUiForChanges();
     }
 
+    /// <summary>
+    /// Проверка на циклические ссылки
+    /// </summary>
     private bool IsChildOf(Category parent, Category child) {
-        if (child.ParentCategory == null) return false;
+        if (child.ParentCategory == null) 
+            return false;
         return child.ParentCategory == parent || IsChildOf(parent, child.ParentCategory);
     }
 

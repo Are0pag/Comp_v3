@@ -27,10 +27,8 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
     }
     
     public ObservableCollection<Category> Items { get; set; }
-    public Category SelectedCategory {
-        get {
-            return _selectedCategory ?? Items.First(c => c.Name == DatabaseInitializer.ROOT_CATEGORY_NAME);
-        }
+    public Category? SelectedCategory {
+        get => _selectedCategory;
         set => _selectedCategory = value;
     }
 
