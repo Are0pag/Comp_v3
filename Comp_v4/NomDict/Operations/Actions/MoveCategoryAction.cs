@@ -30,8 +30,6 @@ public class MoveCategoryAction
         if (IsChildOf(sourceCategory, targetCategory)) 
             return;
         
-        var prevOwnerFromUI = FindParentCategory(sourceCategory, _treeViewVm.Items);
-        
         // Загружаем сущности из БД чтобы гарантировать, что работаем с отслеживаемыми экземплярами
         var sourceFromDb = await _repository.GetByIdAsync(sourceCategory.Id);
         var targetFromDb = await _repository.GetByIdAsync(targetCategory.Id);
@@ -39,7 +37,6 @@ public class MoveCategoryAction
         if (sourceFromDb == null || targetFromDb == null)
             return;
         
-        // 
         var prevOwner = sourceFromDb.ParentCategoryId.HasValue 
             ? await _repository.GetByIdAsync(sourceFromDb.ParentCategoryId.Value)
             : null;
@@ -58,8 +55,6 @@ public class MoveCategoryAction
         targetCategory.AddSubcategory(sourceCategory);
         
         sourceFromDb.ParentCategory = targetFromDb;
-        //  sourceFromDb.ParentCategoryId = targetFromDb.Id;
-        //sourceCategory.ParentCategory = targetCategory;
         
         targetCategory.IsExpanded = true;
         targetFromDb.IsExpanded = true;

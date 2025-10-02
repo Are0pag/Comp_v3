@@ -3,7 +3,6 @@ using Comp_v4.NomDict.Vm.Buttons;
 using Comp.Db.Contracts;
 using Comp.ModelData.SortingItems;
 using Utils.WPF;
-using Utils.WPF.Buttons;
 using WPF.UCL;
 
 namespace Comp_v4.NomDict.Entities;
@@ -26,7 +25,14 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
         if (_treeViewVm.SelectedCategory == null) 
             return;
         _selectedCategory = _treeViewVm.SelectedCategory;
+
+        // Получаем свежий экземпляр из БД чтобы избежать проблем с отслеживанием
+        var selectedCategoryFromDb = await _repository.GetByIdAsync(_treeViewVm.SelectedCategory.Id);
+        if (selectedCategoryFromDb == null) 
+            return;
+
         _creatingCategory = new Category();
+        
         var window = new OneValueWindow("Новая категория: ", s => {
             _creatingCategory.Name = s;
             return _validator.ValidateAsync(_creatingCategory).Result is { IsValid: true };
@@ -34,16 +40,24 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
         WindowLocator.LocateBy(window).ShowDialog();
 
         _creatingCategory.Id = default;
+        _creatingCategory.ParentCategory = selectedCategoryFromDb;
+        _creatingCategory.ParentCategoryId = selectedCategoryFromDb.Id;
+        
         await _repository.AddAsync(_creatingCategory);
 
-        _treeViewVm.SelectedCategory!.IsExpanded = true;
-        _creatingCategory.ParentCategory = _treeViewVm.SelectedCategory;
-        _treeViewVm.SelectedCategory!.AddSubcategory(_creatingCategory);
-        await _repository.UpdateAsync(_creatingCategory);
-        await _repository.UpdateAsync(_treeViewVm.SelectedCategory);
+        selectedCategoryFromDb.AddSubcategory(_creatingCategory);
+
+        if (!selectedCategoryFromDb.IsExpanded) {
+            selectedCategoryFromDb.IsExpanded = true;
+            await _repository.UpdateAsync(selectedCategoryFromDb);
+        }
 
         _treeViewVm.SelectedCategory = _creatingCategory;
+        
         _creatingCategory = null;
+
+        _selectedCategory.IsExpanded = true;
+        _treeViewVm.NotifyUiForChanges();
         _selectedCategory = null;
     }
 
