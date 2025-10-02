@@ -3,6 +3,7 @@ using Comp_v4.CompCard;
 using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.NomDict.Entities;
+using Comp_v4.NomDict.Entities.InputHandlers;
 using Comp_v4.NomDict.Installers;
 using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows;
@@ -34,26 +35,35 @@ public partial class App : Application
         new CompCardWindowInstaller(_rootContainer, _subContainers).Install(cont);
         _subContainers[typeof(CompCardWindow)] = cont;
 
-        var ndInst = new NomDictInstaller();
+
         _subContainers[typeof(NomDictWindow)] = new AreopagContainer();
         _subContainers[typeof(NomDictWindow)].Add<AppDbContext>().AsSingleton()
                                              .UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        _subContainers[typeof(NomDictWindow)].Add<DataGridInputHandler>()
+                                             .AsScoped<NomDictWindow>()
+                                             .UsingFactoryMethod(() => new DataGridInputHandler(OpenCardComponentWindow));
+        var ndInst = new NomDictInstaller();
         ndInst.Install(_subContainers[typeof(NomDictWindow)]);
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
-        /*await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
+        await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
 
         var subContainer = _subContainers[typeof(NomDictWindow)];
         var window = subContainer.BeginScope<NomDictWindow>();
         window.Closed += (_, _) => subContainer.ReleaseScope<NomDictWindow>();
-        _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction, UpdateCategoryNameAction>();
-        window.Show();*/
-        
-        _subContainers[typeof(CompCardWindow)].BeginScope<CompCardWindow>().Show();
+        _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction, UpdateCategoryNameAction, DataGridInputHandler>();
+        window.Show();
     }
 
     protected override async void OnExit(ExitEventArgs e) {
         base.OnExit(e);
+    }
+
+    protected void OpenCardComponentWindow(object? parameter) {
+        var container = _subContainers[typeof(CompCardWindow)];
+        var window = container.BeginScope<CompCardWindow>();
+        window.Closed += (_, __) => container.ReleaseScope<CompCardWindow>();
+        window.Show();
     }
 }

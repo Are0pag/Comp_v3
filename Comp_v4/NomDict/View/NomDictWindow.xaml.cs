@@ -7,6 +7,7 @@ using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp.ModelData.SortingItems;
+using Templates.Common.Events.Input;
 using Utils.EventBus;
 using Utils.WPF.Buttons;
 
@@ -38,6 +39,7 @@ public partial class NomDictWindow : Window, IDisposable
     }
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        EventBus<IGlobalMouseSubscriber>.RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(sender, e));
     }
 
     public void Dispose() {
