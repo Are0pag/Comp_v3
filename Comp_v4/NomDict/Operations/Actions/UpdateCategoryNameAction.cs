@@ -19,16 +19,26 @@ public class UpdateCategoryNameAction : UpdateCategoryAction
     }
 
     public override async Task PerformAsync(object? parameter) {
-        _previousCategoryName = _treeViewVm.SelectedCategory!.Name;
+        if (!CanPerform()) return;
+
+        var categoryFromDb = await _repository.GetByIdAsync(_treeViewVm.SelectedCategory!.Id);
+        if (categoryFromDb == null) return;
+
+        _previousCategoryName = categoryFromDb.Name;
+
         var window = new OneValueWindow(valueName: "Новое имя: ",
                                         isValidCheck: s => {
-                                            _treeViewVm.SelectedCategory!.Name = s;
-                                            return _validator.ValidateAsync(_treeViewVm.SelectedCategory).Result is { IsValid: true };
+                                            categoryFromDb.Name = s;
+                                            return _validator.ValidateAsync(categoryFromDb).Result is { IsValid: true };
                                         },
-                                        textInInputField: _treeViewVm.SelectedCategory!.Name);
+                                        textInInputField: categoryFromDb.Name);
         WindowLocator.LocateBy(window).ShowDialog();
-        
-        await _repository.UpdateAsync(_treeViewVm.SelectedCategory!);
+
+        await _repository.UpdateAsync(categoryFromDb);
+
+        _treeViewVm.SelectedCategory.Name = categoryFromDb.Name;
+
+        _treeViewVm.NotifyUiForChanges();
     }
 
     public override bool CanPerform() {
