@@ -21,13 +21,13 @@ public class MoveCategoryAction
         // Проверка на циклические ссылки
         if (IsChildOf(sourceCategory, targetCategory)) return;
 
-        var prevOwner = _treeViewVm.Items.Where(c => c.Subcategories.Contains(sourceCategory)).ToList();
-        if (prevOwner.Count != 1) {
+        var prevOwner = FindParentCategory(sourceCategory, _treeViewVm.Items);
+        if (prevOwner == null) {
             if (sourceCategory.ParentCategory != null)
-                throw new Exception();
+                return;
         }
         else {
-            prevOwner[0].Subcategories.Remove(sourceCategory);
+            prevOwner.Subcategories.Remove(sourceCategory);
         }
         
         targetCategory.AddSubcategory(sourceCategory);

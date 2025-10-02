@@ -2,6 +2,7 @@ using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
+using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.Comp;

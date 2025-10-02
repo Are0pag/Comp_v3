@@ -1,3 +1,4 @@
+using Comp.Db;
 using Comp.ModelData.SortingItems;
 using WPF.Services.Validation;
 
@@ -20,6 +21,7 @@ public class CategoryValidator : ValidatorBase<Category>
                    .Custom(category => !category.Name.EndsWith("."), "NoEdgeDots", "Название не может заканчиваться точкой")
                    .Custom(category => !category.Name.StartsWith(" ") && !category.Name.EndsWith(" "), 
                            "NoEdgeSpaces", "Название не может начинаться или заканчиваться пробелом")
+                   .Custom(category => category.Name != DatabaseInitializer.ROOT_CATEGORY_NAME)
                    .Build();
 
         foreach (var rule in rules) {

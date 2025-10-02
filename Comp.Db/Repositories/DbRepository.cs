@@ -26,8 +26,13 @@ public class DbRepository<T> : IRepository<T>
     }
 
     public virtual async Task UpdateAsync(T entity) {
-        _context.Set<T>().Update(entity);
-        await _context.SaveChangesAsync();
+        try {
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+        }
     }
 
     public virtual async Task DeleteAsync(int id) {

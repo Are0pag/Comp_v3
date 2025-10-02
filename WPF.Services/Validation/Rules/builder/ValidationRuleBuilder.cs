@@ -23,8 +23,8 @@ public class ValidationRuleBuilder<T>
     }
 
     public ValidationRuleBuilder<T> Custom(Func<T, bool> validationFunc,
-                                           string ruleName,
-                                           string errorMessage,
+                                           string ruleName = "",
+                                           string errorMessage = "",
                                            ValidationSeverity severity = ValidationSeverity.Error) {
         _rules.Add(new CustomValidationRule<T>(_currentPropertyName, ruleName, errorMessage, severity, validationFunc));
 

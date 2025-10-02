@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v4.NomDict.Events;
+using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
@@ -26,10 +27,13 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
     }
     
     public ObservableCollection<Category> Items { get; set; }
-    public Category? SelectedCategory {
-        get => _selectedCategory;
+    public Category SelectedCategory {
+        get {
+            return _selectedCategory ?? Items.First(c => c.Name == DatabaseInitializer.ROOT_CATEGORY_NAME);
+        }
         set => _selectedCategory = value;
     }
+
 
     protected async Task LoadDataAsync() {
         var items = await _repository.GetAllAsync();

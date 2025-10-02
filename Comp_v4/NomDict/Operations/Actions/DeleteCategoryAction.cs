@@ -18,6 +18,8 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
     }
 
     public override async Task PerformAsync(object? parameter) {
+        if (!CanPerform()) return;
+        
         var deletingCategory = _treeViewVm.SelectedCategory!;
         
         await DeleteCategoryRecursiveAsync(deletingCategory);
