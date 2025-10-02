@@ -1,3 +1,4 @@
+using Comp_v4.CompCard.Entities;
 using Utils.WPF;
 using Utils.WPF.Buttons;
 
@@ -5,10 +6,9 @@ namespace Comp_v4.NomDict.Operations.Actions.Components;
 
 public class AddComponentAction : BaseAsyncActionButtonInvoked
 {
-    protected readonly Action<object?> _openCompWindow;
-    
-    public AddComponentAction(BaseAsyncBButtonVm buttonVm, Action<object?> openCompWindow) : base(buttonVm) {
-        _openCompWindow = openCompWindow;
+    protected readonly CardComp _cardComp;
+    public AddComponentAction(BaseAsyncBButtonVm buttonVm, CardComp cardComp) : base(buttonVm) {
+        _cardComp = cardComp;
     }
 
     public override async Task PerformAsync(object? parameter) {

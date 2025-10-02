@@ -61,9 +61,9 @@ public partial class App : Application
     }
 
     protected void OpenCardComponentWindow(object? parameter) {
-        var container = _subContainers[typeof(CompCardWindow)];
+        /*var container = _subContainers[typeof(CompCardWindow)];
         var window = container.BeginScope<CompCardWindow>();
         window.Closed += (_, __) => container.ReleaseScope<CompCardWindow>();
-        window.Show();
+        window.Show();*/
     }
 }
