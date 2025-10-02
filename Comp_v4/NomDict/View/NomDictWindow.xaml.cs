@@ -15,14 +15,16 @@ namespace Comp_v4.NomDict.View;
 
 public partial class NomDictWindow : Window, IDisposable
 {
+    private readonly MoveCategoryAction _moveCategoryAction;
+    private readonly TreeViewVm _treeViewVm;
     private TreeViewItem? _draggedItem;
     private Point _startPoint;
-    private readonly MoveCategoryAction _moveCategoryAction;
 
     public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm,
                          AddNewCategoryButtonVm addNewCategoryButtonVm, DeleteCategoryButtonVm deleteCategoryButtonVm,
                          UpdateCategoryNameButtonVm updateCategoryNameButtonVm, MoveCategoryAction moveCategoryAction) {
         InitializeComponent();
+        _treeViewVm = treeViewVm;
         _moveCategoryAction = moveCategoryAction;
         CategoryTreeView.DataContext = treeViewVm;
         MainDataGrid.DataContext = dataGridVm;
@@ -46,6 +48,7 @@ public partial class NomDictWindow : Window, IDisposable
     }
 
     private void CategoriesTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+        _treeViewVm.SelectedCategory = e.NewValue as Category;
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<ISelectedCategoryChangedHandler>(h => h?.OnSelectedCategoryChanged(CategoryTreeView));
     }

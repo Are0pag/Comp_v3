@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp.Db;
@@ -19,24 +20,40 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
 
     public override async Task PerformAsync(object? parameter) {
         if (!CanPerform()) return;
-        
-        var deletingCategory = _treeViewVm.SelectedCategory!;
-        
-        await DeleteCategoryRecursiveAsync(deletingCategory);
 
+        var deletingCategoryFromDb = await _repository.GetByIdAsync(_treeViewVm.SelectedCategory!.Id);
+        if (deletingCategoryFromDb == null) 
+            return;
+
+        // Получаем родителя из БД если есть
+        Category? parentFromDb = null;
+        if (deletingCategoryFromDb.ParentCategoryId.HasValue)
+            parentFromDb = await _repository.GetByIdAsync(deletingCategoryFromDb.ParentCategoryId.Value);
+
+        // Рекурсивное удаление из БД
+        await DeleteCategoryRecursiveAsync(deletingCategoryFromDb);
+
+        // Обновляем UI
         _treeViewVm.SelectedCategory = null;
-        
-        if (deletingCategory.ParentCategory == null) {
-            _treeViewVm.Items.Remove(deletingCategory);
+
+        if (parentFromDb == null) {
+            // Удаляем из корневой коллекции UI
+            var itemToRemove = _treeViewVm.Items.FirstOrDefault(x => x.Id == deletingCategoryFromDb.Id);
+            if (itemToRemove != null)
+                _treeViewVm.Items.Remove(itemToRemove);
         }
         else {
-            deletingCategory.ParentCategory.RemoveSubcategory(deletingCategory);
+            // Обновляем родителя в UI
+            var parentInUi = FindCategoryInTree(parentFromDb.Id, _treeViewVm.Items);
+            parentInUi?.RemoveSubcategory(deletingCategoryFromDb);
         }
+
         _treeViewVm.NotifyUiForChanges();
     }
 
     public override bool CanPerform() {
-        return _treeViewVm.SelectedCategory is { Name: not DatabaseInitializer.ROOT_CATEGORY_NAME };
+        var canPerform = _treeViewVm.SelectedCategory is { Name: not DatabaseInitializer.ROOT_CATEGORY_NAME, Subcategories.Count: 0 };
+        return canPerform;
     }
 
     public override async Task CancelAsync(object? parameter = null) {
@@ -48,5 +65,16 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
             await DeleteCategoryRecursiveAsync(subcategory);
 
         await _repository.DeleteAsync(category.Id);
+    }
+
+    private Category? FindCategoryInTree(int categoryId, ObservableCollection<Category> categories) {
+        foreach (var category in categories) {
+            if (category.Id == categoryId) 
+                return category;
+            var found = FindCategoryInTree(categoryId, category.Subcategories);
+            if (found != null) 
+                return found;
+        }
+        return null;
     }
 }

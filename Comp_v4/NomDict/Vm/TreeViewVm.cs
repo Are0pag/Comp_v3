@@ -8,6 +8,7 @@ using Comp.Db.Contracts;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Utils.EventBus;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.Vm;
 
@@ -29,7 +30,10 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
     public ObservableCollection<Category> Items { get; set; }
     public Category? SelectedCategory {
         get => _selectedCategory;
-        set => _selectedCategory = value;
+        set {
+            _selectedCategory = value;
+            EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
+        }
     }
 
 
