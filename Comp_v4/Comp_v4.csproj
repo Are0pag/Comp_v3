@@ -46,4 +46,8 @@
     </Page>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CompCard\Entities\States\Nested\" />
+  </ItemGroup>
+
 </Project>
