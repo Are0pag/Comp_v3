@@ -18,7 +18,13 @@ public class AddComponentAction : BaseAsyncActionButtonInvoked
     }
 
     public override async Task PerformAsync(object? parameter) {
-        _cardComponentManager.OpenWindow<CreateStateCardComp>(new Component());
+        if (_treeViewVm.SelectedCategory == null)
+            return;
+        
+        _cardComponentManager.OpenWindow<CreateStateCardComp>(new CardComponentManager.Args(
+                                                                   new Component(),
+                                                                   _treeViewVm.SelectedCategory
+                                                                   ));
     }
 
     public override bool CanPerform() {

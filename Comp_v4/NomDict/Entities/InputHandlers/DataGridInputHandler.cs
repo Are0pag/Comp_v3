@@ -1,4 +1,3 @@
-
 using System.Windows.Input;
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
@@ -25,6 +24,8 @@ public class DataGridInputHandler : IMouseDoubleClickHandler
         if (sender is not Component component)
             throw new ArgumentException();
         
-        _cardComponentManager.OpenWindow<EditStateCardComp>(component);
+        _cardComponentManager.OpenWindow<EditStateCardComp>(new CardComponentManager.Args(
+                                                                 component
+                                                                 ));
     }
 }
