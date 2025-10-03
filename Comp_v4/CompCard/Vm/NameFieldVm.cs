@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using WPF.Services.Validation;
 
 namespace Comp_v4.CompCard.Vm;
 
@@ -15,6 +16,7 @@ public class NomenclatureNumberFieldVm : BaseFieldVm
 
 public abstract class BaseFieldVm : ObservableObject
 {
+    
     protected string _value;
     protected string _label;
 
