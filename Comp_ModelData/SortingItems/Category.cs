@@ -61,7 +61,7 @@ public class Category : NotifyPropertyChanged
         subcategory.ParentCategoryId = null;
     }
 
-    //public override string ToString() => GetFullNameRecursive(this, Name);
+    public override string ToString() => GetFullNameRecursive(this, Name);
 
     public string GetFullNameRecursive(Category category, string name) {
         return category.ParentCategory != null ? GetFullNameRecursive(category.ParentCategory, category.ParentCategory.Name + "/" + name) : name;
