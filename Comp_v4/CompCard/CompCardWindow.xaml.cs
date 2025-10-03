@@ -23,6 +23,8 @@ public partial class CompCardWindow : Window, IDisposable
         ManField.DataContext = manFieldVm;
         MuField.DataContext = muFieldVm;
         TsField.DataContext = tsFieldVm;
+
+        CategoryNameTextBlock.DataContext = component;
         
         InitSimpleField(nameFieldVm, component.Name, NameFieldUc.GetInputTextBox());
         NameFieldUc.DataContext = nameFieldVm;
@@ -32,7 +34,7 @@ public partial class CompCardWindow : Window, IDisposable
     }
 
     public void Dispose() { }
-
+    
     private void InitSimpleField(BaseFieldVm baseFieldVm, string currentValue, TextBox textBox) {
         baseFieldVm.Value = currentValue;
         baseFieldVm.PropertyChanged += (sender, args) => {

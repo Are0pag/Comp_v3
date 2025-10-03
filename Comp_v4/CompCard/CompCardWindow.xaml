@@ -45,6 +45,21 @@
                                 x:Name="NomenclatureNumberFieldUc"
                                 FieldName="Номенклатурный номер: "
                                 InputText="{Binding Value, Mode=TwoWay}"/>
+                            
+                            <StackPanel 
+                                x:Name="CategoryDisplayPanel" 
+                                Orientation="Horizontal" 
+                                Margin="0,5,0,0">
+                                <TextBlock 
+                                    Text="Категория: " 
+                                    FontWeight="Bold" 
+                                    Margin="5,0,10,0"/>
+    
+                                <TextBlock x:Name="CategoryNameTextBlock"
+                                    Text="{Binding Category}" 
+                                    Margin="5,0,0,0"/>
+                            </StackPanel>
+                            
                         </StackPanel>
                     </Border>
                     
