@@ -120,8 +120,10 @@
             
             <!-- Часть H -->
             <Border Grid.Row="1" Name="PartH" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <TextBlock Text="H" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                
+                <Button x:Name="SaveComponentButton"
+                        Command="{Binding ClickCommand}"
+                        />
+
             </Border>
         </Grid>
     </Viewbox>

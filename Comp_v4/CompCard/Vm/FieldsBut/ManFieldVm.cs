@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.Input;
+using WPF.Services.ValidationString;
 
 namespace Comp_v4.CompCard.Vm;
 
 public partial class ManFieldVm : BaseVmForFieldWithButton
 {
-    public ManFieldVm(Action openWindow) : base(openWindow) {
+    public ManFieldVm(StringValidatorBase validator, Action openWindow) : base(validator, openWindow) {
         _label = "Производитель: ";
     }
 

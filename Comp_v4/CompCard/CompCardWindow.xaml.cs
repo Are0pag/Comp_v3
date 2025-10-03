@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Comp_v4.CompCard.Vm;
+using Comp_v4.CompCard.Vm.Buttons;
 using Comp.ModelData.Comp;
 
 namespace Comp_v4.CompCard;
@@ -11,7 +12,8 @@ public partial class CompCardWindow : Window, IDisposable
     protected readonly Component _component;
     
     public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, Component component,
-                          NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm) {
+                          NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm,
+                          SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();
         _component = component;
         
@@ -31,6 +33,8 @@ public partial class CompCardWindow : Window, IDisposable
         
         InitSimpleField(nomenclatureNumberFieldVm, component.NomenclatureNumber, NomenclatureNumberFieldUc.GetInputTextBox());
         NomenclatureNumberFieldUc.DataContext = nomenclatureNumberFieldVm;
+        
+        SaveComponentButton.DataContext = saveCompButtonVm;
     }
 
     public void Dispose() { }

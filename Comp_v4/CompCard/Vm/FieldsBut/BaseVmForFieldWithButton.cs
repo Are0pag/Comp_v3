@@ -1,18 +1,19 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using WPF.Services.ValidationString;
 
 namespace Comp_v4.CompCard.Vm;
 
-public abstract class BaseVmForFieldWithButton : ObservableObject
+public abstract class BaseVmForFieldWithButton : /*ObservableObject*/ BaseFieldVm
 {
     protected readonly Action _openWindow;
-    protected string _value;
-    protected string _label;
+    /*protected string _value;
+    protected string _label;*/
 
-    protected BaseVmForFieldWithButton(Action openWindow) {
+    /*protected BaseVmForFieldWithButton(Action openWindow) {
         _openWindow = openWindow;
-    }
+    }*/
 
-    public string Value {
+    /*public string Value {
         get => _value;
         set {
             if (value == _value) return;
@@ -28,6 +29,10 @@ public abstract class BaseVmForFieldWithButton : ObservableObject
             _label = value;
             OnPropertyChanged();
         }
+    }*/
+
+    protected BaseVmForFieldWithButton(StringValidatorBase validator, Action openWindow) : base(validator) {
+        _openWindow = openWindow;
     }
 
     protected abstract void OpenNestedWindow();

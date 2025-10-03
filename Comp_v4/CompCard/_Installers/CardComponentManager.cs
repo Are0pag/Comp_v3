@@ -1,11 +1,12 @@
 using Comp_v4.CompCard.Entities.States;
+using Comp_v4.CompCard.Operations.Actions;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using WPF.Services;
 
 namespace Comp_v4.CompCard.Entities;
 
-// регистрируется пожалуй как синглтон
+// регистрируется как синглтон
 public class CardComponentManager
 {
     protected readonly AreopagContainer _container;
@@ -47,6 +48,7 @@ public class CardComponentManager
             _container.ReleaseScope<CompCardWindow>();
             _openedComponentsCards.Remove(args.Component);
         };
+        _container.Instantiate<SaveComponentAction>();
         window.Show();
     }
 

@@ -1,6 +1,8 @@
 using System.Windows;
 using Comp_v4.CompCard.Entities.Validation;
+using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
+using Comp_v4.CompCard.Vm.Buttons;
 using Comp_v4.TableWindows;
 using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
@@ -38,16 +40,16 @@ public class CompCardWindowInstaller : AbstractInstaller
         
         
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
+                 .UsingFactoryMethod(() => new CdFieldVm(null, OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
         
         container.Add<ManFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new ManFieldVm(OpenTableWindow<ManufacturersTableWindow, Manufacturer>));
+                 .UsingFactoryMethod(() => new ManFieldVm(null, OpenTableWindow<ManufacturersTableWindow, Manufacturer>));
 
         container.Add<MuFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new MuFieldVm(OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>));
+                 .UsingFactoryMethod(() => new MuFieldVm(null, OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>));
 
         container.Add<TsFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>));
+                 .UsingFactoryMethod(() => new TsFieldVm(null, OpenTableWindow<TypeSizesTableWindow, TypeSize>));
 
 
         container.Add<ValidatorName>().AsScoped<CompCardWindow>();
@@ -56,6 +58,10 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
         container.Add<NomenclatureNumberFieldVm>().AsScoped<CompCardWindow>();
         
+        container.Add<ValidatorCardComp>().AsScoped<CompCardWindow>();
+        
+        container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
+        container.Add<SaveComponentAction>().AsScoped<CompCardWindow>();
         
         container.Add<CompCardWindow>().AsTransient();
     }
