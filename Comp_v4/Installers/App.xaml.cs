@@ -6,6 +6,7 @@ using Comp_v4.CompCard.Vm;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Entities.InputHandlers;
 using Comp_v4.NomDict.Installers;
+using Comp_v4.NomDict.Operations.Actions.Components;
 using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows;
 using Comp_v4.TableWindows.ConditionalDesignation;
@@ -31,7 +32,8 @@ public partial class App : Application
     public App() {
         _rootContainer = new AreopagContainer();
         new AppDbContextInstaller().Install(_rootContainer);
-        _rootContainer.Add<CardComponentManager>().AsSingleton();
+        _rootContainer.Add<CardComponentManager>().AsSingleton()
+                      .UsingFactoryMethod(() => new CardComponentManager(_subContainers[typeof(CompCardWindow)]));
 
         var cont = new AreopagContainer();
         new CompCardWindowInstaller(_rootContainer, _subContainers).Install(cont);
@@ -57,6 +59,7 @@ public partial class App : Application
         var window = subContainer.BeginScope<NomDictWindow>();
         window.Closed += (_, _) => subContainer.ReleaseScope<NomDictWindow>();
         _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction, UpdateCategoryNameAction, DataGridInputHandler>();
+        _subContainers[typeof(NomDictWindow)].Instantiate<AddComponentAction>();
         window.Show();
     }
 

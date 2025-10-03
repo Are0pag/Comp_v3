@@ -4,6 +4,7 @@ using Comp_v4.NomDict.Operations.Actions.Components;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
+using Comp_v4.NomDict.Vm.Buttons.Components;
 using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
@@ -41,7 +42,7 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<MoveCategoryAction>().AsScoped<NomDictWindow>();
 
 
-        container.Add<AddNewCategoryButtonVm>().AsScoped<NomDictWindow>();
+        container.Add<AddCompButtonVm>().AsScoped<NomDictWindow>();
         container.Add<AddComponentAction>().AsScoped<NomDictWindow>();
 
 

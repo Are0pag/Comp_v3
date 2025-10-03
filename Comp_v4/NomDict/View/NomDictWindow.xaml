@@ -76,10 +76,9 @@
             <!-- Панель инструментов части B -->
             <Border Grid.Row="0" Name="PartBToolbar" Background="LightBlue" Height="40">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
-                    <Button Content="B1" Margin="2" Padding="10,2"/>
-                    <Button Content="B2" Margin="2" Padding="10,2"/>
-                    <Button Content="B3" Margin="2" Padding="10,2"/>
-                    <Button Content="B4" Margin="2" Padding="10,2"/>
+                    <Button x:Name="AddComponentButton"
+                            Command="{Binding ClickCommand}"
+                            Content="Новый компонент" Margin="2" Padding="10,2"/>
                     <!-- Добавьте свои инструменты для части B -->
                     
                 </StackPanel>

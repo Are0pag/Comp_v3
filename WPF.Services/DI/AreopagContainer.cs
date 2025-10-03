@@ -158,6 +158,13 @@ public class AreopagContainer : IDisposable
         if (_resolvingTypes.Contains(type))
             throw new InvalidOperationException($"Cyclic dependency detected for type {type.Name}");
 
+        Console.WriteLine("Registered types:");
+        foreach (var registration in _registrationBuilders) {
+            var regType = registration.Registration.GetRegistration();
+            Console.WriteLine($"- {regType.Name} (Registration Type: {registration.GetType().Name})");
+        }
+        Console.WriteLine($"Attempting to resolve type: {type.Name}");
+        
         if (_registrationBuilders.First(r => r.Registration.GetRegistration() == type) is not { } builder)
             throw new InvalidOperationException();
         

@@ -9,7 +9,11 @@ public class CardComponentManager
 {
     protected readonly AreopagContainer _container;
     protected readonly List<Component> _openedComponentsCards = new();
-    
+
+    public CardComponentManager(AreopagContainer container) {
+        _container = container;
+    }
+
     public void OpenWindow<TInitialState>(Component component) 
         where TInitialState : BaseStateCardComp
     {
