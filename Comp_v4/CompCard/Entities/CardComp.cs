@@ -12,6 +12,4 @@ public class CardComp : GenericStateMachine<BaseStateCardComp, CardComp>
     public void Save() {
         CurrentState.Save(this);
     }
-    
-
 }

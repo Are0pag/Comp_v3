@@ -11,6 +11,9 @@ using Comp_v4.TableWindows.Manufacturers.Overrided;
 using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
 using Comp.Db;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories;
+using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
 using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
@@ -34,9 +37,11 @@ public class CompCardWindowInstaller : AbstractInstaller
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
         InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
         InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
-        
-        
-        
+
+
+        container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        container.Add<IRepository<Component>>().To<DbRepository<Component>>()
+                 .AsTransient();
         
         
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()

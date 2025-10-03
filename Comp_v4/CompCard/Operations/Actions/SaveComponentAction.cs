@@ -1,3 +1,4 @@
+using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm.Buttons;
 using Comp.ModelData.Comp;
@@ -8,15 +9,16 @@ namespace Comp_v4.CompCard.Operations.Actions;
 
 public class SaveComponentAction : BaseAsyncActionButtonInvoked
 {
-    protected readonly Component _component;
+    protected readonly CardComp _cardOfComponent;
     protected readonly ValidatorCardComp _validator;
-    public SaveComponentAction(SaveCompButtonVm buttonVm, Component component, ValidatorCardComp validator) : base(buttonVm) {
-        _component = component;
+    public SaveComponentAction(SaveCompButtonVm buttonVm,  ValidatorCardComp validator, CardComp cardOfComponent) : base(buttonVm) {
         _validator = validator;
+        _cardOfComponent = cardOfComponent;
     }
 
-    public override async Task PerformAsync(object? parameter) {
-        throw new NotImplementedException();
+    public override Task PerformAsync(object? parameter) {
+        _cardOfComponent.Save();
+        return Task.CompletedTask;
     }
 
     public override bool CanPerform() {
