@@ -6,30 +6,14 @@ namespace WPF.Services.ValidationString;
 public class StringValidationRuleBuilder
 {
     private readonly List<IStringValidationRule> _rules = new();
-    private string _currentPropertyName = "Value";
-
-    public StringValidationRuleBuilder ForProperty(string propertyName) {
-        _currentPropertyName = propertyName;
-        return this;
-    }
 
     public StringValidationRuleBuilder Required(string errorMessage = "Field is required") {
-        _rules.Add(new RequiredStringRule(_currentPropertyName, errorMessage));
+        _rules.Add(new RequiredStringRule(errorMessage));
         return this;
     }
 
     public StringValidationRuleBuilder Length(int min, int max, string errorMessage = "Invalid length") {
-        _rules.Add(new LengthStringRule(_currentPropertyName, min, max, errorMessage));
-        return this;
-    }
-
-    public StringValidationRuleBuilder MinLength(int min, string errorMessage = "Value is too short") {
-        _rules.Add(new MinLengthStringRule(_currentPropertyName, min, errorMessage));
-        return this;
-    }
-
-    public StringValidationRuleBuilder MaxLength(int max, string errorMessage = "Value is too long") {
-        _rules.Add(new MaxLengthStringRule(_currentPropertyName, max, errorMessage));
+        _rules.Add(new LengthStringRule(min, max, errorMessage));
         return this;
     }
 
@@ -37,19 +21,18 @@ public class StringValidationRuleBuilder
                                               string ruleName = "",
                                               string errorMessage = "",
                                               ValidationSeverity severity = ValidationSeverity.Error) {
-        _rules.Add(new CustomStringValidationRule(_currentPropertyName, ruleName, errorMessage, severity,
-                                                  validationFunc));
+        _rules.Add(new CustomStringValidationRule(ruleName, errorMessage, severity, validationFunc));
         return this;
     }
 
     public StringValidationRuleBuilder Regex(string pattern, string errorMessage = "Invalid format") {
-        _rules.Add(new RegexStringRule(_currentPropertyName, pattern, errorMessage));
+        _rules.Add(new RegexStringRule(pattern, errorMessage));
         return this;
     }
 
     public StringValidationRuleBuilder Regex(string pattern, RegexOptions options,
                                              string errorMessage = "Invalid format") {
-        _rules.Add(new AdvancedRegexStringRule(_currentPropertyName, pattern, options, errorMessage));
+        _rules.Add(new AdvancedRegexStringRule(pattern, options, errorMessage));
         return this;
     }
 
@@ -60,7 +43,7 @@ public class StringValidationRuleBuilder
                                               .EndsWith()
                                               .Build();
 
-        _rules.Add(new RegexStringRule(_currentPropertyName, emailPattern, errorMessage));
+        _rules.Add(new RegexStringRule(emailPattern, errorMessage));
         return this;
     }
 
@@ -71,7 +54,7 @@ public class StringValidationRuleBuilder
                                               .EndsWith()
                                               .Build();
 
-        _rules.Add(new RegexStringRule(_currentPropertyName, phonePattern, errorMessage));
+        _rules.Add(new RegexStringRule(phonePattern, errorMessage));
         return this;
     }
 
@@ -82,7 +65,7 @@ public class StringValidationRuleBuilder
                                          .EndsWith()
                                          .Build();
 
-        _rules.Add(new RegexStringRule(_currentPropertyName, pattern, errorMessage));
+        _rules.Add(new RegexStringRule(pattern, errorMessage));
         return this;
     }
 
@@ -93,7 +76,7 @@ public class StringValidationRuleBuilder
                                          .EndsWith()
                                          .Build();
 
-        _rules.Add(new RegexStringRule(_currentPropertyName, pattern, errorMessage));
+        _rules.Add(new RegexStringRule(pattern, errorMessage));
         return this;
     }
 

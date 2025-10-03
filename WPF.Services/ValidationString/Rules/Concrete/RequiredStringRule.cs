@@ -4,8 +4,8 @@ namespace WPF.Services.ValidationString;
 
 public class RequiredStringRule : BaseStringValidationRule
 {
-    public RequiredStringRule(string propertyName, string errorMessage = "Field is required")
-        : base(propertyName, "Required", errorMessage) {
+    public RequiredStringRule(string errorMessage = "Field is required")
+        : base("Required", errorMessage) {
     }
 
     public override Task<ValidationResult> ValidateAsync(string value) {

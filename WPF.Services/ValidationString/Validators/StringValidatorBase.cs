@@ -10,8 +10,6 @@ public abstract class StringValidatorBase : IStringValidator
         SetRules();
     }
 
-    protected abstract void SetRules();
-
     public async Task<ValidationResult> ValidateAsync(string value) {
         var result = new ValidationResult { IsValid = true };
 
@@ -29,22 +27,6 @@ public abstract class StringValidatorBase : IStringValidator
         return result;
     }
 
-    public async Task<ValidationResult> ValidateAsync(string value, string propertyName) {
-        var result = new ValidationResult { IsValid = true };
-        var propertyRules = _rules.Values.Where(r => r.PropertyName == propertyName);
-
-        foreach (var rule in propertyRules) {
-            var ruleResult = await rule.ValidateAsync(value);
-
-            if (!ruleResult.IsValid) {
-                result.IsValid = false;
-                result.Errors.AddRange(ruleResult.Errors);
-            }
-        }
-
-        return result;
-    }
-
     public void AddRule(IStringValidationRule rule) {
         _rules[rule.RuleName] = rule;
     }
@@ -52,6 +34,8 @@ public abstract class StringValidatorBase : IStringValidator
     public void RemoveRule(string ruleName) {
         _rules.Remove(ruleName);
     }
+
+    protected abstract void SetRules();
 
     public static StringValidationRuleBuilder CreateRules() {
         return new StringValidationRuleBuilder();

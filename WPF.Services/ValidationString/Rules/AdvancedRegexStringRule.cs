@@ -3,13 +3,13 @@ using WPF.Services.Validation;
 
 namespace WPF.Services.ValidationString;
 
-public class RegexStringRule : BaseStringValidationRule
+public class AdvancedRegexStringRule : BaseStringValidationRule
 {
     private readonly Regex _regex;
 
-    public RegexStringRule(string pattern, string errorMessage = "Invalid format")
-        : base("Regex", errorMessage) {
-        _regex = new Regex(pattern);
+    public AdvancedRegexStringRule(string pattern, RegexOptions options, string errorMessage = "Invalid format")
+        : base("AdvancedRegex", errorMessage) {
+        _regex = new Regex(pattern, options);
     }
 
     public override Task<ValidationResult> ValidateAsync(string value) {

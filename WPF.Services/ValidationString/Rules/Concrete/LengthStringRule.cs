@@ -4,11 +4,11 @@ namespace WPF.Services.ValidationString;
 
 public class LengthStringRule : BaseStringValidationRule
 {
-    private readonly int _minLength;
     private readonly int _maxLength;
+    private readonly int _minLength;
 
-    public LengthStringRule(string propertyName, int minLength, int maxLength, string errorMessage = "Invalid length")
-        : base(propertyName, "Length", errorMessage) {
+    public LengthStringRule(int minLength, int maxLength, string errorMessage = "Invalid length")
+        : base("Length", errorMessage) {
         _minLength = minLength;
         _maxLength = maxLength;
     }
