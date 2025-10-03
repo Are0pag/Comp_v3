@@ -12,10 +12,10 @@ public class CreateStateCardComp : BaseStateCardComp
     }
 
     public override async void Save(CardComp card) {
-        var dbCategory = _categoryRepository.GetByIdAsync(_component.Category.Id).Result;
+        /*var dbCategory = _categoryRepository.GetByIdAsync(_component.Category.Id).Result;
         if (dbCategory == null)
             return;
-        _component.Category = dbCategory;
+        _component.Category = dbCategory;*/
         _editController.ApplyEdits(_component);
         
         
