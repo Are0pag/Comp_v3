@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
 using Comp.ModelData.Comp;
@@ -13,7 +14,7 @@ public partial class CompCardWindow : Window, IDisposable
     
     public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, 
                           Component component,
-                          NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm,
+                          CardCopmEditController ec,
                           SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();
         _component = component;
@@ -29,11 +30,11 @@ public partial class CompCardWindow : Window, IDisposable
 
         CategoryNameTextBlock.DataContext = component;
         
-        InitSimpleField(nameFieldVm, component.Name, NameFieldUc.GetInputTextBox());
-        NameFieldUc.DataContext = nameFieldVm;
+        InitSimpleField(ec.NameField, component.Name, NameFieldUc.GetInputTextBox());
+        NameFieldUc.DataContext = ec.NameField;
         
-        InitSimpleField(nomenclatureNumberFieldVm, component.NomenclatureNumber, NomenclatureNumberFieldUc.GetInputTextBox());
-        NomenclatureNumberFieldUc.DataContext = nomenclatureNumberFieldVm;
+        InitSimpleField(ec.NomenclatureNumberField, component.NomenclatureNumber, NomenclatureNumberFieldUc.GetInputTextBox());
+        NomenclatureNumberFieldUc.DataContext = ec.NomenclatureNumberField;
         
         SaveComponentButton.DataContext = saveCompButtonVm;
     }

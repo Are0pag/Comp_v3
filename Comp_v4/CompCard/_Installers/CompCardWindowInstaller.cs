@@ -67,7 +67,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
         container.Add<NomenclatureNumberFieldVm>().AsScoped<CompCardWindow>();
         
-        container.Add<ValidatorCardComp>().AsScoped<CompCardWindow>();
+        container.Add<CardCopmEditController>().AsScoped<CompCardWindow>();
         
         container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
         container.Add<SaveComponentAction>().AsScoped<CompCardWindow>();

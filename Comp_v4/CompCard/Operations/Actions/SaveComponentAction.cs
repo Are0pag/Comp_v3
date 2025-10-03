@@ -10,9 +10,9 @@ namespace Comp_v4.CompCard.Operations.Actions;
 public class SaveComponentAction : BaseAsyncActionButtonInvoked
 {
     protected readonly CardComp _cardOfComponent;
-    protected readonly ValidatorCardComp _validator;
-    public SaveComponentAction(SaveCompButtonVm buttonVm,  ValidatorCardComp validator, CardComp cardOfComponent) : base(buttonVm) {
-        _validator = validator;
+    protected readonly CardCopmEditController _editController;
+    public SaveComponentAction(SaveCompButtonVm buttonVm,  CardCopmEditController editController, CardComp cardOfComponent) : base(buttonVm) {
+        _editController = editController;
         _cardOfComponent = cardOfComponent;
     }
 
@@ -22,7 +22,7 @@ public class SaveComponentAction : BaseAsyncActionButtonInvoked
     }
 
     public override bool CanPerform() {
-        return _validator.IsValid();
+        return _editController.IsValid();
     }
 
     public override async Task CancelAsync(object? parameter = null) {
