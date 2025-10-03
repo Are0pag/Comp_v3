@@ -40,11 +40,11 @@
                             <fields:InputTextFieldUc 
                                 x:Name="NameFieldUc"
                                 FieldName="Наименование: "
-                                InputText="{Binding Name, Mode=TwoWay}"/>
+                                InputText="{Binding Value, Mode=TwoWay}"/>
                             <fields:InputTextFieldUc 
                                 x:Name="NomenclatureNumberFieldUc"
                                 FieldName="Номенклатурный номер: "
-                                InputText="{Binding NomenclatureNumber, Mode=TwoWay}"/>
+                                InputText="{Binding Value, Mode=TwoWay}"/>
                         </StackPanel>
                     </Border>
                     

@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Comp_v4.CompCard.Vm;
 using Comp.ModelData.Comp;
 
@@ -15,16 +17,33 @@ public partial class CompCardWindow : Window, IDisposable
         
         //cdFieldVm.Value = component.ConditionalDesignation.Designation;
         CdField.DataContext = cdFieldVm;
+        /*cdFieldVm.PropertyChanged += (sender, args) => {
+            
+        };*/
         ManField.DataContext = manFieldVm;
         MuField.DataContext = muFieldVm;
         TsField.DataContext = tsFieldVm;
         
-        nameFieldVm.Value = component.Name;
+        InitSimpleField(nameFieldVm, component.Name, NameFieldUc.GetInputTextBox());
         NameFieldUc.DataContext = nameFieldVm;
         
-        nomenclatureNumberFieldVm.Value = component.NomenclatureNumber;
+        InitSimpleField(nomenclatureNumberFieldVm, component.NomenclatureNumber, NomenclatureNumberFieldUc.GetInputTextBox());
         NomenclatureNumberFieldUc.DataContext = nomenclatureNumberFieldVm;
     }
 
     public void Dispose() { }
+
+    private void InitSimpleField(BaseFieldVm baseFieldVm, string currentValue, TextBox textBox) {
+        baseFieldVm.Value = currentValue;
+        baseFieldVm.PropertyChanged += (sender, args) => {
+            if (baseFieldVm.IsValid()) {
+                textBox.Background = new SolidColorBrush(Color.FromRgb(200, 255, 200)); // Светло-зеленый
+                textBox.BorderBrush = new SolidColorBrush(Colors.Green);
+            }
+            else {
+                textBox.Background = new SolidColorBrush(Color.FromRgb(255, 200, 200)); // Светло-красный
+                textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+        };
+    }
 }

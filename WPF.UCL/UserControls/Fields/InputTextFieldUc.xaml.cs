@@ -21,6 +21,8 @@ public partial class InputTextFieldUc : UserControl
         set => SetValue(FieldNameProperty, value);
     }
     
+    public TextBox GetInputTextBox() => InputTextBox;
+    
     public static readonly DependencyProperty InputTextProperty = DependencyProperty.Register(
          nameof(InputText),
          typeof(string),

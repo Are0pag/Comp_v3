@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.TableWindows;
 using Comp_v4.TableWindows.ConditionalDesignation;
@@ -33,7 +34,9 @@ public class CompCardWindowInstaller : AbstractInstaller
         InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
         
         
-        //container.Add<CompCardVm>().AsScoped<CompCardWindow>();
+        
+        
+        
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new CdFieldVm(OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
         
@@ -47,6 +50,9 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .UsingFactoryMethod(() => new TsFieldVm(OpenTableWindow<TypeSizesTableWindow, TypeSize>));
 
 
+        container.Add<ValidatorName>().AsScoped<CompCardWindow>();
+        container.Add<ValidatorNomNumber>().AsScoped<CompCardWindow>();
+        
         container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
         container.Add<NomenclatureNumberFieldVm>().AsScoped<CompCardWindow>();
         
