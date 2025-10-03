@@ -1,6 +1,7 @@
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.NomDict.Vm;
+using Comp_v4.NomDict.Vm.Buttons.Components;
 using Comp.ModelData.Comp;
 using Utils.WPF;
 using Utils.WPF.Buttons;
@@ -9,15 +10,15 @@ namespace Comp_v4.NomDict.Operations.Actions.Components;
 
 public class AddComponentAction : BaseAsyncActionButtonInvoked
 {
-    //protected readonly CardComponentManager _cardComponentManager;
+    protected readonly CardComponentManager _cardComponentManager;
     protected readonly TreeViewVm _treeViewVm;
-    public AddComponentAction(BaseAsyncBButtonVm buttonVm, /*CardComponentManager cardComponentManager,*/ TreeViewVm treeViewVm) : base(buttonVm) {
-        //_cardComponentManager = cardComponentManager;
+    public AddComponentAction(AddCompButtonVm buttonVm, CardComponentManager cardComponentManager, TreeViewVm treeViewVm) : base(buttonVm) {
+        _cardComponentManager = cardComponentManager;
         _treeViewVm = treeViewVm;
     }
 
     public override async Task PerformAsync(object? parameter) {
-        //_cardComponentManager.OpenWindow<CreateStateCardComp>(new Component());
+        _cardComponentManager.OpenWindow<CreateStateCardComp>(new Component());
     }
 
     public override bool CanPerform() {
