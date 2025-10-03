@@ -11,7 +11,8 @@ public partial class CompCardWindow : Window, IDisposable
 {
     protected readonly Component _component;
     
-    public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, Component component,
+    public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, 
+                          Component component,
                           NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm,
                           SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();

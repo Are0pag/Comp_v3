@@ -14,6 +14,7 @@ using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.Comp;
+using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
 using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
@@ -42,6 +43,9 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
         container.Add<IRepository<Component>>().To<DbRepository<Component>>()
                  .AsTransient();
+        container.Add<IRepository<Category>>().To<DbRepository<Category>>()
+                 .AsTransient();
+        
         
         
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
