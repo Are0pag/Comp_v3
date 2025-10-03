@@ -5,7 +5,7 @@ namespace Comp_v4.CompCard.Vm;
 
 public partial class CdFieldVm : BaseVmForFieldWithButton
 {
-    public CdFieldVm(StringValidatorBase validator, Action openWindow) : base(validator, openWindow) {
+    public CdFieldVm(Action openWindow) : base(openWindow) {
         _label = "Условное обозначение: ";
     }
 

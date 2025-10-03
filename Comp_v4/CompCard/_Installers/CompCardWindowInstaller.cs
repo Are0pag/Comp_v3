@@ -49,16 +49,16 @@ public class CompCardWindowInstaller : AbstractInstaller
         
         
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new CdFieldVm(null, OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
+                 .UsingFactoryMethod(() => new CdFieldVm( OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
         
         container.Add<ManFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new ManFieldVm(null, OpenTableWindow<ManufacturersTableWindow, Manufacturer>));
+                 .UsingFactoryMethod(() => new ManFieldVm( OpenTableWindow<ManufacturersTableWindow, Manufacturer>));
 
         container.Add<MuFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new MuFieldVm(null, OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>));
+                 .UsingFactoryMethod(() => new MuFieldVm( OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>));
 
         container.Add<TsFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new TsFieldVm(null, OpenTableWindow<TypeSizesTableWindow, TypeSize>));
+                 .UsingFactoryMethod(() => new TsFieldVm( OpenTableWindow<TypeSizesTableWindow, TypeSize>));
 
 
         container.Add<ValidatorName>().AsScoped<CompCardWindow>();

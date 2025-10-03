@@ -5,7 +5,7 @@ namespace Comp_v4.CompCard.Vm;
 
 public partial class ManFieldVm : BaseVmForFieldWithButton
 {
-    public ManFieldVm(StringValidatorBase validator, Action openWindow) : base(validator, openWindow) {
+    public ManFieldVm(Action openWindow) : base(openWindow) {
         _label = "Производитель: ";
     }
 

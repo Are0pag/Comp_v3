@@ -5,7 +5,7 @@ namespace Comp_v4.CompCard.Vm;
 
 public partial class TsFieldVm : BaseVmForFieldWithButton
 {
-    public TsFieldVm(StringValidatorBase validator, Action openWindow) : base(validator, openWindow) {
+    public TsFieldVm(Action openWindow) : base(openWindow) {
         _label = "Типоразмер: ";
     }
 

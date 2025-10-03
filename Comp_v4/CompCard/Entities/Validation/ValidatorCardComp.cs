@@ -4,10 +4,10 @@ namespace Comp_v4.CompCard.Entities.Validation;
 
 public class ValidatorCardComp
 {
-    protected readonly List<BaseFieldVm> _fieldViewModels;
+    protected readonly List<BaseTextFieldVm> _fieldViewModels;
 
     public ValidatorCardComp(NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm) {
-        _fieldViewModels = new List<BaseFieldVm>() {
+        _fieldViewModels = new List<BaseTextFieldVm>() {
             nameFieldVm, nomenclatureNumberFieldVm
         };
     }

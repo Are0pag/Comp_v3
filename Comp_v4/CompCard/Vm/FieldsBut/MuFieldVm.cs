@@ -5,7 +5,7 @@ namespace Comp_v4.CompCard.Vm;
 
 public partial class MuFieldVm : BaseVmForFieldWithButton
 {
-    public MuFieldVm(StringValidatorBase validator, Action openWindow) : base(validator, openWindow) {
+    public MuFieldVm(Action openWindow) : base(openWindow) {
         _label = "Единица измерения: ";
     }
 

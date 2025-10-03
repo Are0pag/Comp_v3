@@ -40,7 +40,7 @@ public partial class CompCardWindow : Window, IDisposable
 
     public void Dispose() { }
     
-    private void InitSimpleField(BaseFieldVm baseFieldVm, string currentValue, TextBox textBox) {
+    private void InitSimpleField(BaseTextFieldVm baseFieldVm, string currentValue, TextBox textBox) {
         baseFieldVm.Value = currentValue;
         baseFieldVm.PropertyChanged += (sender, args) => {
             if (baseFieldVm.IsValid()) {
