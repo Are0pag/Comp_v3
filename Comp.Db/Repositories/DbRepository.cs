@@ -25,6 +25,14 @@ public class DbRepository<T> : IRepository<T>
         await _context.SaveChangesAsync();
     }
 
+    public virtual async Task<bool> AddAsync(int id) {
+        if (await GetByIdAsync(id) is not { } entity) 
+            return false;
+        await _context.Set<T>().AddAsync(entity);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+    
     public virtual async Task UpdateAsync(T entity) {
         try {
             _context.Set<T>().Update(entity);
@@ -33,6 +41,20 @@ public class DbRepository<T> : IRepository<T>
         catch (Exception e) {
             Console.WriteLine(e);
         }
+    }
+    
+    public virtual async Task<bool> UpdateAsync(int id) {
+        try {
+            if (await GetByIdAsync(id) is not { } entity) 
+                return false;
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            return false;
+        }
+        return true;
     }
 
     public virtual async Task DeleteAsync(int id) {
