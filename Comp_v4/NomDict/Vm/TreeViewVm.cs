@@ -36,7 +36,6 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
         }
     }
 
-
     protected async Task LoadDataAsync() {
         var items = await _repository.GetAllAsync();
         Items = new ObservableCollection<Category>(items);

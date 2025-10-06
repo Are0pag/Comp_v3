@@ -7,7 +7,6 @@ public class CardCopmEditController
 {
     protected readonly List<BaseTextFieldVm> _fieldViewModels;
     
-    // Changed to public with a get-only property
     public NameFieldVm NameField { get; }
     public NomenclatureNumberFieldVm NomenclatureNumberField { get; }
 
@@ -16,7 +15,6 @@ public class CardCopmEditController
             nameFieldVm, nomenclatureNumberFieldVm
         };
         
-        // Assign to the new public properties
         NameField = nameFieldVm;
         NomenclatureNumberField = nomenclatureNumberFieldVm;
     }
@@ -26,7 +24,6 @@ public class CardCopmEditController
     }
 
     public Component ApplyEdits(Component card) {
-        // Update to use the new public properties
         card.Name = NameField.Value;
         card.NomenclatureNumber = NomenclatureNumberField.Value;
         return card;
