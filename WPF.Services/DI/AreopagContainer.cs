@@ -7,8 +7,8 @@ public class AreopagContainer : IDisposable
 {
     protected readonly List<IRegistrationBuilder> _registrationBuilders = new();
     protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
-    protected RegistrationProxy? _creatingRegistration;
     private readonly HashSet<Type> _resolvingTypes = new();
+    protected RegistrationProxy? _creatingRegistration;
 
     public Dictionary<Type, List<(Type paramType, object value)>> RuntimeParameters { get; protected set; } = new();
     
@@ -118,15 +118,15 @@ public class AreopagContainer : IDisposable
     }
 
     public void ReleaseScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
-        if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeRegistrations)) {
-            foreach (var scopeRegistration in scopeRegistrations) {
+        if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeRegistrationBuilders)) {
+            foreach (var scopeRb in scopeRegistrationBuilders) {
                 try {
-                    scopeRegistration.ReleaseInstance();
+                    scopeRb.ReleaseInstance();
                 }
                 catch (Exception ex) {
                     throw new Exception(ex.Message, ex);
                 }
-                scopeRegistration.IsRootActive = false;
+                scopeRb.IsRootActive = false;
             }
         }
         _scopes.Remove(typeof(TScopeOwner));
