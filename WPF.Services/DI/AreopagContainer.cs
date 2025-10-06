@@ -82,8 +82,14 @@ public class AreopagContainer : IDisposable
         if (_registrationBuilders.Count == 0)
             throw new InvalidOperationException();
         
-        /*_registrationBuilders[^1] = new FactoryRb(_registrationBuilders[^1], factoryMethod);*/
         _registrationBuilders[^1].FactoryResolve = factoryMethod;
+        return this;
+    }
+
+    public AreopagContainer SetFactoryMethodFor<TImplementation>(Func<object> factoryMethod) {
+        if (_registrationBuilders.First(rb => rb.Registration.GetImplementation() == typeof(TImplementation)) is not { } rb) 
+            throw new InvalidOperationException();
+        rb.FactoryResolve = factoryMethod;
         return this;
     }
 

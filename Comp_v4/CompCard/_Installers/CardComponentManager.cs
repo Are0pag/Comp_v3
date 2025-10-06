@@ -28,12 +28,9 @@ public class CardComponentManager
 
         if (args.Category != null)
             args.Component.Category = args.Category; 
-        _container.Add<Component>()
-                  .AsScoped<CompCardWindow>()
-                  .UsingFactoryMethod(() => args.Component);
+        _container.SetFactoryMethodFor<Component>(() => args.Component);
         
-        _container.Add<CardComp>().AsScoped<CompCardWindow>()
-                  .UsingFactoryMethod(() => {
+        _container.SetFactoryMethodFor<CardComp>(() => {
                        var initialState = _container.Resolve<TInitialState>();
                        var states = new List<BaseStateCardComp>() {
                            _container.Resolve<CreateStateCardComp>(),
