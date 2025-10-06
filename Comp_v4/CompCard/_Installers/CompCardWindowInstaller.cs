@@ -2,6 +2,7 @@ using System.Windows;
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Entities.Validation;
+using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
@@ -19,6 +20,7 @@ using Comp.Db.Repositories.Concrete;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
+using Utils.EventBus;
 using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
@@ -102,6 +104,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         window.Closed += (sender, args) => {
             contextContainer.ReleaseScope<TWindow>();
         };
+        new TableWindowClosingHandler(window);
         contextContainer
            .Instantiate<ActionStackTracker,
                 PersistenceManager<TWindow, TData>,
@@ -110,4 +113,25 @@ public class CompCardWindowInstaller : AbstractInstaller
             >();
         window.Show();
     }
+    
+    public class TableWindowClosingHandler : ITableWindowHandler
+    {
+        protected readonly Window _window;
+
+        public TableWindowClosingHandler(Window window) {
+            _window = window;
+            EventBus<ICompCardSubscriber>.Subscribe(this);
+        }
+
+        public void Dispose() {
+            EventBus<ICompCardSubscriber>.Unsubscribe(this);
+        }
+
+        public void HandleClosingTableWindow<T>(object? args) where T : Window {
+            Application.Current.Dispatcher.BeginInvoke(() => {
+                _window.Close();
+            });
+        }
+    }
 }
+

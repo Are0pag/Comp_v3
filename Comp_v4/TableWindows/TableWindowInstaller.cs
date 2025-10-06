@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using Comp_v4.CompCard.Entities;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
@@ -115,7 +116,7 @@ public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstalle
 
         container.Add<ActionStackTracker>().AsScoped<Tw>();
         container.Add<PersistenceManager<Tw, T>>().AsScoped<Tw>();
-        container.Add<TableCommandBinder<Tw, T>>().To<TableCommandBinderFilteringCompatible<Tw, T>>().AsScoped<Tw>();
+        container.Add<TableCommandBinder<Tw, T>>().To<TableCommandBinderExternalSelectionCompatible<Tw, T>>().AsScoped<Tw>();
         container.Add<ActionFilter<Tw, T, FiltersVmBase>>().AsScoped<Tw>();
 
         container.Add<Tw>().AsTransient();

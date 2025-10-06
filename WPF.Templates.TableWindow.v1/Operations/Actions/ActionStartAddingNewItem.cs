@@ -18,7 +18,8 @@ public class ActionStartAddingNewItem<TWindow, T> : BaseAction<TWindow, T>
 {
     protected readonly Cell<TWindow, T> _cell;
     
-    public ActionStartAddingNewItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, Cell<TWindow, T> cell) : base(scheduler, context, commandFactory) {
+    public ActionStartAddingNewItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, Cell<TWindow, T> cell) 
+        : base(scheduler, context, commandFactory) {
         _cell = cell;
     }
 

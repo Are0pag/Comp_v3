@@ -9,8 +9,8 @@ namespace Comp_v4.CompCard.Entities.States;
 
 public class CreateStateCardComp : BaseStateCardComp
 {
-    public CreateStateCardComp(Component component, IRepository<Component> repository, IRepository<Category> categoryRepository, CardCopmEditController editController) 
-        : base(component, repository, categoryRepository, editController) {
+    public CreateStateCardComp(Component component, IRepository<Component> repository, CardCopmEditController editController) 
+        : base(component, repository, editController) {
     }
 
     public override async void Save(CardComp card) {
