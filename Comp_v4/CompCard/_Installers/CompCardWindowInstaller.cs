@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
@@ -61,6 +62,9 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .UsingFactoryMethod(() => new TsFieldVm( OpenTableWindow<TypeSizesTableWindow, TypeSize>));
 
 
+        container.Add<EditStateCardComp>().AsScoped<CompCardWindow>();
+        container.Add<CreateStateCardComp>().AsScoped<CompCardWindow>();
+        
         container.Add<ValidatorName>().AsScoped<CompCardWindow>();
         container.Add<ValidatorNomNumber>().AsScoped<CompCardWindow>();
         

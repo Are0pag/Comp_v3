@@ -32,9 +32,6 @@ public class CardComponentManager
                   .AsScoped<CompCardWindow>()
                   .UsingFactoryMethod(() => args.Component);
         
-        _container.Add<EditStateCardComp>().AsScoped<CompCardWindow>();
-        _container.Add<CreateStateCardComp>().AsScoped<CompCardWindow>();
-
         _container.Add<CardComp>().AsScoped<CompCardWindow>()
                   .UsingFactoryMethod(() => {
                        var initialState = _container.Resolve<TInitialState>();
