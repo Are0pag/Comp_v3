@@ -1,9 +1,7 @@
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Operations.Actions;
-using Comp_v4.NomDict.Events;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
-using Utils.EventBus;
 using WPF.Services;
 
 namespace Comp_v4.CompCard.Entities;
