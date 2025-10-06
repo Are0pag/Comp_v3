@@ -12,3 +12,8 @@ public interface ISelectedCategoryChangedHandler : INomDictWindowSubscriber
 {
     void OnSelectedCategoryChanged(object? args);
 }
+
+public interface IUiRefreshHandler : INomDictWindowSubscriber
+{
+    void RefreshUi(object? args);
+}

@@ -53,9 +53,8 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
     }
 
     public virtual void NotifyUiForChanges() {
-        Items.Clear();
-        _ = LoadDataAsync();
-        OnPropertyChanged(nameof(Items));
+        Items.Clear(); //OnPropertyChanged(nameof(Items));
+        _ = LoadDataAsync(); OnPropertyChanged(nameof(Items));
     }
 
     protected virtual bool ItemsFilter(object item) {

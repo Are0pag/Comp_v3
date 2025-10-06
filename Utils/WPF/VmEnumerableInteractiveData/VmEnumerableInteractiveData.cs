@@ -18,4 +18,6 @@ public class VmEnumerableInteractiveData<T> : ObservableObject
     }
     
     public void EnsureNotifyItemsChanged() => OnPropertyChanged(nameof(Items));
+    
+    protected virtual Task LoadDataAsync() => Task.CompletedTask;
 }

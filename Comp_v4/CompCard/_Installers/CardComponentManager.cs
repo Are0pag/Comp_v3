@@ -1,7 +1,9 @@
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Operations.Actions;
+using Comp_v4.NomDict.Events;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
+using Utils.EventBus;
 using WPF.Services;
 
 namespace Comp_v4.CompCard.Entities;
@@ -46,6 +48,7 @@ public class CardComponentManager
         var window = _container.BeginScope<CompCardWindow>();
         window.Closed += (_, __) => {
             _container.ReleaseScope<CompCardWindow>();
+            EventBus<INomDictWindowSubscriber>.RaiseEvent<IUiRefreshHandler>(h => h?.RefreshUi(args.Component));
             _openedComponentsCards.Remove(args.Component);
         };
         _container.Instantiate<SaveComponentAction>();
