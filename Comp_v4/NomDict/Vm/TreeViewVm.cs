@@ -39,21 +39,7 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
 
     protected async Task LoadDataAsync() {
         var items = await _repository.GetAllAsync();
-        var categoriesByParent = items
-                                .Where(c => c.ParentCategoryId.HasValue)
-                                .GroupBy(c => c.ParentCategoryId!.Value)
-                                .ToDictionary(g => g.Key, g => g.ToList());
-
-        // Заполняем Subcategories для каждого родителя
-        foreach (var category in items)
-            if (categoriesByParent.TryGetValue(category.Id, out var subcategories))
-                foreach (var subcategory in subcategories) {
-                    subcategory.ParentCategory = category;
-                    category.AddSubcategory(subcategory);
-                }
-
-        // Корневые элементы (без родителя)
-        Items = new ObservableCollection<Category>(items.Where(c => !c.ParentCategoryId.HasValue));
+        Items = new ObservableCollection<Category>(items);
         OnPropertyChanged(nameof(Items));
     }
 

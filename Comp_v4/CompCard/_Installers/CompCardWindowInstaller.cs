@@ -42,7 +42,7 @@ public class CompCardWindowInstaller : AbstractInstaller
 
 
         container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
-        container.Add<IRepository<Category>>().To<DbRepository<Category>>()
+        container.Add<IRepository<Category>>().To<RepositoryCategory>()
                  .AsTransient();
         container.Add<IRepository<Component>>().To<RepositoryComponent>()
                  .AsTransient();
