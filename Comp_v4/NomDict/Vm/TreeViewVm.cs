@@ -73,7 +73,14 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
     }
 
     protected virtual bool ItemsFilter(object item) {
-        return _selectedCategory != null && ((Component) item).Category == _selectedCategory;
+        if (_selectedCategory == null) return false;
+        return item is Component component && IsSelectedCategoryIsParent(component.Category);
+    }
+
+    protected bool IsSelectedCategoryIsParent(Category category) {
+        if (category.Id == _selectedCategory!.Id) return true;
+        category.ParentCategory ??= Items.FirstOrDefault(c => c.Id == category.ParentCategoryId);
+        return category.ParentCategory != null && IsSelectedCategoryIsParent(category.ParentCategory);
     }
 
     public virtual void Dispose() {
