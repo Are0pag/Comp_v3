@@ -13,7 +13,7 @@ public interface ISelectedCategoryChangedHandler : INomDictWindowSubscriber
     void OnSelectedCategoryChanged(object? args);
 }
 
-public interface IUiRefreshHandler : INomDictWindowSubscriber
+public interface IComponentUiHandler : INomDictWindowSubscriber
 {
-    void RefreshUi(object? args);
+    void OnComponentCardCreated(object? args);
 }

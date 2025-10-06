@@ -48,7 +48,7 @@ public class CardComponentManager
         var window = _container.BeginScope<CompCardWindow>();
         window.Closed += (_, __) => {
             _container.ReleaseScope<CompCardWindow>();
-            EventBus<INomDictWindowSubscriber>.RaiseEvent<IUiRefreshHandler>(h => h?.RefreshUi(args.Component));
+            EventBus<INomDictWindowSubscriber>.RaiseEvent<IComponentUiHandler>(h => h?.OnComponentCardCreated(args.Component));
             _openedComponentsCards.Remove(args.Component);
         };
         _container.Instantiate<SaveComponentAction>();

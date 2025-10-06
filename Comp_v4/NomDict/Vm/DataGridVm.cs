@@ -7,7 +7,7 @@ using Utils.WPF.VmEnumerableInteractiveData;
 
 namespace Comp_v4.NomDict.Vm;
 
-public class DataGridVm : VmEnumerableInteractiveData<Component>, IUiRefreshHandler
+public class DataGridVm : VmEnumerableInteractiveData<Component>, IComponentUiHandler
 {
     protected readonly IRepository<Component> _repository;
 
@@ -27,7 +27,7 @@ public class DataGridVm : VmEnumerableInteractiveData<Component>, IUiRefreshHand
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
     }
 
-    public void RefreshUi(object? args) {
+    public void OnComponentCardCreated(object? args) {
         if (args is not Component component) 
             return;
         Items.Add(component);

@@ -12,7 +12,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.Vm;
 
-public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
+public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, IComponentUiHandler
 {
     protected readonly IRepository<Category> _repository;
     protected readonly DataGridVm _dataGridVm;
@@ -70,5 +70,9 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler
 
     public virtual void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+    }
+
+    public void OnComponentCardCreated(object? args) {
+        NotifyUiForChanges();
     }
 }
