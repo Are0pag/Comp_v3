@@ -100,6 +100,16 @@
                                                                    ButtonCommand="{Binding OpenNestedWindowCommand}"
                                                                    ButtonContent="🎲"
                                                                    ButtonToolTip="Открыть таблицу" />
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="CatalogNumberFieldUc"
+                                    FieldName="Номер по каталогу: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="LabelingOptionsFieldUc"
+                                    FieldName="Варианты маркировки: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
                         

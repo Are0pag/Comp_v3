@@ -16,6 +16,9 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         
         builder.HasIndex(c => c.NomenclatureNumber).IsUnique();
         builder.Property(c => c.NomenclatureNumber).IsRequired();
+
+        builder.Property(c => c.CatalogNumber);
+        builder.Property(c => c.LabelingOptions);
         
         builder.HasOne(c => c.Category)
                .WithMany() 

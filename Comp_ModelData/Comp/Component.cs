@@ -11,6 +11,8 @@ public class Component : NotifyPropertyChanged
 {
     protected string _name = string.Empty;
     protected string _nomenclatureNumber = string.Empty;
+    protected string _catalogNumber = string.Empty;
+    protected string _labelingOptions = string.Empty;
     protected Category _category;
     protected ConditionalDesignation? _conditionalDesignation;
     protected Manufacturer? _manufacturer;
@@ -92,6 +94,24 @@ public class Component : NotifyPropertyChanged
         set {
             if (value == _nomenclatureNumber) return;
             _nomenclatureNumber = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string CatalogNumber {
+        get => _catalogNumber;
+        set {
+            if (value == _catalogNumber) return;
+            _catalogNumber = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string LabelingOptions {
+        get => _labelingOptions;
+        set {
+            if (value == _labelingOptions) return;
+            _labelingOptions = value;
             OnPropertyChanged();
         }
     }

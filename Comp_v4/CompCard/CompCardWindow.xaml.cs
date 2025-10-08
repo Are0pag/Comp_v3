@@ -36,6 +36,12 @@ public partial class CompCardWindow : Window, IDisposable
         InitSimpleField(ec.NomenclatureNumberField, component.NomenclatureNumber, NomenclatureNumberFieldUc.GetInputTextBox());
         NomenclatureNumberFieldUc.DataContext = ec.NomenclatureNumberField;
         
+        InitSimpleField(ec.CatalogNumberField, component.CatalogNumber, CatalogNumberFieldUc.GetInputTextBox());
+        CatalogNumberFieldUc.DataContext = ec.CatalogNumberField;
+        
+        InitSimpleField(ec.LabelingOptionsField, component.LabelingOptions, LabelingOptionsFieldUc.GetInputTextBox());
+        LabelingOptionsFieldUc.DataContext = ec.LabelingOptionsField;
+        
         SaveComponentButton.DataContext = saveCompButtonVm;
     }
 

@@ -25,3 +25,27 @@ public class ValidatorNomNumber : StringValidatorBase
         }
     }
 }
+
+public class ValidatorCatalogNumber : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
+
+public class ValidatorLabelingOptions : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
