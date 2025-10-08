@@ -15,6 +15,12 @@ public partial class InputTextFieldUc : UserControl
      typeof(InputTextFieldWithButtonUc),
      new PropertyMetadata("Поле:")); // Значение по умолчанию
 
+    public static readonly DependencyProperty LabelNameProperty = DependencyProperty.Register(
+     nameof(FieldName),
+     typeof(string),
+     typeof(InputTextFieldUc),
+     new PropertyMetadata("Поле:")); 
+    
     public string FieldName
     {
         get => (string)GetValue(FieldNameProperty);

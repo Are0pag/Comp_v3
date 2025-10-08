@@ -1,22 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Utils.EventBus;
-using Utils.WPF.Buttons;
 
 namespace Comp_v4.CompCard.Vm;
 
 public abstract class BaseFieldVm : ObservableObject
 {
-    
     protected string _value;
     protected string _label;
 
-    public string Value {
+    public virtual string Value {
         get => _value;
         set {
             if (value == _value) return;
             _value = value;
             OnPropertyChanged();
-            EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
         }
     }
 

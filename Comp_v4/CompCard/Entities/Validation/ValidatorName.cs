@@ -62,3 +62,15 @@ public class ValidatorCodeOfElement : StringValidatorBase
     }
 }
 
+public class ValidatorGp : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
+

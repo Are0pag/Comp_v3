@@ -19,11 +19,7 @@ public partial class CompCardWindow : Window, IDisposable
         InitializeComponent();
         _component = component;
         
-        //cdFieldVm.Value = component.ConditionalDesignation.Designation;
         CdField.DataContext = cdFieldVm;
-        /*cdFieldVm.PropertyChanged += (sender, args) => {
-            
-        };*/
         ManField.DataContext = manFieldVm;
         MuField.DataContext = muFieldVm;
         TsField.DataContext = tsFieldVm;

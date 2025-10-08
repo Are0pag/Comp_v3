@@ -119,10 +119,107 @@
                         </Border>
                         
                         <!-- Часть F -->
-                        <Border Grid.Column="1" Name="PartF" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                            <TextBlock Text="F" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            
-                        </Border>
+<!-- Часть F -->
+<Border Grid.Column="1" Name="PartF" BorderBrush="Gray" BorderThickness="1" Margin="2">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Заголовок в углу -->
+            <RowDefinition Height="Auto"/>  <!-- Центральный заголовок 1 -->
+            <RowDefinition Height="Auto"/>  <!-- Главное поле -->
+            <RowDefinition Height="Auto"/>  <!-- Центральный заголовок 2 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 1 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 2 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 3 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 4 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 5 -->
+            <RowDefinition Height="*"/>     <!-- Оставшееся пространство -->
+        </Grid.RowDefinitions>
+        
+        <!-- Заголовок в верхнем левом углу -->
+        <TextBlock Grid.Row="0" 
+                   Text="Характеристики" 
+                   FontSize="14" 
+                   FontWeight="SemiBold"
+                   Foreground="#555555"
+                   Margin="10,8,0,5"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"/>
+        
+        <!-- Первый центральный заголовок -->
+        <TextBlock Grid.Row="1" 
+                   Text="Основной параметр" 
+                   FontSize="12" 
+                   FontWeight="Normal"
+                   Foreground="#777777"
+                   Margin="5,15,5,5"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"/>
+        
+        <!-- Главное поле -->
+        <Border Grid.Row="2" 
+                Margin="10,2,10,8">
+            <fields:InputTextFieldUc 
+                x:Name="MainParameterField"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <!-- Второй центральный заголовок -->
+        <TextBlock Grid.Row="3" 
+                   Text="Дополнительные параметры" 
+                   FontSize="12" 
+                   FontWeight="Normal"
+                   Foreground="#777777"
+                   Margin="5,15,5,5"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"/>
+        
+        <!-- Пять полей под вторым заголовком -->
+        <Border Grid.Row="4" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param1Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="5" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param2Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="6" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param3Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="7" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param4Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="8" 
+                Margin="10,2,10,8">
+            <fields:InputTextFieldUc 
+                x:Name="Param5Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+    </Grid>
+</Border>
+                        
+                        
+                        
+                        
                     </Grid>
                 </Grid>
                 
