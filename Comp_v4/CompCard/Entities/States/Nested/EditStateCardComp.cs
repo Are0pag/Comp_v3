@@ -13,7 +13,7 @@ public class EditStateCardComp : BaseStateCardComp
 
     public override async void Save(CardComp card) {
         _editController.ApplyEdits(_component);
-        _component.Id = default;
-        await _repository.UpdateAsync(_component.Id);
+        //_component.Id = default;
+        await _repository.UpdateAsync(_component);
     }
 }

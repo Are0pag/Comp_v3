@@ -6,6 +6,7 @@ using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
+using Comp_v4.Installers;
 using Comp_v4.TableWindows;
 using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
@@ -14,11 +15,7 @@ using Comp_v4.TableWindows.Manufacturers.Overrided;
 using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
 using Comp.Db;
-using Comp.Db.Contracts;
-using Comp.Db.Repositories;
-using Comp.Db.Repositories.Concrete;
 using Comp.ModelData.Comp;
-using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Services;
@@ -46,10 +43,7 @@ public class CompCardWindowInstaller : AbstractInstaller
 
 
         container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
-        container.Add<IRepository<Category>>().To<RepositoryCategory>()
-                 .AsTransient();
-        container.Add<IRepository<Component>>().To<RepositoryComponent>()
-                 .AsTransient();
+        new CompRepoInstaller().Install(container);
 
 
         container.Add<CdFieldVm>().AsScoped<CompCardWindow>()

@@ -1,12 +1,13 @@
 using CommunityToolkit.Mvvm.Input;
 using Comp_v4.CompCard.Events;
+using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Services.ValidationString;
 
 namespace Comp_v4.CompCard.Vm;
 
-public partial class CdFieldVm : BaseVmForFieldWithButton, IExternalTableInputHandler
+public partial class CdFieldVm : BaseVmForFieldWithButton, IExternalTableInputHandler, ICompCardLoadedHandler
 {
     public CdFieldVm(Action openWindow) : base(openWindow) {
         _label = "Условное обозначение: ";
@@ -20,6 +21,10 @@ public partial class CdFieldVm : BaseVmForFieldWithButton, IExternalTableInputHa
 
     public void Dispose() {
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
+    }
+
+    public void OnCompCardLoaded(Component component) {
+        _value = component.ConditionalDesignation?.Designation ?? "...";
     }
 
     public void HandleTableInput(object? args) {

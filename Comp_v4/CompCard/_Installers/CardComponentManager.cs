@@ -1,7 +1,9 @@
 using Comp_v4.CompCard.Entities.States;
+using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
+using Utils.EventBus;
 using WPF.Services;
 
 namespace Comp_v4.CompCard.Entities;
@@ -43,6 +45,7 @@ public class CardComponentManager
             _openedComponentsCards.Remove(args.Component);
         };
         _container.Instantiate<SaveComponentAction>();
+        EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(args.Component));
         window.Show();
     }
 

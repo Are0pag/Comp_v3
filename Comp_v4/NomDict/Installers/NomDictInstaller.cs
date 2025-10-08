@@ -1,16 +1,10 @@
-using Comp_v4.CompCard;
+using Comp_v4.Installers;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Operations.Actions.Components;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp_v4.NomDict.Vm.Buttons.Components;
-using Comp.Db;
-using Comp.Db.Contracts;
-using Comp.Db.Repositories;
-using Comp.Db.Repositories.Concrete;
-using Comp.ModelData.Comp;
-using Comp.ModelData.SortingItems;
 using WPF.Services;
 using WPF.UCL;
 
@@ -19,9 +13,7 @@ namespace Comp_v4.NomDict.Installers;
 public class NomDictInstaller : AbstractInstaller
 {
     protected override void InstallBindings(AreopagContainer container) {
-        /* предполагается что в данный контейнер уже зарегистрирован AppDbContext */
-        container.Add<IRepository<Category>>().To<RepositoryCategory>().AsTransient();
-        container.Add<IRepository<Component>>().To<RepositoryComponent>().AsTransient();
+        new CompRepoInstaller().Install(container);
 
         container.Add<DataGridVm>().AsScoped<NomDictWindow>();
         container.Add<TreeViewVm>().AsScoped<NomDictWindow>();
