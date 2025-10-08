@@ -12,10 +12,10 @@ public class Component : NotifyPropertyChanged
     protected string _name = string.Empty;
     protected string _nomenclatureNumber = string.Empty;
     protected Category _category;
-    protected ConditionalDesignation _conditionalDesignation;
-    protected Manufacturer _manufacturer;
-    protected MeasurementUnit _measurementUnit;
-    protected TypeSize _typeSize;
+    protected ConditionalDesignation? _conditionalDesignation;
+    protected Manufacturer? _manufacturer;
+    protected MeasurementUnit? _measurementUnit;
+    protected TypeSize? _typeSize;
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,10 +23,10 @@ public class Component : NotifyPropertyChanged
 
     // Foreign key свойства
     public int CategoryId { get; set; }
-    public int ConditionalDesignationId { get; set; }
-    public int ManufacturerId { get; set; }
-    public int MeasurementUnitId { get; set; }
-    public int TypeSizeId { get; set; }
+    public int? ConditionalDesignationId { get; set; }
+    public int? ManufacturerId { get; set; }
+    public int? MeasurementUnitId { get; set; }
+    public int? TypeSizeId { get; set; }
 
     
     // Навигационные свойства
@@ -41,7 +41,7 @@ public class Component : NotifyPropertyChanged
     }
     
     [ForeignKey(nameof(ConditionalDesignationId))]
-    public ConditionalDesignation ConditionalDesignation { 
+    public ConditionalDesignation? ConditionalDesignation { 
         get => _conditionalDesignation;
         set {
             _conditionalDesignation = value; 
@@ -50,7 +50,7 @@ public class Component : NotifyPropertyChanged
     }
 
     [ForeignKey(nameof(ManufacturerId))]
-    public Manufacturer Manufacturer { 
+    public Manufacturer? Manufacturer { 
         get => _manufacturer;
         set {
             _manufacturer = value; 
@@ -59,7 +59,7 @@ public class Component : NotifyPropertyChanged
     }
 
     [ForeignKey(nameof(MeasurementUnitId))]
-    public MeasurementUnit MeasurementUnit { 
+    public MeasurementUnit? MeasurementUnit { 
         get => _measurementUnit;
         set {
             _measurementUnit = value; 
@@ -68,7 +68,7 @@ public class Component : NotifyPropertyChanged
     }
 
     [ForeignKey(nameof(TypeSizeId))]
-    public TypeSize TypeSize { 
+    public TypeSize? TypeSize { 
         get => _typeSize;
         set {
             _typeSize = value; 
