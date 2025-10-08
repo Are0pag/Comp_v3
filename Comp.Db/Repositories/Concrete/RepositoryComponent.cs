@@ -41,7 +41,7 @@ public class RepositoryComponent : DbRepository<Component>
             if (await GetByIdAsync(entity.Id) is not {} dbInstance)
                 throw new NullReferenceException("Db Instance could not be found");
             
-            dbInstance.ConditionalDesignation = entity.ConditionalDesignation;
+            dbInstance.ConditionalDesignationId = entity.ConditionalDesignation?.Id ?? null;
             
             _context.Set<Component>().Update(dbInstance);
             await _context.SaveChangesAsync();
