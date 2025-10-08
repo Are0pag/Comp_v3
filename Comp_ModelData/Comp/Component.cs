@@ -14,6 +14,15 @@ public class Component : NotifyPropertyChanged
     protected string _catalogNumber = string.Empty;
     protected string _labelingOptions = string.Empty;
     protected string _codeOfElement = string.Empty;
+    /// <summary>
+    /// GP - Generic Parameters. Model containing values 
+    /// </summary>
+    protected string _gpMain = string.Empty;
+    protected string _gp1 = string.Empty;
+    protected string _gp2 = string.Empty;
+    protected string _gp3 = string.Empty;
+    protected string _gp4 = string.Empty;
+    protected string _gp5 = string.Empty;
     protected Category _category;
     protected ConditionalDesignation? _conditionalDesignation;
     protected Manufacturer? _manufacturer;
@@ -122,6 +131,60 @@ public class Component : NotifyPropertyChanged
         set {
             if (value == _codeOfElement) return;
             _codeOfElement = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string GpMain {
+        get => _gpMain;
+        set {
+            if (value == _gpMain) return;
+            _gpMain = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Gp1 {
+        get => _gp1;
+        set {
+            if (value == _gp1) return;
+            _gp1 = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Gp2 {
+        get => _gp2;
+        set {
+            if (value == _gp2) return;
+            _gp2 = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Gp3 {
+        get => _gp3;
+        set {
+            if (value == _gp3) return;
+            _gp3 = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Gp4 {
+        get => _gp4;
+        set {
+            if (value == _gp4) return;
+            _gp4 = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Gp5 {
+        get => _gp5;
+        set {
+            if (value == _gp5) return;
+            _gp5 = value;
             OnPropertyChanged();
         }
     }
