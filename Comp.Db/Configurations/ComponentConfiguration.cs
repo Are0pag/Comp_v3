@@ -22,7 +22,7 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
                .HasForeignKey(c => c.CategoryId)
                .OnDelete(DeleteBehavior.Restrict);
         
-        /*builder.HasOne(c => c.ConditionalDesignation)
+        builder.HasOne(c => c.ConditionalDesignation)
                .WithMany()
                .HasForeignKey(c => c.ConditionalDesignationId)
                .OnDelete(DeleteBehavior.Restrict);
@@ -40,6 +40,6 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.HasOne(c => c.TypeSize)
                .WithMany()
                .HasForeignKey(c => c.TypeSizeId)
-               .OnDelete(DeleteBehavior.Restrict);*/
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }
