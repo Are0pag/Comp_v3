@@ -27,3 +27,9 @@ public class LabelingOptionsFieldVm : BaseTextFieldVm
     public LabelingOptionsFieldVm(ValidatorLabelingOptions validator) : base(validator) {
     }
 }
+
+public class CodeOfElementFieldVm : BaseTextFieldVm
+{
+    public CodeOfElementFieldVm(ValidatorCodeOfElement validator) : base(validator) {
+    }
+}

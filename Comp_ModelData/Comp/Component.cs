@@ -13,6 +13,7 @@ public class Component : NotifyPropertyChanged
     protected string _nomenclatureNumber = string.Empty;
     protected string _catalogNumber = string.Empty;
     protected string _labelingOptions = string.Empty;
+    protected string _codeOfElement = string.Empty;
     protected Category _category;
     protected ConditionalDesignation? _conditionalDesignation;
     protected Manufacturer? _manufacturer;
@@ -112,6 +113,15 @@ public class Component : NotifyPropertyChanged
         set {
             if (value == _labelingOptions) return;
             _labelingOptions = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string CodeOfElement {
+        get => _codeOfElement;
+        set {
+            if (value == _codeOfElement) return;
+            _codeOfElement = value;
             OnPropertyChanged();
         }
     }

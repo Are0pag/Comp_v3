@@ -19,6 +19,7 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
 
         builder.Property(c => c.CatalogNumber);
         builder.Property(c => c.LabelingOptions);
+        builder.Property(c => c.CodeOfElement);
         
         builder.HasOne(c => c.Category)
                .WithMany() 

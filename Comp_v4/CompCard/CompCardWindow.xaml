@@ -110,6 +110,11 @@
                                     x:Name="LabelingOptionsFieldUc"
                                     FieldName="Варианты маркировки: "
                                     InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="CodeOfElementFieldUc"
+                                    FieldName="Код элемента: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
                         

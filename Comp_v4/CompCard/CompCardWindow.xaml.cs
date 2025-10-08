@@ -42,6 +42,9 @@ public partial class CompCardWindow : Window, IDisposable
         InitSimpleField(ec.LabelingOptionsField, component.LabelingOptions, LabelingOptionsFieldUc.GetInputTextBox());
         LabelingOptionsFieldUc.DataContext = ec.LabelingOptionsField;
         
+        InitSimpleField(ec.CodeOfElementField, component.CodeOfElement, CodeOfElementFieldUc.GetInputTextBox());
+        CodeOfElementFieldUc.DataContext = ec.CodeOfElementField;
+        
         SaveComponentButton.DataContext = saveCompButtonVm;
     }
 

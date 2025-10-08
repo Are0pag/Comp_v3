@@ -12,8 +12,9 @@ public class CardCopmEditController
     
     public CatalogNumberFieldVm CatalogNumberField { get; }
     public LabelingOptionsFieldVm LabelingOptionsField { get; }
+    public CodeOfElementFieldVm CodeOfElementField { get; }
 
-    public CardCopmEditController(NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm, CatalogNumberFieldVm catalogNumberField, LabelingOptionsFieldVm labelingOptionsField) {
+    public CardCopmEditController(NameFieldVm nameFieldVm, NomenclatureNumberFieldVm nomenclatureNumberFieldVm, CatalogNumberFieldVm catalogNumberField, LabelingOptionsFieldVm labelingOptionsField, CodeOfElementFieldVm codeOfElementField) {
         _requaredFieldViewModels = new List<BaseTextFieldVm>() {
             nameFieldVm, nomenclatureNumberFieldVm
         };
@@ -22,6 +23,7 @@ public class CardCopmEditController
         NomenclatureNumberField = nomenclatureNumberFieldVm;
         CatalogNumberField = catalogNumberField;
         LabelingOptionsField = labelingOptionsField;
+        CodeOfElementField = codeOfElementField;
     }
 
     public bool IsValid() {
@@ -36,6 +38,8 @@ public class CardCopmEditController
             card.CatalogNumber = CatalogNumberField.Value;
         if (LabelingOptionsField.IsValid())
             card.LabelingOptions = LabelingOptionsField.Value;
+        if (CodeOfElementField.IsValid())
+            card.CodeOfElement = CodeOfElementField.Value;
         return card;
     }
 }

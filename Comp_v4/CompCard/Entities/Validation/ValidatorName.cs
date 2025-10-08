@@ -49,3 +49,16 @@ public class ValidatorLabelingOptions : StringValidatorBase
         }
     }
 }
+
+public class ValidatorCodeOfElement : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
+

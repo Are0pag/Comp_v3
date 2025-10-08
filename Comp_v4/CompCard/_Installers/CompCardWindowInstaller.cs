@@ -70,11 +70,13 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<ValidatorNomNumber>().AsScoped<CompCardWindow>();
         container.Add<ValidatorCatalogNumber>().AsScoped<CompCardWindow>();
         container.Add<ValidatorLabelingOptions>().AsScoped<CompCardWindow>();
+        container.Add<ValidatorCodeOfElement>().AsScoped<CompCardWindow>();
         
         container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
         container.Add<NomenclatureNumberFieldVm>().AsScoped<CompCardWindow>();
         container.Add<CatalogNumberFieldVm>().AsScoped<CompCardWindow>();
         container.Add<LabelingOptionsFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<CodeOfElementFieldVm>().AsScoped<CompCardWindow>();
         
         container.Add<CardCopmEditController>().AsScoped<CompCardWindow>();
         
