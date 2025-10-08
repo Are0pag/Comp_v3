@@ -11,8 +11,25 @@ namespace Comp_v4.Installers;
 public class CompRepoInstaller : AbstractInstaller
 {
     protected override void InstallBindings(AreopagContainer container) {
-        container.Add<IRepository<Category>>().To<RepositoryCategory>().AsTransient();
-        container.Add<IRepository<ConditionalDesignation>>().To<DbRepository<ConditionalDesignation>>().AsTransient();
-        container.Add<IRepository<Component>>().To<RepositoryComponent>().AsTransient();
+        container.Add<IRepository<Category>>()
+                 .To<RepositoryCategory>()
+                 .AsTransient();
+        
+        container.Add<IRepository<ConditionalDesignation>>()
+                 .To<DbRepository<ConditionalDesignation>>()
+                 .AsTransient();
+        container.Add<IRepository<Manufacturer>>()
+                 .To<DbRepository<Manufacturer>>()
+                 .AsTransient();
+        container.Add<IRepository<MeasurementUnit>>()
+                 .To<DbRepository<MeasurementUnit>>()
+                 .AsTransient();
+        container.Add<IRepository<TypeSize>>()
+                 .To<DbRepository<TypeSize>>()
+                 .AsTransient();
+        
+        container.Add<IRepository<Component>>()
+                 .To<RepositoryComponent>()
+                 .AsTransient();
     }
 }

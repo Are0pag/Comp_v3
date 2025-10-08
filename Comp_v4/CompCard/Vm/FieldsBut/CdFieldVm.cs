@@ -7,11 +7,10 @@ using WPF.Services.ValidationString;
 
 namespace Comp_v4.CompCard.Vm;
 
-public partial class CdFieldVm : BaseVmForFieldWithButton, IExternalTableInputHandler, ICompCardLoadedHandler
+public partial class CdFieldVm : BaseVmForFieldWithButton<ConditionalDesignation>
 {
     public CdFieldVm(Action openWindow) : base(openWindow) {
         _label = "Условное обозначение: ";
-        EventBus<ICompCardSubscriber>.Subscribe(this);
     }
 
     [RelayCommand]
@@ -19,18 +18,13 @@ public partial class CdFieldVm : BaseVmForFieldWithButton, IExternalTableInputHa
         _openWindow.Invoke();
     }
 
-    public void Dispose() {
-        EventBus<ICompCardSubscriber>.Unsubscribe(this);
+    public override void HandleTableInput(ConditionalDesignation? args) {
+        Value = args?.Designation ?? "...";
+        OnPropertyChanged(nameof(Value));
     }
 
-    public void OnCompCardLoaded(Component component) {
+    public override void OnCompCardLoaded(Component component) {
         _value = component.ConditionalDesignation?.Designation ?? "...";
     }
 
-    public void HandleTableInput(object? args) {
-        if (args is not ConditionalDesignation cd) 
-            return;
-        Value = cd.Designation;
-        OnPropertyChanged(nameof(Value));
-    }
 }

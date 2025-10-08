@@ -26,7 +26,10 @@ public class TableCommandBinderExternalSelectionCompatible<TWindow, T> : TableCo
         await base.OnPreviewKeyDown(sender, e);
         switch (e.Key) {
             case Key.Enter when Keyboard.Modifiers == ModifierKeys.Shift:
-                EventBus<ICompCardSubscriber>.RaiseEvent<IExternalTableInputHandler>(h => h?.HandleTableInput(_context.DataGridViewModel.SelectedItem));
+                EventBus<ICompCardSubscriber>
+                   .RaiseEvent<IExternalTableInputHandler<T>>(h => {
+                        h?.HandleTableInput(_context.DataGridViewModel.SelectedItem);
+                    });
                 EventBus<ICompCardSubscriber>.RaiseEvent<ITableWindowHandler>(h => h?.HandleClosingTableWindow<TWindow>(null));
                 break;
         }
