@@ -121,6 +121,21 @@
                                     x:Name="CodeOfElementFieldUc"
                                     FieldName="Код элемента: "
                                     InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="QrCodeDataFieldUc"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="DescriptionFieldUc"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="CommentsFieldUc"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
                         

@@ -54,6 +54,39 @@ public class CodeOfElementFieldVm : BaseTextFieldVm
     }
 }
 
+public class QrCodeDataFieldVm : BaseTextFieldVm
+{
+    public QrCodeDataFieldVm(ValidatorQrCodeData validator) : base(validator) {
+        Label = "Данные для QR-кода: ";
+    }
+
+    public override void OnCompCardLoaded(Component component) {
+        Value = component.QrCodeData;
+    }
+}
+
+public class DescriptionFieldVm : BaseTextFieldVm
+{
+    public DescriptionFieldVm(ValidatorDescription validator) : base(validator) {
+        Label = "Описание компонента: ";
+    }
+
+    public override void OnCompCardLoaded(Component component) {
+        Value = component.Description;
+    }
+}
+
+public class CommentsFieldVm : BaseTextFieldVm
+{
+    public CommentsFieldVm(ValidatorComments validator) : base(validator) {
+        Label = "Комментарии: ";
+    }
+
+    public override void OnCompCardLoaded(Component component) {
+        Value = component.QrCodeData;
+    }
+}
+
 public class gpMainFieldVm : BaseGpsTextFieldVm
 {
     public gpMainFieldVm(ValidatorGp validator) : base(validator) {

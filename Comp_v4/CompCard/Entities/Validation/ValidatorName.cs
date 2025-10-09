@@ -74,3 +74,39 @@ public class ValidatorGp : StringValidatorBase
     }
 }
 
+public class ValidatorQrCodeData : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
+
+public class ValidatorDescription : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
+
+public class ValidatorComments : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}
+

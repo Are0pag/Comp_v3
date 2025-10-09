@@ -14,6 +14,11 @@ public class Component : NotifyPropertyChanged, IDbEntity
     protected string _catalogNumber = string.Empty;
     protected string _labelingOptions = string.Empty;
     protected string _codeOfElement = string.Empty;
+    
+    protected string _qrCodeData = string.Empty;
+    protected string _description = string.Empty;
+    protected string _comments = string.Empty;
+    
     /// <summary>
     /// GP - Generic Parameters. Model containing values 
     /// </summary>
@@ -23,6 +28,7 @@ public class Component : NotifyPropertyChanged, IDbEntity
     protected string _gp3 = string.Empty;
     protected string _gp4 = string.Empty;
     protected string _gp5 = string.Empty;
+    
     protected Category _category;
     protected GenericParametersSet? _genericParametersSet;
     protected ConditionalDesignation? _conditionalDesignation;
@@ -144,6 +150,33 @@ public class Component : NotifyPropertyChanged, IDbEntity
         set {
             if (value == _codeOfElement) return;
             _codeOfElement = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string QrCodeData {
+        get => _qrCodeData;
+        set {
+            if (value == _qrCodeData) return;
+            _qrCodeData = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Description {
+        get => _description;
+        set {
+            if (value == _description) return;
+            _description = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Comments {
+        get => _comments;
+        set {
+            if (value == _comments) return;
+            _comments = value;
             OnPropertyChanged();
         }
     }

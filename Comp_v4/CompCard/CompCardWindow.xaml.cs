@@ -49,6 +49,10 @@ public partial class CompCardWindow : Window, IDisposable
         InitSimpleField(ec.CodeOfElementField, component.CodeOfElement, CodeOfElementFieldUc.GetInputTextBox());
         CodeOfElementFieldUc.DataContext = ec.CodeOfElementField;
         
+        QrCodeDataFieldUc.DataContext = ec.QrCodeDataField;
+        DescriptionFieldUc.DataContext = ec.DescriptionField;
+        CommentsFieldUc.DataContext = ec.CommentsField;
+        
         SaveComponentButton.DataContext = saveCompButtonVm;
     }
 

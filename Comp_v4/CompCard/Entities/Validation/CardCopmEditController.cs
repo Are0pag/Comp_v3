@@ -14,6 +14,10 @@ public class CardCopmEditController
     public LabelingOptionsFieldVm LabelingOptionsField { get; }
     public CodeOfElementFieldVm CodeOfElementField { get; }
     
+    public QrCodeDataFieldVm QrCodeDataField { get; }
+    public DescriptionFieldVm DescriptionField { get; }
+    public CommentsFieldVm CommentsField { get; }
+    
     public gpMainFieldVm GPMainField { get; }
     public gp1FieldVm GP1Field { get; }
     public gp2FieldVm GP2Field { get; }
@@ -26,7 +30,8 @@ public class CardCopmEditController
                                   CatalogNumberFieldVm catalogNumberField, 
                                   LabelingOptionsFieldVm labelingOptionsField, 
                                   CodeOfElementFieldVm codeOfElementField, 
-                                  gpMainFieldVm gpMainField, gp1FieldVm gp1Field, gp2FieldVm gp2Field, gp3FieldVm gp3Field, gp4FieldVm gp4Field, gp5FieldVm gp5Field) {
+                                  gpMainFieldVm gpMainField, gp1FieldVm gp1Field, gp2FieldVm gp2Field, gp3FieldVm gp3Field, gp4FieldVm gp4Field, gp5FieldVm gp5Field, 
+                                  QrCodeDataFieldVm qrCodeDataField, DescriptionFieldVm descriptionField, CommentsFieldVm commentsField) {
         _requaredFieldViewModels = new List<BaseTextFieldVm>() {
             nameFieldVm, nomenclatureNumberFieldVm
         };
@@ -42,6 +47,9 @@ public class CardCopmEditController
         GP3Field = gp3Field;
         GP4Field = gp4Field;
         GP5Field = gp5Field;
+        QrCodeDataField = qrCodeDataField;
+        DescriptionField = descriptionField;
+        CommentsField = commentsField;
     }
 
     public bool IsValid() {
@@ -58,6 +66,10 @@ public class CardCopmEditController
             card.LabelingOptions = LabelingOptionsField.Value;
         if (CodeOfElementField.IsValid())
             card.CodeOfElement = CodeOfElementField.Value;
+        
+        card.QrCodeData = QrCodeDataField.Value;
+        card.Description = DescriptionField.Value;
+        card.Comments = CommentsField.Value;
         
         card.GpMain = GPMainField.Value;
         card.Gp1 = GP1Field.Value;

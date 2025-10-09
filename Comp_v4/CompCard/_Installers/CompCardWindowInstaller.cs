@@ -76,6 +76,9 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<ValidatorCatalogNumber>().AsScoped<CompCardWindow>();
         container.Add<ValidatorLabelingOptions>().AsScoped<CompCardWindow>();
         container.Add<ValidatorCodeOfElement>().AsScoped<CompCardWindow>();
+        container.Add<ValidatorQrCodeData>().AsScoped<CompCardWindow>();
+        container.Add<ValidatorDescription>().AsScoped<CompCardWindow>();
+        container.Add<ValidatorComments>().AsScoped<CompCardWindow>();
         container.Add<ValidatorGp>().AsTransient();
         
         container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
@@ -83,6 +86,9 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<CatalogNumberFieldVm>().AsScoped<CompCardWindow>();
         container.Add<LabelingOptionsFieldVm>().AsScoped<CompCardWindow>();
         container.Add<CodeOfElementFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<QrCodeDataFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<DescriptionFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<CommentsFieldVm>().AsScoped<CompCardWindow>();
         container.Add<gpMainFieldVm>().AsScoped<CompCardWindow>();
         container.Add<gp1FieldVm>().AsScoped<CompCardWindow>();
         container.Add<gp2FieldVm>().AsScoped<CompCardWindow>();

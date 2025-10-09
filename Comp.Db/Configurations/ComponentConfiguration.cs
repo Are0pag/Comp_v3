@@ -21,6 +21,10 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.Property(c => c.LabelingOptions);
         builder.Property(c => c.CodeOfElement);
 
+        builder.Property(c => c.QrCodeData);
+        builder.Property(c => c.Description);
+        builder.Property(c => c.Comments);
+        
         builder.Property(c => c.GpMain);
         builder.Property(c => c.Gp1);
         builder.Property(c => c.Gp2);
