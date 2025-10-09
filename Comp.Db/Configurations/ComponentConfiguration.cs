@@ -28,6 +28,10 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.Property(c => c.Gp4);
         builder.Property(c => c.Gp5);
         
+        /*// Явно указываем nullable для внешних ключей
+        builder.Property(c => c.GenericParametersSetId)
+               .IsRequired(false);*/
+        
         builder.HasOne(c => c.Category)
                .WithMany() 
                .HasForeignKey(c => c.CategoryId)
@@ -36,6 +40,7 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.HasOne(c => c.GenericParametersSet)
                .WithMany()
                .HasForeignKey(c => c.GenericParametersSetId)
+               .IsRequired(false)
                .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasOne(c => c.ConditionalDesignation)
