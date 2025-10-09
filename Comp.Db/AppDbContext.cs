@@ -37,6 +37,8 @@ public class AppDbContext : DbContext
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     public DbSet<TypeSize> TypeSizes { get; set; }
     
+    public DbSet<GenericParametersSet> GenericParametersSets { get; set; }
+    
     public DbSet<Component> Components { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
