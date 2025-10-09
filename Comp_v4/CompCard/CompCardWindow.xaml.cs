@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
@@ -18,6 +19,10 @@ public partial class CompCardWindow : Window, IDisposable
                           SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();
         _component = component;
+
+        PartG.DataContext = new F() {
+            Link = "https://yandex.ru/images/"
+        };
         
         CdField.DataContext = cdFieldVm;
         ManField.DataContext = manFieldVm;
@@ -70,5 +75,18 @@ public partial class CompCardWindow : Window, IDisposable
                 textBox.BorderBrush = new SolidColorBrush(Colors.Red);
             }
         };
+    }
+}
+
+public class F : ObservableObject
+{
+    protected string _link;
+
+    public string Link {
+        get => _link;
+        set {
+            _link = value;
+            OnPropertyChanged(nameof(Link));
+        }
     }
 }

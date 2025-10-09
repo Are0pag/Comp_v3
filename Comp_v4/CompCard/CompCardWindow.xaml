@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.CompCard"
         xmlns:fields="clr-namespace:WPF.UCL.UserControls.Fields;assembly=WPF.UCL"
+        xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Width="1500" Height="900"
@@ -246,7 +247,7 @@
                 
                 <!-- Часть G -->
                 <Border Grid.Column="1" Name="PartG" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                    <TextBlock Text="G" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <ucl:LinkControl LinkUrl="{Binding Link}"/>
                     
                 </Border>
             </Grid>
