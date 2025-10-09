@@ -12,7 +12,7 @@ public partial class CompCardWindow : Window, IDisposable
 {
     protected readonly Component _component;
     
-    public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, 
+    public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, GpsFieldVm gpsFieldVm,
                           Component component,
                           CardCopmEditController ec,
                           SaveCompButtonVm saveCompButtonVm) {
@@ -23,6 +23,7 @@ public partial class CompCardWindow : Window, IDisposable
         ManField.DataContext = manFieldVm;
         MuField.DataContext = muFieldVm;
         TsField.DataContext = tsFieldVm;
+        GpsField.DataContext = gpsFieldVm;
 
         CategoryNameTextBlock.DataContext = component;
 

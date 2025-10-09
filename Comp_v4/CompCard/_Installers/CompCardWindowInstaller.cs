@@ -10,6 +10,7 @@ using Comp_v4.Installers;
 using Comp_v4.TableWindows;
 using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
+using Comp_v4.TableWindows.GenericParametersSets;
 using Comp_v4.TableWindows.Manufacturers;
 using Comp_v4.TableWindows.Manufacturers.Overrided;
 using Comp_v4.TableWindows.MeasurementUnits;
@@ -40,6 +41,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
         InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
         InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
+        InstallTableWindowScope<GenericParametersSetsWindow>(new TableWindowInstaller<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>());
 
 
         container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
@@ -57,6 +59,9 @@ public class CompCardWindowInstaller : AbstractInstaller
 
         container.Add<TsFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new TsFieldVm( OpenTableWindow<TypeSizesTableWindow, TypeSize>));
+        
+        container.Add<GpsFieldVm>().AsScoped<CompCardWindow>()
+                 .UsingFactoryMethod(() => new GpsFieldVm( OpenTableWindow<GenericParametersSetsWindow, GenericParametersSet>));
 
 
         container.Add<Component>()

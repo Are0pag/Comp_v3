@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.TableWindows.MeasurementUnits;
+using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
@@ -13,12 +14,12 @@ namespace Comp_v4.TableWindows.GenericParametersSets;
 
 public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGridRequestResolver<GenericParametersSetsWindow>
 {
- public GenericParametersSetsWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.MeasurementUnit> dataGridViewModel, 
+ public GenericParametersSetsWindow(DataGridViewModel<GenericParametersSet> dataGridViewModel, 
                                     FiltersVmBase filtersVm, 
                         
-                                    ButtonVmAddItem<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmAddItem, 
-                                    ButtonVmSave<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmSave, 
-                                    ButtonVmDeleteItem<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmDeleteItem) {
+                                    ButtonVmAddItem<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmAddItem, 
+                                    ButtonVmSave<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmSave, 
+                                    ButtonVmDeleteItem<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmDeleteItem) {
         InitializeComponent();
         MainDataGrid.DataContext = dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;

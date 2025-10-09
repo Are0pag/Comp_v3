@@ -28,4 +28,9 @@ public class DatabaseInitializer
             await _context.SaveChangesAsync();
         }
     }
+
+    /*private async Task EnsureDefaultGenericParametersSetExistsAsync() {
+        var defaultValue = _context.GenericParametersSets
+                                   .AddAsync(g => g.)
+    }*/
 }

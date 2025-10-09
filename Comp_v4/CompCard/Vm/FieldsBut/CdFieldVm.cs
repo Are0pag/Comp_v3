@@ -1,9 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
-using Comp_v4.CompCard.Events;
 using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
-using Utils.EventBus;
-using WPF.Services.ValidationString;
 
 namespace Comp_v4.CompCard.Vm;
 

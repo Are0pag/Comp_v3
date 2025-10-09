@@ -24,7 +24,7 @@ public class Component : NotifyPropertyChanged
     protected string _gp4 = string.Empty;
     protected string _gp5 = string.Empty;
     protected Category _category;
-    protected GenericParametersSet _genericParametersSet;
+    protected GenericParametersSet? _genericParametersSet;
     protected ConditionalDesignation? _conditionalDesignation;
     protected Manufacturer? _manufacturer;
     protected MeasurementUnit? _measurementUnit;
@@ -56,7 +56,7 @@ public class Component : NotifyPropertyChanged
     }
 
     [ForeignKey(nameof(GenericParametersSetId))]
-    public GenericParametersSet GetGenericParametersSet {
+    public GenericParametersSet? GetGenericParametersSet {
         get => _genericParametersSet;
         set {
             if (_genericParametersSet == value) return;
