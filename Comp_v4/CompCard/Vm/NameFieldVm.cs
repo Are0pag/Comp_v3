@@ -1,5 +1,6 @@
 using Comp_v4.CompCard.Entities.Validation;
 using Comp.ModelData.Comp;
+using Comp.ModelData.TechnicalItems;
 
 namespace Comp_v4.CompCard.Vm;
 
@@ -53,62 +54,92 @@ public class CodeOfElementFieldVm : BaseTextFieldVm
     }
 }
 
-public class gpMainFieldVm : BaseTextFieldVm
+public class gpMainFieldVm : BaseGpsTextFieldVm
 {
     public gpMainFieldVm(ValidatorGp validator) : base(validator) {
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.GpMain;
+        Value = component.GpMain;
+        Label = component.GenericParametersSet?.GpMain ?? DEFAULT_GPS_KEY;
+    }
+
+    public override void HandleTableInput(GenericParametersSet? args) {
+        Label = args?.GpMain ?? DEFAULT_GPS_KEY;
     }
 }
 
-public class gp1FieldVm : BaseTextFieldVm
+public class gp1FieldVm : BaseGpsTextFieldVm
 {
     public gp1FieldVm(ValidatorGp validator) : base(validator) {
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.Gp1;
+        Value = component.Gp1;
+        Label = component.GenericParametersSet?.Gp1 ?? DEFAULT_GPS_KEY;
+    }
+
+    public override void HandleTableInput(GenericParametersSet? args) {
+        Label = args?.Gp1 ?? DEFAULT_GPS_KEY;
     }
 }
 
-public class gp2FieldVm : BaseTextFieldVm
+public class gp2FieldVm : BaseGpsTextFieldVm
 {
     public gp2FieldVm(ValidatorGp validator) : base(validator) {
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.Gp2;
+        Value = component.Gp2;
+        Label = component.GenericParametersSet?.Gp2 ?? DEFAULT_GPS_KEY;
+    }
+
+    public override void HandleTableInput(GenericParametersSet? args) {
+        Label = args?.Gp2 ?? DEFAULT_GPS_KEY;
     }
 }
 
-public class gp3FieldVm : BaseTextFieldVm
+public class gp3FieldVm : BaseGpsTextFieldVm
 {
     public gp3FieldVm(ValidatorGp validator) : base(validator) {
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.Gp3;
+        Value = component.Gp3;
+        Label = component.GenericParametersSet?.Gp3 ?? DEFAULT_GPS_KEY;
+    }
+
+    public override void HandleTableInput(GenericParametersSet? args) {
+        Label = args?.Gp3 ?? DEFAULT_GPS_KEY;
     }
 }
 
-public class gp4FieldVm : BaseTextFieldVm
+public class gp4FieldVm : BaseGpsTextFieldVm
 {
     public gp4FieldVm(ValidatorGp validator) : base(validator) {
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.Gp4;
+        Value = component.Gp4;
+        Label = component.GenericParametersSet?.Gp4 ?? DEFAULT_GPS_KEY;
+    }
+
+    public override void HandleTableInput(GenericParametersSet? args) {
+        Label = args?.Gp4 ?? DEFAULT_GPS_KEY;
     }
 }
 
-public class gp5FieldVm : BaseTextFieldVm
+public class gp5FieldVm : BaseGpsTextFieldVm
 {
     public gp5FieldVm(ValidatorGp validator) : base(validator) {
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.Gp5;
+        Value = component.Gp5;
+        Label = component.GenericParametersSet?.Gp5 ?? DEFAULT_GPS_KEY;
+    }
+
+    public override void HandleTableInput(GenericParametersSet? args) {
+        Label = args?.Gp5 ?? DEFAULT_GPS_KEY;
     }
 }

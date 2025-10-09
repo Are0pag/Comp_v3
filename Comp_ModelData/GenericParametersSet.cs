@@ -85,4 +85,8 @@ public class GenericParametersSet : ObservableObject, IDbEntity
             OnPropertyChanged();
         }
     }
+
+    public override string ToString() {
+        return $"gps={Name}";
+    }
 }

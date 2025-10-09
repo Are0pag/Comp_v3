@@ -18,7 +18,7 @@ public abstract class BaseTextFieldVm : BaseFieldVm, ICompCardLoadedHandler
         return _validator.ValidateAsync(_value).Result is { IsValid: true };
     }
 
-    public void Dispose() {
+    public virtual void Dispose() {
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
     }
 
