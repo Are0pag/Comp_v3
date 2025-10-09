@@ -50,19 +50,47 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Псевдоним" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                 <DataGridTextColumn Header="Основной параметр" Binding="{Binding GpMain, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="1-й доп. параметр" Binding="{Binding Gp1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                <DataGridTextColumn Header="2-й доп. параметр" Binding="{Binding Gp2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                <DataGridTextColumn Header="3-й доп. параметр" Binding="{Binding Gp3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                <DataGridTextColumn Header="4-й доп. параметр" Binding="{Binding Gp4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                <DataGridTextColumn Header="5-й доп. параметр" Binding="{Binding Gp5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridTextColumn Header="1-й доп. параметр" Binding="{Binding Gp1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="2-й доп. параметр" Binding="{Binding Gp2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="3-й доп. параметр" Binding="{Binding Gp3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="4-й доп. параметр" Binding="{Binding Gp4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="5-й доп. параметр" Binding="{Binding Gp5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
             </DataGrid.Columns>
             
             <DataGrid.ContextMenu>
