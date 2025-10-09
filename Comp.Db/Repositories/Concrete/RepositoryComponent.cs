@@ -8,6 +8,7 @@ namespace Comp.Db.Repositories.Concrete;
 public class RepositoryComponent : DbRepository<Component>
 {
     protected readonly IRepository<Category> _categoryRepository;
+    protected readonly IRepository<GenericParametersSet> _genericParametersSetRepository;
     protected readonly IRepository<ConditionalDesignation> _conditionalDesignationRepository;
     protected readonly IRepository<Manufacturer> _manufacturerRepository;
     protected readonly IRepository<MeasurementUnit> _measurementUnitRepository;
@@ -18,18 +19,26 @@ public class RepositoryComponent : DbRepository<Component>
                                IRepository<ConditionalDesignation> conditionalDesignationRepository, 
                                IRepository<Manufacturer> manufacturerRepository, 
                                IRepository<MeasurementUnit> measurementUnitRepository, 
-                               IRepository<TypeSize> typeSizeRepository) : base(context) {
+                               IRepository<TypeSize> typeSizeRepository, 
+                               IRepository<GenericParametersSet> genericParametersSetRepository) : base(context) {
         _categoryRepository = categoryRepository;
         _conditionalDesignationRepository = conditionalDesignationRepository;
         _manufacturerRepository = manufacturerRepository;
         _measurementUnitRepository = measurementUnitRepository;
         _typeSizeRepository = typeSizeRepository;
+        _genericParametersSetRepository = genericParametersSetRepository;
     }
 
     public override async Task<List<Component>> GetAllAsync() {
         var copms = await base.GetAllAsync();
         foreach (var copm in copms) {
-            copm.Category = await _categoryRepository.GetByIdAsync(copm.CategoryId);
+            if (await _categoryRepository.GetByIdAsync(copm.CategoryId) is not {} category)
+                throw new InvalidOperationException("Category can not be null");
+            
+            copm.Category = category;
+
+            if (copm.GenericParametersSetId != null)
+                copm.GenericParametersSet = await _genericParametersSetRepository.GetByIdAsync(copm.GenericParametersSetId.Value);
 
             if (copm.ConditionalDesignationId != null) {
                 int id = copm.ConditionalDesignationId.Value;
@@ -65,10 +74,15 @@ public class RepositoryComponent : DbRepository<Component>
             if (await GetByIdAsync(entity.Id) is not {} dbInstance)
                 throw new NullReferenceException("Db Instance could not be found");
             
+            dbInstance.CategoryId = entity.CategoryId;
+            dbInstance.GenericParametersSetId = entity.GenericParametersSet?.Id ?? null;
             dbInstance.ConditionalDesignationId = entity.ConditionalDesignation?.Id ?? null;
             dbInstance.ManufacturerId = entity.Manufacturer?.Id ?? null;
             dbInstance.MeasurementUnitId = entity.MeasurementUnit?.Id ?? null;
             dbInstance.TypeSizeId = entity.TypeSize?.Id ?? null;
+            
+            if (dbInstance.CategoryId == 0)
+                throw new InvalidOperationException("Category can not be null");
             
             _context.Set<Component>().Update(dbInstance);
             await _context.SaveChangesAsync();

@@ -15,6 +15,10 @@ public class CompRepoInstaller : AbstractInstaller
                  .To<RepositoryCategory>()
                  .AsTransient();
         
+        
+        container.Add<IRepository<GenericParametersSet>>()
+                 .To<DbRepository<GenericParametersSet>>()
+                 .AsTransient();
         container.Add<IRepository<ConditionalDesignation>>()
                  .To<DbRepository<ConditionalDesignation>>()
                  .AsTransient();
