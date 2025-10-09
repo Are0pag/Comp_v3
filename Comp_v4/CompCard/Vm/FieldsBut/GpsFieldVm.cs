@@ -11,7 +11,7 @@ public partial class GpsFieldVm : BaseVmForFieldWithButton<GenericParametersSet>
     }
 
     public override void OnCompCardLoaded(Component component) {
-        _value = component.GetGenericParametersSet?.Name ?? "...";
+        _value = component.GenericParametersSet?.Name ?? "...";
     }
 
     [RelayCommand]

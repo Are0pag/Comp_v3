@@ -33,7 +33,7 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
                .HasForeignKey(c => c.CategoryId)
                .OnDelete(DeleteBehavior.Restrict);
         
-        builder.HasOne(c => c.GetGenericParametersSet)
+        builder.HasOne(c => c.GenericParametersSet)
                .WithMany()
                .HasForeignKey(c => c.GenericParametersSetId)
                .OnDelete(DeleteBehavior.Restrict);

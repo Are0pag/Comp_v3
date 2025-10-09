@@ -12,7 +12,8 @@ public abstract class BaseStateCardComp : StateBase<CardComp>,
                                           IExternalTableInputHandler<ConditionalDesignation>,
                                           IExternalTableInputHandler<Manufacturer>,
                                           IExternalTableInputHandler<MeasurementUnit>,
-                                          IExternalTableInputHandler<TypeSize>
+                                          IExternalTableInputHandler<TypeSize>,
+                                          IExternalTableInputHandler<GenericParametersSet>
 {
     protected readonly Component _component;
     protected readonly IRepository<Component> _repository;
@@ -32,6 +33,7 @@ public abstract class BaseStateCardComp : StateBase<CardComp>,
     void IExternalTableInputHandler<Manufacturer>.HandleTableInput(Manufacturer? args) => _component.Manufacturer = args;
     void IExternalTableInputHandler<MeasurementUnit>.HandleTableInput(MeasurementUnit? args) => _component.MeasurementUnit = args;
     void IExternalTableInputHandler<TypeSize>.HandleTableInput(TypeSize? args) => _component.TypeSize = args;
+    void IExternalTableInputHandler<GenericParametersSet>.HandleTableInput(GenericParametersSet? args) => _component.GenericParametersSet = args;
 
     public void Dispose() {
         EventBus<ICompCardSubscriber>.Unsubscribe(this);

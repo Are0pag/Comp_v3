@@ -56,9 +56,8 @@ public class RepositoryComponent : DbRepository<Component>
     }
 
     public override async Task AddAsync(Component entity) {
-        entity.Category = await _categoryRepository.GetByIdAsync(entity.Category.Id);
-        entity.Id = default;
-        await base.AddAsync(entity);
+        var dbEntity = GetDbCloneOnAdding(entity);
+        await base.AddAsync(dbEntity);
     }
 
     public override async Task UpdateAsync(Component entity) {
@@ -77,5 +76,28 @@ public class RepositoryComponent : DbRepository<Component>
         catch (Exception e) {
             Console.WriteLine(e);
         }
+    }
+    
+    public Component GetDbCloneOnAdding(Component c) {
+        return new Component() {
+            Id = default,
+            CategoryId = c.Category.Id,
+            GenericParametersSetId = c.GenericParametersSet?.Id,
+            ConditionalDesignationId = c.ConditionalDesignation?.Id,
+            ManufacturerId = c.Manufacturer?.Id,
+            MeasurementUnitId = c.MeasurementUnit?.Id,
+            TypeSizeId = c.TypeSize?.Id,
+            Name = c.Name,
+            NomenclatureNumber = c.NomenclatureNumber,
+            CatalogNumber = c.CatalogNumber,
+            LabelingOptions = c.LabelingOptions,
+            CodeOfElement = c.CodeOfElement,
+            GpMain = c.GpMain,
+            Gp1 = c.Gp1,
+            Gp2 = c.Gp2,
+            Gp3 = c.Gp3,
+            Gp4 = c.Gp4,
+            Gp5 = c.Gp5,
+        };
     }
 }

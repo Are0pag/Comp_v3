@@ -7,7 +7,7 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.Comp;
 
 [Table(nameof(Component) + "s")]
-public class Component : NotifyPropertyChanged 
+public class Component : NotifyPropertyChanged, IDbEntity
 {
     protected string _name = string.Empty;
     protected string _nomenclatureNumber = string.Empty;
@@ -37,7 +37,7 @@ public class Component : NotifyPropertyChanged
 
     // Foreign key свойства
     public int CategoryId { get; set; }
-    public int GenericParametersSetId { get; set; }
+    public int? GenericParametersSetId { get; set; }
     public int? ConditionalDesignationId { get; set; }
     public int? ManufacturerId { get; set; }
     public int? MeasurementUnitId { get; set; }
@@ -56,7 +56,7 @@ public class Component : NotifyPropertyChanged
     }
 
     [ForeignKey(nameof(GenericParametersSetId))]
-    public GenericParametersSet? GetGenericParametersSet {
+    public GenericParametersSet? GenericParametersSet {
         get => _genericParametersSet;
         set {
             if (_genericParametersSet == value) return;
