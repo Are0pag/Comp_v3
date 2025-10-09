@@ -25,6 +25,13 @@ public partial class CompCardWindow : Window, IDisposable
         TsField.DataContext = tsFieldVm;
 
         CategoryNameTextBlock.DataContext = component;
+
+        MainParameterField.DataContext = ec.GPMainField;
+        Param1Field.DataContext = ec.GP1Field;
+        Param2Field.DataContext = ec.GP2Field;
+        Param3Field.DataContext = ec.GP3Field;
+        Param4Field.DataContext = ec.GP4Field;
+        Param5Field.DataContext = ec.GP5Field;
         
         InitSimpleField(ec.NameField, component.Name, NameFieldUc.GetInputTextBox());
         NameFieldUc.DataContext = ec.NameField;

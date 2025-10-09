@@ -25,4 +25,46 @@ public class RepositoryCategory : DbRepository<Category>
         var rootCategories = items.Where(c => !c.ParentCategoryId.HasValue);
         return rootCategories.ToList();
     }
+
+
+    public override Task AddAsync(Category entity) {
+        if (entity.ParentCategory != null && WouldCreateCycle(entity, entity.ParentCategory))
+            throw new InvalidOperationException();
+        return base.AddAsync(entity);
+    }
+
+    public override Task UpdateAsync(Category entity) {
+        if (entity.ParentCategory != null && WouldCreateCycle(entity, entity.ParentCategory))
+            throw new InvalidOperationException();
+        return base.UpdateAsync(entity);
+    }
+
+
+    /// <summary>
+    /// Проверяет, не создаст ли добавление родительской категории циклическую ссылку
+    /// </summary>
+    /// <param name="category">Категория, для которой проверяется родитель</param>
+    /// <param name="potentialParent">Потенциальный родитель</param>
+    /// <returns>True, если добавление создаст цикл, False в противном случае</returns>
+    public static bool WouldCreateCycle(Category category, Category potentialParent) {
+        // Текущая категория не может быть собственным родителем
+        if (category.Id == potentialParent.Id)
+            return true;
+
+        // Проверяем цепочку родителей потенциального родителя
+        var currentParent = potentialParent;
+        var visitedIds = new HashSet<int> { category.Id };
+
+        while (currentParent != null) {
+            // Если в цепочке родителей встречается текущая категория, это цикл
+            if (visitedIds.Contains(currentParent.Id))
+                return true;
+
+            visitedIds.Add(currentParent.Id);
+
+            // Переходим к следующему родителю
+            currentParent = currentParent.ParentCategory;
+        }
+        return false;
+    }
 }

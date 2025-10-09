@@ -20,6 +20,13 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.Property(c => c.CatalogNumber);
         builder.Property(c => c.LabelingOptions);
         builder.Property(c => c.CodeOfElement);
+
+        builder.Property(c => c.GpMain);
+        builder.Property(c => c.Gp1);
+        builder.Property(c => c.Gp2);
+        builder.Property(c => c.Gp3);
+        builder.Property(c => c.Gp4);
+        builder.Property(c => c.Gp5);
         
         builder.HasOne(c => c.Category)
                .WithMany() 

@@ -58,7 +58,6 @@ public class RepositoryComponent : DbRepository<Component>
     public override async Task AddAsync(Component entity) {
         entity.Category = await _categoryRepository.GetByIdAsync(entity.Category.Id);
         entity.Id = default;
-        entity.CategoryId = default;
         await base.AddAsync(entity);
     }
 

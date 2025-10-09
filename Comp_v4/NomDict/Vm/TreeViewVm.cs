@@ -58,11 +58,17 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
 
     protected virtual bool ItemsFilter(object item) {
         if (_selectedCategory == null) return false;
-        return item is Component component && IsSelectedCategoryIsParent(component.Category);
+        try {
+            return item is Component component && IsSelectedCategoryIsParent(component.Category);
+        }
+        catch (Exception e) {
+            throw new ArgumentException($"Invalid category: {_selectedCategory}", e);
+        }
     }
 
     protected bool IsSelectedCategoryIsParent(Category category) {
-        if (category.Id == _selectedCategory!.Id) return true;
+        if (category.Id == _selectedCategory!.Id) 
+            return true;
         category.ParentCategory ??= Items.FirstOrDefault(c => c.Id == category.ParentCategoryId);
         return category.ParentCategory != null && IsSelectedCategoryIsParent(category.ParentCategory);
     }
