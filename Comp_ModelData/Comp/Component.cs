@@ -24,10 +24,12 @@ public class Component : NotifyPropertyChanged
     protected string _gp4 = string.Empty;
     protected string _gp5 = string.Empty;
     protected Category _category;
+    protected GenericParametersSet _genericParametersSet;
     protected ConditionalDesignation? _conditionalDesignation;
     protected Manufacturer? _manufacturer;
     protected MeasurementUnit? _measurementUnit;
     protected TypeSize? _typeSize;
+    
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -35,6 +37,7 @@ public class Component : NotifyPropertyChanged
 
     // Foreign key свойства
     public int CategoryId { get; set; }
+    public int GenericParametersSetId { get; set; }
     public int? ConditionalDesignationId { get; set; }
     public int? ManufacturerId { get; set; }
     public int? MeasurementUnitId { get; set; }
@@ -48,6 +51,16 @@ public class Component : NotifyPropertyChanged
         set {
             if (_category == value) return;
             _category = value;
+            OnPropertyChanged();
+        }
+    }
+
+    [ForeignKey(nameof(GenericParametersSetId))]
+    public GenericParametersSet GetGenericParametersSet {
+        get => _genericParametersSet;
+        set {
+            if (_genericParametersSet == value) return;
+            _genericParametersSet = value;
             OnPropertyChanged();
         }
     }
