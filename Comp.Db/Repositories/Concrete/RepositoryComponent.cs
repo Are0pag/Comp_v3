@@ -84,6 +84,28 @@ public class RepositoryComponent : DbRepository<Component>
             if (dbInstance.CategoryId == 0)
                 throw new InvalidOperationException("Category can not be null");
             
+            dbInstance.Name = entity.Name;
+            dbInstance.NomenclatureNumber = entity.NomenclatureNumber;
+            
+            dbInstance.CatalogNumber = entity.CatalogNumber;
+            dbInstance.LabelingOptions = entity.LabelingOptions;
+            dbInstance.CodeOfElement = entity.CodeOfElement;
+            
+            dbInstance.Url = entity.Url;
+            dbInstance.UrlAlternative = entity.UrlAlternative;
+            dbInstance.FilePath = entity.FilePath;
+            
+            dbInstance.QrCodeData = entity.QrCodeData;
+            dbInstance.Description = entity.Description;
+            dbInstance.Comments = entity.Comments;
+            
+            dbInstance.GpMain = entity.GpMain;
+            dbInstance.Gp1 = entity.Gp1;
+            dbInstance.Gp2 = entity.Gp2;
+            dbInstance.Gp3 = entity.Gp3;
+            dbInstance.Gp4 = entity.Gp4;
+            dbInstance.Gp5 = entity.Gp5;
+            
             _context.Set<Component>().Update(dbInstance);
             await _context.SaveChangesAsync();
         }
@@ -95,17 +117,30 @@ public class RepositoryComponent : DbRepository<Component>
     public Component GetDbCloneOnAdding(Component c) {
         return new Component() {
             Id = default,
+            
             CategoryId = c.Category.Id,
+            
             GenericParametersSetId = c.GenericParametersSet?.Id,
             ConditionalDesignationId = c.ConditionalDesignation?.Id,
             ManufacturerId = c.Manufacturer?.Id,
             MeasurementUnitId = c.MeasurementUnit?.Id,
             TypeSizeId = c.TypeSize?.Id,
+            
             Name = c.Name,
             NomenclatureNumber = c.NomenclatureNumber,
+            
             CatalogNumber = c.CatalogNumber,
             LabelingOptions = c.LabelingOptions,
             CodeOfElement = c.CodeOfElement,
+            
+            Url = c.Url,
+            UrlAlternative = c.UrlAlternative,
+            FilePath = c.FilePath,
+            
+            QrCodeData = c.QrCodeData,
+            Description = c.Description,
+            Comments = c.Comments,
+            
             GpMain = c.GpMain,
             Gp1 = c.Gp1,
             Gp2 = c.Gp2,
