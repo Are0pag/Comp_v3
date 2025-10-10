@@ -247,7 +247,13 @@
                 
                 <!-- Часть G -->
                 <Border Grid.Column="1" Name="PartG" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                    <ucl:LinkControl LinkUrl="{Binding Link}"/>
+                    <StackPanel Orientation="Vertical">
+                        <ucl:LinkFieldControl 
+                            x:Name="LinkFieldControl"
+                            FieldName="{Binding FieldTitle}"
+                            LinkUrl="{Binding Url}"
+                            SetLinkCommand="{Binding SetLinkCommand}"/>
+                    </StackPanel>
                     
                 </Border>
             </Grid>
