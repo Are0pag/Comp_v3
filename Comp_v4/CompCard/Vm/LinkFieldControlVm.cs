@@ -1,14 +1,9 @@
 namespace Comp_v4.CompCard.Vm.Buttons;
 
-public partial class LinkFieldControlVm : SetLinkButtonVm
+public abstract class LinkFieldControlVm : SetLinkButtonVm
 {
     private string _fieldTitle;
-    private string _url;
-
-    public LinkFieldControlVm() {
-        _fieldTitle = "Link";
-        _url = string.Empty;
-    }
+    private string _url = string.Empty;
     
     public string FieldTitle {
         get => _fieldTitle;
@@ -26,3 +21,25 @@ public partial class LinkFieldControlVm : SetLinkButtonVm
         }
     }
 }
+
+public class UrlFieldControlVm : LinkFieldControlVm
+{
+    public UrlFieldControlVm() {
+        FieldTitle = "Интернет ссылка: ";
+    }
+}
+
+public class UrlAlternativeFieldControlVm : LinkFieldControlVm
+{
+    public UrlAlternativeFieldControlVm() {
+        FieldTitle = "Альтернативная ссылка: ";
+    }
+}
+
+public class FilePathFieldControlVm : LinkFieldControlVm
+{
+    public FilePathFieldControlVm() {
+        FieldTitle = "Файл спецификации: ";
+    }
+}
+

@@ -249,7 +249,17 @@
                 <Border Grid.Column="1" Name="PartG" BorderBrush="Gray" BorderThickness="1" Margin="2">
                     <StackPanel Orientation="Vertical">
                         <ucl:LinkFieldControl 
-                            x:Name="LinkFieldControl"
+                            x:Name="UrlFieldControl"
+                            FieldName="{Binding FieldTitle}"
+                            LinkUrl="{Binding Url}"
+                            SetLinkCommand="{Binding SetLinkCommand}"/>
+                        <ucl:LinkFieldControl 
+                            x:Name="UrlAlternativeFieldControl"
+                            FieldName="{Binding FieldTitle}"
+                            LinkUrl="{Binding Url}"
+                            SetLinkCommand="{Binding SetLinkCommand}"/>
+                        <ucl:LinkFieldControl 
+                            x:Name="FilePathFieldControl"
                             FieldName="{Binding FieldTitle}"
                             LinkUrl="{Binding Url}"
                             SetLinkCommand="{Binding SetLinkCommand}"/>

@@ -5,7 +5,7 @@ using WPF.UCL;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 
-public class SetLinkAction : BaseAsyncActionButtonInvoked
+public abstract class SetLinkAction : BaseAsyncActionButtonInvoked
 {
     protected readonly LinkFieldControlVm _linkFieldVm;
     protected readonly ValidatorUrl _validator;
@@ -30,5 +30,23 @@ public class SetLinkAction : BaseAsyncActionButtonInvoked
 
     public override async Task CancelAsync(object? parameter = null) {
         throw new NotImplementedException();
+    }
+}
+
+public class SetUrlAction : SetLinkAction
+{
+    public SetUrlAction(UrlFieldControlVm buttonVm, ValidatorUrl validator) : base(buttonVm, validator) {
+    }
+}
+
+public class SetUrlAlternativeAction : SetLinkAction
+{
+    public SetUrlAlternativeAction(UrlAlternativeFieldControlVm buttonVm, ValidatorUrl validator) : base(buttonVm, validator) {
+    }
+}
+
+public class SetFilePathAction : SetLinkAction
+{
+    public SetFilePathAction(FilePathFieldControlVm buttonVm, ValidatorUrl validator) : base(buttonVm, validator) {
     }
 }

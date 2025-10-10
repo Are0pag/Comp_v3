@@ -19,11 +19,13 @@ public partial class CompCardWindow : Window, IDisposable
                           Component component,
                           CardCopmEditController ec,
                           SaveCompButtonVm saveCompButtonVm,
-                          LinkFieldControlVm linkFieldControlVm) {
+                          UrlFieldControlVm urlFieldControlVm, UrlAlternativeFieldControlVm urlAlternativeFieldControlVm, FilePathFieldControlVm filePathFieldControlVm) {
         InitializeComponent();
         _component = component;
 
-        LinkFieldControl.DataContext = linkFieldControlVm;
+        UrlFieldControl.DataContext = urlFieldControlVm;
+        UrlAlternativeFieldControl.DataContext = urlAlternativeFieldControlVm;
+        FilePathFieldControl.DataContext = filePathFieldControlVm;
         
         CdField.DataContext = cdFieldVm;
         ManField.DataContext = manFieldVm;
