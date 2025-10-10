@@ -15,6 +15,8 @@ public partial class ImageFieldVm : ObservableObject
     public Action<object?>  ClearAction { get; set; }
     public Action<object?>  SelectAction { get; set; }
 
+    public string? ImagePath { get; set; }
+    
     public BitmapImage? Image {
         get => _image;
         set {

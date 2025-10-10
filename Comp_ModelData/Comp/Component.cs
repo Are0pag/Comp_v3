@@ -23,6 +23,8 @@ public class Component : NotifyPropertyChanged, IDbEntity
     protected string _description = string.Empty;
     protected string _comments = string.Empty;
     
+    protected string? _imagePath;
+    
     /// <summary>
     /// GP - Generic Parameters. Model containing values 
     /// </summary>
@@ -130,6 +132,8 @@ public class Component : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+    
+    
 
     public string CatalogNumber {
         get => _catalogNumber;
@@ -159,6 +163,8 @@ public class Component : NotifyPropertyChanged, IDbEntity
     }
 
 
+#region Links
+
     public string Url {
         get => _url;
         set {
@@ -185,6 +191,17 @@ public class Component : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+    
+    public string? ImagePath {
+        get => _imagePath;
+        set {
+            if (value == _imagePath) return;
+            _imagePath = value;
+            OnPropertyChanged();
+        }
+    }
+
+#endregion
     
 
     public string QrCodeData {
@@ -213,6 +230,8 @@ public class Component : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+
+#region GenericParamsValues
 
     public string GpMain {
         get => _gpMain;
@@ -267,4 +286,6 @@ public class Component : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+
+#endregion
 }

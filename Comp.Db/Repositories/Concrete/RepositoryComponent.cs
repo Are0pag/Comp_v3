@@ -94,6 +94,7 @@ public class RepositoryComponent : DbRepository<Component>
             dbInstance.Url = entity.Url;
             dbInstance.UrlAlternative = entity.UrlAlternative;
             dbInstance.FilePath = entity.FilePath;
+            dbInstance.ImagePath = entity.ImagePath;
             
             dbInstance.QrCodeData = entity.QrCodeData;
             dbInstance.Description = entity.Description;
@@ -136,6 +137,7 @@ public class RepositoryComponent : DbRepository<Component>
             Url = c.Url,
             UrlAlternative = c.UrlAlternative,
             FilePath = c.FilePath,
+            ImagePath = c.ImagePath,
             
             QrCodeData = c.QrCodeData,
             Description = c.Description,

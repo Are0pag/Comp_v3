@@ -1,13 +1,19 @@
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Comp_v4.CompCard.Vm;
-using Utils.WPF;
+using Comp.ModelData.Comp;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 
 public class SelectImageAction : ImageActionBase
 {
-    public SelectImageAction(ImageFieldVm imageFieldVm) : base(imageFieldVm) {
+    protected readonly Component _component;
+    public SelectImageAction(ImageFieldVm imageFieldVm, Component component) : base(imageFieldVm) {
+        _component = component;
         imageFieldVm.SelectAction = PerformAsync;
+        LoadImageFromPath();
     }
 
     public override void PerformAsync(object? parameter) {
@@ -34,19 +40,17 @@ public class SelectImageAction : ImageActionBase
                 bitmap.EndInit();
                 bitmap.Freeze(); // Важно для потокобезопасности
 
-                // Обновляем Image через UI поток, если необходимо
                 System.Windows.Application.Current.Dispatcher.Invoke(() => {
                     _imageFieldVm.Image = bitmap;
+                    _imageFieldVm.ImagePath = openFileDialog.FileName;
+                    _component.ImagePath = openFileDialog.FileName;
                 });
             }
             catch (Exception ex) {
-                // Обработка ошибок загрузки изображения
-                System.Windows.MessageBox.Show(
-                                               $"Ошибка при загрузке изображения: {ex.Message}", 
+                System.Windows.MessageBox.Show($"Ошибка при загрузке изображения: {ex.Message}", 
                                                "Ошибка", 
                                                System.Windows.MessageBoxButton.OK, 
-                                               System.Windows.MessageBoxImage.Error
-                                              );
+                                               System.Windows.MessageBoxImage.Error);
             }
         }
     }
@@ -58,13 +62,25 @@ public class SelectImageAction : ImageActionBase
     public override void CancelAsync(object? parameter = null) {
         throw new NotImplementedException();
     }
-}
 
-public abstract class ImageActionBase : BaseAction
-{
-    protected readonly ImageFieldVm _imageFieldVm;
+    public void LoadImageFromPath() {
+        if (string.IsNullOrWhiteSpace(_component.ImagePath) || !File.Exists(_component.ImagePath))
+            return;
 
-    protected ImageActionBase(ImageFieldVm imageFieldVm) {
-        _imageFieldVm = imageFieldVm;
+        try {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.UriSource = new Uri(_component.ImagePath, UriKind.Absolute);
+            bitmap.EndInit();
+            bitmap.Freeze(); // Важно для потокобезопасности
+
+            Application.Current.Dispatcher.Invoke(() => {
+                _imageFieldVm.Image = bitmap;
+            });
+        }
+        catch (Exception ex) {
+            Debug.WriteLine($"Ошибка загрузки изображения: {ex.Message}");
+        }
     }
 }
