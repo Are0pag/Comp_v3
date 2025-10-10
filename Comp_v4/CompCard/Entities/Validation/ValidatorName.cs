@@ -110,3 +110,14 @@ public class ValidatorComments : StringValidatorBase
     }
 }
 
+public class ValidatorUrl : StringValidatorBase
+{
+    protected override void SetRules() {
+        var rules = CreateRules()
+                   .Required()
+                   .Build();
+        foreach (var rule in rules) {
+            AddRule(rule);
+        }
+    }
+}

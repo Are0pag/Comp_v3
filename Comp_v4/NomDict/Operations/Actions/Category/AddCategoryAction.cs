@@ -26,7 +26,6 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
             return;
         _selectedCategory = _treeViewVm.SelectedCategory;
 
-        // Получаем свежий экземпляр из БД чтобы избежать проблем с отслеживанием
         var selectedCategoryFromDb = await _repository.GetByIdAsync(_treeViewVm.SelectedCategory.Id);
         if (selectedCategoryFromDb == null) 
             return;

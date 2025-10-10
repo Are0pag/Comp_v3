@@ -14,7 +14,8 @@ public partial class OneValueWindow : Window
         InitializeComponent();
         _isValidCheck = isValidCheck;
         ValueNameTextBlock.Text = valueName;
-        if (textInInputField != null) InputTextBox.Text = textInInputField;
+        if (textInInputField != null) 
+            InputTextBox.Text = textInInputField;
         
         Loaded += (s, e) => {
             InputTextBox.Focus();

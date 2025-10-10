@@ -10,77 +10,53 @@ public partial class LinkFieldControl : UserControl
     public LinkFieldControl() {
         InitializeComponent();
     }
-    
+
     public static readonly DependencyProperty FieldNameProperty =
         DependencyProperty.Register(
-                                    nameof(FieldName), 
-                                    typeof(string), 
-                                    typeof(LinkFieldControl), 
+                                    nameof(FieldName),
+                                    typeof(string),
+                                    typeof(LinkFieldControl),
                                     new PropertyMetadata("Ссылка:")); // Значение по умолчанию
-        
+
     public static readonly DependencyProperty LinkUrlProperty =
         DependencyProperty.Register(
-                                    nameof(LinkUrl), 
-                                    typeof(string), 
-                                    typeof(LinkFieldControl), 
+                                    nameof(LinkUrl),
+                                    typeof(string),
+                                    typeof(LinkFieldControl),
                                     new PropertyMetadata(string.Empty));
-        
+
     public static readonly DependencyProperty SetLinkCommandProperty =
         DependencyProperty.Register(
-                                    nameof(SetLinkCommand), 
-                                    typeof(ICommand), 
-                                    typeof(LinkFieldControl), 
-                                    new PropertyMetadata(null));
-        
-    public static readonly DependencyProperty SetLinkCommandParameterProperty =
-        DependencyProperty.Register(
-                                    nameof(SetLinkCommandParameter), 
-                                    typeof(object), 
-                                    typeof(LinkFieldControl), 
+                                    nameof(SetLinkCommand),
+                                    typeof(ICommand),
+                                    typeof(LinkFieldControl),
                                     new PropertyMetadata(null));
 
-    public string FieldName
-    {
+    public string FieldName {
         get => (string)GetValue(FieldNameProperty);
         set => SetValue(FieldNameProperty, value);
     }
-        
-    public string LinkUrl
-    {
+
+    public string LinkUrl {
         get => (string)GetValue(LinkUrlProperty);
         set => SetValue(LinkUrlProperty, value);
     }
-        
-    public ICommand SetLinkCommand
-    {
+
+    public ICommand SetLinkCommand {
         get => (ICommand)GetValue(SetLinkCommandProperty);
         set => SetValue(SetLinkCommandProperty, value);
     }
-        
-    public object SetLinkCommandParameter
-    {
-        get => GetValue(SetLinkCommandParameterProperty);
-        set => SetValue(SetLinkCommandParameterProperty, value);
-    }
-    
-    private void LinkTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (!string.IsNullOrEmpty(LinkUrl) && 
-            (LinkUrl.StartsWith("http://") || LinkUrl.StartsWith("https://")))
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = LinkUrl,
-                    UseShellExecute = true
-                });
-            }
-            catch
-            {
-                MessageBox.Show($"Не удалось открыть ссылку: {LinkUrl}", "Ошибка", 
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+    private void LinkTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        try {
+            Process.Start(new ProcessStartInfo {
+                FileName = LinkUrl,
+                UseShellExecute = true
+            });
+        }
+        catch {
+            MessageBox.Show($"Не удалось открыть ссылку: {LinkUrl}", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

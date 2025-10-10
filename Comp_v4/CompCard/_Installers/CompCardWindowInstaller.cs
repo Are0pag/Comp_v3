@@ -98,6 +98,10 @@ public class CompCardWindowInstaller : AbstractInstaller
         
         container.Add<CardCopmEditController>().AsScoped<CompCardWindow>();
         
+        container.Add<ValidatorUrl>().AsTransient();
+        container.Add<LinkFieldControlVm>().AsScoped<CompCardWindow>();
+        container.Add<SetLinkAction>().AsScoped<CompCardWindow>();
+        
         container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
         container.Add<SaveComponentAction>().AsScoped<CompCardWindow>();
         
