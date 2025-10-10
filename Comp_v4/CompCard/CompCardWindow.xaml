@@ -248,6 +248,15 @@
                 <!-- Часть G -->
                 <Border Grid.Column="1" Name="PartG" BorderBrush="Gray" BorderThickness="1" Margin="2">
                     <StackPanel Orientation="Vertical">
+                        <ucl:ImageFieldControl 
+                            x:Name="ImageFieldControl"
+                            ImageSource="{Binding Image}"
+                            Button1Text="{Binding ButSelectText}"
+                            Button2Text="{Binding ButOpenText}"
+                            Button3Text="{Binding ButClearText}"
+                            Button1Command="{Binding SelectCommand}"
+                            Button2Command="{Binding OpenCommand}"
+                            Button3Command="{Binding ClearCommand}"/>
                         <ucl:LinkFieldControl 
                             x:Name="UrlFieldControl"
                             FieldName="{Binding FieldTitle}"

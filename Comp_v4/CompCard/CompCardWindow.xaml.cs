@@ -31,6 +31,8 @@ public partial class CompCardWindow : Window, IDisposable
         MuField.DataContext = muFieldVm;
         TsField.DataContext = tsFieldVm;
         GpsField.DataContext = gpsFieldVm;
+        
+        ImageFieldControl.DataContext = ec.ImageField;
 
         CategoryNameTextBlock.DataContext = component;
 
