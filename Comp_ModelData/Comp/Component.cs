@@ -15,6 +15,10 @@ public class Component : NotifyPropertyChanged, IDbEntity
     protected string _labelingOptions = string.Empty;
     protected string _codeOfElement = string.Empty;
     
+    protected string _url = string.Empty;
+    protected string _urlAlternative = string.Empty;
+    protected string _filePath = string.Empty;
+    
     protected string _qrCodeData = string.Empty;
     protected string _description = string.Empty;
     protected string _comments = string.Empty;
@@ -153,6 +157,35 @@ public class Component : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+
+
+    public string Url {
+        get => _url;
+        set {
+            if (value == _url) return;
+            _url = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string UrlAlternative {
+        get => _urlAlternative;
+        set {
+            if (value == _urlAlternative) return;
+            _urlAlternative = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string FilePath {
+        get => _filePath;
+        set {
+            if (value == _filePath) return;
+            _filePath = value;
+            OnPropertyChanged();
+        }
+    }
+    
 
     public string QrCodeData {
         get => _qrCodeData;

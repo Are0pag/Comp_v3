@@ -21,6 +21,10 @@ public class ComponentConfiguration : IEntityTypeConfiguration<Component>
         builder.Property(c => c.LabelingOptions);
         builder.Property(c => c.CodeOfElement);
 
+        builder.Property(c => c.Url);
+        builder.Property(c => c.UrlAlternative);
+        builder.Property(c => c.FilePath);
+
         builder.Property(c => c.QrCodeData);
         builder.Property(c => c.Description);
         builder.Property(c => c.Comments);
