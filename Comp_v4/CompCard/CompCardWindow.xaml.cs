@@ -18,14 +18,13 @@ public partial class CompCardWindow : Window, IDisposable
     public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, GpsFieldVm gpsFieldVm,
                           Component component,
                           CardCopmEditController ec,
-                          SaveCompButtonVm saveCompButtonVm,
-                          UrlFieldControlVm urlFieldControlVm, UrlAlternativeFieldControlVm urlAlternativeFieldControlVm, FilePathFieldControlVm filePathFieldControlVm) {
+                          SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();
         _component = component;
 
-        UrlFieldControl.DataContext = urlFieldControlVm;
-        UrlAlternativeFieldControl.DataContext = urlAlternativeFieldControlVm;
-        FilePathFieldControl.DataContext = filePathFieldControlVm;
+        UrlFieldControl.DataContext = ec.UrlFieldControl;
+        UrlAlternativeFieldControl.DataContext = ec.UrlAlternativeFieldControl;
+        FilePathFieldControl.DataContext = ec.FilePathFieldControl;
         
         CdField.DataContext = cdFieldVm;
         ManField.DataContext = manFieldVm;

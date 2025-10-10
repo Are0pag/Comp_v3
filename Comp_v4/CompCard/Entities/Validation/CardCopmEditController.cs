@@ -1,4 +1,5 @@
 using Comp_v4.CompCard.Vm;
+using Comp_v4.CompCard.Vm.Buttons;
 using Comp.ModelData.Comp;
 
 namespace Comp_v4.CompCard.Entities.Validation;
@@ -13,6 +14,10 @@ public class CardCopmEditController
     public CatalogNumberFieldVm CatalogNumberField { get; }
     public LabelingOptionsFieldVm LabelingOptionsField { get; }
     public CodeOfElementFieldVm CodeOfElementField { get; }
+    
+    public UrlFieldControlVm UrlFieldControl { get; }
+    public UrlAlternativeFieldControlVm UrlAlternativeFieldControl { get; }
+    public FilePathFieldControlVm FilePathFieldControl { get; }
     
     public QrCodeDataFieldVm QrCodeDataField { get; }
     public DescriptionFieldVm DescriptionField { get; }
@@ -31,7 +36,7 @@ public class CardCopmEditController
                                   LabelingOptionsFieldVm labelingOptionsField, 
                                   CodeOfElementFieldVm codeOfElementField, 
                                   gpMainFieldVm gpMainField, gp1FieldVm gp1Field, gp2FieldVm gp2Field, gp3FieldVm gp3Field, gp4FieldVm gp4Field, gp5FieldVm gp5Field, 
-                                  QrCodeDataFieldVm qrCodeDataField, DescriptionFieldVm descriptionField, CommentsFieldVm commentsField) {
+                                  QrCodeDataFieldVm qrCodeDataField, DescriptionFieldVm descriptionField, CommentsFieldVm commentsField, UrlFieldControlVm urlFieldControl, UrlAlternativeFieldControlVm urlAlternativeFieldControl, FilePathFieldControlVm filePathFieldControl) {
         _requaredFieldViewModels = new List<BaseTextFieldVm>() {
             nameFieldVm, nomenclatureNumberFieldVm
         };
@@ -50,6 +55,9 @@ public class CardCopmEditController
         QrCodeDataField = qrCodeDataField;
         DescriptionField = descriptionField;
         CommentsField = commentsField;
+        UrlFieldControl = urlFieldControl;
+        UrlAlternativeFieldControl = urlAlternativeFieldControl;
+        FilePathFieldControl = filePathFieldControl;
     }
 
     public bool IsValid() {
@@ -66,6 +74,10 @@ public class CardCopmEditController
             card.LabelingOptions = LabelingOptionsField.Value;
         if (CodeOfElementField.IsValid())
             card.CodeOfElement = CodeOfElementField.Value;
+
+        card.Url = UrlFieldControl.Url;
+        card.UrlAlternative = UrlAlternativeFieldControl.Url;
+        card.FilePath = FilePathFieldControl.Url;
         
         card.QrCodeData = QrCodeDataField.Value;
         card.Description = DescriptionField.Value;
