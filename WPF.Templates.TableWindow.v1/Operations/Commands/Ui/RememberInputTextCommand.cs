@@ -29,6 +29,9 @@ public class RememberInputTextCommand<TWindow, T> : BaseCommand<DataGridBeginnin
         
         _propertyRestoreService.RememberValue(conditionalDesignation, _parameter.Column.GetPropertyName());
         _item = conditionalDesignation;
+    #if DEBUG
+        Console.WriteLine($"Input: {_parameter.Column.GetPropertyName()}");
+    #endif
     }
 
     public override async Task UndoAsync() {

@@ -19,6 +19,7 @@ public class ActionAddItem<TWindow, T>  : ActionUpdateItem<TWindow, T>
         await _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand)
                         .ExecuteLastRegisteredAsync();
         
-        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<UpdateItemCommand<T>, T>(args.Item));
+        /* Update ?? */
+        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<AddItemCommand<T>, T>(args.Item));
     }
 }

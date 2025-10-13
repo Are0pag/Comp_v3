@@ -40,13 +40,22 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
                                                       Application.Current.Dispatcher
                                                       )
             );
-        //await _rememberCellCommand.ExecuteAsync();
+        
         await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
                         .ExecuteLastRegisteredAsync();
-        
-        if (_validator.ValidateAsync((T)e.Row.Item).Result is { IsValid: true })
+
+        if (_validator.ValidateAsync((T)e.Row.Item).Result is { IsValid: true }) {
+        #if DEBUG
+            Console.WriteLine($"valid: true");
+        #endif
             await _scheduler.RegisterCommandInto<TrSelectingCell>(_commandFactory.CreateCommand<RememberInputTextCommand<TWindow, T>, DataGridBeginningEditEventArgs>(e))
                             .ExecuteLastRegisteredAsync();
+        }
+        else {
+        #if DEBUG
+            Console.WriteLine($"valid: false");
+        #endif
+        }
         
         _scheduler.CommitTransaction<TrSelectingCell>();
         _lastCellEditBeginningEditEventArgs = e;
@@ -97,9 +106,15 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
         }
 
         if (_validator.ValidateAsync(item).Result is { IsValid: true }) {
+        #if DEBUG
+            Console.WriteLine($"valid: true");
+        #endif
             await action(item);
         }
         else {
+        #if DEBUG
+            Console.WriteLine($"valid: false");
+        #endif
             var prevState = owner.CurrentState;
             await _scheduler.UndoAsync();
             if (prevState is not CellStateAddItem<TWindow, T>) {

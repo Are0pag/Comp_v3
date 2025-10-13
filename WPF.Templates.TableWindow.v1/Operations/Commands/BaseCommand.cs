@@ -11,4 +11,8 @@ public abstract class BaseCommand<TParameter> : DeferredCommandBase<TParameter>
     public override Task ExecuteAsync() => Task.CompletedTask;
     public override Task UndoAsync() => Task.CompletedTask;
     public override Task ExecuteDeferredAsync() => Task.CompletedTask;
+
+    public override string ToString() {
+        return this.GetType().Name;
+    }
 }

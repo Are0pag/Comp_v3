@@ -45,7 +45,6 @@ public class ActionUpdateItem<TWindow, T> : BaseAction<TWindow, T>
     }
 
     public override async Task CancelAsync(object? parameter = null) {
-        //_context.DataGrid.CurrentCell.
         await _scheduler.UndoAsync();
         _context.DataGrid.CancelEdit();
     }

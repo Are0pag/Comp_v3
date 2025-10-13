@@ -1,4 +1,5 @@
 using System.Windows;
+using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities;
 
 namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
@@ -20,8 +21,14 @@ public class RememberSelectionCommand<TWindow, T> : BaseCommand<object>
     }
 
     public override Task UndoAsync() {
+        if (_item == null) 
+            return Task.CompletedTask;
         _moduleContext.DataGridViewModel.SelectedItem = _item;
         _moduleContext.DataGrid.Focus();
         return Task.CompletedTask;
+    }
+
+    public override string ToString() {
+        return _item is not T item ? base.ToString() : $"{base.ToString()} ({PropertyStringExtractor.ExtractStringProperties(item)})";
     }
 }

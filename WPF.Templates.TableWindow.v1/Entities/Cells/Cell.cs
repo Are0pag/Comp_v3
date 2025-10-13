@@ -15,6 +15,7 @@ public class Cell<TWindow, T> : GenericStateMachine<BaseCellState<TWindow, T>, C
     where T : class, IDbEntity
 {
     public Cell(IEnumerable<BaseCellState<TWindow, T>> states, BaseCellState<TWindow, T> initialState) : base(states, initialState) {
+        Console.WriteLine($"Current Cell state is {initialState.GetType().Name}");
         EventBus<IGlobSubscriber>.Subscribe(this);
     }
 

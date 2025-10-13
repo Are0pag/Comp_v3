@@ -12,6 +12,11 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
 {
     protected readonly ModuleContext<TWindow, T> _moduleContext;
     protected DataGridCell? _cell;
+#if DEBUG
+    protected int _rowIndex;
+    protected string _columnHeader;
+#endif
+
     
     public RememberCellCommand(Args parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
         _moduleContext = moduleContext;
@@ -19,6 +24,16 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
 
     public override Task ExecuteAsync() {
         _cell = _moduleContext.DataGrid.GetCell(_parameter.EventArgs.Row, _parameter.EventArgs.Column);
+        
+    #if DEBUG
+        _columnHeader = _cell.Column.Header.ToString();
+        _rowIndex = _parameter.EventArgs.Row.GetIndex();
+        Console.WriteLine($"Cell Details:");
+        Console.WriteLine($"  {"Row Index:",-20} {_parameter.EventArgs.Row.GetIndex()}");
+        Console.WriteLine($"  {"Column Index:",-20} {_parameter.EventArgs.Column.DisplayIndex}");
+        Console.WriteLine($"  {"Column Header:",-20} {_cell.Column.Header}");
+        Console.WriteLine($"  {"Column Display Index:",-20} {_cell.Column.DisplayIndex}");
+    #endif
         return Task.CompletedTask;
     }
 

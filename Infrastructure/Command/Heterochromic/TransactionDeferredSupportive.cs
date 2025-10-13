@@ -8,4 +8,8 @@ public class TransactionDeferredSupportive : TransactionBase<IDeferredCommand>, 
         foreach (var deferred in _commands)
             await deferred.ExecuteDeferredAsync();
     }
+
+    public override string ToString() {
+        return GetType().Name;
+    }
 }

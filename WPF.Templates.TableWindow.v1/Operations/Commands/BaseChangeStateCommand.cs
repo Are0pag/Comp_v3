@@ -37,11 +37,13 @@ public class CellChangeStateCommand<TWindow, T> : BaseChangeStateCommand<TWindow
     where TWindow : Window
     where T : class, IDbEntity
 {
-    /*public CellChangeStateCommand(ModuleContext context, Cell stateMachine, BaseCellState targetState) : base(context, stateMachine, targetState) {
-    }*/
     public CellChangeStateCommand(ModuleContext<TWindow, T> parameter, 
                                   Cell<TWindow, T> stateMachine, 
                                   BaseCellState<TWindow, T> targetState) 
         : base(parameter, stateMachine, targetState) {
+    }
+
+    public override string ToString() {
+        return $"from {_fromState.GetType().Name} to {_targetState.GetType().Name}";
     }
 }
