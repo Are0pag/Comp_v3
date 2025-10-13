@@ -1,7 +1,10 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
+using Utils.EventBus;
+using Utils.WPF.Buttons;
 using WPF.Templates.TableWindow.v1.Operations.Commands;
 using WPF.Templates.TableWindow.v1.Operations.Transactions;
 
@@ -26,5 +29,12 @@ public class CellStateIdle<TWindow, T> : BaseCellState<TWindow, T>
         }).ExecuteLastRegisteredAsync();
         
         await targetState.OnBeginning(owner, sender, e);
+    }
+
+    public override Task OnPreviewMouseDown(Cell<TWindow, T> owner, object sender, MouseButtonEventArgs e) {
+        EventBus<WPF.Templates.TableWindow.v1.Events.Update.IGlobalButtonEvent>.
+            RaiseEvent<WPF.Templates.TableWindow.v1.Events.Update.INotifyConditionalsChanged>
+                (n => n.NotifyCanExecute());
+        return base.OnPreviewMouseDown(owner, sender, e);
     }
 }

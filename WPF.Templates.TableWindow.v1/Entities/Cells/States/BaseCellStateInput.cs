@@ -20,6 +20,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     protected BaseAction<TWindow, T> _action;
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
     protected RememberCellCommand<TWindow, T>? _rememberCellCommand;
+    protected bool _isPreviewKeyDownHandled = false;
 
     public BaseCellStateInput(IDataGridCommandScheduler scheduler, 
                               ModuleContext<TWindow, T> context, 
@@ -59,6 +60,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
         
         _scheduler.CommitTransaction<TrSelectingCell>();
         _lastCellEditBeginningEditEventArgs = e;
+        _isPreviewKeyDownHandled = false;
     }
     
     public override async Task OnPreviewMouseDown(Cell<TWindow, T> owner, object sender, MouseButtonEventArgs e) {
@@ -71,6 +73,8 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     /// Вызывается до DataGridCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
     /// </summary>
     public override async Task OnPreviewKeyDown(Cell<TWindow, T> owner, object sender, KeyEventArgs e) {
+        if (_isPreviewKeyDownHandled)
+            return;
         switch (e.Key) {
             case Key.Enter:
             //case Key.Return: // Return - старое название, появившееся еще в машинописных клавиатурах, где клавиша возвращала каретку на начало строки
@@ -84,6 +88,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
                         throw new Exception(exception.Message);
                     }
                 }, owner);
+                _isPreviewKeyDownHandled = true;
                 break;
             
             case Key.Tab:
@@ -95,6 +100,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
                         _context.DataGrid.MoveToNextEditableCell(_lastCellEditBeginningEditEventArgs!);
                     }, System.Windows.Threading.DispatcherPriority.Input);
                 }, owner);
+                _isPreviewKeyDownHandled = true;
                 break;
         }
     }

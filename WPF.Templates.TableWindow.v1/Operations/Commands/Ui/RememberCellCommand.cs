@@ -39,12 +39,12 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
 
     public override async Task UndoAsync() {
         await Task.Delay(100);
-    #if DEBUG
-        var item = _parameter.EventArgs.Row.Item;
-        var columnName = _parameter.EventArgs.Column.Header ?? string.Empty;
-        Console.WriteLine($"RememberCellCommand rem value from {columnName} column");
-    #endif
-        await _parameter.Dispatcher.InvokeAsync(() => {
+        Dispatcher.CurrentDispatcher.BeginInvoke(() => {
+            _cell!.Focus();
+            _moduleContext.DataGrid.SelectedItem = _cell;
+            _moduleContext.DataGrid.BeginEdit();
+        });
+        /*await _parameter.Dispatcher.InvokeAsync(() => {
             try {
                 _cell!.Focus();
                 _moduleContext.DataGrid.SelectedItem = _cell;
@@ -53,7 +53,7 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
             catch (Exception ex) {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-        });
+        });*/
     }
 
     public class Args

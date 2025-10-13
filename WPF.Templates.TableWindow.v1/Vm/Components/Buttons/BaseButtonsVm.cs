@@ -16,11 +16,11 @@ public abstract class BaseButtonsVm<TWindow, T, TContext> : ObservableObject, IN
     
     public BaseButtonsVm(TContext context) {
         _context = context;
-        EventBus<IGlobalButtonEvent>.Subscribe(this);
+        EventBus<WPF.Templates.TableWindow.v1.Events.Update.IGlobalButtonEvent>.Subscribe(this);
     }
     
     public virtual void Dispose() {
-        EventBus<IGlobalButtonEvent>.Unsubscribe(this);
+        EventBus<WPF.Templates.TableWindow.v1.Events.Update.IGlobalButtonEvent>.Unsubscribe(this);
     }
 
     public abstract void NotifyCanExecute();

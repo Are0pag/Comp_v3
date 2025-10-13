@@ -19,6 +19,11 @@ public class CellStateAddItem<TWindow, T> : BaseCellStateInput<TWindow, T>
         _action = actionAddItem;
     }
 
+    public override Task Enter(Cell<TWindow, T> context) {
+        _isBeginningHandled = false;
+        return base.Enter(context);
+    }
+
     public override Task OnBeginning(Cell<TWindow, T> owner, object? sender, DataGridBeginningEditEventArgs e) {
         if (_isBeginningHandled)
             return Task.CompletedTask;
@@ -29,6 +34,7 @@ public class CellStateAddItem<TWindow, T> : BaseCellStateInput<TWindow, T>
                                                       e, Application.Current.Dispatcher));
         _lastCellEditBeginningEditEventArgs = e;
         _isBeginningHandled = true;
+        _isPreviewKeyDownHandled = false;
         
     #if DEBUG
         Console.WriteLine("Edit Beginning Details:");
