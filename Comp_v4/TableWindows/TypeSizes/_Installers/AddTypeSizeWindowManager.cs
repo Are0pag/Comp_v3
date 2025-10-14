@@ -28,7 +28,7 @@ public class AddTypeSizeWindowManager : ITypeSizeFormOpenHandler
         _container.SetFactoryMethodFor<IImageOwner>(() => typeSize);
         
         var window = _container.BeginScope<AddTypeSizeWindow>();
-        _container.Instantiate<SelectImageAction>();
+        _container.Instantiate<SelectImageAction, OpenImageAction, ClearImageAction>();
         window.Closing += (sender, args) => {
             _container.ReleaseScope<AddTypeSizeWindow>();
         };
