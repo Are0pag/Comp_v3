@@ -138,9 +138,9 @@
                 Button1Text="Выбрать"
                 Button2Text="Открыть"
                 Button3Text="Очистить"
-                Button1Command="{Binding SelectImageCommand}"
-                Button2Command="{Binding OpenImageCommand}"
-                Button3Command="{Binding ClearImageCommand}"/>
+                Button1Command="{Binding SelectCommand}"
+                Button2Command="{Binding OpenCommand}"
+                Button3Command="{Binding ClearCommand}"/>
         </Border>
 
         <!-- Путь к изображению (теперь только для отображения) -->

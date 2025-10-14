@@ -1,6 +1,5 @@
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace Comp_v4.CompCard.Vm;
 
@@ -63,24 +62,5 @@ public abstract class ImageFieldVmBase : ObservableObject
     
     public virtual void Clear() {
         ClearAction?.Invoke(null);
-    }
-}
-    
-
-public partial class ImageFieldVm : ImageFieldVmBase
-{
-    [RelayCommand]
-    public override void Clear() {
-        base.Clear();
-    }
-
-    [RelayCommand]
-    public override void Open() {
-        base.Open();
-    }
-
-    [RelayCommand]
-    public override void Select() {
-        base.Select();
     }
 }
