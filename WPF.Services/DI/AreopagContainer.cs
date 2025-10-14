@@ -131,7 +131,7 @@ public class AreopagContainer : IDisposable
                                       .Where(r => r.ScopeRoot == typeof(TScopeOwner)) 
                                       .ToList();
 
-        if (!targetScopeRegistrations.Any())
+        if (targetScopeRegistrations.Count == 0)
             throw new InvalidOperationException($"No scope registrations found for {typeof(TScopeOwner).Name}");
 
         foreach (var targetScopeRegistration in targetScopeRegistrations) {

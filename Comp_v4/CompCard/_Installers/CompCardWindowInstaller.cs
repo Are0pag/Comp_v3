@@ -15,6 +15,7 @@ using Comp_v4.TableWindows.Manufacturers;
 using Comp_v4.TableWindows.Manufacturers.Overrided;
 using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
+using Comp_v4.TableWindows.TypeSizes.Entities;
 using Comp.Db;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
@@ -152,7 +153,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         where TData : class, IDbEntity, new() 
     {
         OpenTableWindow<TypeSizesTableWindow, TypeSize>();
-        _subContainers[typeof(TypeSizesTableWindow)].Instantiate<AddTypeSizeWindowManager>();
+        _subContainers[typeof(TypeSizesTableWindow)].Instantiate<AddTypeSizeWindowManager, NewItemCreateHandler>();
     }
     
     

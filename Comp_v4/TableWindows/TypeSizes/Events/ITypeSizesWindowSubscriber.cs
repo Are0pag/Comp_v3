@@ -6,3 +6,8 @@ public interface ITypeSizeFormOpenHandler : ITypeSizesWindowSubscriber
 {
     void OpenTsForm(object? parameter = null);
 }
+
+public interface ITypeSizeCreateHandler : ITypeSizesWindowSubscriber
+{
+    Task OnCreate(object? parameter = null);
+}

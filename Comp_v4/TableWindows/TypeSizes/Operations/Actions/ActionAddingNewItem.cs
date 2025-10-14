@@ -23,8 +23,4 @@ public class ActionAddingNewItem : ActionStartAddingNewItem<TypeSizesTableWindow
         
         return Task.FromResult<BaseAction<TypeSizesTableWindow, TypeSize>>(this);
     }
-
-    public override bool CanPerform() {
-        return base.CanPerform();
-    }
 }

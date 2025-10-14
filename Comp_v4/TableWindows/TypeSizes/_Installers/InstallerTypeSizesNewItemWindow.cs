@@ -1,6 +1,7 @@
 using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.TableWindows.TypeSizes.Vm;
+using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 using Comp.ModelData;
 using Comp.ModelData.TechnicalItems;
 using WPF.Services;
@@ -17,7 +18,9 @@ public class InstallerTypeSizesNewItemWindow : AbstractInstaller
         container.Add<SelectImageAction>().AsScoped<AddTypeSizeWindow>();
         container.Add<ClearImageAction>().AsScoped<AddTypeSizeWindow>();
         container.Add<OpenImageAction>().AsScoped<AddTypeSizeWindow>();
-        
+
+        container.Add<ActionSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();
+        container.Add<ButtonSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();
 
         container.Add<AddTypeSizeWindow>().AsTransient();
     }

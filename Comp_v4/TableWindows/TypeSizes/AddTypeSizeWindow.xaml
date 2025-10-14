@@ -204,7 +204,8 @@
                     Background="#95a5a6" 
                     Command="{Binding CancelCommand}"
                     Margin="0,0,10,0"/>
-            <Button Content="Сохранить" 
+            <Button x:Name="ButtonSave"
+                Content="Сохранить" 
                     Style="{StaticResource ButtonStyle}"
                     Command="{Binding SaveCommand}"
                     IsEnabled="{Binding CanSave}"/>
