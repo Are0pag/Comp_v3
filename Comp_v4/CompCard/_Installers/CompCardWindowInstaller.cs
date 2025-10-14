@@ -61,7 +61,7 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .UsingFactoryMethod(() => new MuFieldVm( OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>));
 
         container.Add<TsFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new TsFieldVm( OpenTsTableWindow<TypeSizesTableWindow, TypeSize>));
+                 .UsingFactoryMethod(() => new TsFieldVm( OpenTableWindow<TypeSizesTableWindow, TypeSize>));
         
         container.Add<GpsFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new GpsFieldVm( OpenTableWindow<GenericParametersSetsWindow, GenericParametersSet>));
@@ -147,16 +147,6 @@ public class CompCardWindowInstaller : AbstractInstaller
             >();
         window.Show();
     }
-
-    protected void OpenTsTableWindow<TWindow, TData>()
-        where TWindow : Window, IDisposable
-        where TData : class, IDbEntity, new() 
-    {
-        OpenTableWindow<TypeSizesTableWindow, TypeSize>();
-        _subContainers[typeof(TypeSizesTableWindow)].Instantiate<AddTypeSizeWindowManager, NewItemCreateHandler>();
-    }
-    
-    
     
     public class TableWindowClosingHandler : ITableWindowHandler
     {

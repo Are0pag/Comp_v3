@@ -26,10 +26,15 @@ public class InstallerTypeSizesTable : AbstractInstaller
         container.Select<ActionStartAddingNewItem<TypeSizesTableWindow, TypeSize>>()
                  .OverrideTo<ActionAddingNewItem>();
 
-        container.Add<AddTypeSizeWindowManager>().AsScoped<TypeSizesTableWindow>().UsingFactoryMethod(() => {
-            return new AddTypeSizeWindowManager(_typeSizesNewItemWindowContainer);
-        });
+        container.Add<AddTypeSizeWindowManager>()
+                 .AsScoped<TypeSizesTableWindow>()
+                 .UsingFactoryMethod(() => {
+                      return new AddTypeSizeWindowManager(_typeSizesNewItemWindowContainer);
+                  })
+                 .EnforceInstantiateOnBegin();
 
-        container.Add<NewItemCreateHandler>().AsScoped<TypeSizesTableWindow>();
+        container.Add<NewItemCreateHandler>()
+                 .AsScoped<TypeSizesTableWindow>()
+                 .EnforceInstantiateOnBegin();
     }
 }

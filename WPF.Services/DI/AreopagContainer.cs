@@ -122,6 +122,14 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
+    public AreopagContainer EnforceInstantiateOnBegin() {
+        if (_registrationBuilders.Last() is not ScopedRd scopedRd) 
+            throw new InvalidOperationException();
+        
+        scopedRd.IsEnforceInstantiate = true;
+        return this;
+    }
+
     public TScopeOwner BeginScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
         if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeOwners)) {
             throw new InvalidOperationException($"Scope {typeof(TScopeOwner).Name} has already been scoped.");
@@ -136,6 +144,8 @@ public class AreopagContainer : IDisposable
 
         foreach (var targetScopeRegistration in targetScopeRegistrations) {
             targetScopeRegistration.IsRootActive = true;
+            if (targetScopeRegistration.IsEnforceInstantiate)
+                Resolve(targetScopeRegistration.Registration.GetRegistration());
         }
         
         _scopes.Add(typeof(TScopeOwner), targetScopeRegistrations);

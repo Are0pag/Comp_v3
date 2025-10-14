@@ -8,6 +8,8 @@ public class ScopedRd : SingletonRb
 
     public Type ScopeRoot { get; }
     public bool IsRootActive { get; set; }
+    
+    public bool IsEnforceInstantiate { get; set; } = false;
 
     public override object Resolve(AreopagContainer container) {
         if (!IsRootActive)
