@@ -9,7 +9,7 @@ using WPF.UCL;
 namespace Comp_v4.CompCard.Operations.Actions;
 
 public class OpenImageAction : ImageActionBase
-{ public OpenImageAction(ImageFieldVm imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
+{ public OpenImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
         _imageFieldVm.OpenAction = PerformAsync;
     }
 

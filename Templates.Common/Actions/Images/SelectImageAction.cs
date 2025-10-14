@@ -10,7 +10,7 @@ namespace Comp_v4.CompCard.Operations.Actions;
 
 public class SelectImageAction : ImageActionBase
 {
-    public SelectImageAction(ImageFieldVm imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
+    public SelectImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
         imageFieldVm.SelectAction = PerformAsync;
         LoadImageFromPath();
     }

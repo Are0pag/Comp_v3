@@ -6,7 +6,7 @@ namespace Comp_v4.CompCard.Operations.Actions;
 
 public class ClearImageAction : ImageActionBase
 {
-    public ClearImageAction(ImageFieldVm imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
+    public ClearImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
         _imageFieldVm.ClearAction = PerformAsync;
     }
 

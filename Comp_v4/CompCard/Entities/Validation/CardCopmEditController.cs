@@ -23,7 +23,7 @@ public class CardCopmEditController
     public DescriptionFieldVm DescriptionField { get; }
     public CommentsFieldVm CommentsField { get; }
     
-    public ImageFieldVm ImageField { get; }
+    public ImageFieldVmBase ImageField { get; }
     
     public gpMainFieldVm GPMainField { get; }
     public gp1FieldVm GP1Field { get; }
@@ -38,7 +38,9 @@ public class CardCopmEditController
                                   LabelingOptionsFieldVm labelingOptionsField, 
                                   CodeOfElementFieldVm codeOfElementField, 
                                   gpMainFieldVm gpMainField, gp1FieldVm gp1Field, gp2FieldVm gp2Field, gp3FieldVm gp3Field, gp4FieldVm gp4Field, gp5FieldVm gp5Field, 
-                                  QrCodeDataFieldVm qrCodeDataField, DescriptionFieldVm descriptionField, CommentsFieldVm commentsField, UrlFieldControlVm urlFieldControl, UrlAlternativeFieldControlVm urlAlternativeFieldControl, FilePathFieldControlVm filePathFieldControl, ImageFieldVm imageField) {
+                                  QrCodeDataFieldVm qrCodeDataField, DescriptionFieldVm descriptionField, CommentsFieldVm commentsField, UrlFieldControlVm urlFieldControl,
+                                  UrlAlternativeFieldControlVm urlAlternativeFieldControl, FilePathFieldControlVm filePathFieldControl, 
+                                  ImageFieldVmBase imageField) {
         _requaredFieldViewModels = new List<BaseTextFieldVm>() {
             nameFieldVm, nomenclatureNumberFieldVm
         };

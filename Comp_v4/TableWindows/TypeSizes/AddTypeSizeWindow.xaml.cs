@@ -6,7 +6,7 @@ namespace Comp_v4.TableWindows.TypeSizes;
 
 public partial class AddTypeSizeWindow : Window, IDisposable
 {
-    public AddTypeSizeWindow(ImageFieldVm imageFieldVm, TypeSize typeSize) {
+    public AddTypeSizeWindow(ImageFieldVmBase imageFieldVm, TypeSize typeSize) {
         InitializeComponent();
         DataContext = typeSize;
         ImageFieldControl.DataContext = imageFieldVm;

@@ -108,7 +108,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<SetUrlAlternativeAction>().AsScoped<CompCardWindow>();
         container.Add<SetFilePathAction>().AsScoped<CompCardWindow>();
         
-        container.Add<ImageFieldVm>().To<ImageFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<ImageFieldVmBase>().To<ImageFieldVm>().AsScoped<CompCardWindow>();
         container.Add<SelectImageAction>().AsScoped<CompCardWindow>();
         container.Add<OpenImageAction>().AsScoped<CompCardWindow>();
         container.Add<ClearImageAction>().AsScoped<CompCardWindow>();
