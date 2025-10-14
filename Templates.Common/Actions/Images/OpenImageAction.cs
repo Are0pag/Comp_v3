@@ -2,22 +2,19 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Comp_v4.CompCard.Vm;
+using Comp.ModelData;
 using Comp.ModelData.Comp;
 using WPF.UCL;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 
 public class OpenImageAction : ImageActionBase
-{
-    protected readonly Component _component;
-    
-    public OpenImageAction(ImageFieldVm imageFieldVm, Component component) : base(imageFieldVm) {
-        _component = component;
+{ public OpenImageAction(ImageFieldVm imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
         _imageFieldVm.OpenAction = PerformAsync;
     }
 
     public override void PerformAsync(object? parameter) {
-        if (string.IsNullOrWhiteSpace(_component.ImagePath) || !File.Exists(_component.ImagePath)) {
+        if (string.IsNullOrWhiteSpace(_item.ImagePath) || !File.Exists(_item.ImagePath)) {
             MessageBox.Show("Изображение не выбрано или файл не существует",
                             "Ошибка",
                             MessageBoxButton.OK,
@@ -27,14 +24,14 @@ public class OpenImageAction : ImageActionBase
 
         try {
             // Метод 1: Открытие через системный обработчик файлов
-            var imageWindow = new OpenImageWindow(_component.ImagePath);
+            var imageWindow = new OpenImageWindow(_item.ImagePath);
             imageWindow.Show();
         }
         catch (Exception ex) {
             // Альтернативный метод: создание собственного окна просмотра
             try {
                 Process.Start(new ProcessStartInfo {
-                    FileName = _component.ImagePath,
+                    FileName = _item.ImagePath,
                     UseShellExecute = true
                 });
             }
@@ -50,7 +47,7 @@ public class OpenImageAction : ImageActionBase
     }
 
     public override bool CanPerform() {
-        return !string.IsNullOrWhiteSpace(_component.ImagePath) && File.Exists(_component.ImagePath);
+        return !string.IsNullOrWhiteSpace(_item.ImagePath) && File.Exists(_item.ImagePath);
     }
 
     public override void CancelAsync(object? parameter = null) {

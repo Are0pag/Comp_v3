@@ -7,4 +7,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Comp_ModelData\Comp.ModelData.csproj" />
+    <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
+  </ItemGroup>
+
 </Project>

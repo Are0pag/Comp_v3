@@ -3,15 +3,14 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Comp_v4.CompCard.Vm;
+using Comp.ModelData;
 using Comp.ModelData.Comp;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 
 public class SelectImageAction : ImageActionBase
 {
-    protected readonly Component _component;
-    public SelectImageAction(ImageFieldVm imageFieldVm, Component component) : base(imageFieldVm) {
-        _component = component;
+    public SelectImageAction(ImageFieldVm imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
         imageFieldVm.SelectAction = PerformAsync;
         LoadImageFromPath();
     }
@@ -43,7 +42,7 @@ public class SelectImageAction : ImageActionBase
                 System.Windows.Application.Current.Dispatcher.Invoke(() => {
                     _imageFieldVm.Image = bitmap;
                     _imageFieldVm.ImagePath = openFileDialog.FileName;
-                    _component.ImagePath = openFileDialog.FileName;
+                    _item.ImagePath = openFileDialog.FileName;
                 });
             }
             catch (Exception ex) {
@@ -64,14 +63,14 @@ public class SelectImageAction : ImageActionBase
     }
 
     public void LoadImageFromPath() {
-        if (string.IsNullOrWhiteSpace(_component.ImagePath) || !File.Exists(_component.ImagePath))
+        if (string.IsNullOrWhiteSpace(_item.ImagePath) || !File.Exists(_item.ImagePath))
             return;
 
         try {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(_component.ImagePath, UriKind.Absolute);
+            bitmap.UriSource = new Uri(_item.ImagePath, UriKind.Absolute);
             bitmap.EndInit();
             bitmap.Freeze(); // Важно для потокобезопасности
 
