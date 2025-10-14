@@ -7,4 +7,6 @@ public interface IRegistrationBuilder
     public Func<object>? FactoryResolve { get; set; }
     
     object Resolve(AreopagContainer container);
+    
+    void OverrideImplementation(RegistrationProxy newImplementation);
 }

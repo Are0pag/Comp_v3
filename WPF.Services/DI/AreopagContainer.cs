@@ -31,6 +31,27 @@ public class AreopagContainer : IDisposable
         _creatingRegistration = new RegistrationProxy(typeof(TService));
         return this;
     }
+    
+    public AreopagContainer Select<TService>() { 
+        if (!IsRegistered<TService>())
+            throw new InvalidOperationException($"Can not select registration of type {typeof(TService).Name} because base reg. is not exists");
+
+        _creatingRegistration = new RegistrationProxy(typeof(TService));
+        return this;
+    }
+
+    public AreopagContainer OverrideTo<TImplementation>() {
+        if (_creatingRegistration == null)
+            throw new InvalidOperationException();
+        
+        var overridedRegistration = _creatingRegistration.GetRegistration();
+        if (_registrationBuilders.First(rb => rb.Registration.GetRegistration() == overridedRegistration) is not {} builder)
+            throw new InvalidOperationException();
+
+        builder.OverrideImplementation(new ImplementedRegistrationProxy(overridedRegistration, typeof(TImplementation)));
+        _creatingRegistration = null;
+        return this;
+    }
 
     public AreopagContainer To<TImplementation>()/* where TImplementation : IDisposable*/ {
         if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))

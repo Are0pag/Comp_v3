@@ -5,7 +5,7 @@ public class TransientRb : IRegistrationBuilder
     public TransientRb(RegistrationProxy proxy) {
         Registration = proxy;
     }
-    public RegistrationProxy Registration { get; }
+    public RegistrationProxy Registration { get; protected set; }
     public Func<object>? FactoryResolve { get; set; }
 
     public virtual object Resolve(AreopagContainer container) {
@@ -33,6 +33,10 @@ public class TransientRb : IRegistrationBuilder
         }).ToArray();
         
         return constructorInfos[0].Invoke(parameterInstances);
+    }
+
+    public void OverrideImplementation(RegistrationProxy newImplementation) {
+        Registration = newImplementation;
     }
 
     public override string ToString() {
