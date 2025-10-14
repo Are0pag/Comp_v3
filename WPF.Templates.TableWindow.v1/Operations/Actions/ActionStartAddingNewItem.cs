@@ -55,7 +55,8 @@ public class ActionStartAddingNewItem<TWindow, T> : BaseAction<TWindow, T>
     }
 
     public override bool CanPerform() {
-        return _cell.CurrentState is CellStateIdle<TWindow, T>;
+        var cellCurrentState = _cell.CurrentState;
+        return cellCurrentState is CellStateIdle<TWindow, T>;
     }
 
     public override async Task CancelAsync(object? parameter = null) {

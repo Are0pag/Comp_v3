@@ -16,6 +16,7 @@ using Comp_v4.TableWindows.Manufacturers.Overrided;
 using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
 using Comp.Db;
+using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
@@ -41,6 +42,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
         InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
         InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
+        new InstallerTypeSizesTable().Install(_subContainers[typeof(TypeSizesTableWindow)]);
         InstallTableWindowScope<GenericParametersSetsWindow>(new TableWindowInstaller<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>());
 
 
@@ -58,14 +60,14 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .UsingFactoryMethod(() => new MuFieldVm( OpenTableWindow<MeasurementUnitTableWindow, MeasurementUnit>));
 
         container.Add<TsFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new TsFieldVm( OpenTableWindow<TypeSizesTableWindow, TypeSize>));
+                 .UsingFactoryMethod(() => new TsFieldVm( OpenTsTableWindow<TypeSizesTableWindow, TypeSize>));
         
         container.Add<GpsFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new GpsFieldVm( OpenTableWindow<GenericParametersSetsWindow, GenericParametersSet>));
 
 
-        container.Add<Component>()
-                  .AsScoped<CompCardWindow>();
+        container.Add<Component>().AsScoped<CompCardWindow>();
+        container.Add<IImageOwner>().AsScoped<CompCardWindow>();
         
         container.Add<EditStateCardComp>().AsScoped<CompCardWindow>();
         container.Add<CreateStateCardComp>().AsScoped<CompCardWindow>();
@@ -106,7 +108,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<SetUrlAlternativeAction>().AsScoped<CompCardWindow>();
         container.Add<SetFilePathAction>().AsScoped<CompCardWindow>();
         
-        container.Add<ImageFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<ImageFieldVm>().To<ImageFieldVm>().AsScoped<CompCardWindow>();
         container.Add<SelectImageAction>().AsScoped<CompCardWindow>();
         container.Add<OpenImageAction>().AsScoped<CompCardWindow>();
         container.Add<ClearImageAction>().AsScoped<CompCardWindow>();
@@ -144,6 +146,16 @@ public class CompCardWindowInstaller : AbstractInstaller
             >();
         window.Show();
     }
+
+    protected void OpenTsTableWindow<TWindow, TData>()
+        where TWindow : Window, IDisposable
+        where TData : class, IDbEntity, new() 
+    {
+        OpenTableWindow<TypeSizesTableWindow, TypeSize>();
+        _subContainers[typeof(TypeSizesTableWindow)].Instantiate<AddTypeSizeWindowManager>();
+    }
+    
+    
     
     public class TableWindowClosingHandler : ITableWindowHandler
     {

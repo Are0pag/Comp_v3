@@ -107,8 +107,8 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
-    public AreopagContainer SetFactoryMethodFor<TImplementation>(Func<object> factoryMethod) {
-        if (_registrationBuilders.First(rb => rb.Registration.GetImplementation() == typeof(TImplementation)) is not { } rb) 
+    public AreopagContainer SetFactoryMethodFor<TService>(Func<object> factoryMethod) {
+        if (_registrationBuilders.First(rb => rb.Registration.GetRegistration() == typeof(TService)) is not { } rb) 
             throw new InvalidOperationException();
         rb.FactoryResolve = factoryMethod;
         return this;
@@ -203,11 +203,14 @@ public class AreopagContainer : IDisposable
             _resolvingTypes.Remove(type);
         }
     }
-
    
     public bool IsRegistered<T>() {
-        return _registrationBuilders.Any(r => r.Registration.GetRegistration() == typeof(T));
+        foreach (var builder in _registrationBuilders)
+            if (builder.Registration.GetRegistration() == typeof(T))
+                return true;
+        return false;
     }
+
 
     public virtual void Dispose() {
         foreach (var s in _registrationBuilders.OfType<SingletonRb>()) {

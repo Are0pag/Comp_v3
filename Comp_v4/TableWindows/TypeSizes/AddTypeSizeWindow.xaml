@@ -1,0 +1,196 @@
+<Window x:Class="Comp_v4.TableWindows.TypeSizes.AddTypeSizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Comp_v4.TableWindows.TypeSizes"
+        xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
+        mc:Ignorable="d"
+        Title="Добавление нового типоразмера" 
+        Height="700" Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#f5f5f5">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#2c3e50"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#bdc3c7"/>
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#3498db"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#2980b9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#2c3e50"/>
+            <Setter Property="Margin" Value="0,8,0,0"/>
+        </Style>
+        
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Background" Value="#3498db"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2980b9"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#21618c"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="NumericTextBoxStyle" BasedOn="{StaticResource TextBoxStyle}" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" 
+                   Text="Добавление нового типоразмера"
+                   FontSize="20" FontWeight="Bold" Foreground="#2c3e50"
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Обозначение -->
+        <TextBlock Grid.Row="1" Grid.Column="0" 
+                   Text="Обозначение *" 
+                   Style="{StaticResource HeaderTextStyle}"
+                   VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                 Style="{StaticResource TextBoxStyle}"
+                 Text="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 MaxLength="100"/>
+
+        <!-- Количество выводов -->
+        <TextBlock Grid.Row="2" Grid.Column="0" 
+                   Text="Количество выводов" 
+                   Style="{StaticResource HeaderTextStyle}"
+                   VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                 Style="{StaticResource NumericTextBoxStyle}"
+                 Text="{Binding OutputsNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="ApplicationCommands.Paste" Key="V" Modifiers="Ctrl"/>
+            </TextBox.InputBindings>
+        </TextBox>
+
+        <!-- Использование SMD -->
+        <CheckBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                  Style="{StaticResource CheckBoxStyle}"
+                  Content="Использование SMD технологии"
+                  IsChecked="{Binding IsUsingSmd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+        <!-- Изображение -->
+        <TextBlock Grid.Row="4" Grid.Column="0" 
+                   Text="Изображение" 
+                   Style="{StaticResource HeaderTextStyle}"
+                   VerticalAlignment="Top"/>
+        
+        <Border Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                BorderBrush="#bdc3c7" BorderThickness="1" 
+                Background="White" CornerRadius="4"
+                Padding="10" Margin="0,0,0,10">
+            <ucl:ImageFieldControl 
+                x:Name="ImageFieldControl"
+                ImageSource="{Binding ImageBitmap}"
+                ImageToolTip="Изображение типоразмера"
+                Button1Text="Выбрать"
+                Button2Text="Открыть"
+                Button3Text="Очистить"
+                Button1Command="{Binding SelectImageCommand}"
+                Button2Command="{Binding OpenImageCommand}"
+                Button3Command="{Binding ClearImageCommand}"/>
+        </Border>
+
+        <!-- Путь к изображению (теперь только для отображения) -->
+        <TextBlock Grid.Row="5" Grid.Column="0" 
+                   Text="Путь к изображению" 
+                   Style="{StaticResource HeaderTextStyle}"
+                   VerticalAlignment="Top"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+                 Style="{StaticResource TextBoxStyle}"
+                 Text="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
+                 MaxLength="500"
+                 IsReadOnly="True"
+                 Background="#f8f9fa"
+                 ToolTip="Путь к выбранному изображению (только для просмотра)"/>
+
+        <!-- Описание -->
+        <TextBlock Grid.Row="6" Grid.Column="0" 
+                   Text="Описание" 
+                   Style="{StaticResource HeaderTextStyle}"
+                   VerticalAlignment="Top"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+                 Style="{StaticResource TextBoxStyle}"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 MaxLength="1000"
+                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                 Height="100"/>
+
+        <!-- Валидация -->
+        <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                   Text="{Binding ValidationError}"
+                   Foreground="#e74c3c" FontSize="12" 
+                   Margin="0,10,0,5" 
+                   Visibility="{Binding HasValidationError, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   TextWrapping="Wrap"/>
+
+        <!-- Кнопки действий -->
+        <StackPanel Grid.Row="8" Grid.ColumnSpan="3" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,20,0,0">
+            <Button Content="Отмена" 
+                    Style="{StaticResource ButtonStyle}"
+                    Background="#95a5a6" 
+                    Command="{Binding CancelCommand}"
+                    Margin="0,0,10,0">
+            </Button>
+            <Button Content="Сохранить" 
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding CanSave}"/>
+        </StackPanel>
+    </Grid>
+</Window>

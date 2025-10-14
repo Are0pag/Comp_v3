@@ -1,8 +1,10 @@
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
+using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
+using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Services;
 
@@ -29,6 +31,7 @@ public class CardComponentManager
         if (args.Category != null)
             args.Component.Category = args.Category; 
         _container.SetFactoryMethodFor<Component>(() => args.Component);
+        _container.SetFactoryMethodFor<IImageOwner>(() => args.Component);
         
         _container.SetFactoryMethodFor<CardComp>(() => {
                        var initialState = _container.Resolve<TInitialState>();
