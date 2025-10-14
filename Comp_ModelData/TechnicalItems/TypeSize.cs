@@ -5,7 +5,7 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.TechnicalItems;
 
 [Table(nameof(TypeSize) + "s")]
-public class TypeSize : NotifyPropertyChanged, IDbEntity
+public class TypeSize : NotifyPropertyChanged, IDbEntity, IImageOwner
 {
     protected string _designation = string.Empty;
     protected int _outputsNumber;

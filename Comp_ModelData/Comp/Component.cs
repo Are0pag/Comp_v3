@@ -7,7 +7,7 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.Comp;
 
 [Table(nameof(Component) + "s")]
-public class Component : NotifyPropertyChanged, IDbEntity
+public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
 {
     protected string _name = string.Empty;
     protected string _nomenclatureNumber = string.Empty;
