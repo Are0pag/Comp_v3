@@ -19,12 +19,4 @@
       <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="4.1.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Page Update="Castle\Entities\Ui\TestWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <XamlRuntime>Wpf</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
-    </ItemGroup>
-
 </Project>

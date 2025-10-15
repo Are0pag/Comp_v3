@@ -15,9 +15,7 @@ public class GenericParametersSet : ObservableObject, IDbEntity
     protected string _gp4 = string.Empty;
     protected string _gp5  = string.Empty;
     
-    public GenericParametersSet() {
-        
-    }
+    public GenericParametersSet() { }
     
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

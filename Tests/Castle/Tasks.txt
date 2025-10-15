@@ -1,5 +1,0 @@
-
-TODO:
-- [ ] How to create a custom scope?
-- [ ] How to create factory?
-- [ ] How to register instance as NonLazy in this scope?
