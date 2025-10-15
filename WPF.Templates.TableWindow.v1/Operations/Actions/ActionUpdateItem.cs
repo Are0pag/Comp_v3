@@ -23,10 +23,8 @@ public class ActionUpdateItem<TWindow, T> : BaseAction<TWindow, T>
     }
 
     public override async Task<BaseAction<TWindow, T>> PerformAsync(object? parameter = null) {
-        if (parameter is not Args args) {
-            new InvalidOperationException().Log(this);
-            return this;
-        }
+        if (parameter is not Args args)
+            throw new InvalidCastException();
         
         _scheduler.BeginTransaction<TrEditCell>();
 

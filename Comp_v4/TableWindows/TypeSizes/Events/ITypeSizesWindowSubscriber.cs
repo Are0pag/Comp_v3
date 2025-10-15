@@ -1,10 +1,12 @@
+using Comp_v4.TableWindows.TypeSizes.Entities.Form.States;
+
 namespace Comp_v4.TableWindows.TypeSizes.Events;
 
 public interface ITypeSizesWindowSubscriber : IDisposable { }
 
 public interface ITypeSizeFormOpenHandler : ITypeSizesWindowSubscriber
 {
-    void OpenTsForm(object? parameter = null);
+    void OpenTsForm<T>(object? parameter = null) where T : BaseStateForm;
 }
 
 public interface ITypeSizeCreateHandler : ITypeSizesWindowSubscriber

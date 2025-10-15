@@ -1,3 +1,4 @@
+using System.Reflection;
 using Infrastructure;
 
 namespace WPF.Services;
@@ -21,7 +22,16 @@ public class TransientRb : IRegistrationBuilder
         
         var parameterInfos = constructorInfos[0].GetParameters();
         
-        var parameterInstances = parameterInfos.Select(p => container.Resolve(p.ParameterType)).ToArray();
+        var parameterInstances = parameterInfos.Select(p => {
+            object parameter;
+            try {
+                parameter = container.Resolve(p.ParameterType);
+            }
+            catch (Exception) {
+                throw new ApplicationException($"Could not resolve parameter {p.ParameterType}");
+            }
+            return parameter;
+        }).ToArray();
         
         return constructorInfos[0].Invoke(parameterInstances);
     }

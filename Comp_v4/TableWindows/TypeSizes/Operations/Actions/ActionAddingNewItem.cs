@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.TypeSizes.Entities.Form.States;
 using Comp_v4.TableWindows.TypeSizes.Events;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
@@ -18,7 +19,7 @@ public class ActionAddingNewItem : ActionStartAddingNewItem<TypeSizesTableWindow
     }
 
     public override Task<BaseAction<TypeSizesTableWindow, TypeSize>> PerformAsync(object? parameter = null) {
-        EventBus<ITypeSizesWindowSubscriber>.RaiseEvent<ITypeSizeFormOpenHandler>(h => h?.OpenTsForm(new TypeSize()));
+        EventBus<ITypeSizesWindowSubscriber>.RaiseEvent<ITypeSizeFormOpenHandler>(h => h?.OpenTsForm<AddItemStateForm>(new TypeSize()));
         //EventBus<ITypeSizesWindowSubscriber>.RaiseEvent<ITypeSizeFormOpenHandler>(h => h?.NotifyToBlock(_context.DataGridViewModel.SelectedItem));
         
         return Task.FromResult<BaseAction<TypeSizesTableWindow, TypeSize>>(this);

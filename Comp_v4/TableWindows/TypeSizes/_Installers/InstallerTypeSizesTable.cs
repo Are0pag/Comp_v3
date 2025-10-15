@@ -1,8 +1,11 @@
 using Comp_v4.TableWindows.TypeSizes.Entities;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
 using WPF.Services;
 using WPF.Services.Validation;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Vm;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
@@ -22,6 +25,21 @@ public class InstallerTypeSizesTable : AbstractInstaller
                                              var validator = container.Resolve<ValidatorBase<TypeSize>>();
                                              return validator;
                                          });
+
+        _typeSizesNewItemWindowContainer.Add<IRepository<TypeSize>>()
+                                        .To<DbRepository<TypeSize>>()
+                                        .AsScoped<AddTypeSizeWindow>()
+                                        .UsingFactoryMethod(() => {
+                                             var repository = container.Resolve<IRepository<TypeSize>>();
+                                             return repository;
+                                         });
+
+        _typeSizesNewItemWindowContainer.Add<DataGridViewModel<TypeSize>>()
+                                        .AsScoped<AddTypeSizeWindow>()
+                                        .UsingFactoryMethod(() => {
+                                             var vm = container.Resolve<DataGridViewModel<TypeSize>>();
+                                             return vm;
+                                         });
         
         container.Select<ActionStartAddingNewItem<TypeSizesTableWindow, TypeSize>>()
                  .OverrideTo<ActionAddingNewItem>();
@@ -33,8 +51,8 @@ public class InstallerTypeSizesTable : AbstractInstaller
                   })
                  .EnforceInstantiateOnBegin();
 
-        container.Add<NewItemCreateHandler>()
+        /*container.Add<NewItemCreateHandler>()
                  .AsScoped<TypeSizesTableWindow>()
-                 .EnforceInstantiateOnBegin();
+                 .EnforceInstantiateOnBegin();*/
     }
 }
