@@ -56,6 +56,7 @@
                 <DataGridTextColumn Header="Обозначение" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                 <DataGridTextColumn Header="Число выводов" Binding="{Binding OutputsNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                 <DataGridCheckBoxColumn Header="SMD" IsReadOnly="True" Binding="{Binding IsUsingSmd, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                
                 <DataGridTemplateColumn Header="Изображение" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -66,15 +67,21 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Описание" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Description}" 
-                                       TextWrapping="Wrap" 
-                                       VerticalAlignment="Top"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Header="Описание" 
+                                    Width="*"
+                                    Binding="{Binding Description}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+
+
+                
             </DataGrid.Columns>
             
             <DataGrid.ContextMenu>

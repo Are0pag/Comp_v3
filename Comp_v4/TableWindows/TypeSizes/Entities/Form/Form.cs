@@ -16,6 +16,6 @@ public class Form : GenericStateMachine<BaseStateForm, Form>, ITypeSizeCreateHan
     }
 
     public async Task OnCreate(object? parameter = null) {
-        CurrentState?.OnCreate();
+        CurrentState?.OnCreate(parameter);
     }
 }
