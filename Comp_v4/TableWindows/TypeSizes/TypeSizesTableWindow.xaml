@@ -12,7 +12,6 @@
     <Window.Resources>
         <local:BoolToTextConverter x:Key="BoolToTextConverter"/>
     </Window.Resources>
-
     
     <Grid>
          <Grid.ColumnDefinitions>
@@ -67,7 +66,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridTemplateColumn Header="Описание" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Description}" 
+                                       TextWrapping="Wrap" 
+                                       VerticalAlignment="Top"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             
             <DataGrid.ContextMenu>
