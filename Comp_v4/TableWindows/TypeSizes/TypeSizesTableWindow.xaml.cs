@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Templates.Common.Events.Input;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
@@ -63,5 +64,9 @@ public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridReques
 
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
+    }
+
+    private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        EventBus<IGlobalMouseSubscriber>.RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(sender, e));
     }
 }

@@ -27,8 +27,8 @@ public class TransientRb : IRegistrationBuilder
             try {
                 parameter = container.Resolve(p.ParameterType);
             }
-            catch (Exception) {
-                throw new ApplicationException($"Could not resolve parameter {p.ParameterType}");
+            catch (Exception ex) {
+                throw new ApplicationException($"Could not resolve parameter {p.ParameterType} when resolving {Registration.GetImplementation().Name} because {ex.Message}");
             }
             return parameter;
         }).ToArray();
@@ -41,6 +41,6 @@ public class TransientRb : IRegistrationBuilder
     }
 
     public override string ToString() {
-        return Registration.GetImplementation().Name;
+        return $"{Registration.GetRegistration().Name} to {Registration.GetImplementation().Name}";
     }
 }

@@ -11,22 +11,24 @@ namespace Comp_v4.TableWindows.TypeSizes;
 
 public class InstallerTypeSizesTable : AbstractInstaller
 {
-    protected readonly AreopagContainer _typeSizesNewItemWindowContainer = new();
+    protected readonly AreopagContainer _formWindowContainer = new() {
+        Description = "Container of TypeSize Form Window",
+    };
     
     public InstallerTypeSizesTable() {
-        new InstallerTypeSizesNewItemWindow().Install(_typeSizesNewItemWindowContainer);
+        new InstallerTypeSizesNewItemWindow().Install(_formWindowContainer);
     }
     
     protected override void InstallBindings(AreopagContainer container) {
         
-        _typeSizesNewItemWindowContainer.Add<ValidatorBase<TypeSize>>()
+        _formWindowContainer.Add<ValidatorBase<TypeSize>>()
                                         .AsScoped<AddTypeSizeWindow>()
                                         .UsingFactoryMethod(() => {
                                              var validator = container.Resolve<ValidatorBase<TypeSize>>();
                                              return validator;
                                          });
 
-        _typeSizesNewItemWindowContainer.Add<IRepository<TypeSize>>()
+        _formWindowContainer.Add<IRepository<TypeSize>>()
                                         .To<DbRepository<TypeSize>>()
                                         .AsScoped<AddTypeSizeWindow>()
                                         .UsingFactoryMethod(() => {
@@ -34,7 +36,7 @@ public class InstallerTypeSizesTable : AbstractInstaller
                                              return repository;
                                          });
 
-        _typeSizesNewItemWindowContainer.Add<DataGridViewModel<TypeSize>>()
+        _formWindowContainer.Add<DataGridViewModel<TypeSize>>()
                                         .AsScoped<AddTypeSizeWindow>()
                                         .UsingFactoryMethod(() => {
                                              var vm = container.Resolve<DataGridViewModel<TypeSize>>();
@@ -47,12 +49,12 @@ public class InstallerTypeSizesTable : AbstractInstaller
         container.Add<AddTypeSizeWindowManager>()
                  .AsScoped<TypeSizesTableWindow>()
                  .UsingFactoryMethod(() => {
-                      return new AddTypeSizeWindowManager(_typeSizesNewItemWindowContainer);
+                      return new AddTypeSizeWindowManager(_formWindowContainer);
                   })
                  .EnforceInstantiateOnBegin();
 
-        /*container.Add<NewItemCreateHandler>()
+        container.Add<ActionOpenTsForm>()
                  .AsScoped<TypeSizesTableWindow>()
-                 .EnforceInstantiateOnBegin();*/
+                 .EnforceInstantiateOnBegin();
     }
 }

@@ -9,6 +9,8 @@ public class AreopagContainer : IDisposable
     protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
     private readonly HashSet<Type> _resolvingTypes = new();
     protected RegistrationProxy? _creatingRegistration;
+
+    public string Description;
     
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
@@ -127,12 +129,13 @@ public class AreopagContainer : IDisposable
         if (targetScopeRegistrations.Count == 0)
             throw new InvalidOperationException($"No scope registrations found for {typeof(TScopeOwner).Name}");
 
-        foreach (var targetScopeRegistration in targetScopeRegistrations) {
-            targetScopeRegistration.IsRootActive = true;
-            if (targetScopeRegistration.IsEnforceInstantiate)
-                Resolve(targetScopeRegistration.Registration.GetRegistration());
-        }
-        
+        targetScopeRegistrations.ForEach(r => r.IsRootActive = true);
+
+        targetScopeRegistrations
+           .Where(r => r.IsEnforceInstantiate)
+           .ToList()
+           .ForEach(r => Resolve(r.Registration.GetRegistration()));
+
         _scopes.Add(typeof(TScopeOwner), targetScopeRegistrations);
         
         // Пусть пользовательский код регистрирует scopeRootType как Transient или как Singleton

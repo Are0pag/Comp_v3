@@ -1,5 +1,6 @@
 using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
+using Comp_v4.TableWindows.TypeSizes.Entities.Form;
 using Comp_v4.TableWindows.TypeSizes.Entities.Form.States;
 using Comp_v4.TableWindows.TypeSizes.Vm;
 using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
@@ -26,6 +27,7 @@ public class InstallerTypeSizesNewItemWindow : AbstractInstaller
         
         container.Add<AddItemStateForm>().AsScoped<AddTypeSizeWindow>();
         container.Add<EditItemStateForm>().AsScoped<AddTypeSizeWindow>();
+        container.Add<Form>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
 
         container.Add<AddTypeSizeWindow>().AsTransient();
     }

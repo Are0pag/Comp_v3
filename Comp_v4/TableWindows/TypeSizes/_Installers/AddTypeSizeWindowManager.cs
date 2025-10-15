@@ -32,17 +32,14 @@ public class AddTypeSizeWindowManager : ITypeSizeFormOpenHandler
         _container.SetFactoryMethodFor<TypeSize>(() => typeSize);
         _container.SetFactoryMethodFor<IImageOwner>(() => typeSize);
 
-        _container.Add<Form>()
-                  .AsScoped<AddTypeSizeWindow>()
-                  .UsingFactoryMethod(() => {
+        _container.SetFactoryMethodFor<Form>(() => {
                        var initialState = _container.Resolve<T>();
                        var states = new List<BaseStateForm>() {
                            _container.Resolve<AddItemStateForm>(),
                            _container.Resolve<EditItemStateForm>(),
                        };
                        return new Form(states, initialState);
-                   })
-                  .EnforceInstantiateOnBegin();
+                   });
         
         var window = _container.BeginScope<AddTypeSizeWindow>();
         window.Closing += (sender, args) => {
