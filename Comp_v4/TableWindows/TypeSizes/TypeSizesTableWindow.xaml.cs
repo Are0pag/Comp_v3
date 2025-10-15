@@ -1,7 +1,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Templates.Common.Events.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Comp_v4.TableWindows.TypeSizes.Events;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
@@ -67,6 +69,38 @@ public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridReques
     }
 
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        EventBus<IGlobalMouseSubscriber>.RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(sender, e));
+        var dataGrid = (DataGrid)sender;
+        var hit = VisualTreeHelper.HitTest(dataGrid, e.GetPosition(dataGrid));
+        var cell = hit?.VisualHit.GetParentOfType<DataGridCell>();
+
+        if (cell?.Column is DataGridTemplateColumn or DataGridCheckBoxColumn) {
+            _ = HandleDoubleClick(sender, e);
+        }
+    }
+
+    private async Task HandleDoubleClick(object sender, MouseButtonEventArgs e) {
+        // Ждем один цикл диспетчеризации
+        await Application.Current.Dispatcher.InvokeAsync(() => {
+            if (MainDataGrid.SelectedItem != null)
+                EventBus<ITypeSizesWindowSubscriber>
+                   .RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(sender, e));
+        }, DispatcherPriority.Background);
+    }
+}
+
+// Расширительный метод для упрощения поиска родительского элемента
+public static class VisualTreeHelperExtensions
+{
+    public static T GetParentOfType<T>(this DependencyObject child) where T : DependencyObject {
+        var parentObject = VisualTreeHelper.GetParent(child);
+
+        while (parentObject != null) {
+            if (parentObject is T parent)
+                return parent;
+
+            parentObject = VisualTreeHelper.GetParent(parentObject);
+        }
+
+        return null;
     }
 }
