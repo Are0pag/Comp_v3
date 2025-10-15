@@ -20,7 +20,7 @@ public class ActionStackTracker : IPreviewKeyDownHandler
         switch (e.Key) {
             case Key.Z when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
                 try {
-                    await _scheduler.UndoAsync();
+                    //await _scheduler.UndoAsync();
                 }
                 catch (Exception ex) {
                     Console.WriteLine(ex);
@@ -29,7 +29,7 @@ public class ActionStackTracker : IPreviewKeyDownHandler
             
             case Key.Z when e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift):
             case Key.Y when e.KeyboardDevice.Modifiers == ModifierKeys.Control:
-                await _scheduler.RedoAsync();
+                //await _scheduler.RedoAsync();
                 break;
         }
     }

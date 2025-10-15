@@ -56,7 +56,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Обозначение" Binding="{Binding Designation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
                 <DataGridTextColumn Header="Число выводов" Binding="{Binding OutputsNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
-                <DataGridCheckBoxColumn  Header="SMD" Binding="{Binding IsUsingSmd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
+                <DataGridCheckBoxColumn Header="SMD" IsReadOnly="True" Binding="{Binding IsUsingSmd, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ImagePath}" 
+                                   Width="70" 
+                                   Height="50" 
+                                   Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Описание" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*"/>
             </DataGrid.Columns>
             
