@@ -5,6 +5,7 @@ using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using Infrastructure.Command;
 using WPF.Extensions.View.Elements;
+using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.Validation;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
 using WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
@@ -17,6 +18,7 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     where T : class, IDbEntity
 {
     protected readonly ValidatorBase<T> _validator;
+    protected readonly IPropertyValueRestoreService<T> _propertyRestoreService;
     protected BaseAction<TWindow, T> _action;
     protected DataGridBeginningEditEventArgs? _lastCellEditBeginningEditEventArgs;
     protected RememberCellCommand<TWindow, T>? _rememberCellCommand;
@@ -25,37 +27,26 @@ public class BaseCellStateInput<TWindow, T> : BaseCellState<TWindow, T>
     public BaseCellStateInput(IDataGridCommandScheduler scheduler, 
                               ModuleContext<TWindow, T> context, 
                               ICommandFactory factory, 
-                              ValidatorBase<T> validator) 
+                              ValidatorBase<T> validator, 
+                              IPropertyValueRestoreService<T> propertyRestoreService) 
         : base(scheduler, context, factory) {
         _validator = validator;
+        _propertyRestoreService = propertyRestoreService;
     }
     
     public override async Task OnBeginning(Cell<TWindow, T> owner, object? sender, DataGridBeginningEditEventArgs e) {
         if (!_scheduler.IsInTransaction<TrSelectingCell>())
             return;
 
-        _rememberCellCommand = _commandFactory.CreateCommand<
-            RememberCellCommand<TWindow, T>, 
-            RememberCellCommand<TWindow, T>.Args>(new RememberCellCommand<TWindow, T>.Args(
-                                                      e, 
-                                                      Application.Current.Dispatcher
-                                                      )
-            );
+        _rememberCellCommand = new RememberCellCommand<TWindow, T>(new RememberCellCommand<TWindow, T>.Args(e, Application.Current.Dispatcher), _context);
         
         await _scheduler.RegisterCommandInto<TrSelectingCell>(_rememberCellCommand)
                         .ExecuteLastRegisteredAsync();
 
         if (_validator.ValidateAsync((T)e.Row.Item).Result is { IsValid: true }) {
-        #if DEBUG
-            Console.WriteLine($"valid: true");
-        #endif
-            await _scheduler.RegisterCommandInto<TrSelectingCell>(_commandFactory.CreateCommand<RememberInputTextCommand<TWindow, T>, DataGridBeginningEditEventArgs>(e))
+            var command = new RememberInputTextCommand<TWindow, T>(e, _propertyRestoreService);
+            await _scheduler.RegisterCommandInto<TrSelectingCell>(command)
                             .ExecuteLastRegisteredAsync();
-        }
-        else {
-        #if DEBUG
-            Console.WriteLine($"valid: false");
-        #endif
         }
         
         _scheduler.CommitTransaction<TrSelectingCell>();

@@ -1,6 +1,7 @@
 using System.Windows;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
+using WPF.Services.UserActionsHandling.InputText;
 using WPF.Services.Validation;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
 
@@ -11,11 +12,11 @@ public class CellStateUpdate<TWindow, T>  : BaseCellStateInput<TWindow, T>
     where T : class, IDbEntity
 {
     public CellStateUpdate(IDataGridCommandScheduler scheduler, 
-                           ModuleContext<TWindow, T>  context,  
-                           ICommandFactory factory, 
-                           ActionUpdateItem<TWindow, T> actionUpdateItem, 
-                           ValidatorBase<T> validator) 
-        : base(scheduler, context, factory, validator) {
+                           ModuleContext<TWindow, T> context, 
+                           ICommandFactory factory, ValidatorBase<T> validator, 
+                           IPropertyValueRestoreService<T> propertyRestoreService,
+                           ActionUpdateItem<TWindow, T> actionUpdateItem) 
+        : base(scheduler, context, factory, validator, propertyRestoreService) {
         _action = actionUpdateItem;
     }
 }

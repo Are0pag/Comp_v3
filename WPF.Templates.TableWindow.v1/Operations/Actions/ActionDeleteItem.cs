@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using Infrastructure.Command;
@@ -18,11 +19,15 @@ public class ActionDeleteItem<TWindow, T> : BaseAction<TWindow, T>
     where T : class, IDbEntity
 {
     protected readonly Cell<TWindow, T> _cell;
-    protected new readonly ModuleContext<TWindow, T> _context;
-    
-    public ActionDeleteItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, Cell<TWindow, T> cell) : base(scheduler, context, commandFactory) {
-        _context = context;
+    protected readonly IRepository<T> _repository;
+    public ActionDeleteItem(IDataGridCommandScheduler scheduler, 
+                            ModuleContext<TWindow, T> context, 
+                            ICommandFactory commandFactory, 
+                            Cell<TWindow, T> cell, 
+                            IRepository<T> repository) 
+        : base(scheduler, context, commandFactory) {
         _cell = cell;
+        _repository = repository;
     }
 
     public override async Task<BaseAction<TWindow, T> > PerformAsync(object? parameter = null) {
@@ -32,8 +37,8 @@ public class ActionDeleteItem<TWindow, T> : BaseAction<TWindow, T>
         }
         
         _scheduler.BeginTransaction<TrDeleteCell>();
-        _scheduler.RegisterCommandInto<TrDeleteCell>(_commandFactory.CreateCommand<DeleteItemCommand<T>, T>(item));
-        await _scheduler.RegisterCommandInto<TrDeleteCell>(_commandFactory.CreateCommand<RemoveItemCommand<TWindow, T>, T>(item))
+        _scheduler.RegisterCommandInto<TrDeleteCell>(new DeleteItemCommand<T>(item, _repository));
+        await _scheduler.RegisterCommandInto<TrDeleteCell>(new RemoveItemCommand<TWindow, T>(item, _context))
                         .ExecuteLastRegisteredAsync();
         _scheduler.CommitTransaction<TrDeleteCell>();
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n.NotifyCanExecute());

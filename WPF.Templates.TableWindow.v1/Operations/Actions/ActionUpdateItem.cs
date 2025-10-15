@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using Infrastructure.Command;
@@ -16,7 +17,9 @@ public class ActionUpdateItem<TWindow, T> : BaseAction<TWindow, T>
     where TWindow : Window
     where T : class, IDbEntity
 {
-    public ActionUpdateItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory) : base(scheduler, context, commandFactory) {
+    protected readonly IRepository<T> _repository;
+    public ActionUpdateItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, IRepository<T> repository) : base(scheduler, context, commandFactory) {
+        _repository = repository;
     }
 
     public override async Task<BaseAction<TWindow, T>> PerformAsync(object? parameter = null) {
@@ -36,7 +39,7 @@ public class ActionUpdateItem<TWindow, T> : BaseAction<TWindow, T>
 
     protected virtual Task InitTransaction(Args args) {
         _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand);
-        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<UpdateItemCommand<T>, T>(args.Item));
+        _scheduler.RegisterCommandInto<TrEditCell>(new UpdateItemCommand<T>(args.Item, _repository));
         return Task.CompletedTask;
     }
 

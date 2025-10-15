@@ -1,3 +1,5 @@
+using Infrastructure;
+
 namespace WPF.Services;
 
 public class TransientRb : IRegistrationBuilder
@@ -19,18 +21,7 @@ public class TransientRb : IRegistrationBuilder
         
         var parameterInfos = constructorInfos[0].GetParameters();
         
-        var parameterInstances = parameterInfos.Select(p => {
-            // Проверяем, есть ли runtime-параметр для текущего типа
-            if (container.RuntimeParameters.TryGetValue(Registration.GetRegistration(), out var runtimeParams)) {
-                try {
-                    if (runtimeParams.First(runtimeParam => runtimeParam.Item1.Name == p.ParameterType.Name) is {} runtimeParameter)
-                        return runtimeParameter.Item2;
-                }
-                catch (InvalidOperationException ex) {}
-            }
-            // Если нет runtime-параметра, резолвим через контейнер
-            return container.Resolve(p.ParameterType);
-        }).ToArray();
+        var parameterInstances = parameterInfos.Select(p => container.Resolve(p.ParameterType)).ToArray();
         
         return constructorInfos[0].Invoke(parameterInstances);
     }

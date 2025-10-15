@@ -37,7 +37,7 @@ public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstalle
                  .AsScoped<Tw>()
                  .UsingFactoryMethod(() => new DataGridCommandFactory(container));
 
-        container.Add<AddItemCommand<T>>().AsTransient().WithParameters(typeof(T));
+        /*container.Add<AddItemCommand<T>>().AsTransient().WithParameters(typeof(T));
         container.Add<UpdateItemCommand<T>>().AsTransient().WithParameters(typeof(T));
         container.Add<DeleteItemCommand<T>>().AsTransient().WithParameters(typeof(T));
 
@@ -63,15 +63,15 @@ public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstalle
 
         container.Add<RemoveItemCommand<Tw, T>>()
                  .AsTransient()
-                 .WithParameters(typeof(T));
+                 .WithParameters(typeof(T));*/
 
         /*container.Add<CellChangeStateCommand<Tw, Cd>>()
                  .AsTransient()
                  .WithParameters(typeof(object));*/
         
-        container.Add<ApplyFilterCommand<Tw, T, FiltersVmBase>>()
+        /*container.Add<ApplyFilterCommand<Tw, T, FiltersVmBase>>()
                  .AsTransient()
-                 .WithParameters(typeof(ApplyFilterCommand<Tw, T, FiltersVmBase>.Args));
+                 .WithParameters(typeof(ApplyFilterCommand<Tw, T, FiltersVmBase>.Args));*/
 
 
         container.Add<IPropertyValueRestoreService<T>>()

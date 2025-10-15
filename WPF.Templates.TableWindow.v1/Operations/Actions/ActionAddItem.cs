@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp.Db.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Templates.TableWindow.v1.Entities;
@@ -11,15 +12,13 @@ public class ActionAddItem<TWindow, T>  : ActionUpdateItem<TWindow, T>
     where TWindow : Window
     where T : class, IDbEntity
 {
-    public ActionAddItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T>  context, ICommandFactory commandFactory) 
-        : base(scheduler, context, commandFactory) {
+    public ActionAddItem(IDataGridCommandScheduler scheduler, ModuleContext<TWindow, T> context, ICommandFactory commandFactory, IRepository<T> repository) : base(scheduler, context, commandFactory, repository) {
     }
 
     protected override async Task InitTransaction(Args args) {
         await _scheduler.RegisterCommandInto<TrEditCell>(args.RememberCellCommand)
                         .ExecuteLastRegisteredAsync();
         
-        /* Update ?? */
-        _scheduler.RegisterCommandInto<TrEditCell>(_commandFactory.CreateCommand<AddItemCommand<T>, T>(args.Item));
+        _scheduler.RegisterCommandInto<TrEditCell>(new AddItemCommand<T>(args.Item, _repository));
     }
 }

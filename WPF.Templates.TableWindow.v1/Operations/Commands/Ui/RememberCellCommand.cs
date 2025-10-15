@@ -44,16 +44,6 @@ public class RememberCellCommand<TWindow, T> : BaseCommand<RememberCellCommand<T
             _moduleContext.DataGrid.SelectedItem = _cell;
             _moduleContext.DataGrid.BeginEdit();
         });
-        /*await _parameter.Dispatcher.InvokeAsync(() => {
-            try {
-                _cell!.Focus();
-                _moduleContext.DataGrid.SelectedItem = _cell;
-                _moduleContext.DataGrid.BeginEdit();
-            }
-            catch (Exception ex) {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-        });*/
     }
 
     public class Args

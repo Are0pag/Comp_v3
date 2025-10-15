@@ -9,8 +9,6 @@ public class AreopagContainer : IDisposable
     protected readonly Dictionary<Type, List<ScopedRd>> _scopes = new();
     private readonly HashSet<Type> _resolvingTypes = new();
     protected RegistrationProxy? _creatingRegistration;
-
-    public Dictionary<Type, List<(Type paramType, object value)>> RuntimeParameters { get; protected set; } = new();
     
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
@@ -85,20 +83,7 @@ public class AreopagContainer : IDisposable
         _registrationBuilders.Add(new ScopedRd(_creatingRegistration, typeof(TScopeOwner)));
         return this;
     }
-
-    public AreopagContainer WithParameters(params Type[] parameterTypes) {
-        if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
-            throw new InvalidOperationException();
-
-        var key = lastRegistrationBuilder.Registration.GetRegistration();
-        RuntimeParameters[key] = new List<(Type, object)>();
-        
-        foreach (var parameterType in parameterTypes) {
-            RuntimeParameters[key].Add((parameterType, null));
-        }
-        return this;
-    }
-
+    
     public AreopagContainer UsingFactoryMethod(Func<object> factoryMethod) {
         if (_registrationBuilders.Count == 0)
             throw new InvalidOperationException();
@@ -170,24 +155,6 @@ public class AreopagContainer : IDisposable
     }
 
     public T Resolve<T>(params object[] parameters) {
-        if (parameters.Length != 0) {
-            if (RuntimeParameters.TryGetValue(typeof(T), out var registrationParams)) {
-                if (parameters.Length != registrationParams.Count) {
-                    throw new ArgumentException("Количество параметров не соответствует зарегистрированным типам");
-                }
-                var updatedParams = new List<(Type, object)>();
-                for (var i = 0; i < registrationParams.Count; i++) {
-                    // Проверяем совместимость типов
-                    if (!registrationParams[i].Item1.IsInstanceOfType(parameters[i])) 
-                        throw new ArgumentException($"Тип параметра {i} не соответствует зарегистрированному типу");
-
-                    // Добавляем кортеж с проставленным значением
-                    updatedParams.Add((registrationParams[i].Item1, parameters[i]));
-                }
-                RuntimeParameters[typeof(T)] = updatedParams;
-            }
-        }
-        
         return (T) Resolve(typeof(T));
     }
 

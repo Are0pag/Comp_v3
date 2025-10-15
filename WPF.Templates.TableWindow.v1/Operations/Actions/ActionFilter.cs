@@ -18,6 +18,7 @@ public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, 
     where TFiltersSource : FiltersVmBase
 {
     protected readonly TFiltersSource _filtersVm;
+    protected readonly IFilter<T, TFiltersSource> _filters;
     protected readonly Cell<TWindow, T> _cell;
     protected ApplyFilterCommand<TWindow, T, TFiltersSource>? _previousFilterCommand;
     
@@ -25,10 +26,12 @@ public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, 
                         ModuleContext<TWindow, T> context, 
                         ICommandFactory commandFactory, 
                         TFiltersSource filtersVm, 
-                        Cell<TWindow, T> cell) 
+                        Cell<TWindow, T> cell, 
+                        IFilter<T, TFiltersSource> filters) 
         : base(scheduler, context, commandFactory) {
         _filtersVm = filtersVm;
         _cell = cell;
+        _filters = filters;
         _filtersVm.PropertyChanged += filtersVmOnPropertyChanged();
         EventBus<IGlobSubscriber>.Subscribe(this);
     }
@@ -39,11 +42,12 @@ public class ActionFilter<TWindow, T, TFiltersSource> : BaseAction<TWindow, T>, 
         }
         
         var arg = new ApplyFilterCommand<TWindow, T, TFiltersSource>.Args(_context.DataGridViewModel.Items!, _filtersVm);
-        var filterCommand = _commandFactory
+        var filterCommand = new ApplyFilterCommand<TWindow, T, TFiltersSource>(arg, _context, _filters);
+        /*var filterCommand = _commandFactory
            .CreateCommand<
                 ApplyFilterCommand<TWindow, T, TFiltersSource>, 
                 ApplyFilterCommand<TWindow, T, TFiltersSource>.Args
-            >(arg);
+            >(arg);*/
         await filterCommand.ExecuteAsync();
         _previousFilterCommand = filterCommand;
         return this;

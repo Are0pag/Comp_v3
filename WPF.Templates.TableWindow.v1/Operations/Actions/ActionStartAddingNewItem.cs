@@ -35,15 +35,13 @@ public class ActionStartAddingNewItem<TWindow, T> : BaseAction<TWindow, T>
                              )
                         .ExecuteLastRegisteredAsync();
         
-        await _scheduler.RegisterCommandInto<TransactionAddItem>(
-                             _commandFactory.CreateCommand<RememberSelectionCommand<TWindow, T>, object>(_context)
-                             )
+        await _scheduler.RegisterCommandInto<TransactionAddItem>(new RememberSelectionCommand<TWindow, T>(null!, _context))
                         .ExecuteLastRegisteredAsync();
 
         await _scheduler.RegisterCommandInto<TransactionAddItem>(createRawCommand)
                         .ExecuteLastRegisteredAsync();
 
-        var focusCommand = _commandFactory.CreateCommand<FocusCellCommand<TWindow, T>, T>(createRawCommand.Item);
+        var focusCommand = new FocusCellCommand<TWindow, T>(createRawCommand.Item, _context);
         await _scheduler.RegisterCommandInto<TransactionAddItem>(focusCommand)
                         .ExecuteLastRegisteredAsync();
         
