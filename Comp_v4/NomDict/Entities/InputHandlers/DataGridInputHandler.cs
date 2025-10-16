@@ -9,10 +9,10 @@ namespace Comp_v4.NomDict.Entities.InputHandlers;
 
 public class DataGridInputHandler : IMouseDoubleClickHandler
 {
-    protected readonly CardComponentManager _cardComponentManager;
+    protected readonly Grid _grid;
     
-    public DataGridInputHandler(CardComponentManager cardComponentManager) {
-        _cardComponentManager = cardComponentManager;
+    public DataGridInputHandler(CardComponentManager cardComponentManager, Grid grid) {
+        _grid = grid;
 
         EventBus<IGlobalMouseSubscriber>.Subscribe(this);
     }
@@ -21,11 +21,6 @@ public class DataGridInputHandler : IMouseDoubleClickHandler
     }
 
     public void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        if (sender is not Component component)
-            throw new ArgumentException();
-        
-        _cardComponentManager.OpenWindow<EditStateCardComp>(new CardComponentManager.Args(
-                                                                 component
-                                                                 ));
+        _grid.OnMouseDoubleClick(sender, e);
     }
 }

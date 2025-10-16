@@ -78,7 +78,8 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
                     <Button x:Name="AddComponentButton"
                             Command="{Binding ClickCommand}"
-                            Content="Новый компонент" Margin="2" Padding="10,2"/>
+                            Content="{Binding Label}" 
+                            Margin="2" Padding="10,2"/>
                     <!-- Добавьте свои инструменты для части B -->
                     
                 </StackPanel>

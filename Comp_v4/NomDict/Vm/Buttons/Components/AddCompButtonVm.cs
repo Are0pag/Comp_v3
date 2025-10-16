@@ -5,6 +5,11 @@ namespace Comp_v4.NomDict.Vm.Buttons.Components;
 
 public partial class AddCompButtonVm : BaseAsyncBButtonVm
 {
+    public const string COMMON_LABEL = "Новый компонент";
+    public const string ANALOG_CHOOSE_LABEL = "Выбрать как аналог";
+    
+    protected string _label = COMMON_LABEL;
+    
     [RelayCommand(CanExecute = nameof(CanClick))]
     public override async Task OnClickAsync() {
         await ClickActionAsync?.Invoke(null);
@@ -12,5 +17,13 @@ public partial class AddCompButtonVm : BaseAsyncBButtonVm
 
     public override void NotifyCanExecute() {
         ClickCommand?.NotifyCanExecuteChanged();
+    }
+
+    public string Label {
+        get => _label;
+        set {
+            _label = value;
+            OnPropertyChanged();
+        }
     }
 }

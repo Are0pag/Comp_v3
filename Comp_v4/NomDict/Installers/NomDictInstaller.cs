@@ -38,6 +38,19 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<AddCompButtonVm>().AsScoped<NomDictWindow>();
         container.Add<AddComponentAction>().AsScoped<NomDictWindow>();
 
+        container.Add<EditGridState>().AsScoped<NomDictWindow>();
+        container.Add<SelectionGridState>().AsScoped<NomDictWindow>();
+
+        container.Add<Comp_v4.NomDict.Entities.Grid>()
+                 .AsScoped<NomDictWindow>()
+                 .UsingFactoryMethod(() => {
+                      var initState = container.Resolve<EditGridState>();
+                      var states = new List<BaseSGridState>() {
+                          initState,
+                          container.Resolve<SelectionGridState>()
+                      };
+                      return new Grid(states, initState);
+                  });
 
         container.Add<NomDictWindow>().AsTransient();
     }
