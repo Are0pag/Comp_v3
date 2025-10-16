@@ -3,6 +3,7 @@ using Comp_v4.TableWindows.Analogs.Entities;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
+using Comp.ModelData.Comp;
 using WPF.Services;
 
 namespace Comp_v4.TableWindows.Analogs._Installers;
@@ -15,8 +16,12 @@ public class AnalogsTableWindowInstaller : AbstractInstaller
     
     protected override void InstallBindings(AreopagContainer container) {
         new AnalogFormInstaller().Install(_formContainer);
+        _formContainer.SetFactoryMethodFor<Component>(() => {
+            return container.Resolve<Component>();
+        });
 
         container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsScoped<AnalogsTableWindow>();
+        container.Add<Component>().AsScoped<AnalogsTableWindow>();
 
         container.Add<AnalogFormManager>()
                  .AsScoped<AnalogsTableWindow>()

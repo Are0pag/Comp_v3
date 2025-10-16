@@ -123,6 +123,9 @@ public class CompCardWindowInstaller : AbstractInstaller
         analogs.SetFactoryMethodFor<IRepository<Analog>>(() => {
             return container.Resolve<IRepository<Analog>>();
         });
+        analogs.SetFactoryMethodFor<Component>(() => {
+            return container.Resolve<Component>();
+        });
         _subContainers[typeof(AnalogsTableWindow)] = analogs;
         
         container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsScoped<CompCardWindow>();
