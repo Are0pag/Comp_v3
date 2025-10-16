@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Comp_v4.TableWindows.Analogs.Entities;
 using Comp_v4.TableWindows.Analogs.Events;
@@ -6,8 +7,18 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Analogs.Buttons;
 
-public partial class AddAnalogButtonVm
+public partial class AddAnalogButtonVm : ObservableObject
 {
+    protected string _label = "Добавить";
+
+    public string Label {
+        get => _label;
+        set {
+            _label = value;
+            OnPropertyChanged();
+        }
+    }
+    
     public bool CanAdd() {
         return true;
     }

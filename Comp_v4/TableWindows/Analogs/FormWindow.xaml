@@ -50,6 +50,7 @@
                  Padding="5"/>
         
         <Button Grid.Row="1" Grid.Column="2" 
+                x:Name="SelectAnalogButton"
                 Content="Выбрать..." 
                 Command="{Binding SelectAnalogCommand}"
                 Margin="0,0,0,10"

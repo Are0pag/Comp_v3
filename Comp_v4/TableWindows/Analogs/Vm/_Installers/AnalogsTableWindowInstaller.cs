@@ -26,7 +26,7 @@ public class AnalogsTableWindowInstaller : AbstractInstaller
         container.Add<AnalogFormManager>()
                  .AsScoped<AnalogsTableWindow>()
                  .UsingFactoryMethod(() => {
-                      return new AnalogFormManager(_formContainer);
+                      return new AnalogFormManager(_formContainer, container.Resolve<Component>());
                   })
                  .EnforceInstantiateOnBegin();
 

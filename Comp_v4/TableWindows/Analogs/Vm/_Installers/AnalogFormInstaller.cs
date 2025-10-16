@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.Analogs.Buttons;
 using Comp_v4.TableWindows.Analogs.Entities;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
@@ -14,6 +15,8 @@ public class AnalogFormInstaller : AbstractInstaller
         container.Add<Form>().AsScoped<FormWindow>();
         container.Add<AddFormState>().AsScoped<FormWindow>();
         container.Add<EditFormState>().AsScoped<FormWindow>();
+        
+        container.Add<SelectAnalogButtonVm>().AsScoped<FormWindow>();
         
         container.Add<FormWindow>().AsTransient();
     }
