@@ -1,12 +1,14 @@
+using Comp.Db.Contracts;
 using Comp.ModelData;
+using Comp.ModelData.Comp;
 
 namespace Comp.Db.Repositories.Concrete;
 
 public class RepoAnalogs : DbRepository<Analog>
 {
-    protected readonly RepositoryComponent _repositoryComponent;
+    protected readonly IRepository<Component> _repositoryComponent;
     
-    public RepoAnalogs(AppDbContext context, RepositoryComponent repositoryComponent) : base(context) {
+    public RepoAnalogs(AppDbContext context, IRepository<Component> repositoryComponent) : base(context) {
         _repositoryComponent = repositoryComponent;
     }
 
