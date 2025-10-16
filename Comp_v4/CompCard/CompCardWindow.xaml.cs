@@ -16,12 +16,16 @@ public partial class CompCardWindow : Window, IDisposable
     protected readonly Component _component;
     
     public CompCardWindow(CdFieldVm cdFieldVm, ManFieldVm manFieldVm, MuFieldVm muFieldVm, TsFieldVm tsFieldVm, GpsFieldVm gpsFieldVm,
+                          AnalogsFieldButtonVm analogsFieldButtonVm, AnalogsFieldVm analogsFieldVm,
                           Component component,
                           CardCopmEditController ec,
                           SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();
         _component = component;
 
+        AnalogsFieldGrid.DataContext = analogsFieldVm;
+        AnalogsFieldButton.DataContext = analogsFieldButtonVm;
+        
         UrlFieldControl.DataContext = ec.UrlFieldControl;
         UrlAlternativeFieldControl.DataContext = ec.UrlAlternativeFieldControl;
         FilePathFieldControl.DataContext = ec.FilePathFieldControl;

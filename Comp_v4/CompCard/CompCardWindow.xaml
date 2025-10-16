@@ -272,6 +272,32 @@
                             FieldName="{Binding FieldTitle}"
                             LinkUrl="{Binding Url}"
                             SetLinkCommand="{Binding SetLinkCommand}"/>
+                        
+                        <Grid x:Name="AnalogsFieldGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+    
+                            <TextBlock Grid.Column="0" 
+                                       Text="{Binding Label}" 
+                                       VerticalAlignment="Center" 
+                                       Margin="0,0,10,0"/>
+    
+                            <TextBox Grid.Column="1" 
+                                     Text="{Binding AnalogsCount, Mode=OneWay}" 
+                                     IsReadOnly="True"
+                                     VerticalAlignment="Center"/>
+    
+                            <Button Grid.Column="2" 
+                                    x:Name="AnalogsFieldButton"
+                                    Content="🎲" 
+                                    Command="{Binding ClickCommand}"
+                                    ToolTip="Открыть таблицу"
+                                    Margin="10,0,0,0"/>
+                        </Grid>
+
                     </StackPanel>
                     
                 </Border>

@@ -8,6 +8,8 @@ using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
 using Comp_v4.Installers;
 using Comp_v4.TableWindows;
+using Comp_v4.TableWindows.Analogs;
+using Comp_v4.TableWindows.Analogs._Installers;
 using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp_v4.TableWindows.GenericParametersSets;
@@ -17,6 +19,8 @@ using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
 using Comp_v4.TableWindows.TypeSizes.Entities;
 using Comp.Db;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
@@ -113,6 +117,24 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<SelectImageAction>().AsScoped<CompCardWindow>();
         container.Add<OpenImageAction>().AsScoped<CompCardWindow>();
         container.Add<ClearImageAction>().AsScoped<CompCardWindow>();
+
+        var analogs = new AreopagContainer();
+        new AnalogsTableWindowInstaller().Install(analogs);
+        analogs.SetFactoryMethodFor<IRepository<Analog>>(() => {
+            return container.Resolve<IRepository<Analog>>();
+        });
+        _subContainers[typeof(AnalogsTableWindow)] = analogs;
+        
+        container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsScoped<CompCardWindow>();
+        container.Add<AnalogsFieldVm>().AsScoped<CompCardWindow>();
+        container.Add<AnalogsFieldButtonVm>().AsScoped<CompCardWindow>();
+        container.Add<OpenAnalogTableAction>()
+                 .AsScoped<CompCardWindow>()
+                 .UsingFactoryMethod(() => {
+                      return new OpenAnalogTableAction(container.Resolve<AnalogsFieldButtonVm>(),
+                                                       _subContainers[typeof(AnalogsTableWindow)]);
+                  })
+                 .EnforceInstantiateOnBegin();
         
         container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
         container.Add<SaveComponentAction>().AsScoped<CompCardWindow>();

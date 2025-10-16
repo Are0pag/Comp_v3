@@ -46,4 +46,8 @@
     </Page>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TableWindows\Analogs\Vm\Actions\" />
+  </ItemGroup>
+
 </Project>
