@@ -17,3 +17,8 @@ public interface IMouseDoubleClickHandler : IAnalogsTableWindowSubscriber
 {
     void OnMouseDoubleClick(object sender, MouseButtonEventArgs e);
 }
+
+public interface ISelectAnalogHandler : IAnalogsTableWindowSubscriber
+{
+    void OnStartSelectingAnalog(object? parameter = null);
+}

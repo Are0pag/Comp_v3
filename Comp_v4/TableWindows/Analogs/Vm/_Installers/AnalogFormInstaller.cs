@@ -11,8 +11,8 @@ public class AnalogFormInstaller : AbstractInstaller
     protected override void InstallBindings(AreopagContainer container) {
         container.Add<Analog>().AsScoped<FormWindow>();
         container.Add<Component>().AsScoped<FormWindow>();
-        
-        container.Add<Form>().AsScoped<FormWindow>();
+
+        container.Add<Form>().AsScoped<FormWindow>().EnforceInstantiateOnBegin();
         container.Add<AddFormState>().AsScoped<FormWindow>();
         container.Add<EditFormState>().AsScoped<FormWindow>();
         
