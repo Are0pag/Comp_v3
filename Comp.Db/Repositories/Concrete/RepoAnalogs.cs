@@ -22,7 +22,7 @@ public class RepoAnalogs : DbRepository<Analog>
             SourceComponentId = entity.SourceComponent.Id,
             RelatedComponentId = entity.RelatedComponent.Id
         };
-        await base.AddAsync(entity);
+        await base.AddAsync(dbEntity);
     }
 
     public override async Task<List<Analog>> GetAllAsync() {

@@ -1,5 +1,35 @@
 namespace Utils.WPF.Buttons;
 
+
+public abstract class BaseActionAsyncCompletion
+{
+    public BaseActionAsyncCompletion(BaseButtonAdvanced button) {
+        button.ClickActionAsync = Perform;
+        button.CanExecuteFunc = CanPerform;
+    }
+    public abstract Task Perform(TaskCompletionSource tcs);
+    public abstract bool CanPerform();
+}
+
+public abstract class BaseButtonAdvanced : BaseButtonVm
+{
+    public Func<TaskCompletionSource, Task> ClickActionAsync { get; set; } = null!;
+    protected bool _isEnabled = true;
+    
+    public virtual async Task OnClickAsync() {
+        if (!_isEnabled)
+            return;
+        
+        _isEnabled = false;
+        
+        var tsc = new TaskCompletionSource();
+        await ClickActionAsync.Invoke(tsc);
+        
+        _isEnabled = true;
+    }
+}
+
+
 public abstract class BaseActionAsyncCompletion<T>
 {
     public BaseActionAsyncCompletion(BaseButtonAdvanced<T> button) {

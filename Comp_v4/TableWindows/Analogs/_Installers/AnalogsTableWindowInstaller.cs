@@ -23,6 +23,9 @@ public class AnalogsTableWindowInstaller : AbstractInstaller
         _formContainer.SetFactoryMethodFor<IWindowOrderLocator>(() => {
             return container.Resolve<IWindowOrderLocator>();
         });
+        _formContainer.SetFactoryMethodFor<IRepository<Analog>>(() => {
+            return container.Resolve<IRepository<Analog>>();
+        });
         
         container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton();
 

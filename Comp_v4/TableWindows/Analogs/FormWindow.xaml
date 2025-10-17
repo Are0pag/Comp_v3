@@ -74,7 +74,8 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Сохранить" 
-                        Command="{Binding SaveCommand}"
+                        x:Name="SaveButton"
+                        Command="{Binding ClickCommand}"
                         Margin="5,0"
                         Padding="15,5"
                         MinWidth="80"
