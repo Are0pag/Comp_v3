@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using Comp_v4.TableWindows.Analogs.Entities;
+using Comp.ModelData;
 
 namespace Comp_v4.TableWindows.Analogs.Events;
 
@@ -25,5 +26,5 @@ public interface ISelectAnalogHandler : IAnalogsTableWindowSubscriber
 
 public interface ISaveHandler : IAnalogsTableWindowSubscriber
 {
-    Task Save(TaskCompletionSource tcs);
+    Task Save(TaskCompletionSource tcs, Analog analog);
 }

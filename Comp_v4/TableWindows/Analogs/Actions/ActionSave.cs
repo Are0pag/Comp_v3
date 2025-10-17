@@ -10,11 +10,9 @@ namespace Comp_v4.TableWindows.Analogs.Actions;
 public class ActionSave : BaseActionAsyncCompletion
 {
     protected readonly Analog _analog;
-    
     public ActionSave(SaveButVm but, Analog analog) : base(but) {
         _analog = analog;
     }
-
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var tasks = new List<Task>();
@@ -24,7 +22,7 @@ public class ActionSave : BaseActionAsyncCompletion
             tasks.Add(subscriberTcs.Task);
 
             try {
-                h?.Save(subscriberTcs);
+                h?.Save(subscriberTcs, _analog);
             }
             catch (Exception ex) {
                 subscriberTcs.TrySetException(ex);

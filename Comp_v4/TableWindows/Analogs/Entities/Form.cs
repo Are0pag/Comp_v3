@@ -21,7 +21,7 @@ public class Form : GenericStateMachine<BaseFormState, Form>, ISelectAnalogHandl
         EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
     }
 
-    public async Task Save(TaskCompletionSource tcs) {
+    public async Task Save(TaskCompletionSource tcs, Analog analog) {
         await CurrentState.Save(this);
         tcs.SetResult();
     }

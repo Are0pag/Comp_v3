@@ -20,7 +20,7 @@ public partial class FormWindow : Window, IDisposable, ISaveHandler
         EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
     }
 
-    public Task Save(TaskCompletionSource tcs) {
+    public Task Save(TaskCompletionSource tcs, Analog analog) {
         Close();
         tcs.SetResult();
         return Task.CompletedTask;
