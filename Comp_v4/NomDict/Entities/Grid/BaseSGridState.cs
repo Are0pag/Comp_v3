@@ -5,7 +5,7 @@ namespace Comp_v4.NomDict.Entities;
 
 public abstract class BaseSGridState : StateBase<Grid>
 {
-    public abstract void OnMouseDoubleClick(object sender, MouseButtonEventArgs e);
+    public abstract void OnMouseDoubleClick(object sender, MouseButtonEventArgs e, Grid context);
     
     public abstract void AddComponent(object? parameter);
 }

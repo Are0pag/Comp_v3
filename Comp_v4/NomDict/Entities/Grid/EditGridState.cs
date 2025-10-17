@@ -16,7 +16,7 @@ public class EditGridState : BaseSGridState
         _treeViewVm = treeViewVm;
     }
 
-    public override void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+    public override void OnMouseDoubleClick(object sender, MouseButtonEventArgs e, Grid context) {
         if (sender is not Component component)
             throw new ArgumentException();
         
@@ -31,16 +31,5 @@ public class EditGridState : BaseSGridState
                                                                    new Component(),
                                                                    _treeViewVm.SelectedCategory
                                                                   ));
-    }
-}
-
-public class SelectionGridState : BaseSGridState
-{
-    public override void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        throw new NotImplementedException();
-    }
-
-    public override void AddComponent(object? parameter) {
-        throw new NotImplementedException();
     }
 }

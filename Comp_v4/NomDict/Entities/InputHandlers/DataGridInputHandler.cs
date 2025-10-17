@@ -13,7 +13,6 @@ public class DataGridInputHandler : IMouseDoubleClickHandler
     
     public DataGridInputHandler(CardComponentManager cardComponentManager, Grid grid) {
         _grid = grid;
-
         EventBus<IGlobalMouseSubscriber>.Subscribe(this);
     }
     public void Dispose() {

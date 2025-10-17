@@ -20,5 +20,5 @@ public interface IMouseDoubleClickHandler : IAnalogsTableWindowSubscriber
 
 public interface ISelectAnalogHandler : IAnalogsTableWindowSubscriber
 {
-    void OnStartSelectingAnalog(object? parameter = null);
+    Task OnStartSelectingAnalog(object? parameter = null);
 }
