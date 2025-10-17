@@ -6,6 +6,7 @@ using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
+using Utils.WPF;
 using WPF.Services;
 
 namespace Comp_v4.CompCard.Entities;
@@ -14,10 +15,12 @@ namespace Comp_v4.CompCard.Entities;
 public class CardComponentManager
 {
     protected readonly AreopagContainer _container;
+    protected readonly IWindowOrderLocator _windowOrderLocator;
     protected readonly List<Component> _openedComponentsCards = new();
 
-    public CardComponentManager(AreopagContainer container) {
+    public CardComponentManager(AreopagContainer container, IWindowOrderLocator windowOrderLocator) {
         _container = container;
+        _windowOrderLocator = windowOrderLocator;
     }
 
     public void OpenWindow<TInitialState>(Args args) 
@@ -43,6 +46,7 @@ public class CardComponentManager
                    });
         
         var window = _container.BeginScope<CompCardWindow>();
+        _windowOrderLocator.RegisterWindow(window);
         window.Closed += (_, __) => {
             _container.ReleaseScope<CompCardWindow>();
             _openedComponentsCards.Remove(args.Component);

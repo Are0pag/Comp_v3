@@ -9,12 +9,15 @@ namespace Comp_v4.CompCard.Operations.Actions;
 public class OpenAnalogTableAction : BaseAsyncActionButtonInvoked
 {
     protected readonly AreopagContainer _tableContainer;
-    public OpenAnalogTableAction(AnalogsFieldButtonVm buttonVm, AreopagContainer tableContainer) : base(buttonVm) {
+    protected readonly IWindowOrderLocator _windowOrderLocator;
+    public OpenAnalogTableAction(AnalogsFieldButtonVm buttonVm, AreopagContainer tableContainer, IWindowOrderLocator windowOrderLocator) : base(buttonVm) {
         _tableContainer = tableContainer;
+        _windowOrderLocator = windowOrderLocator;
     }
 
     public override async Task PerformAsync(object? parameter) {
         var window = _tableContainer.BeginScope<AnalogsTableWindow>();
+        _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {
             _tableContainer.ReleaseScope<AnalogsTableWindow>();
         };

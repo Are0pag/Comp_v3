@@ -134,7 +134,14 @@ public class AreopagContainer : IDisposable
         targetScopeRegistrations
            .Where(r => r.IsEnforceInstantiate)
            .ToList()
-           .ForEach(r => Resolve(r.Registration.GetRegistration()));
+           .ForEach(r => {
+                try {
+                    Resolve(r.Registration.GetRegistration());
+                }
+                catch (Exception e) {
+                    throw new InvalidOperationException($"Could not resolve scope owner for {typeof(TScopeOwner).Name}: {e.Message}");
+                }
+            });
 
         _scopes.Add(typeof(TScopeOwner), targetScopeRegistrations);
         

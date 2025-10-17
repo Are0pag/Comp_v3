@@ -25,6 +25,7 @@ using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
+using Utils.WPF;
 using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
@@ -118,8 +119,15 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<OpenImageAction>().AsScoped<CompCardWindow>();
         container.Add<ClearImageAction>().AsScoped<CompCardWindow>();
 
+        container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton().UsingFactoryMethod(() => {
+            return _rootContainer.Resolve<IWindowOrderLocator>();
+        });
+        
         var analogs = new AreopagContainer();
         new AnalogsTableWindowInstaller().Install(analogs);
+        analogs.SetFactoryMethodFor<IWindowOrderLocator>(() => {
+            return container.Resolve<IWindowOrderLocator>();
+        });
         analogs.SetFactoryMethodFor<IRepository<Analog>>(() => {
             return container.Resolve<IRepository<Analog>>();
         });
@@ -135,7 +143,8 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => {
                       return new OpenAnalogTableAction(container.Resolve<AnalogsFieldButtonVm>(),
-                                                       _subContainers[typeof(AnalogsTableWindow)]);
+                                                       _subContainers[typeof(AnalogsTableWindow)],
+                                                       _rootContainer.Resolve<IWindowOrderLocator>());
                   })
                  .EnforceInstantiateOnBegin();
         

@@ -13,6 +13,11 @@ public partial class SelectAnalogButtonVm
     }
 
     [RelayCommand(CanExecute = nameof(CanSelect))]
+    protected async Task Select() {
+
+    }
+
+    [RelayCommand(CanExecute = nameof(CanSelect))]
     protected async Task SelectAnalog() {
         if (!_isEnabled)
             return;

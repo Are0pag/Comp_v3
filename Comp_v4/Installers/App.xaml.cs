@@ -18,6 +18,7 @@ using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
 using Comp.Db;
 using Comp.ModelData.TechnicalItems;
+using Utils.WPF;
 using WPF.Services;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
@@ -33,15 +34,23 @@ public partial class App : Application
     public App() {
         _rootContainer = new AreopagContainer();
         new AppDbContextInstaller().Install(_rootContainer);
+        _rootContainer.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton();
         _rootContainer.Add<CardComponentManager>().AsSingleton()
-                      .UsingFactoryMethod(() => new CardComponentManager(_subContainers[typeof(CompCardWindow)]));
+                      .UsingFactoryMethod(() => new CardComponentManager(_subContainers[typeof(CompCardWindow)], 
+                                                                         _rootContainer.Resolve<IWindowOrderLocator>()));
 
         var cont = new AreopagContainer();
         new CompCardWindowInstaller(_rootContainer, _subContainers).Install(cont);
         _subContainers[typeof(CompCardWindow)] = cont;
 
 
-        _subContainers[typeof(NomDictWindow)] = new AreopagContainer();
+        _subContainers[typeof(NomDictWindow)] = new AreopagContainer() {
+            Description = $"Installer of {nameof(NomDictWindow)}"
+        };
+        _subContainers[typeof(NomDictWindow)].Add<IWindowOrderLocator>()
+                                             .To<WindowOrderLocator>()
+                                             .AsSingleton()
+                                             .UsingFactoryMethod(() => _rootContainer.Resolve<IWindowOrderLocator>());
         _subContainers[typeof(NomDictWindow)].Add<AppDbContext>().AsSingleton()
                                              .UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
         _subContainers[typeof(NomDictWindow)].Add<CardComponentManager>()
@@ -58,6 +67,7 @@ public partial class App : Application
 
         var subContainer = _subContainers[typeof(NomDictWindow)];
         var window = subContainer.BeginScope<NomDictWindow>();
+        _rootContainer.Resolve<IWindowOrderLocator>().RegisterWindow(window);
         window.Closed += (_, _) => subContainer.ReleaseScope<NomDictWindow>();
         _subContainers[typeof(NomDictWindow)].Instantiate<AddCategoryAction, DeleteCategoryAction, UpdateCategoryNameAction, DataGridInputHandler>();
         _subContainers[typeof(NomDictWindow)].Instantiate<AddComponentAction>();

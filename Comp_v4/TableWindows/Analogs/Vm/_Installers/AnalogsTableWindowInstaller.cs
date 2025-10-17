@@ -4,6 +4,7 @@ using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using Utils.WPF;
 using WPF.Services;
 
 namespace Comp_v4.TableWindows.Analogs._Installers;
@@ -19,6 +20,11 @@ public class AnalogsTableWindowInstaller : AbstractInstaller
         _formContainer.SetFactoryMethodFor<Component>(() => {
             return container.Resolve<Component>();
         });
+        _formContainer.SetFactoryMethodFor<IWindowOrderLocator>(() => {
+            return container.Resolve<IWindowOrderLocator>();
+        });
+        
+        container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton();
 
         container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsScoped<AnalogsTableWindow>();
         container.Add<Component>().AsScoped<AnalogsTableWindow>();
@@ -26,7 +32,8 @@ public class AnalogsTableWindowInstaller : AbstractInstaller
         container.Add<AnalogFormManager>()
                  .AsScoped<AnalogsTableWindow>()
                  .UsingFactoryMethod(() => {
-                      return new AnalogFormManager(_formContainer, container.Resolve<Component>());
+                      return new AnalogFormManager(_formContainer, container.Resolve<Component>(),
+                                                   container.Resolve<IWindowOrderLocator>());
                   })
                  .EnforceInstantiateOnBegin();
 
