@@ -3,10 +3,11 @@ using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using Utils.EventBus;
 
 namespace Comp_v4.CompCard.Vm;
 
-public class AnalogsFieldVm : ObservableObject
+public class AnalogsFieldVm : ObservableObject, TableWindows.Analogs.Events.ISaveHandler
 {
     protected readonly IRepository<Analog> _analogsRepository;
     protected readonly Component _component;
@@ -17,6 +18,7 @@ public class AnalogsFieldVm : ObservableObject
         _analogsRepository = analogsRepository;
         _component = component;
         _ = GetAnalogsCount();
+        EventBus<TableWindows.Analogs.Events.IAnalogsTableWindowSubscriber>.Subscribe(this);
     }
 
     public async Task GetAnalogsCount() {
@@ -39,5 +41,17 @@ public class AnalogsFieldVm : ObservableObject
             _label = value;
             OnPropertyChanged();
         }
+    }
+
+    public void Dispose() {
+        EventBus<TableWindows.Analogs.Events.IAnalogsTableWindowSubscriber>.Unsubscribe(this);
+    }
+
+    public Task Save(TaskCompletionSource tcs, Analog analog) {
+        if (analog.SourceComponent.Id == _component.Id) 
+            AnalogsCount += 1;
+        tcs.SetResult();
+
+        return Task.CompletedTask;
     }
 }
