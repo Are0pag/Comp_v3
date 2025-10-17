@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Infrastructure;
 
@@ -53,7 +54,7 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
-    public AreopagContainer To<TImplementation>()/* where TImplementation : IDisposable*/ {
+    public AreopagContainer To<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>()/* where TImplementation : IDisposable*/ {
         if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
             throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
 
