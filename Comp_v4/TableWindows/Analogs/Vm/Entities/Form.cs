@@ -1,5 +1,6 @@
 using Comp_v4.NomDict.Events;
 using Comp_v4.TableWindows.Analogs.Events;
+using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Infrastructure.StateMachine;
 using Utils.EventBus;
@@ -28,12 +29,18 @@ public abstract class BaseFormState : StateBase<Form>
 
 public class AddFormState : BaseFormState
 {
+    protected readonly Analog _analog;
+
+    public AddFormState(Analog analog) {
+        _analog = analog;
+    }
+
     public override async Task OnStartSelectingAnalog(object? parameter = null) {
         if (parameter is not TaskCompletionSource<Component> completionSource)
             throw new ArgumentException("parameter must be a TaskCompletionSource");
         
         EventBus<INomDictWindowSubscriber>.RaiseEvent<IGridSelectingStateHandler>(h => h?.OnSelecting(completionSource));
-        Component selectedItem = await completionSource.Task;
+        _analog.RelatedComponent = await completionSource.Task;
     }
 }
 

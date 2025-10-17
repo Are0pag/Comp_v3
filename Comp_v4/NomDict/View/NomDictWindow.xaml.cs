@@ -47,7 +47,7 @@ public partial class NomDictWindow : Window, IDisposable
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         if (MainDataGrid.SelectedItem is not Component component)
-            throw new NullReferenceException();
+            return;
         
         EventBus<IGlobalMouseSubscriber>.RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(component, e));
     }
