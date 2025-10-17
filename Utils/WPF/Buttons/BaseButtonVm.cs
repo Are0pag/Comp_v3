@@ -3,7 +3,7 @@ using Utils.EventBus;
 
 namespace Utils.WPF.Buttons;
 
-public abstract class BaseButtonVm : ObservableObject, INotifyConditionalsChanged
+public abstract class BaseButtonVm : ObservableObject, INotifyConditionalsChanged /* : IGlobalButtonEvent */
 {
     protected BaseButtonVm() {
         EventBus<IGlobalButtonEvent>.Subscribe(this);
