@@ -36,13 +36,13 @@ public class CardComponentManager
         _container.SetFactoryMethodFor<IImageOwner>(() => args.Component);
         
         _container.SetFactoryMethodFor<CardComp>(() => {
-                       var initialState = _container.Resolve<TInitialState>();
-                       var states = new List<BaseStateCardComp>() {
-                           _container.Resolve<CreateStateCardComp>(),
-                           _container.Resolve<EditStateCardComp>()
-                       };
-                       return new CardComp(states, initialState);
-                   });
+            var initialState = _container.Resolve<TInitialState>();
+            var states = new List<BaseStateCardComp>() {
+                _container.Resolve<CreateStateCardComp>(),
+                _container.Resolve<EditStateCardComp>()
+            };
+            return new CardComp(states, initialState);
+        });
         
         var window = _container.BeginScope<CompCardWindow>();
         _windowOrderLocator.RegisterWindow(window);

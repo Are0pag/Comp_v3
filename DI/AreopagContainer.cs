@@ -14,6 +14,7 @@ public class AreopagContainer : IDisposable
 
     public string Description;
     
+    [Obsolete]
     public void Install() {
         var assembly = Assembly.GetCallingAssembly();
         var installerTypes = assembly.GetTypes()
@@ -26,12 +27,13 @@ public class AreopagContainer : IDisposable
         }
     }
     
-    public AreopagContainer Add<TService>() {
+    public RegistrationConfigBuilder Add<TService>() {
         if (IsRegistered<TService>())
             throw new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.");
 
         _creatingRegistration = new RegistrationProxy(typeof(TService));
-        return this;
+
+        return new RegistrationConfigBuilder(this);
     }
     
     public AreopagContainer Select<TService>() { 
@@ -42,7 +44,7 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
-    public AreopagContainer To<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>()/* where TImplementation : IDisposable*/ {
+    internal void To<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>()/* where TImplementation : IDisposable*/ {
         if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
             throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
 
@@ -51,10 +53,9 @@ public class AreopagContainer : IDisposable
 
         var builder = new ImplementedRegistrationProxy(_creatingRegistration.GetRegistration(), typeof(TImplementation));
         _creatingRegistration = builder;
-        return this;
     }
 
-    public AreopagContainer OverrideTo<TImplementation>() {
+    public void OverrideTo<TImplementation>() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         
@@ -64,46 +65,40 @@ public class AreopagContainer : IDisposable
 
         builder.OverrideImplementation(new ImplementedRegistrationProxy(overridedRegistration, typeof(TImplementation)));
         _creatingRegistration = null;
-        return this;
     }
 
-    public AreopagContainer AsTransient() {
+    internal void AsTransient() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         _registrationBuilders.Add(new TransientRb(_creatingRegistration));
-        return this;
     }
 
-    public AreopagContainer AsSingleton() {
+    internal void AsSingleton() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         _registrationBuilders.Add(new SingletonRb(_creatingRegistration));
-        return this;
     }
 
-    public AreopagContainer AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
+    internal void AsScoped<TScopeOwner>() where TScopeOwner : class, IDisposable {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         _registrationBuilders.Add(new ScopedRd(_creatingRegistration, typeof(TScopeOwner)));
-        return this;
     }
-    
-    public AreopagContainer UsingFactoryMethod(Func<object> factoryMethod) {
+
+    internal void UsingFactoryMethod(Func<object> factoryMethod) {
         if (_registrationBuilders.Count == 0)
             throw new InvalidOperationException();
         
         _registrationBuilders[^1].FactoryResolve = factoryMethod;
-        return this;
     }
 
-    public AreopagContainer SetFactoryMethodFor<TService>(Func<object> factoryMethod) {
+    public void SetFactoryMethodFor<TService>(Func<object> factoryMethod) {
         if (_registrationBuilders.First(rb => rb.Registration.GetRegistration() == typeof(TService)) is not { } rb) 
             throw new InvalidOperationException();
         rb.FactoryResolve = factoryMethod;
-        return this;
     }
 
-    public AreopagContainer FromParentContainer(AreopagContainer parentContainer) {
+    internal void FromParentContainer(AreopagContainer parentContainer) {
         if (_registrationBuilders.Count == 0)
             throw new InvalidOperationException();
 
@@ -114,23 +109,20 @@ public class AreopagContainer : IDisposable
 
             return instance;
         };
-        return this;
     }
 
-    public AreopagContainer NonLazy() {
+    internal void NonLazy() {
         if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
             throw new InvalidOperationException();
 
         Resolve(lastRegistrationBuilder.Registration.GetRegistration());
-        return this;
     }
 
-    public AreopagContainer EnforceInstantiateOnBegin() {
+    internal void EnforceInstantiateOnBegin() {
         if (_registrationBuilders.Last() is not ScopedRd scopedRd) 
             throw new InvalidOperationException();
         
         scopedRd.IsEnforceInstantiate = true;
-        return this;
     }
 
     public TScopeOwner BeginScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
