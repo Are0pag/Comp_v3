@@ -15,9 +15,8 @@ public class RegistrationConfigBuilder
         return new RegistrationLifeTimeConfigBuilder(_container);
     }
 
-    public RegistrationResolveConfigBuilder OverrideTo<TImplementation>() {
+    public void OverrideTo<TImplementation>() {
         _container.OverrideTo<TImplementation>();
-        return new RegistrationResolveConfigBuilder(_container);
     }
 
     public RegistrationResolveConfigBuilder AsTransient() {

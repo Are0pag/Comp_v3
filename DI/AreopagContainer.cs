@@ -36,12 +36,12 @@ public class AreopagContainer : IDisposable
         return new RegistrationConfigBuilder(this);
     }
     
-    public AreopagContainer Select<TService>() { 
+    public RegistrationConfigBuilder Select<TService>() { 
         if (!IsRegistered<TService>())
             throw new InvalidOperationException($"Can not select registration of type {typeof(TService).Name} because base reg. is not exists");
 
         _creatingRegistration = new RegistrationProxy(typeof(TService));
-        return this;
+        return new RegistrationConfigBuilder(this);
     }
 
     internal void To<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>()/* where TImplementation : IDisposable*/ {
@@ -55,7 +55,7 @@ public class AreopagContainer : IDisposable
         _creatingRegistration = builder;
     }
 
-    public void OverrideTo<TImplementation>() {
+    internal void OverrideTo<TImplementation>() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
         
