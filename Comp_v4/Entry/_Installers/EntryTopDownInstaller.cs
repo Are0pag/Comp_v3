@@ -12,11 +12,12 @@ public class EntryTopDownInstaller : ITopDownInstaller
 
         entryContainer.Add<NomDictContainer>()
                       .AsSingleton()
-                      .UsingFactoryMethod(() => {
+                      .FromParentContainer(rootContainer);
+                      /*.UsingFactoryMethod(() => {
                            if (rootContainer.Resolve<NomDictContainer>() is not { } nomDictContainer)
                                throw new ArgumentException();
                            return nomDictContainer;
-                       });
+                       });*/
         
         return childContainer;
     }

@@ -103,6 +103,20 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
+    public AreopagContainer FromParentContainer(AreopagContainer parentContainer) {
+        if (_registrationBuilders.Count == 0)
+            throw new InvalidOperationException();
+
+        var type = _registrationBuilders[^1].Registration.GetRegistration();
+        _registrationBuilders[^1].FactoryResolve = () => {
+            if (parentContainer.Resolve(type) is not {} instance) 
+                throw new InvalidOperationException();
+
+            return instance;
+        };
+        return this;
+    }
+
     public AreopagContainer NonLazy() {
         if (_registrationBuilders.Last() is not {} lastRegistrationBuilder) 
             throw new InvalidOperationException();
