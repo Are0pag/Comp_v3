@@ -26,7 +26,7 @@ public class AreopagContainer : IDisposable
         }
     }
     
-    public AreopagContainer Add<TService>() /*where TService : IDisposable*/{
+    public AreopagContainer Add<TService>() {
         if (IsRegistered<TService>())
             throw new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.");
 
@@ -42,6 +42,18 @@ public class AreopagContainer : IDisposable
         return this;
     }
 
+    public AreopagContainer To<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>()/* where TImplementation : IDisposable*/ {
+        if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
+            throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
+
+        if (typeof(TImplementation).IsAbstract || typeof(TImplementation).IsInterface)
+            throw new InvalidOperationException($"Type {typeof(TImplementation).Name} must be a concrete class (cannot be abstract or interface)");
+
+        var builder = new ImplementedRegistrationProxy(_creatingRegistration.GetRegistration(), typeof(TImplementation));
+        _creatingRegistration = builder;
+        return this;
+    }
+
     public AreopagContainer OverrideTo<TImplementation>() {
         if (_creatingRegistration == null)
             throw new InvalidOperationException();
@@ -52,18 +64,6 @@ public class AreopagContainer : IDisposable
 
         builder.OverrideImplementation(new ImplementedRegistrationProxy(overridedRegistration, typeof(TImplementation)));
         _creatingRegistration = null;
-        return this;
-    }
-
-    public AreopagContainer To<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>()/* where TImplementation : IDisposable*/ {
-        if (!_creatingRegistration.GetRegistration().IsAssignableFrom(typeof(TImplementation)))
-            throw new InvalidOperationException($"Type {typeof(TImplementation).Name} is not assignable to {_creatingRegistration.GetRegistration().Name}");
-
-        if (typeof(TImplementation).IsAbstract || typeof(TImplementation).IsInterface)
-            throw new InvalidOperationException($"Type {typeof(TImplementation).Name} must be a concrete class (cannot be abstract or interface)");
-
-        var builder = new ImplementedRegistrationProxy(_creatingRegistration.GetRegistration(), typeof(TImplementation));
-        _creatingRegistration = builder;
         return this;
     }
 
