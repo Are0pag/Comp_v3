@@ -46,4 +46,8 @@
     </Page>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entry\Vm\Actions\" />
+  </ItemGroup>
+
 </Project>
