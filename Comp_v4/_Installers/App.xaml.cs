@@ -14,6 +14,7 @@ using Utils.WPF;
 
 namespace Comp_v4.Installers;
 
+/* метод  HaveSourceContainer(cont) */
 public class RootContainer : AreopagContainer {}
 public class EntryContainer : AreopagContainer {}
 public class NomDictContainer : AreopagContainer {}
@@ -31,6 +32,8 @@ public partial class App : Application
                       .UsingFactoryMethod(() => new CardComponentManager(_subContainers[typeof(CompCardWindow)], 
                                                                          _rootContainer.Resolve<IWindowOrderLocator>()));
 
+
+        
         var cont = new AreopagContainer();
         new CompCardWindowInstaller(_rootContainer, _subContainers).Install(cont);
         _subContainers[typeof(CompCardWindow)] = cont;
@@ -39,28 +42,27 @@ public partial class App : Application
         var ndc = new NomDictContainer() {
             Description = $"Installer of {nameof(NomDictWindow)}"
         };
-
+        var entryCont = new EntryContainer() {
+            Description = $"Installer of Entry Window"
+        };
         
-        var ndInst = new NomDictInstaller();
-        ndInst.Install(ndc);
+        new EntrySelfInstaller().InstallSelf(entryCont);
+        new EntryTopDownInstaller().InstallFrom(_rootContainer, entryCont);
+        
+        new NomDictInstaller().Install(ndc);
         new NomDictTopDownInstaller().InstallFrom(_rootContainer, ndc);
+
+        _rootContainer.Add<NomDictContainer>()
+                      .AsSingleton()
+                      .UsingFactoryMethod(() => ndc);
+        
+        _rootContainer.Add<EntryContainer>()
+                      .AsSingleton()
+                      .UsingFactoryMethod(() => entryCont);
     }
 
     protected override async void OnStartup(StartupEventArgs e) {
         await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
-
-        var subContainer = _subContainers[typeof(NomDictWindow)];
-
-
-        _rootContainer.Add<NomDictContainer>()
-                      .AsSingleton()
-                      .UsingFactoryMethod(() => (NomDictContainer)subContainer);
-        
-        var entryCont = new EntryContainer() {
-            Description = $"Installer of Entry Window"
-        };
-        new EntrySelfInstaller().InstallSelf(entryCont);
-        new EntryTopDownInstaller().InstallFrom(_rootContainer, entryCont);
     }
 
     protected override async void OnExit(ExitEventArgs e) {
