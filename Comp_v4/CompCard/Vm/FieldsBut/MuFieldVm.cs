@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Comp.ModelData.Comp;
 using Comp.ModelData.TechnicalItems;
-using WPF.Services.ValidationString;
 
 namespace Comp_v4.CompCard.Vm;
 

@@ -4,8 +4,8 @@ using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using DI;
 using Utils.WPF;
-using WPF.Services;
 
 namespace Comp_v4.TableWindows.Analogs._Installers;
 

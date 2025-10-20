@@ -2,27 +2,14 @@
 using Comp_v4.CompCard;
 using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Entities;
-using Comp_v4.CompCard.Operations.Actions;
-using Comp_v4.CompCard.Vm;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Entities.InputHandlers;
 using Comp_v4.NomDict.Installers;
 using Comp_v4.NomDict.Operations.Actions.Components;
 using Comp_v4.NomDict.View;
-using Comp_v4.TableWindows;
-using Comp_v4.TableWindows.ConditionalDesignation;
-using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
-using Comp_v4.TableWindows.Manufacturers;
-using Comp_v4.TableWindows.Manufacturers.Overrided;
-using Comp_v4.TableWindows.MeasurementUnits;
-using Comp_v4.TableWindows.TypeSizes;
 using Comp.Db;
-using Comp.ModelData.TechnicalItems;
+using DI;
 using Utils.WPF;
-using WPF.Services;
-using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
-using WPF.Templates.TableWindow.v1.Operations.Actions;
-using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.Installers;
 

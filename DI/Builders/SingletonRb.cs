@@ -1,4 +1,6 @@
-namespace WPF.Services;
+using DI.Registrations;
+
+namespace DI.Builders;
 
 public class SingletonRb : TransientRb
 {

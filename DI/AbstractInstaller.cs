@@ -1,4 +1,4 @@
-namespace WPF.Services;
+namespace DI;
 
 public abstract class AbstractInstaller
 {

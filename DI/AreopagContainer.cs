@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Infrastructure;
+using DI.Builders;
+using DI.Registrations;
 
-namespace WPF.Services;
+namespace DI;
 
 public class AreopagContainer : IDisposable
 {
@@ -27,7 +28,7 @@ public class AreopagContainer : IDisposable
     
     public AreopagContainer Add<TService>() /*where TService : IDisposable*/{
         if (IsRegistered<TService>())
-            new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.").Log(this);
+            throw new InvalidOperationException("Cannot add service " + typeof(TService).Name + " to container because it is already registered.");
 
         _creatingRegistration = new RegistrationProxy(typeof(TService));
         return this;

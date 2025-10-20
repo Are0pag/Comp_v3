@@ -1,6 +1,4 @@
-using Infrastructure;
-
-namespace WPF.Services;
+namespace DI.Registrations;
 
 public class RegistrationProxy
 {
@@ -16,7 +14,7 @@ public class RegistrationProxy
 
     public virtual Type GetImplementation() {
         if (Registration is { IsAbstract: true } or { IsInterface: true })
-            new InvalidOperationException($"Service type {Registration.Name} cannot be abstract").Log(this);
+            throw new InvalidOperationException($"Service type {Registration.Name} cannot be abstract");
         return GetRegistration();
     }
 }

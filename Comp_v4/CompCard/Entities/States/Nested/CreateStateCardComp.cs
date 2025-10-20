@@ -2,7 +2,6 @@ using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.NomDict.Events;
 using Comp.Db.Contracts;
 using Comp.ModelData.Comp;
-using Comp.ModelData.SortingItems;
 using Utils.EventBus;
 
 namespace Comp_v4.CompCard.Entities.States;

@@ -3,7 +3,6 @@ using Comp_v4.NomDict.Vm.Buttons;
 using Comp.Db.Contracts;
 using Comp.ModelData.SortingItems;
 using Utils.WPF;
-using Utils.WPF.Buttons;
 using WPF.UCL;
 
 namespace Comp_v4.NomDict.Entities;

@@ -2,9 +2,9 @@ using Comp_v4.TableWindows.Analogs.Entities;
 using Comp_v4.TableWindows.Analogs.Events;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using DI;
 using Utils.EventBus;
 using Utils.WPF;
-using WPF.Services;
 
 namespace Comp_v4.TableWindows.Analogs._Installers;
 

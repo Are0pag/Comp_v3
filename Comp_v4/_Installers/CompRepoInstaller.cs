@@ -4,7 +4,7 @@ using Comp.Db.Repositories.Concrete;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
-using WPF.Services;
+using DI;
 
 namespace Comp_v4.Installers;
 

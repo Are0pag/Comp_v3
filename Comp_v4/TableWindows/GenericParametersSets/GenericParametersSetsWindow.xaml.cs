@@ -1,7 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Comp_v4.TableWindows.MeasurementUnits;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;

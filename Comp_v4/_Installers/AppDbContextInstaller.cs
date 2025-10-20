@@ -1,6 +1,6 @@
 using Comp.Db;
+using DI;
 using Microsoft.EntityFrameworkCore;
-using WPF.Services;
 
 namespace Comp_v4.Installers;
 

@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.NomDict.Vm;

@@ -1,7 +1,6 @@
 using Comp_v4.CompCard.Entities.Validation;
 using Comp.Db.Contracts;
 using Comp.ModelData.Comp;
-using Comp.ModelData.SortingItems;
 
 namespace Comp_v4.CompCard.Entities.States;
 

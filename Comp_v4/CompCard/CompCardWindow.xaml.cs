@@ -1,9 +1,6 @@
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;

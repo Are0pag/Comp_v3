@@ -1,12 +1,10 @@
 using Comp_v4.TableWindows.TypeSizes.Entities.Form;
 using Comp_v4.TableWindows.TypeSizes.Entities.Form.States;
 using Comp_v4.TableWindows.TypeSizes.Events;
-using Comp.Db.Contracts;
-using Comp.Db.Repositories;
 using Comp.ModelData;
 using Comp.ModelData.TechnicalItems;
+using DI;
 using Utils.EventBus;
-using WPF.Services;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 

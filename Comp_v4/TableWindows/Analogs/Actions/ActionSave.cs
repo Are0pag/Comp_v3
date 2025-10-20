@@ -1,5 +1,4 @@
 using Comp_v4.TableWindows.Analogs.Buttons;
-using Comp_v4.TableWindows.Analogs.Entities;
 using Comp_v4.TableWindows.Analogs.Events;
 using Comp.ModelData;
 using Utils.EventBus;

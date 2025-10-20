@@ -1,7 +1,6 @@
-using System.Reflection;
-using Infrastructure;
+using DI.Registrations;
 
-namespace WPF.Services;
+namespace DI.Builders;
 
 public class TransientRb : IRegistrationBuilder
 {

@@ -1,6 +1,6 @@
+using DI;
 using Infrastructure.Command;
 using Infrastructure.Command.Heterochromic;
-using WPF.Services;
 
 namespace Comp_v4.TableWindows;
 

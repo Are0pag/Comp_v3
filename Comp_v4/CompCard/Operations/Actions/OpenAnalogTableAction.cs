@@ -1,8 +1,7 @@
 using Comp_v4.CompCard.Vm.Buttons;
 using Comp_v4.TableWindows.Analogs;
+using DI;
 using Utils.WPF;
-using Utils.WPF.Buttons;
-using WPF.Services;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 

@@ -1,9 +1,7 @@
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm.Buttons;
-using Comp.ModelData.Comp;
 using Utils.WPF;
-using Utils.WPF.Buttons;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 

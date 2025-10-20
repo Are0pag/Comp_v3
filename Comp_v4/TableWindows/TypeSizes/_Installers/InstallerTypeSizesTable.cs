@@ -1,8 +1,7 @@
-using Comp_v4.TableWindows.TypeSizes.Entities;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
 using Comp.ModelData.TechnicalItems;
-using WPF.Services;
+using DI;
 using WPF.Services.Validation;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
 using WPF.Templates.TableWindow.v1.Vm;

@@ -7,11 +7,11 @@ using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp_v4.NomDict.Vm.Buttons.Components;
+using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Templates.Common.Events.Input;
 using Utils.EventBus;
 using Utils.WPF.Buttons;
-using Comp.ModelData.Comp;
 
 namespace Comp_v4.NomDict.View;
 

@@ -6,8 +6,7 @@ using Comp_v4.TableWindows.TypeSizes.Vm;
 using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 using Comp.ModelData;
 using Comp.ModelData.TechnicalItems;
-using WPF.Services;
-using WPF.Services.Validation;
+using DI;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 

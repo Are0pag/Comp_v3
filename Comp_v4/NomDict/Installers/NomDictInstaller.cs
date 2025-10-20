@@ -5,7 +5,7 @@ using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp_v4.NomDict.Vm.Buttons.Components;
-using WPF.Services;
+using DI;
 using WPF.UCL;
 
 namespace Comp_v4.NomDict.Installers;

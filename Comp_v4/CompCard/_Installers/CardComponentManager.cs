@@ -1,15 +1,14 @@
+using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Events;
-using Comp_v4.CompCard.Operations.Actions;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
-using Comp.ModelData.TechnicalItems;
+using DI;
 using Utils.EventBus;
 using Utils.WPF;
-using WPF.Services;
 
-namespace Comp_v4.CompCard.Entities;
+namespace Comp_v4.CompCard._Installers;
 
 // регистрируется как синглтон
 public class CardComponentManager
