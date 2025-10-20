@@ -14,6 +14,7 @@ public class DatabaseInitializer
     public const string ROOT_CATEGORY_NAME = "Компоненты";
 
     public async Task InitializeAsync() {
+        await _context.Database.MigrateAsync();
         await _context.Database.EnsureCreatedAsync();
         await EnsureRootCategoryExistsAsync();
     #if DEBUG

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp.ModelData.TechnicalItems;
 
@@ -6,8 +8,11 @@ namespace Comp.ModelData;
 /// <summary>
 /// Контрагент - юридическое или физическое лицо, которое участвует в договорных отношениях с компанией на поставку товаров, работ или услуг
 /// </summary>
+[Table("Counterparties")]
 public class Counterparty : ObservableObject, IDbEntity
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
 #region Requisites
