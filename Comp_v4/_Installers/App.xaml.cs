@@ -38,13 +38,18 @@ public partial class App : Application
                                              .To<WindowOrderLocator>()
                                              .AsSingleton()
                                              .UsingFactoryMethod(() => _rootContainer.Resolve<IWindowOrderLocator>());
-        _subContainers[typeof(NomDictWindow)].Add<AppDbContext>().AsSingleton()
+        
+        _subContainers[typeof(NomDictWindow)].Add<AppDbContext>()
+                                             .AsSingleton()
                                              .UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        
         _subContainers[typeof(NomDictWindow)].Add<CardComponentManager>()
                                              .AsSingleton()
                                              .UsingFactoryMethod(() => _rootContainer.Resolve<CardComponentManager>());
+        
         _subContainers[typeof(NomDictWindow)].Add<DataGridInputHandler>()
                                              .AsScoped<NomDictWindow>();
+        
         var ndInst = new NomDictInstaller();
         ndInst.Install(_subContainers[typeof(NomDictWindow)]);
     }
