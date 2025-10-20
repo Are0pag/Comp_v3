@@ -3,7 +3,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.Entry.Vm.Buts;
 
-public partial class OrdersBut : BaseButtonAdvanced
+public partial class NomDictButVm : BaseButtonAdvanced
 {
     [RelayCommand(CanExecute = nameof(CanClick))]
     public override Task OnClickAsync() {
@@ -11,6 +11,6 @@ public partial class OrdersBut : BaseButtonAdvanced
     }
 
     public override void NotifyCanExecute() {
-        ClickCommand?.NotifyCanExecuteChanged();
+        ClickCommand.NotifyCanExecuteChanged();
     }
 }

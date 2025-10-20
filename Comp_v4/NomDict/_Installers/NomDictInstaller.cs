@@ -18,25 +18,23 @@ public class NomDictInstaller : AbstractInstaller
         container.Add<DataGridVm>().AsScoped<NomDictWindow>();
         container.Add<TreeViewVm>().AsScoped<NomDictWindow>();
 
-        
-
         container.Add<CategoryValidator>().AsScoped<NomDictWindow>();
         container.Add<OneValueWindow>().AsTransient();
         
         container.Add<AddNewCategoryButtonVm>().AsScoped<NomDictWindow>();
-        container.Add<AddCategoryAction>().AsScoped<NomDictWindow>();
+        container.Add<AddCategoryAction>().AsScoped<NomDictWindow>().EnforceInstantiateOnBegin();
 
         container.Add<DeleteCategoryButtonVm>().AsScoped<NomDictWindow>();
-        container.Add<DeleteCategoryAction>().AsScoped<NomDictWindow>();
+        container.Add<DeleteCategoryAction>().AsScoped<NomDictWindow>().EnforceInstantiateOnBegin();
 
         container.Add<UpdateCategoryNameButtonVm>().AsScoped<NomDictWindow>();
-        container.Add<UpdateCategoryNameAction>().AsScoped<NomDictWindow>();
+        container.Add<UpdateCategoryNameAction>().AsScoped<NomDictWindow>().EnforceInstantiateOnBegin();
 
         container.Add<MoveCategoryAction>().AsScoped<NomDictWindow>();
 
 
         container.Add<AddCompButtonVm>().AsScoped<NomDictWindow>();
-        container.Add<AddComponentAction>().AsScoped<NomDictWindow>();
+        container.Add<AddComponentAction>().AsScoped<NomDictWindow>().EnforceInstantiateOnBegin();
 
         container.Add<EditGridState>().AsScoped<NomDictWindow>();
         container.Add<SelectionGridState>().AsScoped<NomDictWindow>();
