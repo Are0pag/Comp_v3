@@ -1,0 +1,17 @@
+    public override async Task Perform(TaskCompletionSource tcs) {
+        var tasks = new List<Task>();
+
+        EventBus<IAnalogsTableWindowSubscriber>.RaiseEvent<ISaveHandler>(h => {
+            var subscriberTcs = new TaskCompletionSource();
+            tasks.Add(subscriberTcs.Task);
+
+            try {
+                h?.Save(subscriberTcs, _analog);
+            }
+            catch (Exception ex) {
+                subscriberTcs.TrySetException(ex);
+            }
+        });
+
+        await Task.WhenAll(tasks);
+    }

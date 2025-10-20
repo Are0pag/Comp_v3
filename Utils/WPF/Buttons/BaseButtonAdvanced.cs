@@ -43,6 +43,9 @@ public abstract class BaseButtonAdvanced<T> : BaseButtonVm
     }
 }
 
+/// <summary>
+/// Best Usage
+/// </summary>
 public abstract class BaseActionAsyncCompletion
 {
     public BaseActionAsyncCompletion(BaseButtonAdvanced button) {
@@ -53,6 +56,9 @@ public abstract class BaseActionAsyncCompletion
     public abstract bool CanPerform();
 }
 
+/// <summary>
+/// Best Usage
+/// </summary>
 public abstract class BaseActionAsyncCompletion<T>
 {
     public BaseActionAsyncCompletion(BaseButtonAdvanced<T> button) {

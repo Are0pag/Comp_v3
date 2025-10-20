@@ -1,0 +1,3 @@
+<Button x:Name="xButton" 
+        Content="{Binding Label}" 
+        Command="{Binding ClickCommand}"/>

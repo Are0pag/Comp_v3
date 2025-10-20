@@ -5,11 +5,22 @@ namespace Utils.WPF.Buttons;
 
 public abstract class BaseButtonVm : ObservableObject, INotifyConditionalsChanged /* : IGlobalButtonEvent */
 {
-    protected BaseButtonVm() {
+    protected string _label;
+    protected BaseButtonVm(string label  = "Label:") {
+        Label = label;
         EventBus<IGlobalButtonEvent>.Subscribe(this);
     }
-
+    
     public Func<bool> CanExecuteFunc {get; set;}
+
+    public virtual string Label {
+        get => _label;
+        set {
+            if (value == _label) return;
+            _label = value;
+            OnPropertyChanged();
+        }
+    }
 
     public virtual void Dispose() => EventBus<IGlobalButtonEvent>.Unsubscribe(this);
     
