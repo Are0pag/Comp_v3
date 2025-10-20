@@ -51,8 +51,6 @@ public class CardComponentManager
             _container.ReleaseScope<CompCardWindow>();
             _openedComponentsCards.Remove(args.Component);
         };
-        _container.Instantiate<SaveComponentAction, SetUrlAction, SetUrlAlternativeAction, SetFilePathAction>();
-        _container.Instantiate<SelectImageAction, OpenImageAction, ClearImageAction>();
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(args.Component));
         window.Show();
     }

@@ -110,14 +110,14 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<UrlFieldControlVm>().AsScoped<CompCardWindow>();
         container.Add<UrlAlternativeFieldControlVm>().AsScoped<CompCardWindow>();
         container.Add<FilePathFieldControlVm>().AsScoped<CompCardWindow>();
-        container.Add<SetUrlAction>().AsScoped<CompCardWindow>();
-        container.Add<SetUrlAlternativeAction>().AsScoped<CompCardWindow>();
-        container.Add<SetFilePathAction>().AsScoped<CompCardWindow>();
+        container.Add<SetUrlAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
+        container.Add<SetUrlAlternativeAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
+        container.Add<SetFilePathAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
         
         container.Add<ImageFieldVmBase>().To<ImageFieldVm>().AsScoped<CompCardWindow>();
-        container.Add<SelectImageAction>().AsScoped<CompCardWindow>();
-        container.Add<OpenImageAction>().AsScoped<CompCardWindow>();
-        container.Add<ClearImageAction>().AsScoped<CompCardWindow>();
+        container.Add<SelectImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
+        container.Add<OpenImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
+        container.Add<ClearImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
 
         container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton().UsingFactoryMethod(() => {
             return _rootContainer.Resolve<IWindowOrderLocator>();
@@ -149,7 +149,7 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .EnforceInstantiateOnBegin();
         
         container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
-        container.Add<SaveComponentAction>().AsScoped<CompCardWindow>();
+        container.Add<SaveComponentAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
         
         container.Add<CompCardWindow>().AsTransient();
     }
