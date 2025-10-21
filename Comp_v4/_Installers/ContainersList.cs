@@ -8,11 +8,18 @@ public static class ContainersList
 
     public static T Get<T>() where T : AreopagContainer, new() {
         var containers = _containers.OfType<T>().ToList();
-        var targetContainer = containers switch {
-            { Count: 0 } => new T(),
-            { Count: 1 } => containers[0],
-            _            => throw new Exception($"Uncorrect number of container type {typeof(T).Name}")
-        };
+        T? targetContainer;
+        switch (containers) {
+            case { Count: 0 }:
+                targetContainer = new T();
+                _containers.Add(targetContainer);
+                break;
+            case { Count: 1 }:
+                targetContainer = containers[0];
+                break;
+            default:
+                throw new Exception($"Uncorrect number of container type {typeof(T).Name}");
+        }
 
         return targetContainer;
     }
