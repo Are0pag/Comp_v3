@@ -2,6 +2,7 @@
 using Comp_v4.CompCard;
 using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Entities;
+using Comp_v4.Entry;
 using Comp_v4.Entry._Installers;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Entities.InputHandlers;
@@ -42,9 +43,11 @@ public partial class App : Application
         var ndc = new NomDictContainer() {
             Description = $"Installer of {nameof(NomDictWindow)}"
         };
+        _subContainers[typeof(NomDictWindow)] = ndc;
         var entryCont = new EntryContainer() {
             Description = $"Installer of Entry Window"
         };
+        _subContainers[typeof(EntryWindow)] = entryCont;
         
         new EntrySelfInstaller().InstallSelf(entryCont);
         new EntryTopDownInstaller().InstallFrom(_rootContainer, entryCont);
@@ -63,6 +66,8 @@ public partial class App : Application
 
     protected override async void OnStartup(StartupEventArgs e) {
         await _rootContainer.Resolve<DatabaseInitializer>().InitializeAsync();
+        var window = WindowContextResolver.ResolveWindow<EntryWindow>(_subContainers[typeof(EntryWindow)]);
+        _rootContainer.Resolve<IWindowOrderLocator>().RegisterWindow(window);
     }
 
     protected override async void OnExit(ExitEventArgs e) {

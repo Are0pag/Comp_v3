@@ -20,6 +20,7 @@ public class ToolsPanel : GenericStateMachine<BaseToolsPanelState, ToolsPanel>, 
 
     public void OpenNomDict(TaskCompletionSource tcs, object? arg = null) {
         CurrentState.OpenNomDict(tcs, arg);
+        tcs.SetResult();
     }
 }
 

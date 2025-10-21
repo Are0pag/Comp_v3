@@ -5,6 +5,10 @@ namespace Comp_v4.Entry.Vm.Buts;
 
 public partial class NomDictButVm : BaseButtonAdvanced
 {
+    public NomDictButVm() {
+        Label = "Номенклатурный словарь";
+    }
+    
     [RelayCommand(CanExecute = nameof(CanClick))]
     public override Task OnClickAsync() {
         return base.OnClickAsync();

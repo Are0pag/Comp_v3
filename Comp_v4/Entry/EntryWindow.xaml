@@ -16,14 +16,12 @@
                     Command="{Binding ClickCommand}"
                     Width="120" 
                     Height="40" 
-                    Margin="0,0,10,0" 
-                    Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    Margin="0,0,10,0" />
             <Button x:Name="OrdersButton" 
                     Content="{Binding Label}" 
                     Command="{Binding ClickCommand}" 
                     Width="120" 
-                    Height="40" 
-                    Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    Height="40" />
         </StackPanel>
     </Grid>
 </Window>
