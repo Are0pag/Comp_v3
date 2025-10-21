@@ -204,7 +204,10 @@
 
         <!-- Кнопки -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Сохранить" Width="80" Height="25" Margin="0,0,10,0" IsDefault="True"/>
+            <Button x:Name="SaveButton" 
+                    Content="{Binding Label}" 
+                    Command="{Binding ClickCommand}" 
+                    Width="80" Height="25" Margin="0,0,10,0" IsDefault="True"/>
             <Button Content="Отмена" Width="80" Height="25" IsCancel="True"/>
         </StackPanel>
     </Grid>
