@@ -7,7 +7,7 @@ namespace Comp_v4.TableWindows.Counterparties.Form.Entities;
 
 public class Form : GenericStateMachine<BaseFormState, Form>, ISaveHandler
 {
-    protected Form(IEnumerable<BaseFormState> states, BaseFormState initialState) : base(states, initialState) {
+    public Form(IEnumerable<BaseFormState> states, BaseFormState initialState) : base(states, initialState) {
         EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
@@ -15,26 +15,29 @@ public class Form : GenericStateMachine<BaseFormState, Form>, ISaveHandler
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
 
-    public void Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null) {
-        CurrentState.Save(this, parameter);
+    public async Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null) {
+        if (parameter is not Counterparty counterparty)
+            throw new InvalidOperationException();
+        await CurrentState.Save(this, parameter);
+        tcs.SetResult(counterparty);
     }
 }
 
 public abstract class BaseFormState : StateBase<Form>
 {
-    public abstract void Save(Form form, object? parameter);
+    public abstract Task Save(Form form, object? parameter);
 }
 
 public class EditFormState : BaseFormState
 {
-    public override void Save(Form form, object? parameter) {
+    public override async Task Save(Form form, object? parameter) {
         throw new NotImplementedException();
     }
 }
 
 public class CreateFormState : BaseFormState
 {
-    public override void Save(Form form, object? parameter) {
+    public override async Task Save(Form form, object? parameter) {
         throw new NotImplementedException();
     }
 }

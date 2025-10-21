@@ -20,6 +20,9 @@ public class RootContainer : AreopagContainer {}
 public class EntryContainer : AreopagContainer {}
 public class NomDictContainer : AreopagContainer {}
 
+public class CounterpartyFormContainer : AreopagContainer {}
+public class CounterpartyTableContainer : AreopagContainer {}
+
 public partial class App : Application
 {
     protected readonly AreopagContainer _rootContainer;

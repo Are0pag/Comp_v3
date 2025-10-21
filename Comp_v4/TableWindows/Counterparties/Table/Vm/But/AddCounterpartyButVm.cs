@@ -2,12 +2,12 @@ using CommunityToolkit.Mvvm.Input;
 using Comp.ModelData;
 using Utils.WPF.Buttons;
 
-namespace Comp_v4.TableWindows.Counterparties.Form.Vm.Buts;
+namespace Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 
-public partial class SaveButVm : BaseButtonAdvanced<Counterparty>
+public partial class AddCounterpartyButVm : BaseButtonAdvanced<Counterparty>
 {
-    public SaveButVm() {
-        Label = "Save";
+    public AddCounterpartyButVm() {
+        Label = "Добавить";
     }
     [RelayCommand(CanExecute = nameof(CanClick))]
     public override Task OnClickAsync() {

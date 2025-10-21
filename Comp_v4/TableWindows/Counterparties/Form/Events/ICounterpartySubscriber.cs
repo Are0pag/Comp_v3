@@ -7,10 +7,10 @@ public interface ICounterpartySubscriber : IDisposable { }
 
 public interface ICounterpartyFormHandler : ICounterpartySubscriber
 {
-    void Open<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseFormState;
+    Task Open<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseFormState;
 }
 
 public interface ISaveHandler : ICounterpartySubscriber
 {
-    void Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null);
+    Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null);
 }

@@ -1,0 +1,28 @@
+using Comp_v4.Installers;
+using Comp_v4.TableWindows.Counterparties.Table.Actions;
+using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
+using DI;
+using DI.Contracts;
+
+namespace Comp_v4.TableWindows.Counterparties.Table._Installers;
+
+public class SelfInstaller : ISelfLayerInstaller
+{
+    public AreopagContainer InstallSelf(AreopagContainer selfContainer) {
+        if (selfContainer is not CounterpartyTableContainer)
+            throw new ApplicationException("This is not a Counterparty table container.");
+
+        selfContainer.Add<FormContextInstaller>()
+                     .AsScoped<CounterpartyTableWindow>()
+                     .EnforceInstantiateOnBegin();
+        
+        selfContainer.Add<AddCounterpartyButVm>()
+                     .AsScoped<CounterpartyTableWindow>();
+        
+        selfContainer.Add<AddAction>()
+                     .AsScoped<CounterpartyTableWindow>()
+                     .EnforceInstantiateOnBegin();
+        
+        return selfContainer;
+    }
+}
