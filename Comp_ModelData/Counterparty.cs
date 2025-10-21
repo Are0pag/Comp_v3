@@ -17,7 +17,7 @@ public class Counterparty : ObservableObject, IDbEntity
 
 #region Requisites
 
-    protected string _counterpartyTypeName;
+    protected CounterpartyType _counterpartyType;
     protected string _shortName; // unique !
     protected string? _fullName; // unique ! (but not requared)
     protected string? _cityName;
@@ -34,10 +34,16 @@ public class Counterparty : ObservableObject, IDbEntity
     protected string? _reasonCode;
     
     public string CounterpartyTypeName {
-        get => _counterpartyTypeName;
+        get => _counterpartyType.ToString();
         set {
-            _counterpartyTypeName = value;
-            OnPropertyChanged();
+            foreach (CounterpartyType c in Enum.GetValues(typeof(CounterpartyType))) {
+                if (c.ToString() != value)
+                    continue;
+                _counterpartyType = c;
+                OnPropertyChanged();
+                return;
+            }
+            throw new ArgumentException($"Unknown counterparty type: {value}");
         }
     }
 
@@ -91,6 +97,53 @@ public class Counterparty : ObservableObject, IDbEntity
 
 #endregion
 
+#region Account
+
+    protected string? _bankName;
+    /// <summary>
+    /// Банковский счет для финансовых операций (рассчётный счёт)
+    /// </summary>
+    protected string? _settlementAccount;
+    protected string? _minimumOrderAmount;
+    /// <summary>
+    /// Плательщик НДС
+    /// </summary>
+    protected bool? _isVatTaxpayer;
+
+    public string? BankName {
+        get => _bankName;
+        set {
+            _bankName = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string? SettlementAccount {
+        get => _settlementAccount;
+        set {
+            _settlementAccount = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string? MinimumOrderAmount {
+        get => _minimumOrderAmount;
+        set {
+            _minimumOrderAmount = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool? IsVatTaxpayer {
+        get => _isVatTaxpayer;
+        set {
+            _isVatTaxpayer = value;
+            OnPropertyChanged();
+        }
+    }
+
+#endregion
+    
 #region Contacts
 
     protected string? _phoneNumber;

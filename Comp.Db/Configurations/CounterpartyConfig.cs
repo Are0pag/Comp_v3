@@ -12,7 +12,7 @@ public class CounterpartyConfig : IEntityTypeConfiguration<Counterparty>
         
         builder.Property(c => c.Id)
                .ValueGeneratedOnAdd();
-        
+
         builder.Property(c => c.ShortName)
                .IsRequired();
         
@@ -34,6 +34,22 @@ public class CounterpartyConfig : IEntityTypeConfiguration<Counterparty>
         builder.Property(c => c.ReasonCode)
                .IsRequired(false);
         
+        
+        /* Account */
+        builder.Property(c => c.BankName)
+               .IsRequired(false);
+        
+        builder.Property(c => c.SettlementAccount)
+               .IsRequired(false);
+        
+        builder.Property(c => c.MinimumOrderAmount)
+               .IsRequired(false);
+        
+        builder.Property(c => c.IsVatTaxpayer)
+               .IsRequired(false)
+               .HasColumnType("BIT");
+        
+        /* Contacts */
         
         builder.Property(c => c.PhoneNumber)
                .IsRequired(false);
