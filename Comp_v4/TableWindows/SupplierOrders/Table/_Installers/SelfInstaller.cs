@@ -1,5 +1,7 @@
 using Comp_v4.Installers;
+using Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
+using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
@@ -20,6 +22,17 @@ public class SelfInstaller : ISelfLayerInstaller
         
         selfContainer.Add<DataGridVm>()
                      .AsScoped<SupplierOrderTableWindow>();
+        
+        selfContainer.Add<FormManager>()
+                     .AsScoped<SupplierOrderTableWindow>()
+                     .EnforceInstantiateOnBegin();
+        
+        selfContainer.Add<AddButVm>()
+                     .AsScoped<SupplierOrderTableWindow>();
+        
+        selfContainer.Add<AddAction>()
+                     .AsScoped<SupplierOrderTableWindow>()
+                     .EnforceInstantiateOnBegin();
         
         return selfContainer;
     }

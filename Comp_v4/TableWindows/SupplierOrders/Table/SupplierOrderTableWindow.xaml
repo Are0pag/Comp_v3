@@ -55,7 +55,7 @@
             </Grid>
         </StackPanel>
         
-        <DataGrid Grid.Row="1" Margin="10" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid Grid.Row="1" x:Name="DataGrid" Margin="10" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер заказа" Binding="{Binding PurchaseOrderNumber}" Width="Auto"/>
