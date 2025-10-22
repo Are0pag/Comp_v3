@@ -1,6 +1,5 @@
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Form.Events;
-using Comp_v4.TableWindows.Counterparties.Table.Events;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Comp.ModelData;
 using Utils.EventBus;
