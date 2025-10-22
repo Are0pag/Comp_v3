@@ -34,12 +34,6 @@ public class RepoAnalogs : DbRepository<Analog>
         return dbInstances;
     }
 
-    /*public async Task<int> GetAnalogsCount(int sourceComponentId) {
-        var dbInstances = await base.GetAllAsync();
-        var analogsCount = dbInstances.Count(a => a.SourceComponentId == sourceComponentId);
-        return analogsCount;
-    }*/
-
     public override async Task UpdateAsync(Analog entity) {
         ArgumentNullException.ThrowIfNull(entity.SourceComponent, nameof(entity.SourceComponent));
         ArgumentNullException.ThrowIfNull(entity.RelatedComponent, nameof(entity.RelatedComponent));
