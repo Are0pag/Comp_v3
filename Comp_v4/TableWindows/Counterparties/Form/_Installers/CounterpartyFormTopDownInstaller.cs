@@ -1,7 +1,7 @@
 using DI;
 using DI.Contracts;
 
-namespace Comp_v4.TableWindows.Counterparties._Installers;
+namespace Comp_v4.TableWindows.Counterparties.Form._Installers;
 
 public class CounterpartyFormTopDownInstaller : ITopDownInstaller
 {

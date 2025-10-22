@@ -1,7 +1,7 @@
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp.ModelData;
 
-namespace Comp_v4.TableWindows.Counterparties.Form.Events;
+namespace Comp_v4.TableWindows.Counterparties.Events;
 
 public interface ICounterpartySubscriber : IDisposable { }
 

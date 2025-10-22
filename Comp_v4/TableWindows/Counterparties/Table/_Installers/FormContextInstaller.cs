@@ -1,6 +1,6 @@
 using Comp_v4.Installers;
+using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
-using Comp_v4.TableWindows.Counterparties.Form.Events;
 using Comp.ModelData;
 using DI;
 using Utils.EventBus;

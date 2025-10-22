@@ -13,6 +13,10 @@ public class TopDownInstaller : ITopDownInstaller
             throw new ArgumentException();
         
         childContainer.FromParentContainer<IRepository<SupplierOrder>>(parentContainer);
+
+        childContainer.Add<CounterpartyTableContainer>()
+                      .AsScoped<SupplierOrderFormWindow>()
+                      .FromParentContainer(parentContainer);
         
         return childContainer;
     }

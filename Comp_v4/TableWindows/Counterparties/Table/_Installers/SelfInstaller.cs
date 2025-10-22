@@ -1,5 +1,6 @@
 using Comp_v4.Installers;
 using Comp_v4.TableWindows.Counterparties.Table.Actions;
+using Comp_v4.TableWindows.Counterparties.Table.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using DI;
 using DI.Contracts;
@@ -11,7 +12,7 @@ public class SelfInstaller : ISelfLayerInstaller
     public AreopagContainer InstallSelf(AreopagContainer selfContainer) {
         if (selfContainer is not CounterpartyTableContainer)
             throw new ApplicationException("This is not a Counterparty table container.");
-
+        
         selfContainer.Add<FormContextInstaller>()
                      .AsScoped<CounterpartyTableWindow>()
                      .EnforceInstantiateOnBegin();
@@ -22,6 +23,20 @@ public class SelfInstaller : ISelfLayerInstaller
         selfContainer.Add<AddAction>()
                      .AsScoped<CounterpartyTableWindow>()
                      .EnforceInstantiateOnBegin();
+        
+        selfContainer.Add<Entities.Table>()
+                     .AsScoped<CounterpartyTableWindow>()
+                     .UsingFactoryMethod(() => {
+                          var initialState = selfContainer.Resolve<EditTableState>();
+                          var states = new List<BaseTableState>() {
+                              initialState,
+                          };
+                          return new Entities.Table(states, initialState);
+                      })
+                     .EnforceInstantiateOnBegin();
+
+        selfContainer.Add<EditTableState>()
+                     .AsScoped<CounterpartyTableWindow>();
         
         return selfContainer;
     }

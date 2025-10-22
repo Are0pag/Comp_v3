@@ -52,17 +52,44 @@ public partial class App : Application
         
         new EntrySelfInstaller().InstallSelf(entryCont);
         new EntryTopDownInstaller().InstallFrom(_rootContainer, entryCont);
+        _rootContainer.Add<EntryContainer>()
+                      .AsSingleton()
+                      .UsingFactoryMethod(() => entryCont);
         
         new NomDictInstaller().Install(ndc);
         new NomDictTopDownInstaller().InstallFrom(_rootContainer, ndc);
-
         _rootContainer.Add<NomDictContainer>()
                       .AsSingleton()
                       .UsingFactoryMethod(() => ndc);
         
-        _rootContainer.Add<EntryContainer>()
+        
+        var ctc = new CounterpartyTableContainer();
+        new Comp_v4.TableWindows.Counterparties.Table._Installers.SelfInstaller().InstallSelf(ctc);
+        _rootContainer.Add<CounterpartyTableContainer>()
                       .AsSingleton()
-                      .UsingFactoryMethod(() => entryCont);
+                      .UsingFactoryMethod(() => ctc);
+        
+        var cfc = new CounterpartyFormContainer();
+        new TableWindows.Counterparties.Form._Installers.FormSelfInstaller().InstallSelf(cfc);
+        new TableWindows.Counterparties.Form._Installers.CounterpartyFormTopDownInstaller().InstallFrom(_rootContainer, cfc);
+        _rootContainer.Add<CounterpartyFormContainer>()
+                      .AsSingleton()
+                      .UsingFactoryMethod(() => cfc);
+        
+        var sotc = new SupplierOrderTableContainer();
+        new TableWindows.SupplierOrders.Table._Installers.SelfInstaller().InstallSelf(sotc);
+        new TableWindows.SupplierOrders.Table._Installers.TopDownInstaller().InstallFrom(_rootContainer, sotc);
+        _rootContainer.Add<SupplierOrderTableContainer>()
+                      .AsSingleton()
+                      .UsingFactoryMethod(() => sotc);
+        
+        var sofc = new SupplierOrderFormContainer();
+        new TableWindows.SupplierOrders.Form._Installers.SelfInstaller().InstallSelf(sofc);
+        new TableWindows.SupplierOrders.Form._Installers.TopDownInstaller().InstallFrom(_rootContainer, sofc);
+        _rootContainer.Add<SupplierOrderFormContainer>()
+                      .AsSingleton()
+                      .UsingFactoryMethod(() => sofc);
+
     }
 
     protected override async void OnStartup(StartupEventArgs e) {

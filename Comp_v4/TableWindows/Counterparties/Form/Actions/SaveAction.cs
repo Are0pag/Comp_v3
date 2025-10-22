@@ -1,4 +1,4 @@
-using Comp_v4.TableWindows.Counterparties.Form.Events;
+using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Vm.Buts;
 using Comp.ModelData;
 using Utils.EventBus;
