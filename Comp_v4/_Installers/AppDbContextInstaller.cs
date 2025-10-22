@@ -1,4 +1,8 @@
 using Comp.Db;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories;
+using Comp.Db.Repositories.Concrete;
+using Comp.ModelData;
 using DI;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,5 +22,13 @@ public class AppDbContextInstaller : AbstractInstaller
                   });
         
         container.Add<DatabaseInitializer>().AsTransient();
+        
+        container.Add<IRepository<Counterparty>>()
+                 .To<DbRepository<Counterparty>>()
+                 .AsTransient();
+        
+        container.Add<IRepository<SupplierOrder>>()
+                 .To<SupplierOrderRepository>()
+                 .AsTransient();
     }
 }

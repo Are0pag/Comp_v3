@@ -98,6 +98,19 @@ public class AreopagContainer : IDisposable
         rb.FactoryResolve = factoryMethod;
     }
 
+    public void FromParentContainer<TService>(AreopagContainer parentContainer) {
+        if (_registrationBuilders.First(rb => rb.Registration.GetRegistration() == typeof(TService)) is not { } rb) 
+            throw new InvalidOperationException();
+        
+        var type = rb.Registration.GetRegistration();
+        rb.FactoryResolve = () => {
+            if (parentContainer.Resolve(type) is not {} instance) 
+                throw new InvalidOperationException();
+
+            return instance;
+        };
+    }
+    
     internal void FromParentContainer(AreopagContainer parentContainer) {
         if (_registrationBuilders.Count == 0)
             throw new InvalidOperationException();
