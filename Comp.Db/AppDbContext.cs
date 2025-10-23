@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
@@ -36,10 +37,13 @@ public class AppDbContext : DbContext
     public DbSet<Manufacturer> Manufacturers { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
     public DbSet<TypeSize> TypeSizes { get; set; }
-    
     public DbSet<GenericParametersSet> GenericParametersSets { get; set; }
     
     public DbSet<Component> Components { get; set; }
+    
+    
+    public DbSet<Counterparty> Counterparties { get; set; }
+    public DbSet<SupplierOrder> SupplierOrders { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
@@ -59,6 +63,12 @@ public class AppDbContext : DbContext
     #endif
     }
 
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) {
+        await LogChangesAsync();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
     private void LogToFile(string message) {
         try {
             var logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} - {message}{Environment.NewLine}";
@@ -68,12 +78,6 @@ public class AppDbContext : DbContext
         catch (Exception ex) {
             Debug.WriteLine($"Logging failed: {ex.Message}");
         }
-    }
-
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) {
-        await LogChangesAsync();
-        return await base.SaveChangesAsync(cancellationToken);
     }
 
     public override int SaveChanges() {

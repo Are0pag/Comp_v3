@@ -3,7 +3,7 @@ using Comp_v4.Entry.Vm.Buts;
 using Utils.EventBus;
 using Utils.WPF.Buttons;
 
-namespace Comp_v4.Entry.Vm.Actions;
+namespace Comp_v4.Entry.Actions;
 
 public class OpenNomDictAction : BaseActionAsyncCompletion
 {

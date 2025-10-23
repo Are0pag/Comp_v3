@@ -30,7 +30,10 @@ public class FormSelfInstaller : ISelfLayerInstaller
         selfContainer.Add<SaveAction>()
                      .AsScoped<CounterpartyFormWindow>()
                      .EnforceInstantiateOnBegin();
-            
+
+        selfContainer.Add<CounterpartyFormWindow>()
+                     .AsTransient();
+        
         return selfContainer;
     }
 }

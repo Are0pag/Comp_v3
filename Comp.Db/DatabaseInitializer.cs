@@ -15,11 +15,13 @@ public class DatabaseInitializer
 
     public async Task InitializeAsync() {
         await _context.Database.MigrateAsync();
-        await _context.Database.EnsureCreatedAsync();
-        await EnsureRootCategoryExistsAsync();
+        
     #if DEBUG
+        await _context.Database.EnsureCreatedAsync();
         await AddSomeTestData();
     #endif
+        
+        await EnsureRootCategoryExistsAsync();
     }
 
     private async Task EnsureRootCategoryExistsAsync() {

@@ -33,6 +33,9 @@ public class SelfInstaller : ISelfLayerInstaller
         selfContainer.Add<AddAction>()
                      .AsScoped<SupplierOrderTableWindow>()
                      .EnforceInstantiateOnBegin();
+
+        selfContainer.Add<SupplierOrderTableWindow>()
+                     .AsTransient();
         
         return selfContainer;
     }

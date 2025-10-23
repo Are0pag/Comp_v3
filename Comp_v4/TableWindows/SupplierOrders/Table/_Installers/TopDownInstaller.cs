@@ -16,8 +16,10 @@ public class TopDownInstaller : ITopDownInstaller
         childContainer.SetFactoryMethodFor<IRepository<SupplierOrder>>(() => {
             return parentContainer.Resolve<IRepository<SupplierOrder>>();
         });
-        
-        
+
+        childContainer.Add<SupplierOrderFormContainer>()
+                      .AsScoped<SupplierOrderTableWindow>()
+                      .FromParentContainer(parentContainer);
 
         return childContainer;
     }

@@ -14,7 +14,8 @@ public class CounterpartyConfig : IEntityTypeConfiguration<Counterparty>
                .ValueGeneratedOnAdd();
 
         builder.Property(c => c.ShortName)
-               .IsRequired();
+               .IsRequired()
+               .HasMaxLength(200);
         
         builder.Property(c => c.CounterpartyTypeName)
                .IsRequired();

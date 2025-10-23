@@ -44,8 +44,10 @@ public class SelfInstaller : ISelfLayerInstaller
 
         selfContainer.Add<CounterpartySelectButVm>()
                      .AsScoped<SupplierOrderFormWindow>();
-        
-        
+
+
+        selfContainer.Add<SupplierOrderFormWindow>()
+                     .AsTransient();
         
         return selfContainer;
     }

@@ -37,6 +37,9 @@ public class SelfInstaller : ISelfLayerInstaller
 
         selfContainer.Add<EditTableState>()
                      .AsScoped<CounterpartyTableWindow>();
+
+        selfContainer.Add<CounterpartyTableWindow>()
+                     .AsTransient();
         
         return selfContainer;
     }

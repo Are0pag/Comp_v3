@@ -1,5 +1,5 @@
+using Comp_v4.Entry.Actions;
 using Comp_v4.Entry.Entities;
-using Comp_v4.Entry.Vm.Actions;
 using Comp_v4.Entry.Vm.Buts;
 using DI;
 using DI.Contracts;
@@ -23,6 +23,9 @@ public class EntrySelfInstaller : ISelfLayerInstaller
         
         selfContainer.Add<OpenNomDictAction>().AsScoped<EntryWindow>().EnforceInstantiateOnBegin();
         selfContainer.Add<NomDictButVm>().AsScoped<EntryWindow>();
+        
+        selfContainer.Add<OpenSupplierOrdersAction>().AsScoped<EntryWindow>().EnforceInstantiateOnBegin();
+        selfContainer.Add<OrdersButVm>().AsScoped<EntryWindow>();
 
         selfContainer.Add<EntryWindow>().AsSingleton();
         return selfContainer;

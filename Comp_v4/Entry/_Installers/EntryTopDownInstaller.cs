@@ -18,6 +18,10 @@ public class EntryTopDownInstaller : ITopDownInstaller
                                throw new ArgumentException();
                            return nomDictContainer;
                        });*/
+                      
+        entryContainer.Add<SupplierOrderTableContainer>()
+                      .AsSingleton()
+                      .FromParentContainer(rootContainer);
         
         return childContainer;
     }
