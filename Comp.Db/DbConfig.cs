@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Comp_v4.Installers;
+namespace Comp.Db;
 
 public static class DbConfig
 {

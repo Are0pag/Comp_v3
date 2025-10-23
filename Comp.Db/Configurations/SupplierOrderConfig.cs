@@ -42,11 +42,11 @@ public class SupplierOrderConfig : IEntityTypeConfiguration<SupplierOrder>
         
         builder.Property(p => p.OrderDate)
                .IsRequired()
-               .HasDefaultValue(DateTime.Now);
-        
+               .HasDefaultValueSql("GETDATE()");
+
         builder.Property(p => p.DeliveryDate)
                .IsRequired()
-               .HasDefaultValue(DateTime.Now);
+               .HasDefaultValueSql("GETDATE()");
         
         
         builder.HasOne(p => p.Counterparty)
