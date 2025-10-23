@@ -14,10 +14,19 @@ public class DatabaseInitializer
     public const string ROOT_CATEGORY_NAME = "Компоненты";
 
     public async Task InitializeAsync() {
-        await _context.Database.MigrateAsync();
+        await _context.Database.MigrateAsync(); // применяет существующие миграции, которые уже есть в проекте
         
     #if DEBUG
-        await _context.Database.EnsureCreatedAsync();
+        try {
+            var tableExists = await _context.SupplierOrders.AnyAsync();
+            Console.WriteLine("SupplierOrders table exists and accessible");
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"SupplierOrders table problem: {ex.Message}");
+            // Если таблицы нет - пересоздаем БД (ТОЛЬКО ДЛЯ РАЗРАБОТКИ!)
+            await _context.Database.MigrateAsync();
+        }
+    
         await AddSomeTestData();
     #endif
         
