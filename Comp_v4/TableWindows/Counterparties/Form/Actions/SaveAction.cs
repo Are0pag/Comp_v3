@@ -8,7 +8,9 @@ namespace Comp_v4.TableWindows.Counterparties.Form.Actions;
 
 public class SaveAction : BaseActionAsyncCompletion<Counterparty>
 {
-    public SaveAction(SaveButVm button) : base(button) {
+    protected readonly Counterparty _counterparty;
+    public SaveAction(SaveButVm button, Counterparty counterparty) : base(button) {
+        _counterparty = counterparty;
     }
 
     public override async void Perform(TaskCompletionSource<Counterparty> tcs) {
@@ -19,7 +21,7 @@ public class SaveAction : BaseActionAsyncCompletion<Counterparty>
             tasks.Add(subscriberTcs.Task);
 
             try {
-                h?.Save(subscriberTcs);
+                h?.Save(subscriberTcs, _counterparty);
             }
             catch (Exception ex) {
                 subscriberTcs.TrySetException(ex);

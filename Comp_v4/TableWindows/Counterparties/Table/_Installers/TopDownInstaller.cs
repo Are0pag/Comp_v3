@@ -1,4 +1,7 @@
 using Comp_v4.Installers;
+using Comp.Db.Contracts;
+using Comp.Db.Repositories.Concrete;
+using Comp.ModelData;
 using DI;
 using DI.Contracts;
 
@@ -12,6 +15,11 @@ public class TopDownInstaller : ITopDownInstaller
         
         childContainer.Add<CounterpartyFormContainer>()
                       .AsScoped<CounterpartyTableWindow>()
+                      .FromParentContainer(parentContainer);
+        
+        childContainer.Add<IRepository<Counterparty>>()
+                      .To<CounterpartyRepository>()
+                      .AsTransient()
                       .FromParentContainer(parentContainer);
         
         return childContainer;

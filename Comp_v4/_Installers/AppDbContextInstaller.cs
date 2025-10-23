@@ -24,7 +24,7 @@ public class AppDbContextInstaller : AbstractInstaller
         container.Add<DatabaseInitializer>().AsTransient();
         
         container.Add<IRepository<Counterparty>>()
-                 .To<DbRepository<Counterparty>>()
+                 .To<CounterpartyRepository>()
                  .AsTransient();
         
         container.Add<IRepository<SupplierOrder>>()

@@ -1,6 +1,7 @@
 using Comp_v4.Installers;
 using Comp_v4.TableWindows.Counterparties.Table.Actions;
 using Comp_v4.TableWindows.Counterparties.Table.Entities;
+using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using DI;
 using DI.Contracts;
@@ -16,6 +17,9 @@ public class SelfInstaller : ISelfLayerInstaller
         selfContainer.Add<FormContextInstaller>()
                      .AsScoped<CounterpartyTableWindow>()
                      .EnforceInstantiateOnBegin();
+
+        selfContainer.Add<DataGridVm>()
+                     .AsScoped<CounterpartyTableWindow>();
         
         selfContainer.Add<AddCounterpartyButVm>()
                      .AsScoped<CounterpartyTableWindow>();
