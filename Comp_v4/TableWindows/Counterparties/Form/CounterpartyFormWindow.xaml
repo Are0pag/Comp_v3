@@ -66,9 +66,9 @@
                         <!-- Тип контрагента -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип контрагента:"/>
                         <ComboBox Grid.Row="0" Grid.Column="1" 
-                                  ItemsSource="{Binding CounterpartyTypes}"
-                                  DisplayMemberPath="Value"
-                                  SelectedValuePath="Key"/>
+                                  x:Name="CounterpartyTypeComboBox"
+                                  SelectedValue="{Binding CounterpartyTypeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        />
 
                         <!-- Краткое наименование -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Краткое наименование:*"/>

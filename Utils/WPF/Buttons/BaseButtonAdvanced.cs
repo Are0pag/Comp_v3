@@ -15,7 +15,13 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
         _isEnabled = false;
         
         var tsc = new TaskCompletionSource();
-        await ClickActionAsync.Invoke(tsc);
+        try {
+            await ClickActionAsync.Invoke(tsc);
+        }
+        catch (NullReferenceException e) {
+            Console.WriteLine($"{e.Message} in {GetType().Name}");
+            throw;
+        }
         
         _isEnabled = true;
     }

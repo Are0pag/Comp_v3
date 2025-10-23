@@ -15,6 +15,7 @@ public class Counterparty : ObservableObject, IDbEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    // Bindings +
 #region Requisites
 
     protected CounterpartyType _counterpartyType;
@@ -97,6 +98,7 @@ public class Counterparty : ObservableObject, IDbEntity
 
 #endregion
 
+    // Bindings +
 #region Account
 
     protected string? _bankName;
@@ -144,6 +146,7 @@ public class Counterparty : ObservableObject, IDbEntity
 
 #endregion
     
+    // Bindings +
 #region Contacts
 
     protected string? _phoneNumber;

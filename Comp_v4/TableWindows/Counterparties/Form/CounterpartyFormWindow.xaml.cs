@@ -8,6 +8,10 @@ public partial class CounterpartyFormWindow : Window, IDisposable
 {
     public CounterpartyFormWindow(Counterparty counterparty, SaveButVm saveButVm) {
         InitializeComponent();
+        
+        CounterpartyTypeComboBox.ItemsSource = Enum.GetValues(typeof(CounterpartyType)).Cast<CounterpartyType>();
+        
+        DataContext = counterparty;
         SaveButton.DataContext = saveButVm;
     }
 

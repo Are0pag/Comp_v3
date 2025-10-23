@@ -65,9 +65,12 @@ public partial class App : Application
         
         var ctc = new CounterpartyTableContainer();
         new Comp_v4.TableWindows.Counterparties.Table._Installers.SelfInstaller().InstallSelf(ctc);
+        new Comp_v4.TableWindows.Counterparties.Table._Installers.TopDownInstaller().InstallFrom(_rootContainer, ctc);
         _rootContainer.Add<CounterpartyTableContainer>()
                       .AsSingleton()
                       .UsingFactoryMethod(() => ctc);
+        
+        
         
         var cfc = new CounterpartyFormContainer();
         new TableWindows.Counterparties.Form._Installers.FormSelfInstaller().InstallSelf(cfc);
