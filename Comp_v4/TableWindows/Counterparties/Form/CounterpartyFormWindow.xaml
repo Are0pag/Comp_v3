@@ -12,6 +12,7 @@
         ResizeMode="NoResize">
     
     <Window.Resources>
+        <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -66,9 +67,15 @@
                         <!-- Тип контрагента -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип контрагента:"/>
                         <ComboBox Grid.Row="0" Grid.Column="1" 
-                                  x:Name="CounterpartyTypeComboBox"
-                                  SelectedValue="{Binding CounterpartyTypeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        />
+                                  x:Name="CounterpartyTypeComboBox" 
+                                  ItemsSource="{Binding CounterpartyTypes}"
+                                  SelectedItem="{Binding CounterpartyType}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
                         <!-- Краткое наименование -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Краткое наименование:*"/>

@@ -1,5 +1,6 @@
 using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
+using Comp_v4.TableWindows.Counterparties.Form.Vm;
 using Comp_v4.TableWindows.Counterparties.Form.Vm.Buts;
 using Comp.ModelData;
 using DI;
@@ -12,6 +13,9 @@ public class FormSelfInstaller : ISelfLayerInstaller
     public AreopagContainer InstallSelf(AreopagContainer selfContainer) {
 
         selfContainer.Add<Counterparty>()
+                     .AsScoped<CounterpartyFormWindow>();
+
+        selfContainer.Add<CounterpartyEnumsVm>()
                      .AsScoped<CounterpartyFormWindow>();
         
         selfContainer.Add<Form.Entities.Form>()
