@@ -29,6 +29,6 @@ public class SaveAction : BaseActionAsyncCompletion
     }
 
     public override bool CanPerform() {
-        throw new NotImplementedException();
+        return true;
     }
 }

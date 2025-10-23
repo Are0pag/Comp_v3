@@ -15,6 +15,7 @@ public class SupplierOrder : ObservableObject, IDbEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    // Bindings +    
 #region TextData
 
     protected string _purchaseOrderNumber;
@@ -52,7 +53,8 @@ public class SupplierOrder : ObservableObject, IDbEntity
     }
 
 #endregion
-
+    
+    // Bindings +    
 #region EnumsData
 
     protected OrderStatus _orderStatus;
@@ -120,7 +122,8 @@ public class SupplierOrder : ObservableObject, IDbEntity
     }
 
 #endregion
-
+    
+    // Bindings +    
 #region DateTimeData
 
     protected DateTime _orderDate;

@@ -1,6 +1,7 @@
 using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
+using Comp.ModelData;
 using Utils.EventBus;
 using Utils.WPF.Buttons;
 
@@ -19,7 +20,7 @@ public class AddAction : BaseActionAsyncCompletion
             tasks.Add(subscriberTcs.Task);
 
             try {
-                h?.OpenForm<CreateFormState>(subscriberTcs);
+                h?.OpenForm<CreateFormState>(subscriberTcs, new SupplierOrder());
             }
             catch (Exception ex) {
                 subscriberTcs.TrySetException(ex);

@@ -7,7 +7,6 @@ using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
 using DI;
 using DI.Contracts;
-using EditFormState = Comp_v4.TableWindows.Analogs.Entities.EditFormState;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form._Installers;
 
