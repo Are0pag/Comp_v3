@@ -35,6 +35,6 @@ public class FormContextInstaller : ICounterpartyFormHandler
         });
 
         var window = WindowContextResolver.ResolveWindow<CounterpartyFormWindow>(_formContainer);
-        
+        tcs.SetResult();
     }
 }

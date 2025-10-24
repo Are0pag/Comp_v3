@@ -46,6 +46,7 @@ public abstract class BaseButtonAdvanced<T> : BaseButtonVm
         await tsc.Task;
         
         _isEnabled = true;
+        NotifyCanExecute();
     }
 }
 

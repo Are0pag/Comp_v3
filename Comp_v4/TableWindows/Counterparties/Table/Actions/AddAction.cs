@@ -14,13 +14,14 @@ public class AddAction : BaseActionAsyncCompletion<Counterparty>
 
     public override async void Perform(TaskCompletionSource<Counterparty> tcs) {
         var tasks = new List<Task>();
-
+        var item = new Counterparty();
+        
         EventBus<ICounterpartySubscriber>.RaiseEvent<ICounterpartyFormHandler>(h => {
             var subscriberTcs = new TaskCompletionSource();
             tasks.Add(subscriberTcs.Task);
 
             try {
-                h?.Open<CreateFormState>(subscriberTcs, new Counterparty());
+                h?.Open<CreateFormState>(subscriberTcs, item);
             }
             catch (Exception ex) {
                 subscriberTcs.TrySetException(ex);
@@ -28,6 +29,7 @@ public class AddAction : BaseActionAsyncCompletion<Counterparty>
         });
 
         await Task.WhenAll(tasks);
+        tcs.TrySetResult(item);
     }
 
     public override bool CanPerform() {

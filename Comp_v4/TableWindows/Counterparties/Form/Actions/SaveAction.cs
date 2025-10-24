@@ -29,6 +29,7 @@ public class SaveAction : BaseActionAsyncCompletion<Counterparty>
         });
 
         await Task.WhenAll(tasks);
+        tcs.TrySetResult(_counterparty);
     }
 
     public override bool CanPerform() {
