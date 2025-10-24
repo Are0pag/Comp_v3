@@ -63,6 +63,17 @@ public abstract class BaseActionAsyncCompletion
     public abstract bool CanPerform();
 }
 
+public abstract class BaseActionAsyncSelfWaiting : BaseActionAsyncCompletion
+{
+    protected TaskCompletionSource? _currentTcs;
+    protected BaseActionAsyncSelfWaiting(BaseButtonAdvanced button) : base(button) {
+    }
+    
+    public override bool CanPerform() {
+        return _currentTcs is null || _currentTcs.Task.IsCompleted;
+    }
+}
+
 /// <summary>
 /// Best Usage
 /// </summary>

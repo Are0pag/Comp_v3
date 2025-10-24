@@ -1,22 +1,20 @@
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Utils.EventBus;
-using Utils.WPF;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
 public partial class CounterpartyTableWindow : Window, IDisposable
 {
     protected TaskCompletionSource? _tcsMouseDoubleClick;
-    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, DataGridVm dataGridVm) {
+    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, DataGridVm dataGridVm) {
         InitializeComponent();
         AddButton.DataContext = addButVm;
+        EditButton.DataContext = editCounterpartyButVm;
         MainDataGrid.DataContext = dataGridVm;
     }
 
@@ -27,8 +25,8 @@ public partial class CounterpartyTableWindow : Window, IDisposable
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         if (_tcsMouseDoubleClick is {Task.IsCompleted: false})
             return;
-        
-        _tcsMouseDoubleClick = new TaskCompletionSource();
+
+        _tcsMouseDoubleClick = new CounterpartyTableDoubleClickTaskCompletionSource();
         _ = HandleDoubleClick(sender, e);
     }
 
@@ -42,3 +40,5 @@ public partial class CounterpartyTableWindow : Window, IDisposable
         }, DispatcherPriority.Background);
     }
 }
+
+public class CounterpartyTableDoubleClickTaskCompletionSource : TaskCompletionSource {}

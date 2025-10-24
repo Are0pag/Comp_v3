@@ -20,10 +20,14 @@ public class SelfInstaller : ISelfLayerInstaller
         selfContainer.Add<DataGridVm>()
                      .AsScoped<CounterpartyTableWindow>();
         
-        selfContainer.Add<AddCounterpartyButVm>()
-                     .AsScoped<CounterpartyTableWindow>();
+        selfContainer.Add<AddCounterpartyButVm>().AsScoped<CounterpartyTableWindow>();
+        selfContainer.Add<EditCounterpartyButVm>().AsScoped<CounterpartyTableWindow>();
         
         selfContainer.Add<AddAction>()
+                     .AsScoped<CounterpartyTableWindow>()
+                     .EnforceInstantiateOnBegin();
+        
+        selfContainer.Add<EditCounterpartyAction>()
                      .AsScoped<CounterpartyTableWindow>()
                      .EnforceInstantiateOnBegin();
         
