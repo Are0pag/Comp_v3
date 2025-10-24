@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp.ModelData;
 
@@ -13,4 +14,9 @@ public interface ICounterpartyFormHandler : ICounterpartySubscriber
 public interface ISaveHandler : ICounterpartySubscriber
 {
     Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null);
+}
+
+public interface IMouseDoubleClickHandler : ICounterpartySubscriber
+{
+    Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs e);
 }

@@ -15,8 +15,7 @@ public class SelfInstaller : ISelfLayerInstaller
             throw new ApplicationException("This is not a Counterparty table container.");
         
         selfContainer.Add<FormContextInstaller>()
-                     .AsScoped<CounterpartyTableWindow>()
-                     .EnforceInstantiateOnBegin();
+                     .AsScoped<CounterpartyTableWindow>();
 
         selfContainer.Add<DataGridVm>()
                      .AsScoped<CounterpartyTableWindow>();
