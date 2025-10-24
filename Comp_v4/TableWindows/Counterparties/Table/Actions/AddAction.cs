@@ -9,13 +9,15 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
 public class AddAction : BaseActionAsyncCompletion<Counterparty>
 {
+    protected TaskCompletionSource<Counterparty>? _currentTcs;
     public AddAction(AddCounterpartyButVm button) : base(button) {
     }
 
     public override async void Perform(TaskCompletionSource<Counterparty> tcs) {
-        var tasks = new List<Task>();
+        _currentTcs = tcs;
         var item = new Counterparty();
-        
+        var tasks = new List<Task>();
+
         EventBus<ICounterpartySubscriber>.RaiseEvent<ICounterpartyFormHandler>(h => {
             var subscriberTcs = new TaskCompletionSource();
             tasks.Add(subscriberTcs.Task);
@@ -29,10 +31,10 @@ public class AddAction : BaseActionAsyncCompletion<Counterparty>
         });
 
         await Task.WhenAll(tasks);
-        tcs.TrySetResult(item);
+        _currentTcs.TrySetResult(item);
     }
 
     public override bool CanPerform() {
-        return true;
+        return _currentTcs is null || _currentTcs.Task.IsCompleted;
     }
 }

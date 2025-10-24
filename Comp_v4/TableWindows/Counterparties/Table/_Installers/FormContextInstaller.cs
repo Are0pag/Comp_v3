@@ -19,7 +19,7 @@ public class FormContextInstaller : ICounterpartyFormHandler
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
 
-    public async Task Open<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseFormState {
+    public Task Open<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseFormState {
         if (parameter is not Counterparty counterparty)
             throw new ArgumentException($"Parameter is not of type {nameof(CounterpartyFormContainer)}");
         
@@ -34,7 +34,13 @@ public class FormContextInstaller : ICounterpartyFormHandler
             return new Form.Entities.Form(states, initialState);
         });
 
-        var window = WindowContextResolver.ResolveWindow<CounterpartyFormWindow>(_formContainer);
-        tcs.SetResult();
+        //var window = WindowContextResolver.ResolveWindow<CounterpartyFormWindow>(_formContainer);
+        var window = _formContainer.BeginScope<CounterpartyFormWindow>();
+        window.Closed += (sender, args) => {
+            _formContainer.ReleaseScope<CounterpartyFormWindow>();
+            tcs.SetResult();
+        };
+        window.Show();
+        return Task.CompletedTask;
     }
 }
