@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Comp.ModelData;
 
 /// <summary>
@@ -5,10 +7,10 @@ namespace Comp.ModelData;
 /// </summary>
 public enum VatStatus
 {
-    /// Без НДС
+    [Description("Без НДС")]
     WithoutVat,
-    /// НДС включён
+    [Description("НДС включён")]
     VatIncluded,
-    /// НДС сверху
+    [Description("НДС сверху")]
     VatOnTop
 }

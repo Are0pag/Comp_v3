@@ -7,6 +7,11 @@
         xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
         mc:Ignorable="d"
         Title="Заказ поставщику" Height="450" Width="800">
+    
+    <Window.Resources>
+        <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -85,16 +90,28 @@
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
                 <TextBlock Text="Статус НДС:" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                <ComboBox x:Name="VatStatusComboBox"
-                          SelectedValue="{Binding VatStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          />
+                <ComboBox x:Name="VatStatusComboBox" 
+                          ItemsSource="{Binding EnumValues}"
+                          SelectedItem="{Binding SelectedValue}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
                 <TextBlock Text="Статус НДС:" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                <ComboBox x:Name="OrderStatusComboBox"
-                          SelectedValue="{Binding OrderStatus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                />
+                <ComboBox x:Name="OrderStatusComboBox" 
+                          ItemsSource="{Binding EnumValues}"
+                          SelectedItem="{Binding SelectedValue}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">

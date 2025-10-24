@@ -1,6 +1,7 @@
 using Comp_v4.Installers;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
+using Comp_v4.TableWindows.SupplierOrders.Form.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
@@ -48,6 +49,9 @@ public class SelfInstaller : ISelfLayerInstaller
                      .AsScoped<SupplierOrderFormWindow>()
                      .EnforceInstantiateOnBegin();
 
+        selfContainer.Add<OrderStatusEnumsVm>().AsScoped<SupplierOrderFormWindow>();
+        selfContainer.Add<VatStatusEnumVm>().AsScoped<SupplierOrderFormWindow>();
+        
         selfContainer.Add<SupplierOrderFormWindow>()
                      .AsTransient();
         

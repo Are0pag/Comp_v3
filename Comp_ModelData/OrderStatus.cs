@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Comp.ModelData;
 
 /// <summary>
@@ -5,12 +7,12 @@ namespace Comp.ModelData;
 /// </summary>
 public enum OrderStatus
 {
-    /// Создан
+    [Description("Создан")]
     Created,
-    /// Заказан
+    [Description("Заказан")]
     Ordered,
-    /// Получен
+    [Description("Получен")]
     Received,
-    /// Архивный
+    [Description("Архивный")]
     Archived
 }
