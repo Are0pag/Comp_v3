@@ -17,8 +17,13 @@ public class SingletonRb : TransientRb
     }
 
     public virtual void ReleaseInstance() {
-        if (_instance is null)
-            return;
+        switch (_instance) {
+            case null:
+                return;
+            case IDisposable disposable:
+                disposable.Dispose();
+                break;
+        }
 
         _instance = null;
     }
