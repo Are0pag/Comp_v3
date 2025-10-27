@@ -1,4 +1,4 @@
-using Comp_v4.Installers;
+/*using Comp_v4.Installers;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Form.Vm;
@@ -56,5 +56,15 @@ public class SelfInstaller : ISelfLayerInstaller
                      .AsTransient();
         
         return selfContainer;
+    }
+}*/
+
+using Comp.ModelData;
+using Microsoft.Extensions.DependencyInjection;
+
+public static class SupplierOrderExtensions
+{
+    public static void InstallSupplierOrder(this IServiceCollection services) {
+        services.AddScoped<>()
     }
 }

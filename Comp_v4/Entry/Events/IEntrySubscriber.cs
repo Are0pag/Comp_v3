@@ -7,5 +7,5 @@ public interface IEntrySubscriber : IDisposable
 
 public interface IOpenNomDictHandler : IEntrySubscriber
 {
-    void OpenNomDict(TaskCompletionSource tcs, object? arg = null);
+    Task OpenNomDict(TaskCompletionSource tcs, object? arg = null);
 }

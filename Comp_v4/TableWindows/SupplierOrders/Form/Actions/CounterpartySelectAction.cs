@@ -1,4 +1,4 @@
-using Comp_v4.Installers;
+/*using Comp_v4.Installers;
 using Comp_v4.TableWindows.Counterparties.Table;
 using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 using DI;
@@ -20,4 +20,4 @@ public class CounterpartySelectAction : BaseActionAsyncCompletion
     public override bool CanPerform() {
         return true;
     }
-}
+}*/

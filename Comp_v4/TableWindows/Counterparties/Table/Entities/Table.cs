@@ -1,9 +1,7 @@
-using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
-using Comp_v4.TableWindows.Counterparties.Table._Installers;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
 using Utils.EventBus;

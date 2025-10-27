@@ -1,4 +1,4 @@
-using Comp_v4.Installers;
+/*using Comp_v4.Installers;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Table.Actions;
 using Comp_v4.TableWindows.Counterparties.Table.Entities;
@@ -52,4 +52,4 @@ public class SelfInstaller : ISelfLayerInstaller
         
         return selfContainer;
     }
-}
+}*/

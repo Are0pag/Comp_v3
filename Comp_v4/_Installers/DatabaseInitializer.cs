@@ -1,10 +1,12 @@
+using Comp.Db;
 using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
-namespace Comp.Db;
+namespace Comp_v4._Installers;
 
-public class DatabaseInitializer
+public class DatabaseInitializer : IHostedService
 {
     private readonly AppDbContext _context;
     public DatabaseInitializer(AppDbContext context) {
@@ -13,14 +15,18 @@ public class DatabaseInitializer
 
     public const string ROOT_CATEGORY_NAME = "Компоненты";
 
-    public async Task InitializeAsync() {
-        await _context.Database.MigrateAsync(); // применяет существующие миграции, которые уже есть в проекте
+    public async Task StartAsync(CancellationToken cancellationToken) {
+        await _context.Database.MigrateAsync(cancellationToken); // применяет существующие миграции, которые уже есть в проекте
         
     #if DEBUG
         await AddSomeTestData();
     #endif
         
         await EnsureRootCategoryExistsAsync();
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken) {
+        return Task.CompletedTask;
     }
 
     private async Task EnsureRootCategoryExistsAsync() {

@@ -9,7 +9,7 @@ using Utils.WPF;
 
 namespace Comp_v4.NomDict.Installers;
 
-public class NomDictTopDownInstaller : ITopDownInstaller
+/*public class NomDictTopDownInstaller : ITopDownInstaller
 {
     public AreopagContainer InstallFrom(AreopagContainer parentContainer, AreopagContainer childContainer) {
         if (parentContainer is not RootContainer rootContainer || childContainer is not NomDictContainer nomDictContainer)
@@ -33,4 +33,4 @@ public class NomDictTopDownInstaller : ITopDownInstaller
         
         return childContainer;
     }
-}
+}*/

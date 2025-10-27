@@ -1,3 +1,4 @@
+/*using Comp_v4._Installers;
 using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
@@ -31,4 +32,4 @@ public class AppDbContextInstaller : AbstractInstaller
                  .To<SupplierOrderRepository>()
                  .AsTransient();
     }
-}
+}*/

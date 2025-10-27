@@ -1,4 +1,4 @@
-using Comp_v4.Installers;
+/*using Comp_v4.Installers;
 using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
@@ -40,4 +40,4 @@ public class SelfInstaller : ISelfLayerInstaller
         
         return selfContainer;
     }
-}
+}*/

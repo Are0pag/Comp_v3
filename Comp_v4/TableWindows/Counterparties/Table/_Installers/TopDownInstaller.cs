@@ -1,4 +1,4 @@
-using Comp_v4.Installers;
+/*using Comp_v4.Installers;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
@@ -24,4 +24,4 @@ public class TopDownInstaller : ITopDownInstaller
         
         return childContainer;
     }
-}
+}*/

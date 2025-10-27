@@ -1,4 +1,4 @@
-using Comp_v4.Installers;
+/*using Comp_v4.Installers;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp.ModelData;
@@ -43,4 +43,4 @@ public class FormContextInstaller : ICounterpartyFormHandler
         window.Show();
         return Task.CompletedTask;
     }
-}
+}*/
