@@ -32,9 +32,9 @@ public abstract class BaseTableState : StateBase<Table>
 
 public class EditTableState : BaseTableState
 {
-    protected readonly FormContextInstaller _formContextInstaller;
+    protected readonly ICounterpartyFormHandler _formContextInstaller;
 
-    public EditTableState(FormContextInstaller formContextInstaller) {
+    public EditTableState(ICounterpartyFormHandler formContextInstaller) {
         _formContextInstaller = formContextInstaller;
     }
 

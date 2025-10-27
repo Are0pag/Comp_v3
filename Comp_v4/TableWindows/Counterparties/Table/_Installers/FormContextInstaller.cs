@@ -13,10 +13,10 @@ public class FormContextInstaller : ICounterpartyFormHandler
     
     public FormContextInstaller(CounterpartyFormContainer formContainer) {
         _formContainer = formContainer;
-        EventBus<ICounterpartySubscriber>.Subscribe(this);
+        //EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
     public void Dispose() {
-        EventBus<ICounterpartySubscriber>.Unsubscribe(this);
+        //EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
 
     public Task Open<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseFormState {

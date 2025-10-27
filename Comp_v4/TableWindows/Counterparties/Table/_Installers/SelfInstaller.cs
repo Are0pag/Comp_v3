@@ -1,4 +1,5 @@
 using Comp_v4.Installers;
+using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Table.Actions;
 using Comp_v4.TableWindows.Counterparties.Table.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
@@ -14,7 +15,8 @@ public class SelfInstaller : ISelfLayerInstaller
         if (selfContainer is not CounterpartyTableContainer)
             throw new ApplicationException("This is not a Counterparty table container.");
         
-        selfContainer.Add<FormContextInstaller>()
+        selfContainer.Add<ICounterpartyFormHandler>()
+                     .To<FormContextInstaller>()
                      .AsScoped<CounterpartyTableWindow>();
 
         selfContainer.Add<DataGridVm>()
