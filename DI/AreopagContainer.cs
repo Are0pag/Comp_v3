@@ -139,9 +139,9 @@ public class AreopagContainer : IDisposable
     }
 
     public TScopeOwner BeginScope<TScopeOwner>() where TScopeOwner : class, IDisposable {
-        if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeOwners)) {
+        /*if (_scopes.TryGetValue(typeof(TScopeOwner), out var scopeOwners)) {
             throw new InvalidOperationException($"Scope {typeof(TScopeOwner).Name} has already been scoped.");
-        }
+        }*/
         var targetScopeRegistrations = _registrationBuilders
                                       .OfType<ScopedRd>()                             
                                       .Where(r => r.ScopeRoot == typeof(TScopeOwner)) 

@@ -37,7 +37,7 @@ public class FormContextInstaller : ICounterpartyFormHandler
         //var window = WindowContextResolver.ResolveWindow<CounterpartyFormWindow>(_formContainer);
         var window = _formContainer.BeginScope<CounterpartyFormWindow>();
         window.Closed += (sender, args) => {
-            _formContainer.ReleaseScope<CounterpartyFormWindow>();
+            //_formContainer.ReleaseScope<CounterpartyFormWindow>();
             tcs.SetResult();
         };
         window.Show();
