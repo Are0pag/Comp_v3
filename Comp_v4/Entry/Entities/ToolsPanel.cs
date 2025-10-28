@@ -41,8 +41,8 @@ public class ToolsPanelStateIdle : BaseToolsPanelState
     public override async Task OpenNomDict(TaskCompletionSource tcs, object? o) {
        using (IServiceScope scope = _scopeFactory.CreateScope()) {
            var window = scope.ServiceProvider.GetRequiredService<EntryWindow>();
-           window.Show();
            window.Closed += (_, _) => tcs.SetResult();
+           window.Show();
            await tcs.Task;
        }
     }
