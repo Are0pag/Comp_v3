@@ -24,6 +24,7 @@ public class AddSoAction : BaseActionAsyncCompletion
             
             scope.ServiceProvider.GetRequiredService<SoForm>();
             scope.ServiceProvider.GetRequiredService<SaveFormAction>();
+            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>();
             
             window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();

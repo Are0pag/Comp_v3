@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.SupplierOrders.Form;
+using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
@@ -27,6 +28,9 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
             
             var soForm = scope.ServiceProvider.GetRequiredService<SoForm>();
             await soForm.ChangeState(soForm.GetState<EditSoFormState>(), soForm);
+            
+            scope.ServiceProvider.GetRequiredService<SaveFormAction>();
+            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>();
             
             if (ParentScope?.ServiceProvider.GetRequiredService<SoDataGridVm>() is not { } dg)
                 throw new NullReferenceException("EditSoAction");

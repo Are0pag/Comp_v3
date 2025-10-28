@@ -15,7 +15,26 @@ namespace Comp_v4.TableWindows.SupplierOrders.Installers;
 public static class SupplierOrderInstaller
 {
     public static void RegisterSupplierOrders(this IServiceCollection services) {
-        /* Table */
+        RegisterTable(services);
+        RegisterForm(services);
+    }
+
+    private static void RegisterForm(IServiceCollection services) {
+        services.AddScoped<SupplierOrder>(_ => new SupplierOrder());
+        
+        services.AddScoped<SaveFormButVm>();
+        services.AddScoped<SaveFormAction>();
+
+        services.AddScoped<CounterpartySelectButVm>();
+        services.AddScoped<CounterpartySelectAction>();
+
+        services.AddScoped<OrderStatusEnumsVm>();
+        services.AddScoped<VatStatusEnumVm>();
+        
+        services.AddScoped<SupplierOrderFormWindow>();
+    }
+
+    private static void RegisterTable(IServiceCollection services) {
         services.AddScoped<SoDataGridVm>();
         
         services.AddScoped<AddSoButVm>();
@@ -37,19 +56,5 @@ public static class SupplierOrderInstaller
         
         services.AddScoped<CreateSoFormState>();
         services.AddScoped<EditSoFormState>();
-        
-
-        services.AddScoped<SupplierOrder>(_ => new SupplierOrder());
-        
-        services.AddScoped<SaveFormButVm>();
-        services.AddScoped<SaveFormAction>();
-
-        services.AddScoped<CounterpartySelectButVm>();
-        //services.AddScoped<CounterpartySelectAction>();
-
-        services.AddScoped<OrderStatusEnumsVm>();
-        services.AddScoped<VatStatusEnumVm>();
-        
-        services.AddScoped<SupplierOrderFormWindow>();
     }
 }

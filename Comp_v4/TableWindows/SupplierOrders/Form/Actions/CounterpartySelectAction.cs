@@ -1,23 +1,36 @@
-/*using Comp_v4.Installers;
 using Comp_v4.TableWindows.Counterparties.Table;
-using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
-using DI;
+using Comp_v4.TableWindows.Counterparties.Table.Entities;
+using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
+using Microsoft.Extensions.DependencyInjection;
+using Templates.Common.Actions;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 
-public class CounterpartySelectAction : BaseActionAsyncCompletion
+public class CounterpartySelectAction : BaseActionAsyncScopeHandler
 {
-    protected readonly CounterpartyTableContainer _container;
-    public CounterpartySelectAction(CounterpartySelectButVm button, CounterpartyTableContainer container) : base(button) {
-        _container = container;
+    public CounterpartySelectAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
-        WindowContextResolver.ResolveWindow<CounterpartyTableWindow>(_container);
-    }
+        _currentTcs = tcs;
+        using (var scope = _scopeFactory.CreateScope()) {
+            var window = scope.ServiceProvider.GetRequiredService<CounterpartyTableWindow>();
+            
+            scope.ServiceProvider.GetRequiredService<TableCounterparty>();
+            
+            scope.ServiceProvider.GetRequiredService<AddCounterpartyButVm>();
+            scope.ServiceProvider.GetRequiredService<EditCounterpartyButVm>();
+            scope.ServiceProvider.GetRequiredService<DeleteCounterpartyButVm>();
+            
+            
 
-    public override bool CanPerform() {
-        return true;
+            window.Closed += (sender, args) => {
+                _currentTcs.TrySetResult();
+            };
+            window.Show();
+        
+            await _currentTcs.Task;
+        }
     }
-}*/
+}
