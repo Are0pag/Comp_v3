@@ -20,6 +20,6 @@ public partial class SupplierOrderFormWindow : Window, IDisposable
     }
 
     public void Dispose() {
-        
+        Console.WriteLine($"{nameof(SupplierOrderFormWindow)} disposed");
     }
 }

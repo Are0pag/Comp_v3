@@ -16,4 +16,9 @@ public partial class SaveButVm : BaseButtonAdvanced
     public override void NotifyCanExecute() {
         ClickCommand.NotifyCanExecuteChanged();
     }
+
+    public override void Dispose() {
+        base.Dispose();
+        Console.WriteLine($"{nameof(SaveButVm)} disposed");
+    }
 }

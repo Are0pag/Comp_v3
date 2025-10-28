@@ -3,7 +3,7 @@ using Utils.WPF;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Vm;
 
-public class OrderStatusEnumsVm : EnumVmSourceChanging<OrderStatus, SupplierOrder>
+public class OrderStatusEnumsVm : EnumVmSourceChanging<OrderStatus, SupplierOrder>, IDisposable
 {
     public OrderStatusEnumsVm(SupplierOrder source) : base(source) {
         _selectedValue = OrderStatus.Created;
@@ -15,5 +15,9 @@ public class OrderStatusEnumsVm : EnumVmSourceChanging<OrderStatus, SupplierOrde
             SetProperty(ref _selectedValue, value);
             _source.OrderStatus = value.ToString();
         }
+    }
+
+    public void Dispose() {
+        Console.WriteLine($"{nameof(OrderStatusEnumsVm)} disposed");
     }
 }

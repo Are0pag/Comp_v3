@@ -13,6 +13,6 @@ public partial class SupplierOrderTableWindow : Window, IDisposable
     }
 
     public void Dispose() {
-        
+        //Console.WriteLine($"{nameof(SupplierOrderTableWindow)} disposed");
     }
 }

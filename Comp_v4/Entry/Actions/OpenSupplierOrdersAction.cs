@@ -2,7 +2,6 @@ using Comp_v4.Entry.Vm.Buts;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Table;
-using Comp_v4.TableWindows.SupplierOrders.Table._Installers;
 using Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF.Buttons;
