@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.SupplierOrders.Form;
+using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
@@ -11,6 +12,7 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
 {
     protected readonly IServiceScopeFactory _scopeFactory;
     protected readonly SupplierOrder _supplierOrder;
+    protected SoDataGridVm? _soDataGridVm;
     public EditSoAction(EditSoButVm button, IServiceScopeFactory scopeFactory, SupplierOrder supplierOrder) : base(button) {
         _scopeFactory = scopeFactory;
         _supplierOrder = supplierOrder;
@@ -23,10 +25,14 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderFormWindow>();
             
-            if (ParentScope?.ServiceProvider.GetRequiredService<SoDataGridVm>().SelectedItem is not { } selectedSo)
-                throw new NullReferenceException("EditSoAction");
-            selectedSo.CopyTo(_supplierOrder);
+            var soForm = scope.ServiceProvider.GetRequiredService<SoForm>();
+            await soForm.ChangeState(soForm.GetState<EditSoFormState>(), soForm);
             
+            if (ParentScope?.ServiceProvider.GetRequiredService<SoDataGridVm>() is not { } dg)
+                throw new NullReferenceException("EditSoAction");
+            dg.SelectedItem!.CopyTo(_supplierOrder);
+            _soDataGridVm = dg;
+
             window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();
             };
@@ -34,5 +40,9 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
         
             await _currentTcs.Task;
         }
+    }
+
+    public override bool CanPerform() {
+        return base.CanPerform() && _soDataGridVm?.SelectedItem != null;
     }
 }

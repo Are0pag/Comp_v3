@@ -1,4 +1,6 @@
 using Comp_v4.TableWindows.SupplierOrders.Form;
+using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
+using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Installers;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
@@ -19,6 +21,10 @@ public class AddSoAction : BaseActionAsyncCompletion
         _currentTcs = tcs;
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderFormWindow>();
+            
+            scope.ServiceProvider.GetRequiredService<SoForm>();
+            scope.ServiceProvider.GetRequiredService<SaveFormAction>();
+            
             window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();
             };

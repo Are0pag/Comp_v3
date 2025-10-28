@@ -5,9 +5,9 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 
-public class SaveAction : BaseActionAsyncCompletion
+public class SaveFormAction : BaseActionAsyncSelfWaiting
 {
-    public SaveAction(SaveButVm button) : base(button) {
+    public SaveFormAction(SaveFormButVm button) : base(button) {
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -26,9 +26,5 @@ public class SaveAction : BaseActionAsyncCompletion
         });
 
         await Task.WhenAll(tasks);
-    }
-
-    public override bool CanPerform() {
-        return true;
     }
 }

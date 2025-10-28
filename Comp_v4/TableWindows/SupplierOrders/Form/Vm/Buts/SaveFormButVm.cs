@@ -3,9 +3,9 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 
-public partial class SaveButVm : BaseButtonAdvanced
+public partial class SaveFormButVm : BaseButtonAdvanced
 {
-    public SaveButVm() {
+    public SaveFormButVm() {
         Label = "Сохранить";
     }
     [RelayCommand(CanExecute = nameof(CanClick))]
@@ -19,6 +19,6 @@ public partial class SaveButVm : BaseButtonAdvanced
 
     public override void Dispose() {
         base.Dispose();
-        Console.WriteLine($"{nameof(SaveButVm)} disposed");
+        Console.WriteLine($"{nameof(SaveFormButVm)} disposed");
     }
 }

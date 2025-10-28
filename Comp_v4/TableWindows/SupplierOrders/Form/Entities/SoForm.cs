@@ -17,7 +17,7 @@ public class SoForm : GenericStateMachine<BaseSoFormState, SoForm>, ICreateSuppl
     }
 
     public async Task OnCreateSupplierOrder(TaskCompletionSource tcs, object parameter = null) {
-        await CurrentState.OnCreateSupplierOrder(this, tcs, parameter);
+        //await CurrentState.OnCreateSupplierOrder(this, tcs, parameter);
         tcs.TrySetResult();
     }
 }

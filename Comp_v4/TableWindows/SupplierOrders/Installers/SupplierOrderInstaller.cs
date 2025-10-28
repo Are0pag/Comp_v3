@@ -17,23 +17,33 @@ public static class SupplierOrderInstaller
     public static void RegisterSupplierOrders(this IServiceCollection services) {
         /* Table */
         services.AddScoped<SoDataGridVm>();
+        
         services.AddScoped<AddSoButVm>();
         services.AddScoped<AddSoAction>();
+        
+        services.AddScoped<EditSoButVm>();
+        services.AddScoped<EditSoAction>();
+        
         services.AddScoped<SupplierOrderTableWindow>();
         
         /* form */
-        /*services.AddScoped<ISoFormFactory, SoFormFactory>();
-        services.AddScoped<EditSoFormState>();
-        services.AddScoped<CreateSoFormState>();
+        services.AddScoped<SoForm>();
+
         services.AddScoped<BaseSoFormState, EditSoFormState>();
-        services.AddScoped<BaseSoFormState, CreateSoFormState>();*/
+        /* GenericStateMachine(IEnumerable<TState> states, TState initialState)
+            - initialState будет = CreateSoFormState, 
+              т.к. зарегистрирована последней для BaseSoFormState */
+        services.AddScoped<BaseSoFormState, CreateSoFormState>();
+        
+        services.AddScoped<CreateSoFormState>();
+        services.AddScoped<EditSoFormState>();
+        
 
         services.AddScoped<SupplierOrder>(_ => new SupplierOrder());
         
-        services.AddScoped<SaveButVm>();
-        services.AddScoped<SaveAction>();
-        services.AddScoped<EditSoButVm>();
-        services.AddScoped<EditSoAction>();
+        services.AddScoped<SaveFormButVm>();
+        services.AddScoped<SaveFormAction>();
+
         services.AddScoped<CounterpartySelectButVm>();
         //services.AddScoped<CounterpartySelectAction>();
 

@@ -7,7 +7,7 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form;
 
 public partial class SupplierOrderFormWindow : Window, IDisposable
 {
-    public SupplierOrderFormWindow(SupplierOrder supplierOrder, SaveButVm saveButVm, CounterpartySelectButVm counterpartySelectButVm, 
+    public SupplierOrderFormWindow(SupplierOrder supplierOrder, SaveFormButVm saveButVm, CounterpartySelectButVm counterpartySelectButVm, 
                                    OrderStatusEnumsVm orderStatusEnumsVm, VatStatusEnumVm vatStatusEnumsVm) {
         InitializeComponent();
         DataContext = supplierOrder;
