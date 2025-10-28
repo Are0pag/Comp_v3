@@ -10,8 +10,8 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
 public class EditCounterpartyAction : BaseActionAsyncSelfWaiting
 {
-    protected readonly DataGridVm _dataGridVm;
-    public EditCounterpartyAction(EditCounterpartyButVm button, DataGridVm dataGridVm) : base(button) {
+    protected readonly CounterpartyDataGridVm _dataGridVm;
+    public EditCounterpartyAction(EditCounterpartyButVm button, CounterpartyDataGridVm dataGridVm) : base(button) {
         _dataGridVm = dataGridVm;
     }
 
@@ -26,7 +26,7 @@ public class EditCounterpartyAction : BaseActionAsyncSelfWaiting
             try {
                 if (_dataGridVm.SelectedItem is not { } counterparty)
                     throw new Exception();
-                h?.Open<EditFormState>(tcs, counterparty);
+                h?.Open<EditCpFormState>(tcs, counterparty);
             }
             catch (Exception ex) {
                 subscriberTcs.TrySetException(ex);

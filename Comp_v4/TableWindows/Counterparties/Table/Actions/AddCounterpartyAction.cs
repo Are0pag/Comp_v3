@@ -7,11 +7,11 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
-public class AddAction : BaseActionAsyncCompletion<Counterparty>
+public class AddCounterpartyAction : BaseActionAsyncCompletion<Counterparty>
 {
     protected readonly ICounterpartyFormHandler _formHandler;
     protected TaskCompletionSource<Counterparty>? _currentTcs;
-    public AddAction(AddCounterpartyButVm button, ICounterpartyFormHandler formHandler) : base(button) {
+    public AddCounterpartyAction(AddCounterpartyButVm button, ICounterpartyFormHandler formHandler) : base(button) {
         _formHandler = formHandler;
     }
 
@@ -19,7 +19,7 @@ public class AddAction : BaseActionAsyncCompletion<Counterparty>
         _currentTcs = tcs;
         var subscriberTcs = new TaskCompletionSource();
         var counterparty = new Counterparty();
-        await _formHandler.Open<CreateFormState>(subscriberTcs, counterparty);
+        await _formHandler.Open<CreateCpFormState>(subscriberTcs, counterparty);
         await subscriberTcs.Task;
         _currentTcs.TrySetResult(counterparty);
     }

@@ -9,7 +9,7 @@ namespace Comp_v4.TableWindows.Counterparties;
 
 public partial class CounterpartyFormWindow : Window, IDisposable, ISaveHandler
 {
-    public CounterpartyFormWindow(Counterparty counterparty, SaveButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm) {
+    public CounterpartyFormWindow(Counterparty counterparty, SaveCpFormButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm) {
         InitializeComponent();
         
         CounterpartyTypeComboBox.DataContext = counterpartyEnumsVm;

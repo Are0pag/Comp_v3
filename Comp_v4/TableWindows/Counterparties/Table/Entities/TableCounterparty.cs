@@ -8,9 +8,9 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Entities;
 
-public class Table : GenericStateMachine<BaseTableState, Table>, IMouseDoubleClickHandler
+public class TableCounterparty : GenericStateMachine<BaseCpTableState, TableCounterparty>, IMouseDoubleClickHandler
 {
-    public Table(IEnumerable<BaseTableState> states, BaseTableState initialState) : base(states, initialState) {
+    public TableCounterparty(IEnumerable<BaseCpTableState> states, BaseCpTableState initialState) : base(states, initialState) {
         EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
@@ -23,23 +23,23 @@ public class Table : GenericStateMachine<BaseTableState, Table>, IMouseDoubleCli
     }
 }
 
-public abstract class BaseTableState : StateBase<Table>
+public abstract class BaseCpTableState : StateBase<TableCounterparty>
 {
-    public abstract Task OnMouseDoubleClick(Table table, object sender, MouseButtonEventArgs mouseButtonEventArgs, TaskCompletionSource tcs);
+    public abstract Task OnMouseDoubleClick(TableCounterparty table, object sender, MouseButtonEventArgs mouseButtonEventArgs, TaskCompletionSource tcs);
 }
 
-public class EditTableState : BaseTableState
+public class EditCpTableState : BaseCpTableState
 {
     protected readonly ICounterpartyFormHandler _formContextInstaller;
 
-    public EditTableState(ICounterpartyFormHandler formContextInstaller) {
+    public EditCpTableState(ICounterpartyFormHandler formContextInstaller) {
         _formContextInstaller = formContextInstaller;
     }
 
-    public override async Task OnMouseDoubleClick(Table table, object sender, MouseButtonEventArgs mouseButtonEventArgs, TaskCompletionSource tcs) {
+    public override async Task OnMouseDoubleClick(TableCounterparty table, object sender, MouseButtonEventArgs mouseButtonEventArgs, TaskCompletionSource tcs) {
         if (sender is not DataGrid { SelectedItem: Counterparty counterparty })
             throw new Exception();
             
-        await _formContextInstaller.Open<EditFormState>(tcs, counterparty);
+        await _formContextInstaller.Open<EditCpFormState>(tcs, counterparty);
     }
 }

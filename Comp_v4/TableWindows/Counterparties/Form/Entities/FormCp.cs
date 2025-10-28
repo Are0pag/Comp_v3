@@ -6,9 +6,9 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties.Form.Entities;
 
-public class Form : GenericStateMachine<BaseFormState, Form>, ISaveHandler
+public class FormCp : GenericStateMachine<BaseCpFormState, FormCp>, ISaveHandler
 {
-    public Form(IEnumerable<BaseFormState> states, BaseFormState initialState) : base(states, initialState) {
+    public FormCp(IEnumerable<BaseCpFormState> states, BaseCpFormState initialState) : base(states, initialState) {
         EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
@@ -24,33 +24,33 @@ public class Form : GenericStateMachine<BaseFormState, Form>, ISaveHandler
     }
 }
 
-public abstract class BaseFormState : StateBase<Form>
+public abstract class BaseCpFormState : StateBase<FormCp>
 {
     protected readonly IRepository<Counterparty> _repository;
     
-    protected BaseFormState(IRepository<Counterparty> repository) {
+    protected BaseCpFormState(IRepository<Counterparty> repository) {
         _repository = repository;
     }
 
-    public abstract Task Save(Form form, Counterparty counterparty, object? parameter);
+    public abstract Task Save(FormCp form, Counterparty counterparty, object? parameter);
 }
 
-public class EditFormState : BaseFormState
+public class EditCpFormState : BaseCpFormState
 {
-    public EditFormState(IRepository<Counterparty> repository) : base(repository) {
+    public EditCpFormState(IRepository<Counterparty> repository) : base(repository) {
     }
 
-    public override async Task Save(Form form, Counterparty counterparty, object? parameter) {
+    public override async Task Save(FormCp form, Counterparty counterparty, object? parameter) {
         await _repository.UpdateAsync(counterparty);
     }
 }
 
-public class CreateFormState : BaseFormState
+public class CreateCpFormState : BaseCpFormState
 {
-    public CreateFormState(IRepository<Counterparty> repository) : base(repository) {
+    public CreateCpFormState(IRepository<Counterparty> repository) : base(repository) {
     }
 
-    public override async Task Save(Form form, Counterparty counterparty, object? parameter) {
+    public override async Task Save(FormCp form, Counterparty counterparty, object? parameter) {
         await _repository.AddAsync(counterparty);
     }
 }

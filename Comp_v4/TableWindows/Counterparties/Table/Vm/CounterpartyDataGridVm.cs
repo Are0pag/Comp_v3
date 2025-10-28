@@ -7,9 +7,9 @@ using WPF.Templates.TableWindow.v1.Vm;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Vm;
 
-public class DataGridVm : CollectionViewModel<Counterparty>, ISaveHandler
+public class CounterpartyDataGridVm : CollectionViewModel<Counterparty>, ISaveHandler
 {
-    public DataGridVm(IRepository<Counterparty> repository) : base(repository) {
+    public CounterpartyDataGridVm(IRepository<Counterparty> repository) : base(repository) {
         EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 

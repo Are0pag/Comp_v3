@@ -11,7 +11,7 @@ namespace Comp_v4.TableWindows.Counterparties.Table;
 public partial class CounterpartyTableWindow : Window, IDisposable
 {
     protected TaskCompletionSource? _tcsMouseDoubleClick;
-    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, DataGridVm dataGridVm) {
+    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, CounterpartyDataGridVm dataGridVm) {
         InitializeComponent();
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editCounterpartyButVm;

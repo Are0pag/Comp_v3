@@ -6,10 +6,10 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Form.Actions;
 
-public class SaveAction : BaseActionAsyncCompletion<Counterparty>
+public class SaveCpFormAction : BaseActionAsyncCompletion<Counterparty>
 {
     protected readonly Counterparty _counterparty;
-    public SaveAction(SaveButVm button, Counterparty counterparty) : base(button) {
+    public SaveCpFormAction(SaveCpFormButVm button, Counterparty counterparty) : base(button) {
         _counterparty = counterparty;
     }
 
