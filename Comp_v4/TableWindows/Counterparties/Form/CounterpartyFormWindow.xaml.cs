@@ -7,7 +7,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties;
 
-public partial class CounterpartyFormWindow : Window, IDisposable, ISaveHandler
+public partial class CounterpartyFormWindow : Window, IDisposable
 {
     public CounterpartyFormWindow(Counterparty counterparty, SaveCpFormButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm) {
         InitializeComponent();
@@ -16,11 +16,11 @@ public partial class CounterpartyFormWindow : Window, IDisposable, ISaveHandler
         
         DataContext = counterparty;
         SaveButton.DataContext = saveButVm;
-        EventBus<ICounterpartySubscriber>.Subscribe(this);
+        //EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
     public void Dispose() {
-        EventBus<ICounterpartySubscriber>.Unsubscribe(this);
+        //EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
 
     public Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null) {

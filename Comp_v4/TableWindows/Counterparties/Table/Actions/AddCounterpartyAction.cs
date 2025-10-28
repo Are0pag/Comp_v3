@@ -1,30 +1,30 @@
-using Comp_v4.TableWindows.Counterparties.Events;
+using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
-using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
-using Comp.ModelData;
-using Utils.EventBus;
+using Microsoft.Extensions.DependencyInjection;
+using Templates.Common.Actions;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
-public class AddCounterpartyAction : BaseActionAsyncCompletion<Counterparty>
+public class AddCounterpartyAction : BaseActionAsyncScopeHandler
 {
-    protected readonly ICounterpartyFormHandler _formHandler;
-    protected TaskCompletionSource<Counterparty>? _currentTcs;
-    public AddCounterpartyAction(AddCounterpartyButVm button, ICounterpartyFormHandler formHandler) : base(button) {
-        _formHandler = formHandler;
+    public AddCounterpartyAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
     }
 
-    public override async void Perform(TaskCompletionSource<Counterparty> tcs) {
+    public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
-        var subscriberTcs = new TaskCompletionSource();
-        var counterparty = new Counterparty();
-        await _formHandler.Open<CreateCpFormState>(subscriberTcs, counterparty);
-        await subscriberTcs.Task;
-        _currentTcs.TrySetResult(counterparty);
-    }
+        using (var scope = _scopeFactory.CreateScope()) {
+            var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
 
-    public override bool CanPerform() {
-        return _currentTcs is null || _currentTcs.Task.IsCompleted;
+            scope.ServiceProvider.GetRequiredService<FormCp>();
+            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
+
+            window.Closed += (sender, args) => {
+                _currentTcs.TrySetResult();
+            };
+            window.Show();
+        
+            await _currentTcs.Task;
+        }
     }
 }

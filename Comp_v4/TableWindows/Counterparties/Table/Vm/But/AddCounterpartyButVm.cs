@@ -4,7 +4,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 
-public partial class AddCounterpartyButVm : BaseButtonAdvanced<Counterparty>
+public partial class AddCounterpartyButVm : BaseButtonAdvanced
 {
     public AddCounterpartyButVm() {
         Label = "Добавить";

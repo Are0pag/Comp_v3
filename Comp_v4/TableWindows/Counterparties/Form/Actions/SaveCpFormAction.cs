@@ -9,8 +9,11 @@ namespace Comp_v4.TableWindows.Counterparties.Form.Actions;
 public class SaveCpFormAction : BaseActionAsyncCompletion<Counterparty>
 {
     protected readonly Counterparty _counterparty;
-    public SaveCpFormAction(SaveCpFormButVm button, Counterparty counterparty) : base(button) {
+    protected readonly CounterpartyFormWindow _formWindow;
+    
+    public SaveCpFormAction(SaveCpFormButVm button, Counterparty counterparty, CounterpartyFormWindow formWindow) : base(button) {
         _counterparty = counterparty;
+        _formWindow = formWindow;
     }
 
     public override async void Perform(TaskCompletionSource<Counterparty> tcs) {
@@ -30,6 +33,8 @@ public class SaveCpFormAction : BaseActionAsyncCompletion<Counterparty>
 
         await Task.WhenAll(tasks);
         tcs.TrySetResult(_counterparty);
+        
+        _formWindow.Close();
     }
 
     public override bool CanPerform() {

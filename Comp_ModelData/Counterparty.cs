@@ -205,4 +205,37 @@ public class Counterparty : ObservableObject, IDbEntity
     }
 
 #endregion
+
+#region Copy
+
+public Counterparty PopulateFrom(Counterparty targetValues) {
+    if (targetValues == null)
+        throw new ArgumentNullException(nameof(targetValues));
+
+    // Копирование значений из targetValues
+    CounterpartyTypeName = targetValues.CounterpartyTypeName;
+    ShortName = targetValues.ShortName;
+    FullName = targetValues.FullName;
+    CityName = targetValues.CityName;
+    Address = targetValues.Address;
+    Tin = targetValues.Tin;
+    ReasonCode = targetValues.ReasonCode;
+
+    BankName = targetValues.BankName;
+    SettlementAccount = targetValues.SettlementAccount;
+    MinimumOrderAmount = targetValues.MinimumOrderAmount;
+    IsVatTaxpayer = targetValues.IsVatTaxpayer;
+
+    PhoneNumber = targetValues.PhoneNumber;
+    Email = targetValues.Email;
+    Website = targetValues.Website;
+    WebsiteLogin = targetValues.WebsiteLogin;
+    WebsitePassword = targetValues.WebsitePassword;
+    Comment = targetValues.Comment;
+
+    return this; // Вернуть текущий экземпляр для возможности цепочного вызова
+}
+
+#endregion
+
 }

@@ -1,40 +1,40 @@
-using Comp_v4.TableWindows.Counterparties.Events;
+using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
-using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Comp.ModelData;
-using Utils.EventBus;
+using Microsoft.Extensions.DependencyInjection;
+using Templates.Common.Actions;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
-public class EditCounterpartyAction : BaseActionAsyncSelfWaiting
+public class EditCounterpartyAction : BaseActionAsyncScopeHandler
 {
     protected readonly CounterpartyDataGridVm _dataGridVm;
-    public EditCounterpartyAction(EditCounterpartyButVm button, CounterpartyDataGridVm dataGridVm) : base(button) {
+    public EditCounterpartyAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory, CounterpartyDataGridVm dataGridVm) : base(button, scopeFactory) {
         _dataGridVm = dataGridVm;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
-        var tasks = new List<Task>();
+        using (var scope = _scopeFactory.CreateScope()) {
+            var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
+            
+            var targetItem = scope.ServiceProvider.GetRequiredService<Counterparty>();
+            targetItem.PopulateFrom(_dataGridVm.SelectedItem!);
 
-        EventBus<ICounterpartySubscriber>.RaiseEvent<ICounterpartyFormHandler>(h => {
-            var subscriberTcs = new TaskCompletionSource();
-            tasks.Add(subscriberTcs.Task);
+            var form = scope.ServiceProvider.GetRequiredService<FormCp>();
+            await form.ChangeState(scope.ServiceProvider.GetRequiredService<EditCpFormState>(), form);
+            
+            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
 
-            try {
-                if (_dataGridVm.SelectedItem is not { } counterparty)
-                    throw new Exception();
-                h?.Open<EditCpFormState>(tcs, counterparty);
-            }
-            catch (Exception ex) {
-                subscriberTcs.TrySetException(ex);
-            }
-        });
-
-        await Task.WhenAll(tasks);
-        _currentTcs.TrySetResult();
+            window.Closed += (sender, args) => {
+                _currentTcs.TrySetResult();
+            };
+            window.Show();
+        
+            await _currentTcs.Task;
+        }
     }
 
     public override bool CanPerform() {
