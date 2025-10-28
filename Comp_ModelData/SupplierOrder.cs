@@ -173,4 +173,33 @@ public class SupplierOrder : ObservableObject, IDbEntity
     }
 
 #endregion
+
+    
+#region Copy
+    
+    public SupplierOrder CopyTo(SupplierOrder target) {
+        // Текстовые данные
+        target.PurchaseOrderNumber = this.PurchaseOrderNumber;
+        target.InvoiceNumber = this.InvoiceNumber;
+        target.Note = this.Note;
+
+        // Статусы
+        target.OrderStatus = this.OrderStatus;
+        target.VatStatus = this.VatStatus;
+
+        // Пути к файлам
+        target.ContractFilePath = this.ContractFilePath;
+        target.InvoiceFilePath = this.InvoiceFilePath;
+
+        // Даты
+        target.OrderDate = this.OrderDate;
+        target.DeliveryDate = this.DeliveryDate;
+
+        // Связанный контрагент
+        target.CounterpartyId = this.CounterpartyId;
+        target.Counterparty = this.Counterparty;
+        return target;
+    }
+
+#endregion
 }

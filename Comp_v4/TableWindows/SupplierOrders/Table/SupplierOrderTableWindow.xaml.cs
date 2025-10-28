@@ -6,10 +6,11 @@ namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
 public partial class SupplierOrderTableWindow : Window, IDisposable
 {
-    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm) {
+    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
         AddButton.DataContext = addButVm;
+        EditButton.DataContext = editButVm;
     }
 
     public void Dispose() {

@@ -1,6 +1,4 @@
 using Comp_v4.Entry.Vm.Buts;
-using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
-using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Table;
 using Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +19,7 @@ public class OpenSupplierOrdersAction : BaseActionAsyncCompletion
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderTableWindow>();
             scope.ServiceProvider.GetRequiredService<AddSoAction>();
+            scope.ServiceProvider.GetRequiredService<EditSoAction>().ParentScope = scope;
             window.Closed += (_, __) => {
                 _currentTcs.TrySetResult();
             };

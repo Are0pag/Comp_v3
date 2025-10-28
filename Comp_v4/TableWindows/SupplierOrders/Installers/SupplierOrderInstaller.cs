@@ -32,6 +32,8 @@ public static class SupplierOrderInstaller
         
         services.AddScoped<SaveButVm>();
         services.AddScoped<SaveAction>();
+        services.AddScoped<EditSoButVm>();
+        services.AddScoped<EditSoAction>();
         services.AddScoped<CounterpartySelectButVm>();
         //services.AddScoped<CounterpartySelectAction>();
 
