@@ -58,13 +58,3 @@ public class SelfInstaller : ISelfLayerInstaller
         return selfContainer;
     }
 }*/
-
-using Comp.ModelData;
-using Microsoft.Extensions.DependencyInjection;
-
-public static class SupplierOrderExtensions
-{
-    public static void InstallSupplierOrder(this IServiceCollection services) {
-        services.AddScoped<>()
-    }
-}

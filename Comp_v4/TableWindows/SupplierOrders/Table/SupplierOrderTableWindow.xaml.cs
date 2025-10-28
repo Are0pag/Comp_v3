@@ -6,7 +6,7 @@ namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
 public partial class SupplierOrderTableWindow : Window, IDisposable
 {
-    public SupplierOrderTableWindow(DataGridVm dataGridVm, AddButVm addButVm) {
+    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
         AddButton.DataContext = addButVm;

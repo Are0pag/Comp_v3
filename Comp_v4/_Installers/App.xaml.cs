@@ -2,6 +2,7 @@
 using Comp_v4.Entry;
 using Comp_v4.Entry._Installers;
 using Comp_v4.Entry.Actions;
+using Comp_v4.TableWindows.SupplierOrders.Installers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -17,7 +18,7 @@ public partial class App : Application
                        .ConfigureServices((hostContext, services) => {
                             services.RegisterDb();
                             services.InstallEntry();
-
+                            services.RegisterSupplierOrders();
                             
                         }).Build();
     }

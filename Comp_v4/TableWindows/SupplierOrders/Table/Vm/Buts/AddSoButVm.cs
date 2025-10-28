@@ -3,9 +3,9 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 
-public partial class AddButVm : BaseButtonAdvanced 
+public partial class AddSoButVm : BaseButtonAdvanced 
 {
-    public AddButVm() {
+    public AddSoButVm() {
         Label = "Добавить";
     }
     [RelayCommand(CanExecute = nameof(CanClick))]

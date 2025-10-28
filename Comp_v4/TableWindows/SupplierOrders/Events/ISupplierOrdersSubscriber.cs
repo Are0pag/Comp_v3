@@ -6,7 +6,7 @@ public interface ISupplierOrdersSubscriber : IDisposable { }
 
 public interface IFormHandler : ISupplierOrdersSubscriber
 {
-    Task OpenForm<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseFormState;
+    Task OpenForm<T>(TaskCompletionSource tcs, object? parameter = null) where T : BaseSoFormState;
 }
 
 public interface ICreateSupplierOrdersHandler : ISupplierOrdersSubscriber
