@@ -20,9 +20,8 @@ public class CounterpartySelectAction : BaseActionAsyncScopeHandler
             var window = scope.ServiceProvider.GetRequiredService<CounterpartyTableWindow>();
             
             scope.ServiceProvider.GetRequiredService<TableCounterparty>();
-            
-            scope.ServiceProvider.GetRequiredService<AddCounterpartyAction>();
-            
+            scope.ServiceProvider.GetRequiredService<AddCounterpartyAction>().ParentScope = scope;
+            scope.ServiceProvider.GetRequiredService<EditCounterpartyAction>().ParentScope = scope;
 
             window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();

@@ -17,7 +17,7 @@ public class AddCounterpartyAction : BaseActionAsyncScopeHandler
             var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
 
             scope.ServiceProvider.GetRequiredService<FormCp>();
-            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
+            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>().ParentScope = scope;
 
             window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();

@@ -4,7 +4,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Form.Vm.Buts;
 
-public partial class SaveCpFormButVm : BaseButtonAdvanced<Counterparty>
+public partial class SaveCpFormButVm : BaseButtonAdvanced
 {
     public SaveCpFormButVm() {
         Label = "Save";

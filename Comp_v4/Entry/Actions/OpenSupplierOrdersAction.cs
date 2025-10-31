@@ -18,7 +18,7 @@ public class OpenSupplierOrdersAction : BaseActionAsyncCompletion
         _currentTcs = tcs;
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderTableWindow>();
-            scope.ServiceProvider.GetRequiredService<AddSoAction>();
+            scope.ServiceProvider.GetRequiredService<AddSoAction>().ParentScope = scope;
             scope.ServiceProvider.GetRequiredService<EditSoAction>().ParentScope = scope;
             window.Closed += (_, __) => {
                 _currentTcs.TrySetResult();
