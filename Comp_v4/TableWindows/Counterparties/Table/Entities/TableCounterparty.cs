@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Actions;
+using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
 using Utils.EventBus;
@@ -33,17 +34,17 @@ public abstract class BaseCpTableState : StateBase<TableCounterparty>
 
 public class EditCpTableState : BaseCpTableState
 {
-    protected readonly EditCounterpartyAction _editCounterpartyAction;
-    public EditCpTableState(EditCounterpartyAction editCounterpartyAction) {
-        _editCounterpartyAction = editCounterpartyAction;
+    protected readonly EditCounterpartyButVm _editCounterpartyButVm;
+    public EditCpTableState(EditCounterpartyButVm editCounterpartyButVm) {
+        _editCounterpartyButVm = editCounterpartyButVm;
     }
 
     public override async Task OnMouseDoubleClick(TableCounterparty table, object sender, MouseButtonEventArgs mouseButtonEventArgs, TaskCompletionSource tcs) {
         if (sender is not DataGrid { SelectedItem: Counterparty })
             throw new Exception();
 
-        if (_editCounterpartyAction.CanPerform()) {
-            await _editCounterpartyAction.Perform(tcs);
+        if (_editCounterpartyButVm.CanClick()) {
+            await _editCounterpartyButVm.OnClickAsync();
         }
             
     }
