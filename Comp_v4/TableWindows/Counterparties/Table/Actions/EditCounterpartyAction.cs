@@ -1,6 +1,7 @@
 using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
+using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
@@ -11,7 +12,7 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 public class EditCounterpartyAction : BaseActionAsyncScopeHandler
 {
     protected readonly CounterpartyDataGridVm _dataGridVm;
-    public EditCounterpartyAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory, CounterpartyDataGridVm dataGridVm) : base(button, scopeFactory) {
+    public EditCounterpartyAction(EditCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyDataGridVm dataGridVm) : base(button, scopeFactory) {
         _dataGridVm = dataGridVm;
     }
 

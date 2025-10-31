@@ -209,9 +209,10 @@ public class Counterparty : ObservableObject, IDbEntity
 #region Copy
 
 public Counterparty PopulateFrom(Counterparty targetValues) {
-    if (targetValues == null)
-        throw new ArgumentNullException(nameof(targetValues));
+    ArgumentNullException.ThrowIfNull(targetValues);
 
+    Id = targetValues.Id;
+    
     // Копирование значений из targetValues
     CounterpartyTypeName = targetValues.CounterpartyTypeName;
     ShortName = targetValues.ShortName;

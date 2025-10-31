@@ -1,6 +1,8 @@
 using Comp_v4.TableWindows.Counterparties.Table;
+using Comp_v4.TableWindows.Counterparties.Table.Actions;
 using Comp_v4.TableWindows.Counterparties.Table.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
+using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
 using Utils.WPF.Buttons;
@@ -9,7 +11,7 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 
 public class CounterpartySelectAction : BaseActionAsyncScopeHandler
 {
-    public CounterpartySelectAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
+    public CounterpartySelectAction(CounterpartySelectButVm button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -19,10 +21,7 @@ public class CounterpartySelectAction : BaseActionAsyncScopeHandler
             
             scope.ServiceProvider.GetRequiredService<TableCounterparty>();
             
-            scope.ServiceProvider.GetRequiredService<AddCounterpartyButVm>();
-            scope.ServiceProvider.GetRequiredService<EditCounterpartyButVm>();
-            scope.ServiceProvider.GetRequiredService<DeleteCounterpartyButVm>();
-            
+            scope.ServiceProvider.GetRequiredService<AddCounterpartyAction>();
             
 
             window.Closed += (sender, args) => {

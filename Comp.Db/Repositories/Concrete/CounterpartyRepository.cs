@@ -21,7 +21,12 @@ public class CounterpartyRepository : DbRepository<Counterparty>
     public override async Task UpdateAsync(Counterparty entity) {
         ArgumentNullException.ThrowIfNull(entity.ShortName);
         
-        _context.Set<Counterparty>().Attach(entity).State = EntityState.Modified;
+        if (await _context.Set<Counterparty>().FindAsync(entity.Id) is not {} dbEntity)
+            throw new KeyNotFoundException();
+        
+        dbEntity.PopulateFrom(entity);
+        _context.Set<Counterparty>().Attach(dbEntity).State = EntityState.Modified;
+        //_context.Set<Counterparty>().Update(dbEntity);
         await _context.SaveChangesAsync();
     }
 }

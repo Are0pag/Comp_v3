@@ -21,6 +21,8 @@ public partial class CounterpartyTableWindow : Window, IDisposable
     public void Dispose() {
         
     }
+    
+    public Action<TaskCompletionSource, object?, MouseButtonEventArgs> OnDoubleClickSelectingItemInTable { get; set; } 
 
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         if (_tcsMouseDoubleClick is {Task.IsCompleted: false})
@@ -35,8 +37,9 @@ public partial class CounterpartyTableWindow : Window, IDisposable
         await Application.Current.Dispatcher.InvokeAsync(() => {
             if (MainDataGrid.SelectedItem is null)
                 return;
-            EventBus<ICounterpartySubscriber>
-               .RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(_tcsMouseDoubleClick!, sender, e));
+            /*EventBus<ICounterpartySubscriber>
+               .RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(_tcsMouseDoubleClick!, sender, e));*/
+            OnDoubleClickSelectingItemInTable?.Invoke(_tcsMouseDoubleClick!, MainDataGrid, e);
         }, DispatcherPriority.Background);
     }
 }
