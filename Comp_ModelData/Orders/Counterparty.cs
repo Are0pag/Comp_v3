@@ -9,7 +9,7 @@ namespace Comp.ModelData;
 /// Контрагент - юридическое или физическое лицо, которое участвует в договорных отношениях с компанией на поставку товаров, работ или услуг
 /// </summary>
 [Table("Counterparties")]
-public class Counterparty : ObservableObject, IDbEntity
+public class Counterparty : ObservableObject, IPropertyChangable, IDbEntity, IPopulable<Counterparty>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -239,4 +239,37 @@ public Counterparty PopulateFrom(Counterparty targetValues) {
 
 #endregion
 
+#region Notify
+
+    public void NotifyChanged() {
+        // Requisites section
+        OnPropertyChanged(nameof(CounterpartyTypeName));
+        OnPropertyChanged(nameof(ShortName));
+        OnPropertyChanged(nameof(FullName));
+        OnPropertyChanged(nameof(CityName));
+        OnPropertyChanged(nameof(Address));
+        OnPropertyChanged(nameof(Tin));
+        OnPropertyChanged(nameof(ReasonCode));
+
+        // Account section
+        OnPropertyChanged(nameof(BankName));
+        OnPropertyChanged(nameof(SettlementAccount));
+        OnPropertyChanged(nameof(MinimumOrderAmount));
+        OnPropertyChanged(nameof(IsVatTaxpayer));
+
+        // Contacts section
+        OnPropertyChanged(nameof(PhoneNumber));
+        OnPropertyChanged(nameof(Email));
+        OnPropertyChanged(nameof(Website));
+        OnPropertyChanged(nameof(WebsiteLogin));
+        OnPropertyChanged(nameof(WebsitePassword));
+        OnPropertyChanged(nameof(Comment));
+    }
+
+#endregion
+
+    
+    public override string ToString() {
+        return ShortName;
+    }
 }

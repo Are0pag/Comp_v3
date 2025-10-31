@@ -12,7 +12,7 @@ public abstract class CollectionViewModel<T> : VmEnumerableInteractiveData<T>
     
     public CollectionViewModel(IRepository<T> repository) {
         _repository = repository;
-        LoadDataAsync();
+        _ = LoadDataAsync();
     }
 
     public override T? SelectedItem { 
@@ -25,7 +25,7 @@ public abstract class CollectionViewModel<T> : VmEnumerableInteractiveData<T>
         }
     }
 
-    private async void LoadDataAsync() {  /* VmRepo : базы */
+    protected override async Task LoadDataAsync() {  /* VmRepo : базы */
         var items = await _repository.GetAllAsync();
         Items = new ObservableCollection<T?>(items!)!;
         OnPropertyChanged(nameof(Items));

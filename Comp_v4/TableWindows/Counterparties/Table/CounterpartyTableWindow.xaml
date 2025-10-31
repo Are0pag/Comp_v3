@@ -68,14 +68,16 @@
         <!-- Таблица контрагентов -->
         <DataGrid Grid.Row="1" 
                   x:Name="MainDataGrid" 
-                  ItemsSource="{Binding Items}"
+                  ItemsSource="{Binding Items, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedItem}"
                   Margin="10" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
-                  MouseDoubleClick="MainDataGrid_OnMouseDoubleClick">
+                  MouseDoubleClick="MainDataGrid_OnMouseDoubleClick"
+                  EnableRowVirtualization="False" 
+                  EnableColumnVirtualization="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Краткое наименование" Binding="{Binding ShortName}" Width="120"/>
+                <DataGridTextColumn Header="Краткое наименование" Binding="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" Width="120"/>
                 <DataGridTextColumn Header="Полное наименование" Binding="{Binding FullName}" Width="150"/>
                 <DataGridTextColumn Header="Город" Binding="{Binding CityName}" Width="100"/>
                 <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="120"/>

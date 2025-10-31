@@ -25,6 +25,25 @@ public class CounterpartyDataGridVm : CollectionViewModel<Counterparty>, ISaveHa
             Items.Add(counterparty);
             OnPropertyChanged(nameof(Items));
         }
+        else {
+            try {
+                if (Items.First(i => i.Id == counterparty.Id) is { } sourceItem) {
+                    sourceItem.PopulateFrom(counterparty);
+                    OnPropertyChanged(nameof(Items));
+                }
+                    
+            }
+            catch (InvalidOperationException ex) {
+                throw;
+            }
+        }
+        
         tcs.SetResult(counterparty);
+    }
+
+    public async Task Update() {
+        Items.Clear();
+        OnPropertyChanged(nameof(Items));
+        await LoadDataAsync();
     }
 }
