@@ -16,12 +16,12 @@ public abstract class BaseActionAsyncScopeHandler : BaseActionAsyncSelfWaiting
     public IServiceScope? ParentScope { get; set; }
     
     protected void OnWindowClosed(object? sender, EventArgs e) {
-        Console.WriteLine("4.1. OnWindowClosed started");
+        //Console.WriteLine("4.1. OnWindowClosed started");
         if (sender is Window window) {
             window.Closed -= OnWindowClosed;
         }
         Cleanup();
-        Console.WriteLine("4.2. OnWindowClosed completed");
+        //Console.WriteLine("4.2. OnWindowClosed completed");
     }
 
     protected void Cleanup() {

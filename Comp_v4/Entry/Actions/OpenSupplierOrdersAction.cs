@@ -13,7 +13,7 @@ public class OpenSupplierOrdersAction : BaseActionAsyncScopeHandler
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
-        Console.WriteLine("1. Perform started");
+        //Console.WriteLine("1. Perform started");
         _currentTcs = tcs;
 
         _currentScope = _scopeFactory.CreateScope();
@@ -25,20 +25,20 @@ public class OpenSupplierOrdersAction : BaseActionAsyncScopeHandler
         window.Closed += OnWindowClosed;
         
         window.OnReload += async () => {
-            Console.WriteLine("3. OnReload started");
+            //Console.WriteLine("3. OnReload started");
             window.Close();
             
             await Task.Delay(1);
-            Console.WriteLine("6. After window.Close()");
+            //Console.WriteLine("6. After window.Close()");
             
             await _button.OnClickAsync();
-            Console.WriteLine("7. OnReload completed");
+            //Console.WriteLine("7. OnReload completed");
         };
 
         window.Show();
-        Console.WriteLine("2. Before await tcs.Task");
+        //Console.WriteLine("2. Before await tcs.Task");
         
         await tcs.Task;
-        Console.WriteLine("5.1 After await tcs.Task - Perform completed");
+        //Console.WriteLine("5.1 After await tcs.Task - Perform completed");
     }
 }
