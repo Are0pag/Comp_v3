@@ -2,29 +2,29 @@ using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Microsoft.Extensions.DependencyInjection;
-using Templates.Common.Actions;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
-public class AddCounterpartyAction : BaseActionAsyncScopeHandler
+public class AddCounterpartyAction : BaseActionAsyncSelfWaiting
 {
-    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
+    protected readonly IServiceProvider _serviceProvider;
+
+    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceProvider serviceProvider) : base(button) {
+        _serviceProvider = serviceProvider;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
-        using (var scope = _scopeFactory.CreateScope()) {
-            var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
 
-            scope.ServiceProvider.GetRequiredService<FormCp>();
-            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>().ParentScope = scope;
+        var window = _serviceProvider.GetRequiredService<CounterpartyFormWindow>();
 
-            window.Closed += (sender, args) => {
-                _currentTcs.TrySetResult();
-            };
-            window.Show();
-        
-            await _currentTcs.Task;
-        }
+        _serviceProvider.GetRequiredService<FormCp>();
+        _serviceProvider.GetRequiredService<SaveCpFormAction>();
+
+        window.Closed += (sender, args) => { _currentTcs.TrySetResult(); };
+        window.Show();
+
+        await _currentTcs.Task;
     }
 }

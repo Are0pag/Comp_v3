@@ -15,8 +15,9 @@ public class SaveCpFormAction : BaseActionAsyncScopeHandler
     protected readonly Counterparty _counterparty;
     protected readonly CounterpartyFormWindow _formWindow;
     protected readonly FormCp _formCp;
+    
 
-    public SaveCpFormAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory, Counterparty counterparty, CounterpartyFormWindow formWindow, FormCp formCp) 
+    public SaveCpFormAction(SaveCpFormButVm button, IServiceScopeFactory scopeFactory, Counterparty counterparty, CounterpartyFormWindow formWindow, FormCp formCp) 
         : base(button, scopeFactory) {
         _counterparty = counterparty;
         _formWindow = formWindow;
