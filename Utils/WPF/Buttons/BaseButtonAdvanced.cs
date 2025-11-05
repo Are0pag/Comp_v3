@@ -17,6 +17,7 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
         var tsc = new TaskCompletionSource();
         try {
             await ClickActionAsync.Invoke(tsc);
+            Console.WriteLine("5.2 await ClickActionAsync.Invoke(tsc); - Button unlocked");
         }
         catch (NullReferenceException e) {
             Console.WriteLine($"{e.Message} in {GetType().Name}");
