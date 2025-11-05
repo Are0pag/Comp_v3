@@ -25,16 +25,19 @@ public class OpenSupplierOrdersAction : BaseActionAsyncScopeHandler
         window.Closed += OnWindowClosed;
         
         window.OnReload += async () => {
-            Console.WriteLine("2. OnReload started");
+            Console.WriteLine("3. OnReload started");
             window.Close();
-            await Task.Yield(); 
-            Console.WriteLine("3. After window.Close()");
+            
+            await Task.Delay(1);
+            Console.WriteLine("6. After window.Close()");
+            
             await _button.OnClickAsync();
-            Console.WriteLine("6. OnReload completed");
+            Console.WriteLine("7. OnReload completed");
         };
 
         window.Show();
-        Console.WriteLine("4. Before await tcs.Task");
+        Console.WriteLine("2. Before await tcs.Task");
+        
         await tcs.Task;
         Console.WriteLine("5. After await tcs.Task - Perform completed");
     }
