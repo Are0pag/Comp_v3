@@ -55,9 +55,11 @@ public abstract class BaseButtonAdvanced<T> : BaseButtonVm
 /// </summary>
 public abstract class BaseActionAsyncCompletion
 {
+    protected readonly BaseButtonAdvanced _button;
     public BaseActionAsyncCompletion(BaseButtonAdvanced button) {
         button.ClickActionAsync = Perform;
         button.CanExecuteFunc = CanPerform;
+        _button = button;
     }
     public abstract Task Perform(TaskCompletionSource tcs);
     public abstract bool CanPerform();

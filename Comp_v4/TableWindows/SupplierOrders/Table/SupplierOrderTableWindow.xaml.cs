@@ -4,7 +4,7 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
-public partial class SupplierOrderTableWindow : Window, IDisposable
+public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 {
     public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm) {
         InitializeComponent();
@@ -16,4 +16,6 @@ public partial class SupplierOrderTableWindow : Window, IDisposable
     public void Dispose() {
         //Console.WriteLine($"{nameof(SupplierOrderTableWindow)} disposed");
     }
+
+    public Func<Task> OnReload { get; set; }
 }
