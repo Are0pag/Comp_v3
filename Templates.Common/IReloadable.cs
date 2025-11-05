@@ -1,4 +1,4 @@
-namespace Comp_v4;
+namespace Templates.Common;
 
 public interface IReloadable
 {

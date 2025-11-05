@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
+using Templates.Common;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
