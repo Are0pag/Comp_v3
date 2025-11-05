@@ -20,41 +20,43 @@ public static class SupplierOrderInstaller
     }
 
     private static void RegisterForm(IServiceCollection services) {
-        services.AddScoped<SupplierOrder>(_ => new SupplierOrder());
+        services.AddSingleton<SupplierOrder>(_ => new SupplierOrder());
         
-        services.AddScoped<SaveFormButVm>();
-        services.AddScoped<SaveFormAction>();
+        services.AddSingleton<SaveFormButVm>();
+        services.AddSingleton<SaveFormAction>();
 
-        services.AddScoped<CounterpartySelectButVm>();
-        services.AddScoped<CounterpartySelectAction>();
+        services.AddSingleton<CounterpartySelectButVm>();
+        services.AddSingleton<CounterpartySelectAction>();
 
-        services.AddScoped<OrderStatusEnumsVm>();
-        services.AddScoped<VatStatusEnumVm>();
+        services.AddSingleton<OrderStatusEnumsVm>();
+        services.AddSingleton<VatStatusEnumVm>();
         
-        services.AddScoped<SupplierOrderFormWindow>();
+        services.AddTransient<SupplierOrderFormWindow>();
     }
 
     private static void RegisterTable(IServiceCollection services) {
-        services.AddScoped<SoDataGridVm>();
+        services.AddSingleton<SoDataGridVm>();
         
-        services.AddScoped<AddSoButVm>();
-        services.AddScoped<AddSoAction>();
+        services.AddSingleton<AddSoButVm>();
+        services.AddSingleton<AddSoAction>();
         
-        services.AddScoped<EditSoButVm>();
-        services.AddScoped<EditSoAction>();
+        services.AddSingleton<EditSoButVm>();
+        services.AddSingleton<EditSoAction>();
         
-        services.AddScoped<SupplierOrderTableWindow>();
         
         /* form */
-        services.AddScoped<SoForm>();
+        services.AddSingleton<SoForm>();
 
-        services.AddScoped<BaseSoFormState, EditSoFormState>();
+        services.AddSingleton<BaseSoFormState, EditSoFormState>();
         /* GenericStateMachine(IEnumerable<TState> states, TState initialState)
             - initialState будет = CreateSoFormState, 
               т.к. зарегистрирована последней для BaseSoFormState */
-        services.AddScoped<BaseSoFormState, CreateSoFormState>();
+        services.AddSingleton<BaseSoFormState, CreateSoFormState>();
         
-        services.AddScoped<CreateSoFormState>();
-        services.AddScoped<EditSoFormState>();
+        services.AddSingleton<CreateSoFormState>();
+        services.AddSingleton<EditSoFormState>();
+        
+        
+        services.AddTransient<SupplierOrderTableWindow>();
     }
 }

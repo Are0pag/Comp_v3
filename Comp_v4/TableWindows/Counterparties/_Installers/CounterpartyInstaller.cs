@@ -20,42 +20,42 @@ public static class CounterpartyInstaller
     }
 
     private static void RegisterForm(IServiceCollection services) {
-        services.AddScoped<Counterparty>(_ => new Counterparty());
+        services.AddSingleton<Counterparty>(_ => new Counterparty());
         
-        services.AddScoped<CounterpartyEnumsVm>();
-        services.AddScoped<SaveCpFormButVm>();
-        services.AddScoped<SaveCpFormAction>();
+        services.AddSingleton<CounterpartyEnumsVm>();
+        services.AddSingleton<SaveCpFormButVm>();
+        services.AddSingleton<SaveCpFormAction>();
 
         
-        services.AddScoped<FormCp>();
+        services.AddSingleton<FormCp>();
         
-        services.AddScoped<EditCpFormState>();
-        services.AddScoped<CreateCpFormState>();        
+        services.AddSingleton<EditCpFormState>();
+        services.AddSingleton<CreateCpFormState>();        
         
-        services.AddScoped<BaseCpFormState, EditCpFormState>();
-        services.AddScoped<BaseCpFormState, CreateCpFormState>();
+        services.AddSingleton<BaseCpFormState, EditCpFormState>();
+        services.AddSingleton<BaseCpFormState, CreateCpFormState>();
 
         
-        services.AddScoped<CounterpartyFormWindow>();
+        services.AddTransient<CounterpartyFormWindow>();
     }
 
     private static void RegisterTable(IServiceCollection services) {
-        services.AddScoped<CounterpartyDataGridVm>();
+        services.AddSingleton<CounterpartyDataGridVm>();
         
-        services.AddScoped<AddCounterpartyButVm>();
-        services.AddScoped<EditCounterpartyButVm>();
-        services.AddScoped<DeleteCounterpartyButVm>();
+        services.AddSingleton<AddCounterpartyButVm>();
+        services.AddSingleton<EditCounterpartyButVm>();
+        services.AddSingleton<DeleteCounterpartyButVm>();
 
-        services.AddScoped<AddCounterpartyAction>();
-        services.AddScoped<EditCounterpartyAction>();
+        services.AddSingleton<AddCounterpartyAction>();
+        services.AddSingleton<EditCounterpartyAction>();
 
         
-        services.AddScoped<TableCounterparty>();
+        services.AddSingleton<TableCounterparty>();
         
-        services.AddScoped<EditCpTableState>();
-        services.AddScoped<BaseCpTableState, EditCpTableState>();
+        services.AddSingleton<EditCpTableState>();
+        services.AddSingleton<BaseCpTableState, EditCpTableState>();
         
         
-        services.AddScoped<CounterpartyTableWindow>();
+        services.AddTransient<CounterpartyTableWindow>();
     }
 }
