@@ -12,7 +12,6 @@ namespace Comp_v4.Installers;
 public partial class App : Application
 {
     protected static IHost _appHost;
-    protected IServiceScope _mainScope;
 
     public App() {
         _appHost = Host.CreateDefaultBuilder()
@@ -27,21 +26,26 @@ public partial class App : Application
 
     protected override async void OnStartup(StartupEventArgs e) {
         await _appHost.StartAsync();
+
+        var mainWindow = _appHost.Services.GetRequiredService<EntryWindow>();
         
-        _mainScope = _appHost.Services.CreateScope();
+        _ = _appHost.Services.GetRequiredService<OpenNomDictAction>();
+        _ = _appHost.Services.GetRequiredService<OpenSupplierOrdersAction>();
+        
+        mainWindow.Show();
+
+        /*_mainScope = _appHost.Services.CreateScope();
         
         _ = _mainScope.ServiceProvider.GetRequiredService<OpenNomDictAction>();
         _ = _mainScope.ServiceProvider.GetRequiredService<OpenSupplierOrdersAction>();
         
         var mainWindow = _mainScope.ServiceProvider.GetRequiredService<EntryWindow>();
-        mainWindow.Closed += (_, _) => _mainScope?.Dispose();
-        mainWindow.Show();
+        mainWindow.Closed += (_, _) => _mainScope?.Dispose();*/
         
         base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e) {
-        _mainScope?.Dispose();
         await _appHost.StopAsync();
         _appHost.Dispose();
         base.OnExit(e);

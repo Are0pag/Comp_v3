@@ -1,27 +1,36 @@
 using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
-using Comp_v4.TableWindows.SupplierOrders.Installers;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
-using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
-using Templates.Common.Actions;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 
-public class AddSoAction : BaseActionAsyncScopeHandler
+public class AddSoAction : BaseActionAsyncSelfWaiting
 {
-    //protected readonly IServiceScopeFactory _scopeFactory;
-    //protected TaskCompletionSource? _currentTcs;
+    protected readonly IServiceProvider _serviceProvider;
 
-    public AddSoAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
-        //_scopeFactory = scopeFactory;
+    public AddSoAction(AddSoButVm button, IServiceProvider serviceProvider) : base(button) {
+        _serviceProvider = serviceProvider;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
-        using (var scope = _scopeFactory.CreateScope()) {
+        
+        var window = _serviceProvider.GetRequiredService<SupplierOrderFormWindow>();
+        
+        _serviceProvider.GetRequiredService<SoForm>();
+        _serviceProvider.GetRequiredService<SaveFormAction>();
+        _serviceProvider.GetRequiredService<CounterpartySelectAction>();
+            
+        window.Closed += (sender, args) => {
+            _currentTcs.TrySetResult();
+        };
+        window.Show();
+        
+        await _currentTcs.Task;
+        /*using (var scope = _serviceProvider.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderFormWindow>();
             
             scope.ServiceProvider.GetRequiredService<SoForm>();
@@ -34,7 +43,7 @@ public class AddSoAction : BaseActionAsyncScopeHandler
             window.Show();
         
             await _currentTcs.Task;
-        }
+        }*/
     }
 
     public override bool CanPerform() {

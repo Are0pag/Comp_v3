@@ -8,15 +8,24 @@ namespace Comp_v4.Entry.Actions;
 
 public class OpenSupplierOrdersAction : BaseActionAsyncCompletion
 {
-    protected readonly IServiceScopeFactory _scopeFactory;
+    protected readonly IServiceProvider _serviceProvider;
     protected TaskCompletionSource? _currentTcs;
-    public OpenSupplierOrdersAction(OrdersButVm button, IServiceScopeFactory scopeFactory) : base(button) {
-        _scopeFactory = scopeFactory;
+    public OpenSupplierOrdersAction(OrdersButVm button, IServiceProvider serviceProvider) : base(button) {
+        _serviceProvider = serviceProvider;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
-        using (var scope = _scopeFactory.CreateScope()) {
+        var window = _serviceProvider.GetRequiredService<SupplierOrderTableWindow>();
+        _serviceProvider.GetRequiredService<AddSoAction>();
+        _serviceProvider.GetRequiredService<EditSoAction>();
+        window.Closed += (_, __) => {
+            _currentTcs.TrySetResult();
+        };
+        window.Show();
+        await tcs.Task;
+        
+        /*using (var scope = _serviceProvider.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderTableWindow>();
             scope.ServiceProvider.GetRequiredService<AddSoAction>().ParentScope = scope;
             scope.ServiceProvider.GetRequiredService<EditSoAction>().ParentScope = scope;
@@ -25,7 +34,7 @@ public class OpenSupplierOrdersAction : BaseActionAsyncCompletion
             };
             window.Show();
             await tcs.Task;
-        }
+        }*/
     }
 
     public override bool CanPerform() {
