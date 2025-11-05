@@ -1,6 +1,7 @@
 using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
+using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF.Buttons;
 
@@ -19,7 +20,10 @@ public class AddCounterpartyAction : BaseActionAsyncSelfWaiting
 
         var window = _serviceProvider.GetRequiredService<CounterpartyFormWindow>();
 
-        _serviceProvider.GetRequiredService<FormCp>();
+        var form = _serviceProvider.GetRequiredService<FormCp>();
+        var createState = _serviceProvider.GetRequiredService<CreateCpFormState>();
+        await form.ChangeState(createState, form);
+        
         _serviceProvider.GetRequiredService<SaveCpFormAction>();
 
         window.Closed += (sender, args) => { _currentTcs.TrySetResult(); };
