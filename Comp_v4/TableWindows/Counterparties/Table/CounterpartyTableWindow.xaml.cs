@@ -8,7 +8,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
-public partial class CounterpartyTableWindow : Window, IDisposable
+public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler
 {
     protected TaskCompletionSource? _tcsMouseDoubleClick;
     public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, CounterpartyDataGridVm dataGridVm) {
@@ -16,12 +16,21 @@ public partial class CounterpartyTableWindow : Window, IDisposable
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editCounterpartyButVm;
         MainDataGrid.DataContext = dataGridVm;
+        EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
     public void Dispose() {
-        
+        EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
-    
+
+    public Task OnSaveCpForm(TaskCompletionSource tcs, object? parameter = null) {
+        var temp = MainDataGrid.ItemsSource;
+        MainDataGrid.ItemsSource = null;
+        MainDataGrid.ItemsSource = temp;
+        tcs.TrySetResult();
+        return Task.CompletedTask;
+    }
+
     public Action<TaskCompletionSource, object?, MouseButtonEventArgs> OnDoubleClickSelectingItemInTable { get; set; } 
 
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {

@@ -15,7 +15,7 @@ public class AddSoAction : BaseActionAsyncScopeHandler
     //protected readonly IServiceScopeFactory _scopeFactory;
     //protected TaskCompletionSource? _currentTcs;
 
-    public AddSoAction(BaseButtonAdvanced button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
+    public AddSoAction(AddSoButVm button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
         //_scopeFactory = scopeFactory;
     }
 

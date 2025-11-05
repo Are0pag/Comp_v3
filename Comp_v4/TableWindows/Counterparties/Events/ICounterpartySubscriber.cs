@@ -20,3 +20,8 @@ public interface IMouseDoubleClickHandler : ICounterpartySubscriber
 {
     Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs e);
 }
+
+public interface ICpFormOnSaveUiChangesHandler : ICounterpartySubscriber
+{
+    Task OnSaveCpForm(TaskCompletionSource tcs, object? parameter = null);
+}
