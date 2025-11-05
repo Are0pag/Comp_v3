@@ -28,8 +28,4 @@ public class OpenSupplierOrdersAction : BaseActionAsyncScopeHandler
         window.Show();
         await tcs.Task;
     }
-
-    public override bool CanPerform() {
-        return _currentTcs is null || _currentTcs.Task.IsCompleted;
-    }
 }

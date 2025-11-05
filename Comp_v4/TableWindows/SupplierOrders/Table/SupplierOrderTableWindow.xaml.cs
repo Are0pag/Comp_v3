@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 
@@ -18,4 +19,12 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
     }
 
     public Func<Task> OnReload { get; set; }
+
+    private void SupplierOrderTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        switch (e.Key) {
+            case Key.K:
+                OnReload?.Invoke();
+                break;
+        }
+    }
 }
