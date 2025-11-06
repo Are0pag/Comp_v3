@@ -41,7 +41,12 @@ public class EditCpFormState : BaseCpFormState
     }
 
     public override async Task Save(FormCp form, Counterparty counterparty, object? parameter) {
-        await _repository.UpdateAsync(counterparty);
+        try {
+            await _repository.UpdateAsync(counterparty);
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+        }
     }
 }
 

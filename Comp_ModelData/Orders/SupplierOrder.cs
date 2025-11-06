@@ -103,9 +103,9 @@ public class SupplierOrder : ObservableObject, IDbEntity
     /// Путь к файлу договора (локальная или интернет-ссылка)
     /// </summary>
     public string? ContractFilePath {
-        get => _invoiceFilePath;
+        get => _contractFilePath;
         set {
-            _invoiceFilePath = value;
+            _contractFilePath = value;
             OnPropertyChanged();
         }
     }

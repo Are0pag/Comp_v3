@@ -11,7 +11,7 @@ public class SupplierOrderRepository : DbRepository<SupplierOrder>
 
     public override async Task<List<SupplierOrder>> GetAllAsync() {
         return await _context.Set<SupplierOrder>()
-                             .AsNoTracking()
+                             //.AsNoTracking()
                              .Include(o => o.Counterparty)
                              .ToListAsync();
     }
@@ -26,14 +26,18 @@ public class SupplierOrderRepository : DbRepository<SupplierOrder>
 
     public override async Task UpdateAsync(SupplierOrder entity) {
         Validate(entity);
-        
-        if (await _context.SupplierOrders.FirstOrDefaultAsync() is not {} dbEntity)
-            throw new NullReferenceException("Counterparties could not be found");
-        
-        _context.Entry(dbEntity).CurrentValues.SetValues(entity);
-        dbEntity.CounterpartyId = entity.Counterparty.Id;
-        
-        await base.UpdateAsync(entity);
+
+        var trackedEntity = await _context.SupplierOrders
+                                          .Include(o => o.Counterparty)
+                                          .FirstOrDefaultAsync(o => o.Id == entity.Id);
+
+        if (trackedEntity is null)
+            throw new KeyNotFoundException();
+
+        entity.CopyTo(trackedEntity);
+        _context.Attach(trackedEntity).State = EntityState.Modified;
+
+        await _context.SaveChangesAsync();
     }
 
     protected void Validate(SupplierOrder entity) {
@@ -42,29 +46,3 @@ public class SupplierOrderRepository : DbRepository<SupplierOrder>
         entity.Counterparty.Id.ThrowIfDefault();
     }
 }
-
-/*var dbInstances= await base.GetAllAsync();
-foreach (var supplierOrder in dbInstances) {
-    supplierOrder.Counterparty ??= await _counterpartyRepository.GetByIdAsync(supplierOrder.CounterpartyId);
-}
-return dbInstances;*/
-
-
-/*var converted = new SupplierOrder() {
-    Id = default,
-    CounterpartyId = entity.Counterparty.Id,
-
-    PurchaseOrderNumber = entity.PurchaseOrderNumber,
-    InvoiceNumber = entity.InvoiceNumber,
-    Note = entity.Note,
-
-    OrderStatus = entity.OrderStatus,
-    VatStatus = entity.VatStatus,
-
-    ContractFilePath = entity.ContractFilePath,
-    InvoiceFilePath = entity.InvoiceFilePath,
-
-    OrderDate = entity.OrderDate,
-    DeliveryDate = entity.DeliveryDate,
-};
-await base.AddAsync(converted);*/

@@ -25,8 +25,8 @@ public class CounterpartyRepository : DbRepository<Counterparty>
             throw new KeyNotFoundException();
         
         dbEntity.PopulateFrom(entity);
-        _context.Set<Counterparty>().Attach(dbEntity).State = EntityState.Modified;
-        //_context.Set<Counterparty>().Update(dbEntity);
+        _context.Set<Counterparty>().Entry(dbEntity).State = EntityState.Modified;
+        
         await _context.SaveChangesAsync();
     }
 }
