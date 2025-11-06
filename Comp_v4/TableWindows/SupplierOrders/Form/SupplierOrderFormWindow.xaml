@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form"
         xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
         mc:Ignorable="d"
-        Title="Заказ поставщику" Height="450" Width="800">
+        Title="Заказ поставщику" Height="450" Width="800"
+        PreviewMouseDown="SupplierOrderFormWindow_OnPreviewMouseDown">
     
     <Window.Resources>
         <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>

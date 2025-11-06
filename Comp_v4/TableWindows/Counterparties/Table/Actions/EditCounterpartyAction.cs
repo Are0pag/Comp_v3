@@ -31,18 +31,22 @@ public class EditCounterpartyAction : BaseActionAsyncScopeHandler
             
             scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
 
-            window.Closed += async (sender, args) => {
+            var reloadTcs = new TaskCompletionSource(); // Новый TCS для координации
+
+            window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();
-                await _currentTcs.Task;
-                await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
-                
-                if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("Table started reloading");
-                _counterpartyTableWindow.OnReload?.Invoke();
+                reloadTcs.SetResult(); // Сигнализируем, что закрытие обработано
             };
+
             window.Show();
-        
-            await _currentTcs.Task;
+    
+            await _currentTcs.Task; // Ждем завершения формы
             if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("awaiting form task completed");
+
+            await reloadTcs.Task;                            // Ждем пока обработчик Closed выполнится
+
+            if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("Table started reloading");
+            _counterpartyTableWindow.OnReload?.Invoke();
         }
     }
 

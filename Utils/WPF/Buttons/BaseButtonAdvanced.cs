@@ -13,11 +13,12 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
             return;
         
         _isEnabled = false;
+        Console.WriteLine($"{GetType().Name}:  disabled");
         
         var tsc = new TaskCompletionSource();
         try {
             await ClickActionAsync.Invoke(tsc);
-            //Console.WriteLine("5.2 await ClickActionAsync.Invoke(tsc); - Button unlocked");
+            Console.WriteLine($"{GetType().Name}:  await ClickActionAsync.Invoke(tsc); - Button unlocked");
         }
         catch (NullReferenceException e) {
             Console.WriteLine($"{e.Message} in {GetType().Name}");
@@ -25,6 +26,7 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
         }
         
         _isEnabled = true;
+        Console.WriteLine($"{GetType().Name}:  enabled");
     }
 }
 

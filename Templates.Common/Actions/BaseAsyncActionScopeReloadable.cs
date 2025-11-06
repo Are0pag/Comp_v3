@@ -32,7 +32,7 @@ public abstract class BaseAsyncActionScopeReloadable : BaseActionAsyncScopeHandl
             await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
             if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("6. After window.Close()");
             
-            await _button.OnClickAsync();
+            _button.OnClickAsync();
             if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("7. OnReload completed");
         };
         
