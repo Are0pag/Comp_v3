@@ -9,8 +9,12 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
     protected bool _isEnabled = true;
     
     public virtual async Task OnClickAsync() {
-        if (!_isEnabled)
-            return;
+        if (!_isEnabled) {
+            await Task.Delay(2);
+            NotifyCanExecute();
+            if (!_isEnabled)
+                return;
+        }
         
         _isEnabled = false;
         Console.WriteLine($"{GetType().Name}:  disabled");
