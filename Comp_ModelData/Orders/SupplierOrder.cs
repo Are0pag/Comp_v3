@@ -194,10 +194,7 @@ public class SupplierOrder : ObservableObject, IDbEntity
         // Даты
         target.OrderDate = this.OrderDate;
         target.DeliveryDate = this.DeliveryDate;
-
-        // Связанный контрагент
-        target.CounterpartyId = this.CounterpartyId;
-        target.Counterparty = this.Counterparty;
+        
         return target;
     }
 

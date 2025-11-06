@@ -1,4 +1,3 @@
-using Comp.Db.Contracts;
 using Comp.ModelData;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,32 +10,39 @@ public class SupplierOrderRepository : DbRepository<SupplierOrder>
 
     public override async Task<List<SupplierOrder>> GetAllAsync() {
         return await _context.Set<SupplierOrder>()
-                             //.AsNoTracking()
+                             .AsNoTracking()
                              .Include(o => o.Counterparty)
                              .ToListAsync();
     }
 
     public override async Task AddAsync(SupplierOrder entity) {
         Validate(entity);
-        
-        entity.Id = default(int);
+
+        entity.Id = default;
         _context.Counterparties.Attach(entity.Counterparty);
         await base.AddAsync(entity);
     }
 
     public override async Task UpdateAsync(SupplierOrder entity) {
         Validate(entity);
+        var trackedEntity = await _context.Set<SupplierOrder>()
+                                          //.Include(o => o.Counterparty)
+                                          .FirstOrDefaultAsync(o => o.Id == entity.Id)
+                            ?? throw new KeyNotFoundException();
 
-        var trackedEntity = await _context.SupplierOrders
-                                          .Include(o => o.Counterparty)
-                                          .FirstOrDefaultAsync(o => o.Id == entity.Id);
-
-        if (trackedEntity is null)
-            throw new KeyNotFoundException();
 
         entity.CopyTo(trackedEntity);
-        _context.Attach(trackedEntity).State = EntityState.Modified;
-
+        if (trackedEntity.CounterpartyId != entity.CounterpartyId) {
+            
+            var trackedCounterparty = await _context.Set<Counterparty>()
+                                                .FirstOrDefaultAsync(o => o.Id == entity.CounterpartyId)
+                                  ?? throw new KeyNotFoundException();
+            
+            trackedEntity.Counterparty = trackedCounterparty;
+            trackedEntity.CounterpartyId = entity.CounterpartyId;
+        }
+            
+        _context.Entry(trackedEntity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
