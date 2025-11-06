@@ -23,9 +23,11 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 
     private void SupplierOrderTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
+        #if DEBUG
             case Key.K:
                 OnReload?.Invoke();
                 break;
+        #endif
         }
     }
 }

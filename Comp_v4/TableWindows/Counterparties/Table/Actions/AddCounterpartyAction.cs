@@ -8,7 +8,9 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
 public class AddCounterpartyAction : BaseActionAsyncScopeHandler
 {
-    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
+    protected readonly CounterpartyTableWindow _counterpartyTableWindow;
+    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyTableWindow counterpartyTableWindow) : base(button, scopeFactory) {
+        _counterpartyTableWindow = counterpartyTableWindow;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -17,10 +19,12 @@ public class AddCounterpartyAction : BaseActionAsyncScopeHandler
             var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
 
             scope.ServiceProvider.GetRequiredService<FormCp>();
-            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>().ParentScope = scope;
+            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
 
-            window.Closed += (sender, args) => {
+            window.Closed += async (sender, args) => {
                 _currentTcs.TrySetResult();
+                await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
+                _counterpartyTableWindow.OnReload?.Invoke();
             };
             window.Show();
         

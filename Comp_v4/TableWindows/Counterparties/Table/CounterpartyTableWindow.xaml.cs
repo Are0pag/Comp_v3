@@ -4,11 +4,12 @@ using System.Windows.Threading;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
+using Templates.Common;
 using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
-public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler
+public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable
 {
     protected TaskCompletionSource? _tcsMouseDoubleClick;
     public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, CounterpartyDataGridVm dataGridVm) {
@@ -24,14 +25,14 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
     }
 
     public Task OnSaveCpForm(TaskCompletionSource tcs, object? parameter = null) {
-        var temp = MainDataGrid.ItemsSource;
-        MainDataGrid.ItemsSource = null;
-        MainDataGrid.ItemsSource = temp;
+        //OnReload?.Invoke();
         tcs.TrySetResult();
         return Task.CompletedTask;
     }
 
-    public Action<TaskCompletionSource, object?, MouseButtonEventArgs> OnDoubleClickSelectingItemInTable { get; set; } 
+    public Action<TaskCompletionSource, object?, MouseButtonEventArgs> OnDoubleClickSelectingItemInTable { get; set; }
+
+    public Func<Task> OnReload { get; set; }
 
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         if (_tcsMouseDoubleClick is {Task.IsCompleted: false})
@@ -50,6 +51,16 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
                .RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(_tcsMouseDoubleClick!, sender, e));*/
             OnDoubleClickSelectingItemInTable?.Invoke(_tcsMouseDoubleClick!, MainDataGrid, e);
         }, DispatcherPriority.Background);
+    }
+
+    private void CounterpartyTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        switch (e.Key) {
+            case Key.K:
+            #if DEBUG
+                OnReload?.Invoke();
+            #endif
+                break;
+        }
     }
 }
 

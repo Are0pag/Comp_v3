@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp_v4;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF.Buttons;
 
@@ -14,7 +15,7 @@ public abstract class BaseAsyncActionScopeReloadable : BaseActionAsyncScopeHandl
     protected abstract void InstantiateRelatedServices();
     
     public override async Task Perform(TaskCompletionSource tcs) {
-        //Console.WriteLine("1. Perform started");
+        if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("1. Perform started");
         _currentTcs = tcs;
 
         _currentScope = _scopeFactory.CreateScope();
@@ -25,22 +26,22 @@ public abstract class BaseAsyncActionScopeReloadable : BaseActionAsyncScopeHandl
         window.Closed += OnWindowClosed;
         
         reloadableWindow.OnReload += async () => {
-            //Console.WriteLine("3. OnReload started");
+            if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("3. OnReload started");
             window.Close();
             
-            await Task.Delay(1);
-            //Console.WriteLine("6. After window.Close()");
+            await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
+            if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("6. After window.Close()");
             
             await _button.OnClickAsync();
-            //Console.WriteLine("7. OnReload completed");
+            if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("7. OnReload completed");
         };
         
         InstantiateRelatedServices();
             
         window.Show();
-        //Console.WriteLine("2. Before await tcs.Task");
+        if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("2. Before await tcs.Task");
         
         await tcs.Task;
-        //Console.WriteLine("5.1 After await tcs.Task - Perform completed");
+        if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("5.1 After await tcs.Task - Perform completed");
     }
 }

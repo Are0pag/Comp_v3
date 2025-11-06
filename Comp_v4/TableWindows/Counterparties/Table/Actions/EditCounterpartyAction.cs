@@ -12,8 +12,10 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 public class EditCounterpartyAction : BaseActionAsyncScopeHandler
 {
     protected readonly CounterpartyDataGridVm _dataGridVm;
-    public EditCounterpartyAction(EditCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyDataGridVm dataGridVm) : base(button, scopeFactory) {
+    protected readonly CounterpartyTableWindow _counterpartyTableWindow;
+    public EditCounterpartyAction(EditCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyDataGridVm dataGridVm, CounterpartyTableWindow counterpartyTableWindow) : base(button, scopeFactory) {
         _dataGridVm = dataGridVm;
+        _counterpartyTableWindow = counterpartyTableWindow;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -29,12 +31,18 @@ public class EditCounterpartyAction : BaseActionAsyncScopeHandler
             
             scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
 
-            window.Closed += (sender, args) => {
+            window.Closed += async (sender, args) => {
                 _currentTcs.TrySetResult();
+                await _currentTcs.Task;
+                await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
+                
+                if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("Table started reloading");
+                _counterpartyTableWindow.OnReload?.Invoke();
             };
             window.Show();
         
             await _currentTcs.Task;
+            if (AppConfig.IS_LOG_RELOAD_SCOPE) Console.WriteLine("awaiting form task completed");
         }
     }
 

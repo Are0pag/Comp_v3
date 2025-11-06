@@ -5,7 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.Counterparties.Table"
         mc:Ignorable="d"
-        Title="Контрагенты" Height="600" Width="1000">
+        Title="Контрагенты" Height="600" Width="1000"
+        PreviewKeyDown="CounterpartyTableWindow_OnPreviewKeyDown">
     
     <Window.Resources>
         <Style x:Key="ToolBarButtonStyle" TargetType="Button">
