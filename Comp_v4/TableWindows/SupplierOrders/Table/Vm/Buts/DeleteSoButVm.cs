@@ -3,10 +3,10 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 
-public partial class EditSoButVm : BaseButtonAdvanced
+public partial class DeleteSoButVm : BaseButtonAdvanced
 {
-    public EditSoButVm() {
-        Label = "Редактировать";
+    public DeleteSoButVm() {
+        Label = "Удалить";
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]

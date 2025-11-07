@@ -20,5 +20,6 @@ public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable
     protected override void InstantiateRelatedServices() {
         _currentScope!.ServiceProvider.GetRequiredService<AddSoAction>();
         _currentScope.ServiceProvider.GetRequiredService<EditSoAction>();
+        _currentScope.ServiceProvider.GetRequiredService<DeleteSoAction>();
     }
 }

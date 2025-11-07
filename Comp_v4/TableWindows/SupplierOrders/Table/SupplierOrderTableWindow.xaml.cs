@@ -10,13 +10,17 @@ namespace Comp_v4.TableWindows.SupplierOrders.Table;
 public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 {
     protected readonly EditSoButVm _editSoButVm;
-    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm) {
+    protected readonly DeleteSoButVm _deleteSoButVm;
+    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
+        
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editButVm;
+        DeleteButton.DataContext = deleteSoButVm;
         
         _editSoButVm = editButVm;
+        _deleteSoButVm = deleteSoButVm;
     }
 
     public void Dispose() {
@@ -27,6 +31,12 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 
     private void SupplierOrderTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
+            case Key.Delete:
+                if (_deleteSoButVm.CanClick())
+                    _deleteSoButVm.OnClickAsync();
+                break;
+            
+            
         #if DEBUG
             case Key.K:
                 OnReload?.Invoke();
@@ -50,5 +60,6 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 
     private void SupplierOrderTableWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         _editSoButVm.NotifyCanExecute();
+        _deleteSoButVm.NotifyCanExecute();
     }
 }

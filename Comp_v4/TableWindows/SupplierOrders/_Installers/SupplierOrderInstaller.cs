@@ -55,6 +55,9 @@ public static class SupplierOrderInstaller
         services.AddScoped<EditSoButVm>();
         services.AddScoped<EditSoAction>();
         
+        services.AddScoped<DeleteSoButVm>();
+        services.AddScoped<DeleteSoAction>();
+        
         services.AddScoped<SupplierOrderTableWindow>();
         
         /* form */
