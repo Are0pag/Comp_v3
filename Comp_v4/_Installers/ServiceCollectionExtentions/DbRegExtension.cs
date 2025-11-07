@@ -1,8 +1,12 @@
 using Comp_v4._Installers;
 using Comp.Db;
 using Comp.Db.Contracts;
+using Comp.Db.Repositories;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
+using Comp.ModelData.Comp;
+using Comp.ModelData.SortingItems;
+using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,8 +21,7 @@ public static class DbRegExtension
                    .EnableDetailedErrors();
         });
         
-        services.AddLogging(builder =>
-        {
+        services.AddLogging(builder => {
             // Удаление провайдеров логирования по умолчанию
             builder.ClearProviders();
         });
@@ -27,5 +30,15 @@ public static class DbRegExtension
         
         services.AddTransient<IRepository<Counterparty>, CounterpartyRepository>();
         services.AddTransient<IRepository<SupplierOrder>, SupplierOrderRepository>();
+        
+        services.AddTransient<IRepository<ConditionalDesignation>, DbRepository<ConditionalDesignation>>();
+        services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
+        services.AddTransient<IRepository<MeasurementUnit>, DbRepository<MeasurementUnit>>();
+        services.AddTransient<IRepository<TypeSize>, DbRepository<TypeSize>>();
+        
+        services.AddTransient<IRepository<Category>, RepositoryCategory>();
+        services.AddTransient<IRepository<GenericParametersSet>, DbRepository<GenericParametersSet>>();
+        
+        services.AddTransient<IRepository<Component>, RepositoryComponent>();
     }
 }

@@ -2,6 +2,7 @@
 using Comp_v4.Entry;
 using Comp_v4.Entry._Installers;
 using Comp_v4.Entry.Actions;
+using Comp_v4.NomDict.Installers;
 using Comp_v4.TableWindows.Counterparties._Installers;
 using Comp_v4.TableWindows.SupplierOrders.Installers;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,6 @@ namespace Comp_v4.Installers;
 public partial class App : Application
 {
     protected static IHost _appHost;
-    protected IServiceScope _mainScope;
 
     public App() {
         _appHost = Host.CreateDefaultBuilder()
@@ -21,6 +21,8 @@ public partial class App : Application
                             services.InstallEntry();
                             services.RegisterSupplierOrders();
                             services.RegisterCounterparties();
+                            
+                            //services.RegisterNomDict();
 
                         }).Build();
     }
@@ -28,20 +30,16 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e) {
         await _appHost.StartAsync();
         
-        _mainScope = _appHost.Services.CreateScope();
+        _ = _appHost.Services.GetRequiredService<OpenNomDictAction>();
+        _ = _appHost.Services.GetRequiredService<OpenSupplierOrdersAction>();
         
-        _ = _mainScope.ServiceProvider.GetRequiredService<OpenNomDictAction>();
-        _ = _mainScope.ServiceProvider.GetRequiredService<OpenSupplierOrdersAction>();
-        
-        var mainWindow = _mainScope.ServiceProvider.GetRequiredService<EntryWindow>();
-        mainWindow.Closed += (_, _) => _mainScope?.Dispose();
+        var mainWindow = _appHost.Services.GetRequiredService<EntryWindow>();
         mainWindow.Show();
         
         base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e) {
-        _mainScope?.Dispose();
         await _appHost.StopAsync();
         _appHost.Dispose();
         base.OnExit(e);

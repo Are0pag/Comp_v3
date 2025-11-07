@@ -8,9 +8,9 @@ namespace Comp_v4.Entry._Installers;
 public static class EntryInstaller
 {
     public static void InstallEntry(this IServiceCollection services) {
-        services.AddScoped<ToolsPanelStateIdle>();
+        services.AddSingleton<ToolsPanelStateIdle>();
         
-        services.AddScoped<ToolsPanel>(provider => {
+        services.AddSingleton<ToolsPanel>(provider => {
             var initialState = provider.GetRequiredService<ToolsPanelStateIdle>();
             var states = new List<BaseToolsPanelState>() {
                 initialState,
@@ -18,12 +18,12 @@ public static class EntryInstaller
             return new ToolsPanel(states, initialState);
         });
 
-        services.AddScoped<OpenNomDictAction>();
-        services.AddScoped<NomDictButVm>();
+        services.AddSingleton<OpenNomDictAction>();
+        services.AddSingleton<NomDictButVm>();
         
-        services.AddScoped<OpenSupplierOrdersAction>();
-        services.AddScoped<OrdersButVm>();
+        services.AddSingleton<OpenSupplierOrdersAction>();
+        services.AddSingleton<OrdersButVm>();
 
-        services.AddScoped<EntryWindow>();
+        services.AddSingleton<EntryWindow>();
     }
 }
