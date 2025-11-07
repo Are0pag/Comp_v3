@@ -24,6 +24,9 @@ public static class SupplierOrderInstaller
         
         services.AddScoped<SaveFormButVm>();
         services.AddScoped<SaveFormAction>();
+        
+        services.AddScoped<ResetOrderDateButVm>();
+        services.AddScoped<ResetDeliveryDateButVm>();
 
         services.AddScoped<CounterpartySelectButVm>();
         services.AddScoped<CounterpartySelectAction>();

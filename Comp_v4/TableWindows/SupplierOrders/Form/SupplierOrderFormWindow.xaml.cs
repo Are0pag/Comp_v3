@@ -10,8 +10,15 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form;
 
 public partial class SupplierOrderFormWindow : Window, IDisposable
 {
-    public SupplierOrderFormWindow(SupplierOrder supplierOrder, SaveFormButVm saveButVm, CounterpartySelectButVm counterpartySelectButVm, 
-                                   OrderStatusEnumsVm orderStatusEnumsVm, VatStatusEnumVm vatStatusEnumsVm) {
+    public SupplierOrderFormWindow(SupplierOrder supplierOrder, 
+                                   
+                                   SaveFormButVm saveButVm, 
+                                   CounterpartySelectButVm counterpartySelectButVm, 
+                                   ResetOrderDateButVm resetOrderDateButVm,
+                                   ResetDeliveryDateButVm resetDeliveryDateButVm,
+                                   
+                                   OrderStatusEnumsVm orderStatusEnumsVm, 
+                                   VatStatusEnumVm vatStatusEnumsVm) {
         InitializeComponent();
         DataContext = supplierOrder;
 
@@ -20,6 +27,9 @@ public partial class SupplierOrderFormWindow : Window, IDisposable
         
         SaveButton.DataContext = saveButVm;
         CounterpartySelectButton.DataContext = counterpartySelectButVm;
+        
+        OrderDateButton.DataContext = resetOrderDateButVm;
+        DeliveryDateButton.DataContext = resetDeliveryDateButVm;
     }
 
     public void Dispose() {

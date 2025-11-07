@@ -11,6 +11,11 @@ namespace Comp.ModelData;
 [Table("SupplierOrders")]
 public class SupplierOrder : ObservableObject, IDbEntity
 {
+    public SupplierOrder() {
+        OrderDate = DateTime.Now;
+        DeliveryDate = DateTime.Now;
+    }
+    
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
