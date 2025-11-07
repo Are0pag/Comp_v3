@@ -22,6 +22,7 @@ public static class SupplierOrderInstaller
 
     private static void RegisterForm(IServiceCollection services) {
         services.AddScoped<SupplierOrder>(_ => new SupplierOrder());
+        services.AddScoped<SoValidator>();
         
         services.AddScoped<SaveFormButVm>();
         services.AddScoped<SaveFormAction>();
