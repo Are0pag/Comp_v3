@@ -10,15 +10,13 @@ using WPF.UCL;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Entities;
 
-public class SoForm : GenericStateMachine<BaseSoFormState, SoForm>, ICreateSupplierOrdersHandler, ISelectionConfirmationHandler
+public class SoForm : GenericStateMachine<BaseSoFormState, SoForm>, ISelectionConfirmationHandler
 {
     public SoForm(IEnumerable<BaseSoFormState> states, BaseSoFormState initialState) : base(states, initialState) {
-        EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
         EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
     public void Dispose() {
-        EventBus<ISupplierOrdersSubscriber>.Unsubscribe(this);
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
 

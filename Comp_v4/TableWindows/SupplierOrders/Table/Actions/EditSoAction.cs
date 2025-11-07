@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
@@ -5,6 +6,7 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Actions;
@@ -41,6 +43,22 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
 
             var item = scope.ServiceProvider.GetRequiredService<SupplierOrder>();
             _soDataGridVm.SelectedItem!.CopyTo(item);
+            
+            
+            var tasks = new List<Task>();
+            EventBus<ISupplierOrdersSubscriber>.RaiseEvent<ICreateSupplierOrdersHandler>(h => {
+                var subscriberTcs = new TaskCompletionSource();
+                tasks.Add(subscriberTcs.Task);
+
+                try {
+                    h?.OnCreateSupplierOrder(subscriberTcs);
+                }
+                catch (Exception ex) {
+                    subscriberTcs.TrySetException(ex);
+                }
+            });
+            await Task.WhenAll(tasks);
+            
 
             window.Closed += async (sender, args) => {
                 _currentTcs.TrySetResult();

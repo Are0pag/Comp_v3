@@ -14,6 +14,8 @@ public class SupplierOrder : ObservableObject, IDbEntity
     public SupplierOrder() {
         OrderDate = DateTime.Now;
         DeliveryDate = DateTime.Now;
+        _orderStatus = ModelData.OrderStatus.Created;
+        _vatStatus = ModelData.VatStatus.VatIncluded;
     }
     
     [Key]

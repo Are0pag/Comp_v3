@@ -1,6 +1,8 @@
 using Comp_v4.CompCard.Entities.Validation;
+using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 using Comp.ModelData;
+using Utils.EventBus;
 using Utils.WPF;
 using Utils.WPF.Buttons;
 using WPF.UCL;
@@ -18,6 +20,12 @@ public class SetContractLinkAction : SetLinkAction
         _supplierOrder.ContractFilePath = _desiredUrl!;
         return Task.CompletedTask;
     }
+
+    public override Task OnCreateSupplierOrder(TaskCompletionSource tcs, object parameter = null) {
+        ((LinkFieldVm)_button).Url = _supplierOrder.ContractFilePath ?? "";
+        tcs.TrySetResult();
+        return Task.CompletedTask;
+    }
 }
 
 public class SetInvoiceLinkAction : SetLinkAction
@@ -31,9 +39,15 @@ public class SetInvoiceLinkAction : SetLinkAction
         _supplierOrder.InvoiceFilePath = _desiredUrl!;
         return Task.CompletedTask;
     }
+
+    public override Task OnCreateSupplierOrder(TaskCompletionSource tcs, object parameter = null) {
+        ((LinkFieldVm)_button).Url = _supplierOrder.InvoiceFilePath ?? "";
+        tcs.TrySetResult();
+        return Task.CompletedTask;
+    }
 }
 
-public class SetLinkAction : BaseActionAsyncSelfWaiting
+public abstract class SetLinkAction : BaseActionAsyncSelfWaiting, ICreateSupplierOrdersHandler
 {
     protected readonly ValidatorUrl _validatorUrl;
     protected readonly SupplierOrder _supplierOrder;
@@ -42,6 +56,7 @@ public class SetLinkAction : BaseActionAsyncSelfWaiting
     public SetLinkAction(LinkFieldVm button, ValidatorUrl validatorUrl, SupplierOrder supplierOrder) : base(button) {
         _validatorUrl = validatorUrl;
         _supplierOrder = supplierOrder;
+        EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
     }
 
     public override Task Perform(TaskCompletionSource tcs) {
@@ -58,4 +73,10 @@ public class SetLinkAction : BaseActionAsyncSelfWaiting
         _desiredUrl = desiredUrl;
         return Task.CompletedTask;
     }
+
+    public void Dispose() {
+        EventBus<ISupplierOrdersSubscriber>.Unsubscribe(this);
+    }
+
+    public abstract Task OnCreateSupplierOrder(TaskCompletionSource tcs, object parameter = null);
 }
