@@ -1,3 +1,4 @@
+using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
@@ -33,6 +34,13 @@ public static class SupplierOrderInstaller
 
         services.AddScoped<OrderStatusEnumsVm>();
         services.AddScoped<VatStatusEnumVm>();
+
+        services.AddScoped<ValidatorUrl>();
+        services.AddScoped<ContractLinkFieldVm>();
+        services.AddScoped<InvoiceLinkFieldVm>();
+        services.AddScoped<SetContractLinkAction>();
+        services.AddScoped<SetInvoiceLinkAction>();
+        
         
         services.AddScoped<SupplierOrderFormWindow>();
     }

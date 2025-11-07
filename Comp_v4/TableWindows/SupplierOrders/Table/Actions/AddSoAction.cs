@@ -26,7 +26,10 @@ public class AddSoAction : BaseActionAsyncScopeHandler
             
             scope.ServiceProvider.GetRequiredService<SoForm>();
             scope.ServiceProvider.GetRequiredService<SaveFormAction>();
-            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>().ParentScope = scope;
+            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>();
+            
+            scope.ServiceProvider.GetRequiredService<SetContractLinkAction>();
+            scope.ServiceProvider.GetRequiredService<SetInvoiceLinkAction>();
             
             window.Closed += (sender, args) => {
                 _currentTcs.TrySetResult();

@@ -19,20 +19,20 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
         }
         
         _isEnabled = false;
-        Console.WriteLine($"{GetType().Name}:  disabled");
+        //Console.WriteLine($"{GetType().Name}:  disabled");
         
         var tsc = new TaskCompletionSource();
         try {
             await ClickActionAsync.Invoke(tsc);
-            Console.WriteLine($"{GetType().Name}:  await ClickActionAsync.Invoke(tsc); - Button unlocked");
+            //Console.WriteLine($"{GetType().Name}:  await ClickActionAsync.Invoke(tsc); - Button unlocked");
         }
         catch (NullReferenceException e) {
-            Console.WriteLine($"{e.Message} in {GetType().Name}");
+            //Console.WriteLine($"{e.Message} in {GetType().Name}");
             throw;
         }
         
         _isEnabled = true;
-        Console.WriteLine($"{GetType().Name}:  enabled");
+        //Console.WriteLine($"{GetType().Name}:  enabled");
     }
 }
 

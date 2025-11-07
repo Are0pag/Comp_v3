@@ -30,7 +30,10 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
             await soForm.ChangeState(soForm.GetState<EditSoFormState>(), soForm);
             
             scope.ServiceProvider.GetRequiredService<SaveFormAction>();
-            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>().ParentScope = scope;
+            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>();
+            
+            scope.ServiceProvider.GetRequiredService<SetContractLinkAction>();
+            scope.ServiceProvider.GetRequiredService<SetInvoiceLinkAction>();
             
             if (ParentScope?.ServiceProvider.GetRequiredService<SoDataGridVm>() is not { } dg)
                 throw new NullReferenceException("EditSoAction");

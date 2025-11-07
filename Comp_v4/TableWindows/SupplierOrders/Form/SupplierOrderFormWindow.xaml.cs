@@ -17,6 +17,9 @@ public partial class SupplierOrderFormWindow : Window, IDisposable
                                    ResetOrderDateButVm resetOrderDateButVm,
                                    ResetDeliveryDateButVm resetDeliveryDateButVm,
                                    
+                                   ContractLinkFieldVm contractLinkFieldVm,
+                                   InvoiceLinkFieldVm invoiceLinkFieldVm,
+                                   
                                    OrderStatusEnumsVm orderStatusEnumsVm, 
                                    VatStatusEnumVm vatStatusEnumsVm) {
         InitializeComponent();
@@ -30,6 +33,9 @@ public partial class SupplierOrderFormWindow : Window, IDisposable
         
         OrderDateButton.DataContext = resetOrderDateButVm;
         DeliveryDateButton.DataContext = resetDeliveryDateButVm;
+        
+        ContractLinkFieldControl.DataContext = contractLinkFieldVm;
+        InvoiceFilePathLinkFieldControl.DataContext = invoiceLinkFieldVm;
     }
 
     public void Dispose() {
