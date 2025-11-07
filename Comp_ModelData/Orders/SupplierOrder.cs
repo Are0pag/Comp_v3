@@ -183,6 +183,8 @@ public class SupplierOrder : ObservableObject, IDbEntity
 #region Copy
     
     public SupplierOrder CopyTo(SupplierOrder target) {
+        target.Id = this.Id;
+        
         // Текстовые данные
         target.PurchaseOrderNumber = this.PurchaseOrderNumber;
         target.InvoiceNumber = this.InvoiceNumber;
@@ -199,6 +201,9 @@ public class SupplierOrder : ObservableObject, IDbEntity
         // Даты
         target.OrderDate = this.OrderDate;
         target.DeliveryDate = this.DeliveryDate;
+        
+        target.Counterparty = this.Counterparty;
+        target.CounterpartyId = this.CounterpartyId;
         
         return target;
     }

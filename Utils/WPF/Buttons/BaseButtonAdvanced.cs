@@ -27,7 +27,7 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
             //Console.WriteLine($"{GetType().Name}:  await ClickActionAsync.Invoke(tsc); - Button unlocked");
         }
         catch (NullReferenceException e) {
-            //Console.WriteLine($"{e.Message} in {GetType().Name}");
+            Console.WriteLine($"{e.Message} in {GetType().Name}");
             throw;
         }
         

@@ -1,3 +1,3 @@
 namespace WPF.Services.UserActionsHandling.InputText;
 
-public class InvalidInputException(string message) : Exception(message);
+public class InvalidInputException(string? message = null) : Exception(message);

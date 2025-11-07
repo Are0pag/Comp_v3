@@ -5,6 +5,7 @@ using Comp.Db.Contracts;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
 using Utils.EventBus;
+using WPF.Services.UserActionsHandling.InputText;
 using WPF.UCL;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Entities;
@@ -28,7 +29,6 @@ public class SoForm : GenericStateMachine<BaseSoFormState, SoForm>, ICreateSuppl
 
     public async Task OnCreateSupplierOrder(TaskCompletionSource tcs, object parameter = null) {
         await CurrentState.OnCreateSupplierOrder(this, tcs, parameter);
-        tcs.TrySetResult();
     }
 }
 
@@ -62,14 +62,12 @@ public class CreateSoFormState : BaseSoFormState
     }
 
     public override async Task OnCreateSupplierOrder(SoForm form, TaskCompletionSource tcs, object parameter) {
-        if (await _validator.ValidateAsync(_supplierOrder) is { IsValid: true })
+        if (await _validator.ValidateAsync(_supplierOrder) is { IsValid: true }) {
             await _repository.AddAsync(_supplierOrder);
+            tcs.TrySetResult();
+        }
         else {
-            await Task.Run(() => {
-                Application.Current.Dispatcher.Invoke(() => {
-                    NotificationWindow.Show("Необходимо заполнить обязательные поля");
-                });
-            });
+            tcs.TrySetException(new InvalidInputException());
         }
     }
 }
@@ -83,13 +81,10 @@ public class EditSoFormState : BaseSoFormState
     public override async Task OnCreateSupplierOrder(SoForm form, TaskCompletionSource tcs, object parameter) {
         if (await _validator.ValidateAsync(_supplierOrder) is {IsValid: true}) {
             await _repository.UpdateAsync(_supplierOrder);
+            tcs.TrySetResult();
         }
         else {
-            await Task.Run(() => {
-                Application.Current.Dispatcher.Invoke(() => {
-                    NotificationWindow.Show("Необходимо заполнить обязательные поля");
-                });
-            });
+            tcs.TrySetException(new InvalidInputException());
         }
     }
 }

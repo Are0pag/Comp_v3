@@ -20,7 +20,12 @@ public class DataGridViewModel<T> : VmEnumerableInteractiveData<T>
         get => _selectedItem;
         set {
             _selectedItem = value;
-            EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
+            try {
+                EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
+            }
+            catch (KeyNotFoundException ex) {
+                Console.WriteLine($"KeyNotFoundException: {ex.Message} in {nameof(DataGridViewModel<T>)}, {nameof(SelectedItem)}: {SelectedItem}");
+            }
             OnPropertyChanged();
         }
     }

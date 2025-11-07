@@ -10,6 +10,7 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form;
 
 public partial class SupplierOrderFormWindow : Window, IDisposable
 {
+    protected readonly CounterpartySelectButVm _counterpartySelectButVm;
     public SupplierOrderFormWindow(SupplierOrder supplierOrder, 
                                    
                                    SaveFormButVm saveButVm, 
@@ -36,6 +37,8 @@ public partial class SupplierOrderFormWindow : Window, IDisposable
         
         ContractLinkFieldControl.DataContext = contractLinkFieldVm;
         InvoiceFilePathLinkFieldControl.DataContext = invoiceLinkFieldVm;
+        
+        _counterpartySelectButVm = counterpartySelectButVm;
     }
 
     public void Dispose() {
@@ -43,11 +46,6 @@ public partial class SupplierOrderFormWindow : Window, IDisposable
     }
 
     private void SupplierOrderFormWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-        try {
-            EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
-        }
-        catch (Exception ex) {
-            Console.WriteLine(ex.Message);
-        }
+       _counterpartySelectButVm.NotifyCanExecute();
     }
 }

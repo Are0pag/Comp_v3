@@ -1,22 +1,18 @@
 using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
-using Comp_v4.TableWindows.SupplierOrders.Installers;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
-using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
-using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 
 public class AddSoAction : BaseActionAsyncScopeHandler
 {
-    //protected readonly IServiceScopeFactory _scopeFactory;
-    //protected TaskCompletionSource? _currentTcs;
-
-    public AddSoAction(AddSoButVm button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
-        //_scopeFactory = scopeFactory;
+    protected readonly SupplierOrderTableWindow _supplierOrderTableWindow;
+    public AddSoAction(AddSoButVm button, IServiceScopeFactory scopeFactory, SupplierOrderTableWindow supplierOrderTableWindow) 
+        : base(button, scopeFactory) {
+        _supplierOrderTableWindow = supplierOrderTableWindow;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -31,8 +27,10 @@ public class AddSoAction : BaseActionAsyncScopeHandler
             scope.ServiceProvider.GetRequiredService<SetContractLinkAction>();
             scope.ServiceProvider.GetRequiredService<SetInvoiceLinkAction>();
             
-            window.Closed += (sender, args) => {
+            window.Closed += async (sender, args) => {
                 _currentTcs.TrySetResult();
+                await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
+                _supplierOrderTableWindow.OnReload?.Invoke();
             };
             window.Show();
         
@@ -40,7 +38,4 @@ public class AddSoAction : BaseActionAsyncScopeHandler
         }
     }
 
-    public override bool CanPerform() {
-        return _currentTcs is null || _currentTcs.Task.IsCompleted;
-    }
 }

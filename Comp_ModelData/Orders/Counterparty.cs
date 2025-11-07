@@ -270,6 +270,6 @@ public Counterparty PopulateFrom(Counterparty targetValues) {
 
     
     public override string ToString() {
-        return ShortName;
+        return $"{Id}. {ShortName}";
     }
 }

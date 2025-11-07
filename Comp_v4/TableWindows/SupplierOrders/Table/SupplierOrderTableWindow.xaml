@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Table"
         mc:Ignorable="d"
         Title="Заказы поставщикам" Height="450" Width="800"
-        PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown">
+        PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown"
+        PreviewMouseDown="SupplierOrderTableWindow_OnPreviewMouseDown">
     
     <Window.Resources>
         <Style x:Key="ToolBarButtonStyle" TargetType="Button">
@@ -62,7 +63,8 @@
                   SelectedItem="{Binding SelectedItem}"
                   Margin="10" 
                   AutoGenerateColumns="False" 
-                  IsReadOnly="True">
+                  IsReadOnly="True"
+                  MouseDoubleClick="DataGrid_OnMouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер заказа" Binding="{Binding PurchaseOrderNumber}" Width="Auto"/>
