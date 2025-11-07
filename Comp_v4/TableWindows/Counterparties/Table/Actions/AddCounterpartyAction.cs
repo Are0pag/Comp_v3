@@ -9,7 +9,8 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 public class AddCounterpartyAction : BaseActionAsyncScopeHandler
 {
     protected readonly CounterpartyTableWindow _counterpartyTableWindow;
-    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyTableWindow counterpartyTableWindow) : base(button, scopeFactory) {
+    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyTableWindow counterpartyTableWindow) 
+        : base(button, scopeFactory) {
         _counterpartyTableWindow = counterpartyTableWindow;
     }
 

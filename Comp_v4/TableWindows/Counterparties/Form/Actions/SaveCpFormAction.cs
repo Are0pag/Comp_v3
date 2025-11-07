@@ -13,7 +13,12 @@ public class SaveCpFormAction : BaseActionAsyncCompletion
     protected readonly FormCp _formCp;
     protected readonly CounterpartyDataGridVm _dataGridVm;
 
-    public SaveCpFormAction(SaveCpFormButVm button, Counterparty counterparty, CounterpartyFormWindow formWindow, FormCp formCp, CounterpartyDataGridVm dataGridVm) : base(button) {
+    public SaveCpFormAction(SaveCpFormButVm button, 
+                            Counterparty counterparty, 
+                            CounterpartyFormWindow formWindow, 
+                            FormCp formCp, 
+                            CounterpartyDataGridVm dataGridVm) 
+        : base(button) {
         _counterparty = counterparty;
         _formWindow = formWindow;
         _formCp = formCp;
