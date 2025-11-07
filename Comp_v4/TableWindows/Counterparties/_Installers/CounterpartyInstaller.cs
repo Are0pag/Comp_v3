@@ -26,6 +26,9 @@ public static class CounterpartyInstaller
         services.AddScoped<SaveCpFormButVm>();
         services.AddScoped<SaveCpFormAction>();
 
+        services.AddScoped<ConfirmSelectionAction>();
+        services.AddScoped<ConfirmSelectiontButVm>();
+
         
         services.AddScoped<FormCp>();
         

@@ -7,7 +7,9 @@ public abstract class BaseButtonAdvanced : BaseButtonVm
 {
     public Func<TaskCompletionSource, Task> ClickActionAsync { get; set; } = null!;
     protected bool _isEnabled = true;
-    
+
+    public bool IsEnabled => _isEnabled;
+
     public virtual async Task OnClickAsync() {
         if (!_isEnabled) {
             await Task.Delay(2);

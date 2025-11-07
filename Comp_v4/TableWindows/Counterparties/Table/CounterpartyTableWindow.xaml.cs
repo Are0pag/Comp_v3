@@ -11,12 +11,18 @@ namespace Comp_v4.TableWindows.Counterparties.Table;
 
 public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable
 {
+    protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
+    
     protected TaskCompletionSource? _tcsMouseDoubleClick;
-    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, CounterpartyDataGridVm dataGridVm) {
+    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, CounterpartyDataGridVm dataGridVm, 
+                                   ConfirmSelectiontButVm confirmSelectiontButVm) {
         InitializeComponent();
+        _confirmSelectiontButVm = confirmSelectiontButVm;
+        
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editCounterpartyButVm;
         MainDataGrid.DataContext = dataGridVm;
+        
         EventBus<ICounterpartySubscriber>.Subscribe(this);
     }
 
@@ -55,6 +61,10 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
 
     private void CounterpartyTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
+            case Key.Enter when Keyboard.Modifiers == ModifierKeys.Shift:
+                if (_confirmSelectiontButVm.IsEnabled)
+                    _confirmSelectiontButVm.OnClickAsync();
+                break;
             case Key.K:
             #if DEBUG
                 OnReload?.Invoke();

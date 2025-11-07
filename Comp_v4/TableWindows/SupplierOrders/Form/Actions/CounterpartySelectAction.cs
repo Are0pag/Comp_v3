@@ -19,7 +19,10 @@ public class CounterpartySelectAction : BaseAsyncActionScopeReloadable
 
     protected override void InstantiateRelatedServices() {
         _currentScope!.ServiceProvider.GetRequiredService<TableCounterparty>();
+        
         _currentScope.ServiceProvider.GetRequiredService<AddCounterpartyAction>();
         _currentScope.ServiceProvider.GetRequiredService<EditCounterpartyAction>();
+        
+        _currentScope.ServiceProvider.GetRequiredService<ConfirmSelectionAction>();
     }
 }
