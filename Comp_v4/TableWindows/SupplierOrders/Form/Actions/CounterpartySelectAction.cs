@@ -22,6 +22,7 @@ public class CounterpartySelectAction : BaseAsyncActionScopeReloadable
         
         _currentScope.ServiceProvider.GetRequiredService<AddCounterpartyAction>();
         _currentScope.ServiceProvider.GetRequiredService<EditCounterpartyAction>();
+        _currentScope.ServiceProvider.GetRequiredService<DeleteCounterpartyAction>();
         
         _currentScope.ServiceProvider.GetRequiredService<ConfirmSelectionAction>();
     }

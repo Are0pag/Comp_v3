@@ -51,6 +51,7 @@ public static class CounterpartyInstaller
 
         services.AddScoped<AddCounterpartyAction>();
         services.AddScoped<EditCounterpartyAction>();
+        services.AddScoped<DeleteCounterpartyAction>();
 
         
         services.AddScoped<TableCounterparty>();

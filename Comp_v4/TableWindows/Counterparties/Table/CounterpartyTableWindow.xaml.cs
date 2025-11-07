@@ -12,15 +12,23 @@ namespace Comp_v4.TableWindows.Counterparties.Table;
 public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable
 {
     protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
+    protected readonly DeleteCounterpartyButVm _deleteCounterpartyButVm;
     
     protected TaskCompletionSource? _tcsMouseDoubleClick;
-    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, EditCounterpartyButVm editCounterpartyButVm, CounterpartyDataGridVm dataGridVm, 
+    public CounterpartyTableWindow(AddCounterpartyButVm addButVm, 
+                                   EditCounterpartyButVm editCounterpartyButVm, 
+                                   DeleteCounterpartyButVm deleteCounterpartyButVm,
+                                   
+                                   CounterpartyDataGridVm dataGridVm, 
                                    ConfirmSelectiontButVm confirmSelectiontButVm) {
         InitializeComponent();
         _confirmSelectiontButVm = confirmSelectiontButVm;
+        _deleteCounterpartyButVm = deleteCounterpartyButVm;
         
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editCounterpartyButVm;
+        DeleteButton.DataContext = deleteCounterpartyButVm;
+        
         MainDataGrid.DataContext = dataGridVm;
         
         EventBus<ICounterpartySubscriber>.Subscribe(this);
@@ -65,6 +73,12 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
                 if (_confirmSelectiontButVm.IsEnabled)
                     _confirmSelectiontButVm.OnClickAsync();
                 break;
+            
+            case Key.Delete:
+                if (_deleteCounterpartyButVm.CanClick())
+                    _deleteCounterpartyButVm.OnClickAsync();
+                break;
+            
             case Key.K:
             #if DEBUG
                 OnReload?.Invoke();
