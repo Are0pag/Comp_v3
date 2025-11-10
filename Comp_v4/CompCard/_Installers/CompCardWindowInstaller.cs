@@ -122,21 +122,21 @@ public class CompCardWindowInstaller : AbstractInstaller
             return _rootContainer.Resolve<IWindowOrderLocator>();
         });*/
         
-        var analogs = new AreopagContainer();
+        /*var analogs = new AreopagContainer();
         new AnalogsTableWindowInstaller().Install(analogs);
         analogs.SetFactoryMethodFor<IWindowOrderLocator>(() => {
             return container.Resolve<IWindowOrderLocator>();
         });
         analogs.SetFactoryMethodFor<IRepository<Analog>>(() => {
             return container.Resolve<IRepository<Analog>>();
-        });
-        analogs.SetFactoryMethodFor<Component>(() => {
+        });*/
+        /*analogs.SetFactoryMethodFor<Component>(() => {
             return container.Resolve<Component>();
-        });
-        _subContainers[typeof(AnalogsTableWindow)] = analogs;
+        });*/
+        //_subContainers[typeof(AnalogsTableWindow)] = analogs;
         
-        container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsScoped<CompCardWindow>();
-        container.Add<AnalogsFieldVm>().AsScoped<CompCardWindow>();
+        //container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsScoped<CompCardWindow>();
+        /*container.Add<AnalogsFieldVm>().AsScoped<CompCardWindow>();
         container.Add<AnalogsFieldButtonVm>().AsScoped<CompCardWindow>();
         container.Add<OpenAnalogTableAction>()
                  .AsScoped<CompCardWindow>()
@@ -145,7 +145,7 @@ public class CompCardWindowInstaller : AbstractInstaller
                                                        _subContainers[typeof(AnalogsTableWindow)],
                                                        _rootContainer.Resolve<IWindowOrderLocator>());
                   })
-                 .EnforceInstantiateOnBegin();
+                 .EnforceInstantiateOnBegin();*/
         
         /*container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
         container.Add<SaveComponentAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();

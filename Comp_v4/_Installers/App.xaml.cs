@@ -4,6 +4,7 @@ using Comp_v4.Entry;
 using Comp_v4.Entry._Installers;
 using Comp_v4.Entry.Actions;
 using Comp_v4.NomDict.Installers;
+using Comp_v4.TableWindows.Analogs._Installers;
 using Comp_v4.TableWindows.Counterparties._Installers;
 using Comp_v4.TableWindows.SupplierOrders.Installers;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ public partial class App : Application
                             
                             services.RegisterNomDict();
                             services.RegisterCardComp();
+                            services.RegisterAnalogs();
 
                         }).Build();
     }

@@ -13,8 +13,8 @@ namespace Comp_v4.TableWindows.Analogs._Installers;
 public class AnalogFormInstaller : AbstractInstaller
 {
     protected override void InstallBindings(AreopagContainer container) {
-        container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsTransient();
-        container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton();
+        /*container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsTransient();
+        container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton();*/
         container.Add<Analog>().AsScoped<FormWindow>();
         container.Add<Component>().AsScoped<FormWindow>();
 

@@ -13,18 +13,36 @@ namespace Comp_v4.NomDict.Entities;
 public class EditGridState : BaseSGridState
 {
     protected readonly IServiceProvider _serviceProvider;
+    protected readonly DataGridVm _dataGridVm;
 
-    public EditGridState(IServiceProvider serviceProvider) {
+    public EditGridState(IServiceProvider serviceProvider, DataGridVm dataGridVm) {
         _serviceProvider = serviceProvider;
+        _dataGridVm = dataGridVm;
     }
 
     public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
-        
+        if (_dataGridVm.SelectedItem is not { } component)
+            throw new Exception();
+        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
+        NewMethod();
+        window.Closed += (sender, args) => {
+            tcs.TrySetResult();
+        };
+        window.Show();
+        await tcs.Task;
     }
 
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, new Component());
-        
+        NewMethod();
+        window.Closed += (sender, args) => {
+            tcs.TrySetResult();
+        };
+        window.Show();
+        await tcs.Task;
+    }
+
+    private void NewMethod() {
         _serviceProvider.GetRequiredService<SetUrlAction>();
         _serviceProvider.GetRequiredService<SetUrlAlternativeAction>();
         _serviceProvider.GetRequiredService<SetFilePathAction>();
@@ -32,13 +50,5 @@ public class EditGridState : BaseSGridState
         _serviceProvider.GetRequiredService<SelectImageAction>();
         _serviceProvider.GetRequiredService<OpenImageAction>();
         _serviceProvider.GetRequiredService<ClearImageAction>();
-
-        window.Closed += (sender, args) => {
-            tcs.TrySetResult();
-        };
-        
-        window.Show();
-        
-        await tcs.Task;
     }
 }

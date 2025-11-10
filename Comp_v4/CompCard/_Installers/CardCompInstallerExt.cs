@@ -16,6 +16,33 @@ public static class CardCompInstallerExt
         TextFields(services);
         Urls(services);
         Images(services);
+
+        services.AddSingleton<CdFieldVm>((provider) => {
+            return new CdFieldVm(null);
+        });
+        services.AddSingleton<ManFieldVm>(provider => {
+            return new ManFieldVm(() => {
+                //ResolveTableWindow<ManufacturersTableWindow, Manufacturer>(provider);
+            });
+        });
+        
+        services.AddSingleton<MuFieldVm>(provider => {
+            return new MuFieldVm(() => {
+                //ResolveTableWindow<MeasurementUnitTableWindow, MeasurementUnit>(provider);
+            });
+        });
+        
+        services.AddSingleton<TsFieldVm>(provider => {
+            return new TsFieldVm(() => {
+                //ResolveTableWindow<TypeSizesTableWindow, TypeSize>(provider);
+            });
+        });
+        
+        services.AddSingleton<GpsFieldVm>(provider => {
+            return new GpsFieldVm(() => {
+                //ResolveTableWindow<GenericParametersSetsWindow, GenericParametersSet>(provider);
+            });
+        });
         
         services.AddSingleton<CardCopmEditController>();
 
