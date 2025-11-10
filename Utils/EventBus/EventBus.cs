@@ -7,8 +7,8 @@ public static class EventBus<TBaseModuleType>
     private static bool _isExecuting = false;
 
     public static void Subscribe(TBaseModuleType subscriber) {
-        if (_isExecuting)
-            throw new InvalidOperationException("Cannot subscribe while executing");
+        /*if (_isExecuting)
+            throw new InvalidOperationException("Cannot subscribe while executing");*/
         var subscriberTypes = TypeExposer<TBaseModuleType>.GetSubscriberTypes(subscriber);
         foreach (var t in subscriberTypes) {
             if (!_subscribers.ContainsKey(t)) 
@@ -19,8 +19,8 @@ public static class EventBus<TBaseModuleType>
     }
 
     public static void Unsubscribe(TBaseModuleType subscriber) {
-        if (_isExecuting)
-            throw new InvalidOperationException("Cannot subscribe while executing");
+        /*if (_isExecuting)
+            throw new InvalidOperationException("Cannot subscribe while executing");*/
         var subscriberTypes = TypeExposer<TBaseModuleType>.GetSubscriberTypes(subscriber);
         foreach (var t in subscriberTypes) {
             if (_subscribers.TryGetValue(t, out var subscriber1))

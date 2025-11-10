@@ -9,7 +9,7 @@ using Utils.WPF;
 
 namespace Comp_v4.Entry.Entities;
 
-public class ToolsPanel : GenericStateMachine<BaseToolsPanelState, ToolsPanel>, IOpenNomDictHandler
+public class ToolsPanel : GenericStateMachine<BaseToolsPanelState, ToolsPanel>
 {
     public ToolsPanel(IEnumerable<BaseToolsPanelState> states, BaseToolsPanelState initialState) : base(states, initialState) {
         
@@ -32,21 +32,17 @@ public abstract class BaseToolsPanelState : StateBase<ToolsPanel>
 
 public class ToolsPanelStateIdle : BaseToolsPanelState
 {
-    protected readonly IServiceScopeFactory _scopeFactory;
+    protected readonly IServiceProvider _serviceProvider;
 
-    public ToolsPanelStateIdle(IServiceScopeFactory scopeFactory) {
-        _scopeFactory = scopeFactory;
+    public ToolsPanelStateIdle(IServiceProvider serviceProvider) {
+        _serviceProvider = serviceProvider;
     }
 
     public override async Task OpenNomDict(TaskCompletionSource tcs, object? o) {
-       using (IServiceScope scope = _scopeFactory.CreateScope()) {
-           var window = scope.ServiceProvider.GetRequiredService<EntryWindow>();
+        var window = _serviceProvider.GetRequiredService<EntryWindow>();
            
-           
-           
-           window.Closed += (_, _) => tcs.SetResult();
-           window.Show();
-           await tcs.Task;
-       }
+        window.Closed += (_, _) => tcs.SetResult();
+        window.Show();
+        await tcs.Task;
     }
 }

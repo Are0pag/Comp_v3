@@ -1,14 +1,16 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Comp_v4._Installers;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
+using Utils.EventBus;
 using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.CompCard;
 
-public partial class CompCardWindow : Window, IDisposable
+public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolver<Component>
 {
     protected readonly Component _component;
     
@@ -64,9 +66,18 @@ public partial class CompCardWindow : Window, IDisposable
         CommentsFieldUc.DataContext = ec.CommentsField;
         
         SaveComponentButton.DataContext = saveCompButtonVm;
+        
+        EventBus<IGlSubscriber>.Subscribe(this);
     }
 
-    public void Dispose() { }
+    public Task ResolveRuntimeParams(IRuntimeParamsContainer<Component> container) {
+        container.RuntimeParam = _component;
+        return Task.CompletedTask;
+    }
+
+    public void Dispose() {
+        EventBus<IGlSubscriber>.Unsubscribe(this);
+    }
     
     private void InitSimpleField(BaseTextFieldVm baseFieldVm, string currentValue, TextBox textBox) {
         baseFieldVm.Value = currentValue;
