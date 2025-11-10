@@ -71,37 +71,48 @@ public class RepositoryCategory : DbRepository<Category>
     }
 
     public override async Task DeleteAsync(int id) {
-        
-        /*// 1. Посмотрим что отслеживается ДО любой операции
-        Console.WriteLine("ДО очистки:");
-        foreach (var entry in _context.ChangeTracker.Entries())
-        {
-            Console.WriteLine($"{entry.Entity.GetType().Name} ID: {entry.Entity.GetType().GetProperty("Id")?.GetValue(entry.Entity)}, State: {entry.State}");
-        }
-        
-        // Проверим, что уже отслеживается
-        var trackedEntities = _context.ChangeTracker.Entries<Category>()
-                                      .Where(e => e.Entity.Id == id)
-                                      .ToList();
-    
-        Console.WriteLine($"Найдено отслеживаемых сущностей с Id={id}: {trackedEntities.Count}");
-    
-        foreach (var entry in trackedEntities)
-        {
-            Console.WriteLine($"Состояние: {entry.State}, Источник: {entry.Entity}");
-        }
-        
-        // Получаем сущность БЕЗ отслеживания, только для проверки существования
-        var exists = await _context.Set<Category>()
-                                   .AsNoTracking()
-                                   .AnyAsync(c => c.Id == id);
-        
-        if (!exists) return;*/
+        /*var trackedEntity = _context.Set<Category>()
+                             .FirstOrDefault(c => c.Id == id)
+                     ?? throw new KeyNotFoundException();   
 
-        using (var context = new AppDbContext()) {
-            // Создаем "заглушку" сущности только с Id и удаляем ее
+        foreach (var category in await GetAllAsync()) {
             
+        }*/
+        
+        var allCategories = await _context.Set<Category>()
+                                          .Include(c => c.ParentCategory)
+                                          .ToListAsync();
+    
+        // 2. Находим категорию для удаления (уже отслеживаемую)
+        var categoryToDelete = allCategories.FirstOrDefault(c => c.Id == id);
+        if (categoryToDelete == null) return;
+    
+        // 3. Рекурсивно находим ВСЕ дочерние категории
+        var allChildren = GetAllChildrenRecursive(categoryToDelete, allCategories);
+    
+        // 4. Удаляем все найденные категории
+        foreach (var child in allChildren) {
+            _context.Set<Category>().Remove(child);
         }
+    
+        // 5. Удаляем саму категорию
+        _context.Set<Category>().Remove(categoryToDelete);
+    
+        await _context.SaveChangesAsync();
+    }
+    
+    private List<Category> GetAllChildrenRecursive(Category parent, List<Category> allCategories) {
+        var result = new List<Category>();
+    
+        // Находим прямых потомков
+        var directChildren = allCategories.Where(c => c.ParentCategoryId == parent.Id).ToList();
+    
+        foreach (var child in directChildren) {
+            result.Add(child);
+            result.AddRange(GetAllChildrenRecursive(child, allCategories));
+        }
+    
+        return result;
     }
 
     /// <summary>
