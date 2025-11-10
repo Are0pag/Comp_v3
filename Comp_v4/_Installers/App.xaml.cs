@@ -35,7 +35,7 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e) {
         await _appHost.StartAsync();
         
-        //_ = _appHost.Services.GetRequiredService<OpenNomDictAction>();
+        _ = _appHost.Services.GetRequiredService<OpenNomDictAction>();
         _ = _appHost.Services.GetRequiredService<OpenSupplierOrdersAction>();
         
         var mainWindow = _appHost.Services.GetRequiredService<EntryWindow>();

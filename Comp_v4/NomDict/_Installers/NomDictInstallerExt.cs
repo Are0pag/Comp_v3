@@ -15,21 +15,36 @@ public static class NomDictInstallerExt
         services.AddTransient<OneValueWindow>();
         
         RegisterCategories(services);
-        
+        Table(services);
+    }
+
+    private static void Table(IServiceCollection services) {
         services.AddSingleton<DataGridVm>();
+        
         services.AddSingleton<AddCompButtonVm>();
         services.AddSingleton<AddComponentAction>();
-        services.AddSingleton<EditGridState>();
-        services.AddSingleton<SelectionGridState>();
-        services.AddSingleton<Comp_v4.NomDict.Entities.Grid>(provider => {
-            var initState = provider.GetRequiredService<EditGridState>();
-            var states = new List<BaseSGridState>() {
-                initState,
-                provider.GetRequiredService<SelectionGridState>()
-            };
-            return new Comp_v4.NomDict.Entities.Grid(states, initState);
-        });
+        
+        States();
+
         services.AddTransient<NomDictWindow>();
+
+        void States() {
+            services.AddSingleton<EditGridState>();
+            services.AddSingleton<SelectionGridState>();
+
+            services.AddSingleton<BaseSGridState, SelectionGridState>();
+            services.AddSingleton<BaseSGridState, EditGridState>();
+
+            services.AddSingleton<Grid>();
+            /*services.AddSingleton<Comp_v4.NomDict.Entities.Grid>(provider => {
+                var initState = provider.GetRequiredService<EditGridState>();
+                var states = new List<BaseSGridState>() {
+                    initState,
+                    provider.GetRequiredService<SelectionGridState>()
+                };
+                return new Comp_v4.NomDict.Entities.Grid(states, initState);
+            });*/
+        }
     }
 
     private static void RegisterCategories(IServiceCollection services) {

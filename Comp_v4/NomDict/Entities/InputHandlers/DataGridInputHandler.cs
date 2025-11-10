@@ -19,6 +19,6 @@ public class DataGridInputHandler : IMouseDoubleClickHandler
     }
 
     public void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        _grid.OnMouseDoubleClick(sender, e);
+        //_grid.OnMouseDoubleClick(sender, e);
     }
 }

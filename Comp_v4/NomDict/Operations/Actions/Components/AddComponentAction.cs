@@ -1,28 +1,17 @@
 using Comp_v4.NomDict.Entities;
-using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons.Components;
-using Utils.WPF;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.Operations.Actions.Components;
 
-public class AddComponentAction : BaseAsyncActionButtonInvoked
+public class AddComponentAction : BaseActionAsyncSelfWaiting
 {
     protected readonly Grid _grid;
-    protected readonly TreeViewVm _treeViewVm;
-    public AddComponentAction(AddCompButtonVm buttonVm, TreeViewVm treeViewVm, Grid grid) : base(buttonVm) {
-        _treeViewVm = treeViewVm;
+    public AddComponentAction(AddCompButtonVm button, Grid grid) : base(button) {
         _grid = grid;
     }
 
-    public override async Task PerformAsync(object? parameter) {
-        _grid.AddComponent(parameter);
-    }
-
-    public override bool CanPerform() {
-        return _treeViewVm.SelectedCategory != null;
-    }
-
-    public override async Task CancelAsync(object? parameter = null) {
-        throw new NotImplementedException();
+    public override async Task Perform(TaskCompletionSource tcs) {
+        await _grid.AddComponent(tcs, null);
     }
 }

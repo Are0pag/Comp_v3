@@ -3,7 +3,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.Vm.Buttons.Components;
 
-public partial class AddCompButtonVm : BaseAsyncBButtonVm
+public partial class AddCompButtonVm : BaseButtonAdvanced
 {
     public const string COMMON_LABEL = "Новый компонент";
     public const string ANALOG_CHOOSE_LABEL = "Выбрать как аналог";

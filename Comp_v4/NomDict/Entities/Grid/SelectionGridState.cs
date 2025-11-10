@@ -19,19 +19,7 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
         _windowOrderLocator = windowOrderLocator;
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
-    public override void OnMouseDoubleClick(object sender, MouseButtonEventArgs e, Grid context) {
-        if (_selectionTcs is null)
-            throw new InvalidOperationException("Selection grid state has not been started yet");
-        if (_dataGridVm.SelectedItem == null) 
-            return;
-        _selectionTcs.TrySetResult(_dataGridVm.SelectedItem);
-        _selectionTcs = null;
-        _ = context.ChangeState(context.GetState<EditGridState>(), context);
-    }
 
-    public override void AddComponent(object? parameter) {
-        throw new SystemException();
-    }
 
     public void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
@@ -45,5 +33,19 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
             return;
         }
         _selectionTcs = tcs;
+    }
+
+    public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
+        if (_selectionTcs is null)
+            throw new InvalidOperationException("Selection grid state has not been started yet");
+        if (_dataGridVm.SelectedItem == null) 
+            return;
+        _selectionTcs.TrySetResult(_dataGridVm.SelectedItem);
+        _selectionTcs = null;
+        _ = grid.ChangeState(grid.GetState<EditGridState>(), grid);
+    }
+
+    public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
+        throw new NotImplementedException();
     }
 }
