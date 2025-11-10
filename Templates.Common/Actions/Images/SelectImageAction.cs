@@ -2,15 +2,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Comp_v4._Installers;
 using Comp_v4.CompCard.Vm;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using Utils.EventBus;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 
-public class SelectImageAction : ImageActionBase
+public class SelectImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOwner>
 {
-    public SelectImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
+    public SelectImageAction(ImageFieldVmBase imageFieldVm) : base(imageFieldVm) {
         imageFieldVm.SelectAction = PerformAsync;
         LoadImageFromPath();
     }
@@ -81,5 +83,21 @@ public class SelectImageAction : ImageActionBase
         catch (Exception ex) {
             Debug.WriteLine($"Ошибка загрузки изображения: {ex.Message}");
         }
+    }
+
+    public IImageOwner RuntimeParam {
+        get {
+            try {
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<IImageOwner>>(r => {
+                    r.ResolveRuntimeParams(this);
+                });
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return _item;
+        }
+        set => _item = value;
     }
 }

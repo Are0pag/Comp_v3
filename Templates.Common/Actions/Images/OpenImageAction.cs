@@ -1,16 +1,18 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using Comp_v4._Installers;
 using Comp_v4.CompCard.Vm;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using Utils.EventBus;
 using WPF.UCL;
 
 namespace Comp_v4.CompCard.Operations.Actions;
 
-public class OpenImageAction : ImageActionBase
+public class OpenImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOwner>
 { 
-    public OpenImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm, item) {
+    public OpenImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm) {
         _imageFieldVm.OpenAction = PerformAsync;
     }
 
@@ -53,5 +55,21 @@ public class OpenImageAction : ImageActionBase
 
     public override void CancelAsync(object? parameter = null) {
         // В данном случае операция не требует отмены
+    }
+    
+    public IImageOwner RuntimeParam {
+        get {
+            try {
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<IImageOwner>>(r => {
+                    r.ResolveRuntimeParams(this);
+                });
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return _item;
+        }
+        set => _item = value;
     }
 }

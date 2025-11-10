@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Templates.Common", "Templat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DI", "DI\DI.csproj", "{AABA4756-0778-45D7-ABB5-4F1E327E9398}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeContract", "RuntimeContract\RuntimeContract.csproj", "{864F60A6-11BD-4514-8E0B-F32BA73366AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{AABA4756-0778-45D7-ABB5-4F1E327E9398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AABA4756-0778-45D7-ABB5-4F1E327E9398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AABA4756-0778-45D7-ABB5-4F1E327E9398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{864F60A6-11BD-4514-8E0B-F32BA73366AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{864F60A6-11BD-4514-8E0B-F32BA73366AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{864F60A6-11BD-4514-8E0B-F32BA73366AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{864F60A6-11BD-4514-8E0B-F32BA73366AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
