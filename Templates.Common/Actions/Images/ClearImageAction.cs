@@ -8,18 +8,18 @@ namespace Comp_v4.CompCard.Operations.Actions;
 
 public class ClearImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOwner>
 {
-    public ClearImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm) {
+    public ClearImageAction(ImageFieldVmBase imageFieldVm) : base(imageFieldVm) {
         _imageFieldVm.ClearAction = PerformAsync;
     }
 
     public override void PerformAsync(object? parameter) {
-        _item.ImagePath = null;
+        RuntimeParam.ImagePath = null;
         _imageFieldVm.ImagePath = null;
         _imageFieldVm.Image = null;
     }
 
     public override bool CanPerform() {
-        return _item.ImagePath != null;
+        return RuntimeParam.ImagePath != null;
     }
 
     public override void CancelAsync(object? parameter = null) {

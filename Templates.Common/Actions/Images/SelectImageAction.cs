@@ -44,7 +44,7 @@ public class SelectImageAction : ImageActionBase, IRuntimeParamsContainer<IImage
                 System.Windows.Application.Current.Dispatcher.Invoke(() => {
                     _imageFieldVm.Image = bitmap;
                     _imageFieldVm.ImagePath = openFileDialog.FileName;
-                    _item.ImagePath = openFileDialog.FileName;
+                    RuntimeParam.ImagePath = openFileDialog.FileName;
                 });
             }
             catch (Exception ex) {
@@ -65,14 +65,14 @@ public class SelectImageAction : ImageActionBase, IRuntimeParamsContainer<IImage
     }
 
     public void LoadImageFromPath() {
-        if (string.IsNullOrWhiteSpace(_item.ImagePath) || !File.Exists(_item.ImagePath))
+        if (string.IsNullOrWhiteSpace(RuntimeParam.ImagePath) || !File.Exists(RuntimeParam.ImagePath))
             return;
 
         try {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(_item.ImagePath, UriKind.Absolute);
+            bitmap.UriSource = new Uri(RuntimeParam.ImagePath, UriKind.Absolute);
             bitmap.EndInit();
             bitmap.Freeze(); // Важно для потокобезопасности
 

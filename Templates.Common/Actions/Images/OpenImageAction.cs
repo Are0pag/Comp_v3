@@ -12,7 +12,7 @@ namespace Comp_v4.CompCard.Operations.Actions;
 
 public class OpenImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOwner>
 { 
-    public OpenImageAction(ImageFieldVmBase imageFieldVm, IImageOwner item) : base(imageFieldVm) {
+    public OpenImageAction(ImageFieldVmBase imageFieldVm) : base(imageFieldVm) {
         _imageFieldVm.OpenAction = PerformAsync;
     }
 
