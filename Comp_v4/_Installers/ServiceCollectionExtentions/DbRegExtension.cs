@@ -18,12 +18,12 @@ public static class DbRegExtension
     public static void RegisterDb(this IServiceCollection services) {
         services.AddDbContext<AppDbContext>(options => {
             options.UseSqlite(DbConfig.ConnectionString)
-                   .EnableDetailedErrors();
+                   .EnableDetailedErrors()
+                   .EnableSensitiveDataLogging();
         });
         
         services.AddLogging(builder => {
-            // Удаление провайдеров логирования по умолчанию
-            builder.ClearProviders();
+            builder.ClearProviders(); // Удаление провайдеров логирования по умолчанию
         });
         
         services.AddHostedService<DatabaseInitializer>();

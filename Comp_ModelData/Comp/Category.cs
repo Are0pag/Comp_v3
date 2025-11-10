@@ -6,7 +6,7 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.SortingItems;
 
 [Table(nameof(Category) + "s")]
-public class Category : NotifyPropertyChanged
+public class Category : NotifyPropertyChanged, IPopulatable<Category>
 {
     protected string _name = string.Empty;
     protected bool _isExpanded;
@@ -65,5 +65,13 @@ public class Category : NotifyPropertyChanged
 
     public string GetFullNameRecursive(Category category, string name) {
         return category.ParentCategory != null ? GetFullNameRecursive(category.ParentCategory, category.ParentCategory.Name + "/" + name) : name;
+    }
+
+    public Category PopulateFrom(Category targetValues) {
+        Id = targetValues.Id;
+        Name = targetValues.Name;
+        ParentCategoryId = targetValues.ParentCategoryId;
+        IsExpanded = targetValues.IsExpanded;
+        return this;
     }
 }

@@ -62,8 +62,8 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
     }
 
     private async Task DeleteCategoryRecursiveAsync(Category category) {
-        foreach (var subcategory in category.Subcategories.ToList()) 
-            await DeleteCategoryRecursiveAsync(subcategory);
+        /*foreach (var subcategory in category.Subcategories.ToList()) 
+            await DeleteCategoryRecursiveAsync(subcategory);*/
 
         await _repository.DeleteAsync(category.Id);
     }

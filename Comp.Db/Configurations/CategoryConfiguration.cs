@@ -21,9 +21,9 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         
         // Самореференсная связь для иерархии категорий
         builder.HasOne(c => c.ParentCategory)
-               .WithMany(c => c.Subcategories)
+               .WithMany()
                .HasForeignKey(c => c.ParentCategoryId)
-               .OnDelete(DeleteBehavior.Restrict); // Или DeleteBehavior.Cascade в зависимости от требований
+               .OnDelete(DeleteBehavior.Restrict); 
         
         // Индекс для родительской категории для улучшения производительности
         builder.HasIndex(c => c.ParentCategoryId);

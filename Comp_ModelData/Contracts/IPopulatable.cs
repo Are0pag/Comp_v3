@@ -1,6 +1,6 @@
 namespace Comp.ModelData;
 
-public interface IPopulable<T>
+public interface IPopulatable<T>
 {
     T PopulateFrom(T targetValues);
 }
