@@ -38,6 +38,8 @@ public static class DbRegExtension
         
         services.AddTransient<IRepository<Category>, RepositoryCategory>();
         services.AddTransient<IRepository<GenericParametersSet>, DbRepository<GenericParametersSet>>();
+
+        services.AddTransient<IRepository<Analog>, RepoAnalogs>();
         
         services.AddTransient<IRepository<Component>, RepositoryComponent>();
     }

@@ -28,10 +28,10 @@ public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstalle
     protected override void InstallBindings(AreopagContainer container) {
         container.Add<IRepository<T>>().To<DbRepository<T>>().AsTransient();
 
-        container.Add<ICommandFactory>()
+        /*container.Add<ICommandFactory>()
                  .To<DataGridCommandFactory>()
                  .AsScoped<Tw>()
-                 .UsingFactoryMethod(() => new DataGridCommandFactory(container));
+                 .UsingFactoryMethod(() => new DataGridCommandFactory(container));*/
 
         /*container.Add<AddItemCommand<T>>().AsTransient().WithParameters(typeof(T));
         container.Add<UpdateItemCommand<T>>().AsTransient().WithParameters(typeof(T));

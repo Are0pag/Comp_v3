@@ -6,14 +6,15 @@ namespace Comp_v4.TableWindows;
 
 public class DataGridCommandFactory : ICommandFactory
 {
-    protected readonly AreopagContainer _container;
+    /*protected readonly AreopagContainer _container;
 
     public DataGridCommandFactory(AreopagContainer container) {
         _container = container;
-    }
+    }*/
 
     public TCommand CreateCommand<TCommand, TParameter>(TParameter parameter) where TCommand : DeferredCommandBase<TParameter> {
-        var command = _container.Resolve<TCommand>(parameter);
-        return command;
+        throw new NotImplementedException();
+        /*var command = _container.Resolve<TCommand>(parameter);
+        return command;*/
     }
 }

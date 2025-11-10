@@ -51,11 +51,11 @@ public class CompCardWindowInstaller : AbstractInstaller
         InstallTableWindowScope<GenericParametersSetsWindow>(new TableWindowInstaller<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>());
 
 
-        container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
-        new CompRepoInstaller().Install(container);
+        /*container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
+        new CompRepoInstaller().Install(container);*/
 
 
-        container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
+        /*container.Add<CdFieldVm>().AsScoped<CompCardWindow>()
                  .UsingFactoryMethod(() => new CdFieldVm( OpenTableWindow<CondDesignTableWindow, ConditionalDesignation>));
         
         container.Add<ManFieldVm>().AsScoped<CompCardWindow>()
@@ -68,13 +68,13 @@ public class CompCardWindowInstaller : AbstractInstaller
                  .UsingFactoryMethod(() => new TsFieldVm( OpenTableWindow<TypeSizesTableWindow, TypeSize>));
         
         container.Add<GpsFieldVm>().AsScoped<CompCardWindow>()
-                 .UsingFactoryMethod(() => new GpsFieldVm( OpenTableWindow<GenericParametersSetsWindow, GenericParametersSet>));
+                 .UsingFactoryMethod(() => new GpsFieldVm( OpenTableWindow<GenericParametersSetsWindow, GenericParametersSet>));*/
 
 
         container.Add<Component>().AsScoped<CompCardWindow>();
         container.Add<IImageOwner>().AsScoped<CompCardWindow>();
         
-        container.Add<EditStateCardComp>().AsScoped<CompCardWindow>();
+        /*container.Add<EditStateCardComp>().AsScoped<CompCardWindow>();
         container.Add<CreateStateCardComp>().AsScoped<CompCardWindow>();
         container.Add<CardComp>().AsScoped<CompCardWindow>();
         
@@ -86,9 +86,9 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<ValidatorQrCodeData>().AsScoped<CompCardWindow>();
         container.Add<ValidatorDescription>().AsScoped<CompCardWindow>();
         container.Add<ValidatorComments>().AsScoped<CompCardWindow>();
-        container.Add<ValidatorGp>().AsTransient();
+        container.Add<ValidatorGp>().AsTransient();*/
         
-        container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
+        /*container.Add<NameFieldVm>().AsScoped<CompCardWindow>();
         container.Add<NomenclatureNumberFieldVm>().AsScoped<CompCardWindow>();
         container.Add<CatalogNumberFieldVm>().AsScoped<CompCardWindow>();
         container.Add<LabelingOptionsFieldVm>().AsScoped<CompCardWindow>();
@@ -103,10 +103,10 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<gp4FieldVm>().AsScoped<CompCardWindow>();
         container.Add<gp5FieldVm>().AsScoped<CompCardWindow>();
         
-        container.Add<CardCopmEditController>().AsScoped<CompCardWindow>();
+        container.Add<CardCopmEditController>().AsScoped<CompCardWindow>();*/
         
-        container.Add<ValidatorUrl>().AsTransient();
-        container.Add<UrlFieldControlVm>().AsScoped<CompCardWindow>();
+        //container.Add<ValidatorUrl>().AsTransient();
+        /*container.Add<UrlFieldControlVm>().AsScoped<CompCardWindow>();
         container.Add<UrlAlternativeFieldControlVm>().AsScoped<CompCardWindow>();
         container.Add<FilePathFieldControlVm>().AsScoped<CompCardWindow>();
         container.Add<SetUrlAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
@@ -116,11 +116,11 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<ImageFieldVmBase>().To<ImageFieldVm>().AsScoped<CompCardWindow>();
         container.Add<SelectImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
         container.Add<OpenImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
-        container.Add<ClearImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
+        container.Add<ClearImageAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();*/
 
-        container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton().UsingFactoryMethod(() => {
+        /*container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton().UsingFactoryMethod(() => {
             return _rootContainer.Resolve<IWindowOrderLocator>();
-        });
+        });*/
         
         var analogs = new AreopagContainer();
         new AnalogsTableWindowInstaller().Install(analogs);
@@ -147,10 +147,10 @@ public class CompCardWindowInstaller : AbstractInstaller
                   })
                  .EnforceInstantiateOnBegin();
         
-        container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
+        /*container.Add<SaveCompButtonVm>().AsScoped<CompCardWindow>();
         container.Add<SaveComponentAction>().AsScoped<CompCardWindow>().EnforceInstantiateOnBegin();
         
-        container.Add<CompCardWindow>().AsTransient();
+        container.Add<CompCardWindow>().AsTransient();*/
     }
     
     protected void InstallTableWindowScope<TWindow>(AbstractInstaller tableWindowInstaller) 
@@ -162,7 +162,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         _subContainers[typeof(TWindow)] = cdSubContainer;
     }
     
-    protected void OpenTableWindow<TWindow, TData>()
+    /*protected void OpenTableWindow<TWindow, TData>()
         where TWindow : Window, IDisposable
         where TData : class, IDbEntity, new() 
     {
@@ -179,7 +179,7 @@ public class CompCardWindowInstaller : AbstractInstaller
                 ActionFilter<TWindow, TData, FiltersVmBase>
             >();
         window.Show();
-    }
+    }*/
     
     public class TableWindowClosingHandler : ITableWindowHandler
     {

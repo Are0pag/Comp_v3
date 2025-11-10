@@ -12,17 +12,11 @@ namespace Comp_v4.NomDict.Installers;
 public static class NomDictInstallerExt
 {
     public static void RegisterNomDict(this IServiceCollection services) {
-        services.AddSingleton<DataGridVm>();
-        services.AddSingleton<TreeViewVm>();
-        services.AddSingleton<CategoryValidator>();
         services.AddTransient<OneValueWindow>();
-        services.AddSingleton<AddNewCategoryButtonVm>();
-        services.AddSingleton<AddCategoryAction>();
-        services.AddSingleton<DeleteCategoryButtonVm>();
-        services.AddSingleton<DeleteCategoryAction>();
-        services.AddSingleton<UpdateCategoryNameButtonVm>();
-        services.AddSingleton<UpdateCategoryNameAction>();
-        services.AddSingleton<MoveCategoryAction>();
+        
+        RegisterCategories(services);
+        
+        services.AddSingleton<DataGridVm>();
         services.AddSingleton<AddCompButtonVm>();
         services.AddSingleton<AddComponentAction>();
         services.AddSingleton<EditGridState>();
@@ -36,5 +30,17 @@ public static class NomDictInstallerExt
             return new Comp_v4.NomDict.Entities.Grid(states, initState);
         });
         services.AddTransient<NomDictWindow>();
+    }
+
+    private static void RegisterCategories(IServiceCollection services) {
+        services.AddSingleton<TreeViewVm>();
+        services.AddSingleton<CategoryValidator>();
+        services.AddSingleton<AddNewCategoryButtonVm>();
+        services.AddSingleton<AddCategoryAction>();
+        services.AddSingleton<DeleteCategoryButtonVm>();
+        services.AddSingleton<DeleteCategoryAction>();
+        services.AddSingleton<UpdateCategoryNameButtonVm>();
+        services.AddSingleton<UpdateCategoryNameAction>();
+        services.AddSingleton<MoveCategoryAction>();
     }
 }
