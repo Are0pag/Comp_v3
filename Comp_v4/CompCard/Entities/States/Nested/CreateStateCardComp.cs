@@ -6,6 +6,9 @@ using Utils.EventBus;
 
 namespace Comp_v4.CompCard.Entities.States;
 
+/// <summary>
+/// Initial State
+/// </summary>
 public class CreateStateCardComp : BaseStateCardComp
 {
     public CreateStateCardComp(IRepository<Component> repository, CardCopmEditController editController) 

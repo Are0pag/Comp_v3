@@ -7,35 +7,35 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.Comp;
 
 [Table(nameof(Component) + "s")]
-public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
+public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner, IPopulatable<Component>
 {
 #region PrivateFields
 
     protected string _name = string.Empty;
     protected string _nomenclatureNumber = string.Empty;
-    protected string _catalogNumber = string.Empty;
-    protected string _labelingOptions = string.Empty;
-    protected string _codeOfElement = string.Empty;
+    protected string? _catalogNumber = string.Empty;
+    protected string? _labelingOptions = string.Empty;
+    protected string? _codeOfElement = string.Empty;
     
-    protected string _url = string.Empty;
-    protected string _urlAlternative = string.Empty;
-    protected string _filePath = string.Empty;
+    protected string? _url = string.Empty;
+    protected string? _urlAlternative = string.Empty;
+    protected string? _filePath = string.Empty;
     
-    protected string _qrCodeData = string.Empty;
-    protected string _description = string.Empty;
-    protected string _comments = string.Empty;
+    protected string? _qrCodeData = string.Empty;
+    protected string? _description = string.Empty;
+    protected string? _comments = string.Empty;
     
     protected string? _imagePath;
     
     /// <summary>
     /// GP - Generic Parameters. Model containing values 
     /// </summary>
-    protected string _gpMain = string.Empty;
-    protected string _gp1 = string.Empty;
-    protected string _gp2 = string.Empty;
-    protected string _gp3 = string.Empty;
-    protected string _gp4 = string.Empty;
-    protected string _gp5 = string.Empty;
+    protected string? _gpMain = string.Empty;
+    protected string? _gp1 = string.Empty;
+    protected string? _gp2 = string.Empty;
+    protected string? _gp3 = string.Empty;
+    protected string? _gp4 = string.Empty;
+    protected string? _gp5 = string.Empty;
     
     protected Category _category;
     protected GenericParametersSet? _genericParametersSet;
@@ -146,7 +146,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
     
     
 
-    public string CatalogNumber {
+    public string? CatalogNumber {
         get => _catalogNumber;
         set {
             if (value == _catalogNumber) return;
@@ -155,7 +155,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string LabelingOptions {
+    public string? LabelingOptions {
         get => _labelingOptions;
         set {
             if (value == _labelingOptions) return;
@@ -164,7 +164,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string CodeOfElement {
+    public string? CodeOfElement {
         get => _codeOfElement;
         set {
             if (value == _codeOfElement) return;
@@ -177,7 +177,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
 
 #region Links
 
-    public string Url {
+    public string? Url {
         get => _url;
         set {
             if (value == _url) return;
@@ -186,7 +186,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string UrlAlternative {
+    public string? UrlAlternative {
         get => _urlAlternative;
         set {
             if (value == _urlAlternative) return;
@@ -195,7 +195,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string FilePath {
+    public string? FilePath {
         get => _filePath;
         set {
             if (value == _filePath) return;
@@ -217,7 +217,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
 
 #region DescriptiveTextData
 
-    public string QrCodeData {
+    public string? QrCodeData {
         get => _qrCodeData;
         set {
             if (value == _qrCodeData) return;
@@ -226,7 +226,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Description {
+    public string? Description {
         get => _description;
         set {
             if (value == _description) return;
@@ -235,7 +235,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Comments {
+    public string? Comments {
         get => _comments;
         set {
             if (value == _comments) return;
@@ -248,7 +248,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
 
 #region GenericParamsValues
 
-    public string GpMain {
+    public string? GpMain {
         get => _gpMain;
         set {
             if (value == _gpMain) return;
@@ -257,7 +257,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Gp1 {
+    public string? Gp1 {
         get => _gp1;
         set {
             if (value == _gp1) return;
@@ -266,7 +266,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Gp2 {
+    public string? Gp2 {
         get => _gp2;
         set {
             if (value == _gp2) return;
@@ -275,7 +275,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Gp3 {
+    public string? Gp3 {
         get => _gp3;
         set {
             if (value == _gp3) return;
@@ -284,7 +284,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Gp4 {
+    public string? Gp4 {
         get => _gp4;
         set {
             if (value == _gp4) return;
@@ -293,13 +293,52 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
-    public string Gp5 {
+    public string? Gp5 {
         get => _gp5;
         set {
             if (value == _gp5) return;
             _gp5 = value;
             OnPropertyChanged();
         }
+    }
+
+#endregion
+
+#region Populate
+
+    public Component PopulateFrom(Component targetValues) {
+        Id = targetValues.Id;
+        CategoryId = targetValues.CategoryId;
+        GenericParametersSetId = targetValues.GenericParametersSet?.Id ?? null;
+        ConditionalDesignationId = targetValues.ConditionalDesignation?.Id ?? null;
+        ManufacturerId = targetValues.Manufacturer?.Id ?? null;
+        MeasurementUnitId = targetValues.MeasurementUnit?.Id ?? null;
+        TypeSizeId = targetValues.TypeSize?.Id ?? null;
+
+
+        Name = targetValues.Name;
+        NomenclatureNumber = targetValues.NomenclatureNumber;
+        CatalogNumber = targetValues.CatalogNumber;
+        LabelingOptions = targetValues.LabelingOptions;
+        CodeOfElement = targetValues.CodeOfElement;
+        
+        Url = targetValues.Url;
+        UrlAlternative = targetValues.UrlAlternative;
+        FilePath = targetValues.FilePath;
+        ImagePath = targetValues.ImagePath;
+        
+        QrCodeData = targetValues.QrCodeData;
+        Description = targetValues.Description;
+        Comments = targetValues.Comments;
+        
+        GpMain = targetValues.GpMain;
+        Gp1 = targetValues.Gp1;
+        Gp2 = targetValues.Gp2;
+        Gp3 = targetValues.Gp3;
+        Gp4 = targetValues.Gp4;
+        Gp5 = targetValues.Gp5;
+        
+        return this;
     }
 
 #endregion

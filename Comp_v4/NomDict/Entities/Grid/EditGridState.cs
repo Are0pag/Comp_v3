@@ -27,6 +27,10 @@ public class EditGridState : BaseSGridState
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, new Component());
         ResolveRelated();
+        
+        var card = _serviceProvider.GetRequiredService<CardComp>();
+        await card.ChangeState(card.GetState<CreateStateCardComp>(), card);
+        
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
@@ -39,6 +43,10 @@ public class EditGridState : BaseSGridState
             throw new Exception();
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
         ResolveRelated();
+        
+        var card = _serviceProvider.GetRequiredService<CardComp>();
+        await card.ChangeState(card.GetState<EditStateCardComp>(), card);
+        
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
