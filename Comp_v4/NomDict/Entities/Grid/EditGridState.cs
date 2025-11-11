@@ -24,7 +24,7 @@ public class EditGridState : BaseSGridState
         if (_dataGridVm.SelectedItem is not { } component)
             throw new Exception();
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
-        NewMethod();
+        ResolveRelated();
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
@@ -34,7 +34,7 @@ public class EditGridState : BaseSGridState
 
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, new Component());
-        NewMethod();
+        ResolveRelated();
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
@@ -42,7 +42,7 @@ public class EditGridState : BaseSGridState
         await tcs.Task;
     }
 
-    private void NewMethod() {
+    private void ResolveRelated() {
         _serviceProvider.GetRequiredService<SetUrlAction>();
         _serviceProvider.GetRequiredService<SetUrlAlternativeAction>();
         _serviceProvider.GetRequiredService<SetFilePathAction>();

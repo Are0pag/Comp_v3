@@ -11,8 +11,8 @@ public partial class AddCompButtonVm : BaseButtonAdvanced
     protected string _label = COMMON_LABEL;
     
     [RelayCommand(CanExecute = nameof(CanClick))]
-    public override async Task OnClickAsync() {
-        await ClickActionAsync?.Invoke(null);
+    public override Task OnClickAsync() {
+        return base.OnClickAsync();
     }
 
     public override void NotifyCanExecute() {

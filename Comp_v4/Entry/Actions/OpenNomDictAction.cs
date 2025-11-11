@@ -20,7 +20,7 @@ public class OpenNomDictAction : BaseActionAsyncCompletion
         _windowOrderLocator = windowOrderLocator;
     }
 
-    public override Task Perform(TaskCompletionSource tcs) {
+    public override async Task Perform(TaskCompletionSource tcs) {
         var window = _openNomDictHandler.GetRequiredService<NomDictWindow>();
         
         _openNomDictHandler.GetRequiredService<AddCategoryAction>();
@@ -32,8 +32,10 @@ public class OpenNomDictAction : BaseActionAsyncCompletion
         _windowOrderLocator.RegisterWindow(window);
         
         window.Show();
-        tcs.TrySetResult();
-        return Task.CompletedTask;
+        window.Closed += (sender, args) => {
+            tcs.TrySetResult();
+        };
+        await tcs.Task;
     }
 
     public override bool CanPerform() {

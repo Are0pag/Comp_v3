@@ -16,7 +16,17 @@ public static class CardCompInstallerExt
         TextFields(services);
         Urls(services);
         Images(services);
+        FieldsWithButsToNestedWindows(services);
 
+        services.AddSingleton<CardCopmEditController>();
+
+        services.AddSingleton<SaveCompButtonVm>();
+        services.AddSingleton<SaveComponentAction>();
+        
+        services.AddTransient<CompCardWindow>();
+    }
+
+    private static void FieldsWithButsToNestedWindows(IServiceCollection services) {
         services.AddSingleton<CdFieldVm>((provider) => {
             return new CdFieldVm(null);
         });
@@ -43,13 +53,6 @@ public static class CardCompInstallerExt
                 //ResolveTableWindow<GenericParametersSetsWindow, GenericParametersSet>(provider);
             });
         });
-        
-        services.AddSingleton<CardCopmEditController>();
-
-        services.AddSingleton<SaveCompButtonVm>();
-        services.AddSingleton<SaveComponentAction>();
-        
-        services.AddTransient<CompCardWindow>();
     }
 
     private static void Images(IServiceCollection services) {

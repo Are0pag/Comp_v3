@@ -5,12 +5,13 @@ using Comp_v4._Installers;
 using Comp_v4.CompCard.Entities.Validation;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
+using Comp.ModelData;
 using Utils.EventBus;
 using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.CompCard;
 
-public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolver<Component>
+public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolver<Component>, IRuntimeParamsResolver<IImageOwner>
 {
     protected readonly Component _component;
     
@@ -71,6 +72,11 @@ public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolve
     }
 
     public Task ResolveRuntimeParams(IRuntimeParamsContainer<Component> container) {
+        container.RuntimeParam = _component;
+        return Task.CompletedTask;
+    }
+
+    public Task ResolveRuntimeParams(IRuntimeParamsContainer<IImageOwner> container) {
         container.RuntimeParam = _component;
         return Task.CompletedTask;
     }

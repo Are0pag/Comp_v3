@@ -12,6 +12,6 @@ public class AddComponentAction : BaseActionAsyncSelfWaiting
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
-        await _grid.AddComponent(tcs, null);
+        await _grid.AddComponent(tcs: tcs, parameter: null);
     }
 }
