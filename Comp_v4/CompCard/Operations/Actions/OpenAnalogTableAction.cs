@@ -1,5 +1,6 @@
 using Comp_v4.CompCard.Vm.Buttons;
 using Comp_v4.TableWindows.Analogs;
+using Comp_v4.TableWindows.Analogs.Actions;
 using DI;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF;
@@ -22,6 +23,9 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
+        
+        _serviceProvider.GetRequiredService<AddAnalogAction>();
+        _serviceProvider.GetRequiredService<EditAnalogAction>();
         
         window.Show();
         await tcs.Task;

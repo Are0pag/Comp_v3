@@ -22,6 +22,8 @@ public static class AnalogsInstallerExt
         services.AddSingleton<SaveAnalogButVm>();
         services.AddSingleton<ActionAnalogsSave>();
 
+        services.AddSingleton<SelectAnalogButtonVm>();
+
         services.AddTransient<AnalogsFormWindow>();
         
         void States() {
@@ -36,13 +38,30 @@ public static class AnalogsInstallerExt
     }
 
     private static void Table(IServiceCollection services) {
+        States();
+
         services.AddSingleton<AnalogsFieldVm>();
         services.AddSingleton<AnalogsFieldButtonVm>();
         services.AddSingleton<OpenAnalogTableAction>();
         
         services.AddSingleton<AnalogsTableVm>();
+        
         services.AddSingleton<AddAnalogButtonVm>();
+        services.AddSingleton<AddAnalogAction>();
+        
+        services.AddSingleton<EditAnalogButVm>();
+        services.AddSingleton<EditAnalogAction>();
 
         services.AddTransient<AnalogsTableWindow>();
+
+        void States() {
+            services.AddSingleton<EditAnalogsTableState>();
+            services.AddSingleton<IdleAnalogTableState>();
+
+            services.AddSingleton<BaseAnalogsTableState, IdleAnalogTableState>();
+            services.AddSingleton<BaseAnalogsTableState, EditAnalogsTableState>();
+
+            services.AddSingleton<AnalogsTable>();
+        }
     }
 }

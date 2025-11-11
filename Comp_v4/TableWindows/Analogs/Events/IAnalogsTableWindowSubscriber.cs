@@ -24,7 +24,7 @@ public interface ISelectAnalogHandler : IAnalogsTableWindowSubscriber
     Task OnStartSelectingAnalog(object? parameter = null);
 }
 
-public interface ISaveHandler : IAnalogsTableWindowSubscriber
+public interface IAnalogSaveHandler : IAnalogsTableWindowSubscriber
 {
     Task Save(TaskCompletionSource tcs, Analog analog);
 }

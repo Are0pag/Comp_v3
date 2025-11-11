@@ -8,7 +8,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.CompCard.Vm;
 
-public class AnalogsFieldVm : ObservableObject, TableWindows.Analogs.Events.ISaveHandler, IRuntimeParamsContainer<Component>
+public class AnalogsFieldVm : ObservableObject, TableWindows.Analogs.Events.IAnalogSaveHandler, IRuntimeParamsContainer<Component>
 {
     protected readonly IRepository<Analog> _analogsRepository;
     protected Component _component;

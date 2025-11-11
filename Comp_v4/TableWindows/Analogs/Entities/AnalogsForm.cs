@@ -5,7 +5,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Analogs.Entities;
 
-public class AnalogsForm : GenericStateMachine<BaseAnalogsFormState, AnalogsForm>, ISelectAnalogHandler, ISaveHandler
+public class AnalogsForm : GenericStateMachine<BaseAnalogsFormState, AnalogsForm>, ISelectAnalogHandler, IAnalogSaveHandler
 {
     public AnalogsForm(IEnumerable<BaseAnalogsFormState> states, BaseAnalogsFormState initialState) : base(states, initialState) {
         EventBus<IAnalogsTableWindowSubscriber>.Subscribe(this);

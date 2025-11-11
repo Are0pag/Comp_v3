@@ -10,7 +10,7 @@ using Utils.WPF.VmEnumerableInteractiveData;
 
 namespace Comp_v4.TableWindows.Analogs;
 
-public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, ISaveHandler, IRuntimeParamsContainer<Component>
+public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, IAnalogSaveHandler, IRuntimeParamsContainer<Component>
 {
     protected readonly IRepository<Analog> _repository;
     protected Component _component;

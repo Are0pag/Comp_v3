@@ -1,46 +1,51 @@
 using System.Windows.Input;
-using Comp_v4.TableWindows.Analogs._Installers;
 using Comp_v4.TableWindows.Analogs.Events;
-using Comp.ModelData;
 using Infrastructure.StateMachine;
 using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Analogs.Entities;
 
-public class AnalogsTable : GenericStateMachine<BaseAnalogsTableState, AnalogsTable>, IMouseDoubleClickHandler
+public class AnalogsTable : GenericStateMachine<BaseAnalogsTableState, AnalogsTable>
 {
     public AnalogsTable(IEnumerable<BaseAnalogsTableState> states, BaseAnalogsTableState initialState) : base(states, initialState) {
-        EventBus<IAnalogsTableWindowSubscriber>.Subscribe(this);
+        //EventBus<IAnalogsTableWindowSubscriber>.Subscribe(this);
     }
 
     public void Dispose() {
-        EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
+        //EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
     }
 
-    public void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        CurrentState.OnMouseDoubleClick(sender, e);
+    public async Task OnMouseDoubleClick(object sender, MouseButtonEventArgs e, TaskCompletionSource tcs) {
+        await CurrentState.OnMouseDoubleClick(tcs, this, sender, e);
+    }
+
+    public async Task Add(TaskCompletionSource tcs) {
+        await CurrentState.Add(tcs, this);
+    }
+
+    public async Task Edit(TaskCompletionSource tcs) {
+        await CurrentState.Edit(tcs, this);
     }
 }
 
 public abstract class BaseAnalogsTableState : StateBase<AnalogsTable>
 {
-    public abstract void OnMouseDoubleClick(object sender, MouseButtonEventArgs e);
+    public abstract Task OnMouseDoubleClick(TaskCompletionSource tcs, AnalogsTable table, object sender, MouseButtonEventArgs e);
+    public abstract Task Add(TaskCompletionSource tcs, AnalogsTable analogsTable);
+    public abstract Task Edit(TaskCompletionSource tcs, AnalogsTable analogsTable);
 }
 
-public class EditAnalogsTableState : BaseAnalogsTableState
+public class IdleAnalogTableState : BaseAnalogsTableState
 {
-    protected readonly AnalogsTableVm _analogsTableVm;
-    protected readonly AnalogFormManager _analogFormManager;
-
-    public EditAnalogsTableState(AnalogsTableVm analogsTableVm, AnalogFormManager analogFormManager) {
-        _analogsTableVm = analogsTableVm;
-        _analogFormManager = analogFormManager;
+    public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, AnalogsTable table, object sender, MouseButtonEventArgs e) {
+        throw new NotImplementedException();
     }
 
-    public override void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        if (_analogsTableVm.SelectedItem is not Analog analog) 
-            throw new InvalidOperationException();
-        
-        _analogFormManager.OpenForm<EditAnalogsFormState>(analog);
+    public override async Task Add(TaskCompletionSource tcs, AnalogsTable analogsTable) {
+        throw new NotImplementedException();
+    }
+
+    public override async Task Edit(TaskCompletionSource tcs, AnalogsTable analogsTable) {
+        throw new NotImplementedException();
     }
 }
