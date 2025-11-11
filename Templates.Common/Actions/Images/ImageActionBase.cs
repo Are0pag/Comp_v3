@@ -2,7 +2,7 @@ using Comp_v4.CompCard.Vm;
 using Comp.ModelData;
 using Utils.WPF;
 
-namespace Comp_v4.CompCard.Operations.Actions;
+namespace Templates.Common.Actions.Images;
 
 public abstract class ImageActionBase : BaseAction
 {

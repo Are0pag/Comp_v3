@@ -5,6 +5,7 @@ using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.CompCard.Vm.Buttons;
 using Microsoft.Extensions.DependencyInjection;
+using Templates.Common.Actions.Images;
 
 namespace Comp_v4.CompCard._Installers;
 

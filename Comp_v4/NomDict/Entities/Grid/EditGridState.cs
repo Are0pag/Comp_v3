@@ -8,6 +8,7 @@ using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.NomDict.Vm;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
+using Templates.Common.Actions.Images;
 using Utils.EventBus;
 
 namespace Comp_v4.NomDict.Entities;

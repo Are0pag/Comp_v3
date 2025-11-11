@@ -5,10 +5,9 @@ using System.Windows.Media.Imaging;
 using Comp_v4._Installers;
 using Comp_v4.CompCard.Vm;
 using Comp.ModelData;
-using Comp.ModelData.Comp;
 using Utils.EventBus;
 
-namespace Comp_v4.CompCard.Operations.Actions;
+namespace Templates.Common.Actions.Images;
 
 public class SelectImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOwner>
 {

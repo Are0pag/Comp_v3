@@ -7,6 +7,7 @@ using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 using Comp.ModelData;
 using Comp.ModelData.TechnicalItems;
 using DI;
+using Templates.Common.Actions.Images;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
