@@ -7,9 +7,9 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Analogs.Entities;
 
-public class Table : GenericStateMachine<BaseTableState, Table>, IMouseDoubleClickHandler
+public class AnalogsTable : GenericStateMachine<BaseAnalogsTableState, AnalogsTable>, IMouseDoubleClickHandler
 {
-    public Table(IEnumerable<BaseTableState> states, BaseTableState initialState) : base(states, initialState) {
+    public AnalogsTable(IEnumerable<BaseAnalogsTableState> states, BaseAnalogsTableState initialState) : base(states, initialState) {
         EventBus<IAnalogsTableWindowSubscriber>.Subscribe(this);
     }
 
@@ -22,17 +22,17 @@ public class Table : GenericStateMachine<BaseTableState, Table>, IMouseDoubleCli
     }
 }
 
-public abstract class BaseTableState : StateBase<Table>
+public abstract class BaseAnalogsTableState : StateBase<AnalogsTable>
 {
     public abstract void OnMouseDoubleClick(object sender, MouseButtonEventArgs e);
 }
 
-public class EditTableState : BaseTableState
+public class EditAnalogsTableState : BaseAnalogsTableState
 {
     protected readonly AnalogsTableVm _analogsTableVm;
     protected readonly AnalogFormManager _analogFormManager;
 
-    public EditTableState(AnalogsTableVm analogsTableVm, AnalogFormManager analogFormManager) {
+    public EditAnalogsTableState(AnalogsTableVm analogsTableVm, AnalogFormManager analogFormManager) {
         _analogsTableVm = analogsTableVm;
         _analogFormManager = analogFormManager;
     }
@@ -41,6 +41,6 @@ public class EditTableState : BaseTableState
         if (_analogsTableVm.SelectedItem is not Analog analog) 
             throw new InvalidOperationException();
         
-        _analogFormManager.OpenForm<EditFormState>(analog);
+        _analogFormManager.OpenForm<EditAnalogsFormState>(analog);
     }
 }

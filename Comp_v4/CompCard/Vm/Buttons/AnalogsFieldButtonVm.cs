@@ -3,14 +3,14 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.CompCard.Vm.Buttons;
 
-public partial class AnalogsFieldButtonVm : BaseAsyncBButtonVm
+public partial class AnalogsFieldButtonVm : BaseButtonAdvanced
 {
     public override void NotifyCanExecute() {
         ClickCommand.NotifyCanExecuteChanged();
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]
-    public override async Task OnClickAsync() {
-        ClickActionAsync?.Invoke(null);
+    public override Task OnClickAsync() {
+        return base.OnClickAsync();
     }
 }

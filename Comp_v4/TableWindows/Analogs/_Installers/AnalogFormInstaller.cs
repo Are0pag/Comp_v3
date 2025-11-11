@@ -15,18 +15,18 @@ public class AnalogFormInstaller : AbstractInstaller
     protected override void InstallBindings(AreopagContainer container) {
         /*container.Add<IRepository<Analog>>().To<RepoAnalogs>().AsTransient();
         container.Add<IWindowOrderLocator>().To<WindowOrderLocator>().AsSingleton();*/
-        container.Add<Analog>().AsScoped<FormWindow>();
-        container.Add<Component>().AsScoped<FormWindow>();
+        container.Add<Analog>().AsScoped<AnalogsFormWindow>();
+        container.Add<Component>().AsScoped<AnalogsFormWindow>();
 
-        container.Add<Form>().AsScoped<FormWindow>().EnforceInstantiateOnBegin();
-        container.Add<AddFormState>().AsScoped<FormWindow>();
-        container.Add<EditFormState>().AsScoped<FormWindow>();
+        container.Add<AnalogsForm>().AsScoped<AnalogsFormWindow>().EnforceInstantiateOnBegin();
+        container.Add<AddAnalogsFormState>().AsScoped<AnalogsFormWindow>();
+        container.Add<EditAnalogsFormState>().AsScoped<AnalogsFormWindow>();
         
-        container.Add<SaveButVm>().AsScoped<FormWindow>();
-        container.Add<ActionSave>().AsScoped<FormWindow>().EnforceInstantiateOnBegin();
+        container.Add<SaveAnalogButVm>().AsScoped<AnalogsFormWindow>();
+        container.Add<ActionAnalogsSave>().AsScoped<AnalogsFormWindow>().EnforceInstantiateOnBegin();
         
-        container.Add<SelectAnalogButtonVm>().AsScoped<FormWindow>();
+        container.Add<SelectAnalogButtonVm>().AsScoped<AnalogsFormWindow>();
         
-        container.Add<FormWindow>().AsTransient();
+        container.Add<AnalogsFormWindow>().AsTransient();
     }
 }

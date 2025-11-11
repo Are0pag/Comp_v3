@@ -11,7 +11,7 @@ public interface IAnalogsTableWindowSubscriber : IDisposable
 
 public interface IFormOpenHandler : IAnalogsTableWindowSubscriber
 {
-    void OpenForm<T>(object? parameter = null) where T : BaseFormState;
+    void OpenForm<T>(object? parameter = null) where T : BaseAnalogsFormState;
 }
 
 public interface IMouseDoubleClickHandler : IAnalogsTableWindowSubscriber

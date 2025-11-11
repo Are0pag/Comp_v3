@@ -68,5 +68,7 @@ public class EditGridState : BaseSGridState
         _serviceProvider.GetRequiredService<SelectImageAction>();
         _serviceProvider.GetRequiredService<OpenImageAction>();
         _serviceProvider.GetRequiredService<ClearImageAction>();
+
+        _serviceProvider.GetRequiredService<OpenAnalogTableAction>();
     }
 }

@@ -40,7 +40,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
             <Button x:Name="AddAnalogButton" 
                     Content="{Binding Label}" 
-                    Command="{Binding AddCommand}" 
+                    Command="{Binding ClickCommand}" 
                     Margin="5,0" 
                     Padding="10,5"/>
         </StackPanel>

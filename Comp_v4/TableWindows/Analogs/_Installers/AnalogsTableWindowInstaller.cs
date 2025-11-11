@@ -40,15 +40,15 @@ public class AnalogsTableWindowInstaller : AbstractInstaller
                   })
                  .EnforceInstantiateOnBegin();
 
-        container.Add<EditTableState>().AsScoped<AnalogsTableWindow>();
-        container.Add<Table>()
+        container.Add<EditAnalogsTableState>().AsScoped<AnalogsTableWindow>();
+        container.Add<AnalogsTable>()
                  .AsScoped<AnalogsTableWindow>()
                  .UsingFactoryMethod(() => {
-                      var initialState = container.Resolve<EditTableState>();
-                      var states = new List<BaseTableState>() {
+                      var initialState = container.Resolve<EditAnalogsTableState>();
+                      var states = new List<BaseAnalogsTableState>() {
                           initialState,
                       };
-                      return new Table(states, initialState);
+                      return new AnalogsTable(states, initialState);
                   });
         
         container.Add<AnalogsTableVm>().AsScoped<AnalogsTableWindow>();

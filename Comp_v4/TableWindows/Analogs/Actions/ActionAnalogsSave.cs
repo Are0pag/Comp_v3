@@ -6,10 +6,10 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Analogs.Actions;
 
-public class ActionSave : BaseActionAsyncCompletion
+public class ActionAnalogsSave : BaseActionAsyncCompletion
 {
     protected readonly Analog _analog;
-    public ActionSave(SaveButVm but, Analog analog) : base(but) {
+    public ActionAnalogsSave(SaveAnalogButVm but, Analog analog) : base(but) {
         _analog = analog;
     }
 

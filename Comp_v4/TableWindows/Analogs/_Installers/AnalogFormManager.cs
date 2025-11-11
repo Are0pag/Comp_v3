@@ -24,7 +24,7 @@ public class AnalogFormManager : IFormOpenHandler
         EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
     }
 
-    public void OpenForm<T>(object? parameter = null) where T : BaseFormState {
+    public void OpenForm<T>(object? parameter = null) where T : BaseAnalogsFormState {
         if (parameter is not Analog analog) 
             throw new ArgumentException();
 
@@ -34,19 +34,19 @@ public class AnalogFormManager : IFormOpenHandler
             return analog;
         });
         
-        _formContainer.SetFactoryMethodFor<Form>(() => {
+        _formContainer.SetFactoryMethodFor<AnalogsForm>(() => {
             var initialState = _formContainer.Resolve<T>();
-            var states = new List<BaseFormState>() {
-                _formContainer.Resolve<AddFormState>(),
-                _formContainer.Resolve<EditFormState>()
+            var states = new List<BaseAnalogsFormState>() {
+                _formContainer.Resolve<AddAnalogsFormState>(),
+                _formContainer.Resolve<EditAnalogsFormState>()
             };
-            return new Form(states, initialState);
+            return new AnalogsForm(states, initialState);
         });
 
-        var window = _formContainer.BeginScope<FormWindow>();
+        var window = _formContainer.BeginScope<AnalogsFormWindow>();
         _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {
-            _formContainer.ReleaseScope<FormWindow>();
+            _formContainer.ReleaseScope<AnalogsFormWindow>();
         };
         window.Show();
     }

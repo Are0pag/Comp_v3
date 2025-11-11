@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Comp_v4._Installers;
 using Comp_v4.TableWindows.Analogs.Events;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
@@ -9,20 +10,19 @@ using Utils.WPF.VmEnumerableInteractiveData;
 
 namespace Comp_v4.TableWindows.Analogs;
 
-public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, ISaveHandler
+public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, ISaveHandler, IRuntimeParamsContainer<Component>
 {
     protected readonly IRepository<Analog> _repository;
-    protected readonly Component _component;
+    protected Component _component;
 
-    public AnalogsTableVm(IRepository<Analog> repository, Component component) {
+    public AnalogsTableVm(IRepository<Analog> repository) {
         _repository = repository;
-        _component = component;
         _ = LoadDataAsync();
         EventBus<IAnalogsTableWindowSubscriber>.Subscribe(this);
     }
 
     protected override async Task LoadDataAsync() {
-        var items = await _repository.GetAnalogsFor(_component.Id);
+        var items = await _repository.GetAnalogsFor(RuntimeParam.Id);
         Items = new ObservableCollection<Analog>(items);
         OnPropertyChanged(nameof(Items));
     }
@@ -35,5 +35,21 @@ public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, ISaveHandler
         Items.Add(analog);
         tcs.SetResult();
         return Task.CompletedTask;
+    }
+    
+    public Component RuntimeParam {
+        get {
+            try {
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<Component>>(r => { r.ResolveRuntimeParams(this); });
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return _component;
+        }
+        set {
+            _component = value;
+        }
     }
 }
