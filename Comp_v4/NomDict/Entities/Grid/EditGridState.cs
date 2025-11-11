@@ -17,10 +17,12 @@ public class EditGridState : BaseSGridState
 {
     protected readonly IServiceProvider _serviceProvider;
     protected readonly DataGridVm _dataGridVm;
+    protected readonly TreeViewVm _treeViewVm;
 
-    public EditGridState(IServiceProvider serviceProvider, DataGridVm dataGridVm) {
+    public EditGridState(IServiceProvider serviceProvider, DataGridVm dataGridVm, TreeViewVm treeViewVm) {
         _serviceProvider = serviceProvider;
         _dataGridVm = dataGridVm;
+        _treeViewVm = treeViewVm;
     }
 
     public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
@@ -28,7 +30,9 @@ public class EditGridState : BaseSGridState
     }
 
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
-        var component = new Component();
+        var component = new Component() {
+            Category = _treeViewVm.SelectedCategory!
+        };
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
         ResolveRelated();
         
