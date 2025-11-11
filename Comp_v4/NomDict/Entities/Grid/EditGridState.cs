@@ -3,10 +3,12 @@ using Comp_v4.CompCard;
 using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
+using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.NomDict.Vm;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 
 namespace Comp_v4.NomDict.Entities;
 
@@ -25,7 +27,8 @@ public class EditGridState : BaseSGridState
     }
 
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
-        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, new Component());
+        var component = new Component();
+        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
         ResolveRelated();
         
         var card = _serviceProvider.GetRequiredService<CardComp>();
@@ -34,6 +37,7 @@ public class EditGridState : BaseSGridState
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
+        EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         window.Show();
         await tcs.Task;
     }
@@ -50,6 +54,7 @@ public class EditGridState : BaseSGridState
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
+        EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         window.Show();
         await tcs.Task;
     }
