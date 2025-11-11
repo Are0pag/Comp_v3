@@ -12,6 +12,10 @@ public class Grid : GenericStateMachine<BaseSGridState, Grid>
         
     }
 
+    public async Task EditComp(TaskCompletionSource tcs, object? parameter) {
+        await CurrentState.EditComp(tcs, parameter, this);
+    }
+    
     public async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs e) {
         await CurrentState.OnMouseDoubleClick(tcs, sender, e, this);
     }

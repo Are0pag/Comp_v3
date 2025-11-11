@@ -21,9 +21,11 @@ public class EditGridState : BaseSGridState
     }
 
     public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
-        if (_dataGridVm.SelectedItem is not { } component)
-            throw new Exception();
-        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
+        await EditComp(tcs, null, grid);
+    }
+
+    public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
+        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, new Component());
         ResolveRelated();
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
@@ -32,8 +34,10 @@ public class EditGridState : BaseSGridState
         await tcs.Task;
     }
 
-    public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
-        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, new Component());
+    public override async Task EditComp(TaskCompletionSource tcs, object? parameter, Grid grid) {
+        if (_dataGridVm.SelectedItem is not { } component)
+            throw new Exception();
+        var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
         ResolveRelated();
         window.Closed += (sender, args) => {
             tcs.TrySetResult();

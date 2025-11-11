@@ -6,13 +6,13 @@ namespace Comp_v4.CompCard.Entities.States;
 
 public class EditStateCardComp : BaseStateCardComp
 {
-    public EditStateCardComp(Component component, IRepository<Component> repository, CardCopmEditController editController) 
-        : base(component, repository, editController) {
+    public EditStateCardComp(IRepository<Component> repository, CardCopmEditController editController) 
+        : base(repository, editController) {
     }
 
     public override async void Save(CardComp card) {
-        _editController.ApplyEdits(_component);
+        _editController.ApplyEdits(RuntimeParam);
         //_component.Id = default;
-        await _repository.UpdateAsync(_component);
+        await _repository.UpdateAsync(RuntimeParam);
     }
 }

@@ -8,15 +8,15 @@ namespace Comp_v4.CompCard.Entities.States;
 
 public class CreateStateCardComp : BaseStateCardComp
 {
-    public CreateStateCardComp(Component component, IRepository<Component> repository, CardCopmEditController editController) 
-        : base(component, repository, editController) {
+    public CreateStateCardComp(IRepository<Component> repository, CardCopmEditController editController) 
+        : base(repository, editController) {
     }
 
     public override async void Save(CardComp card) {
-        _editController.ApplyEdits(_component);
+        _editController.ApplyEdits(RuntimeParam);
         
-        _component.Id = default;
-        await _repository.AddAsync(_component);
-        EventBus<INomDictWindowSubscriber>.RaiseEvent<IComponentUiHandler>(h => h?.OnComponentCardCreated(_component));
+        RuntimeParam.Id = default;
+        await _repository.AddAsync(RuntimeParam);
+        EventBus<INomDictWindowSubscriber>.RaiseEvent<IComponentUiHandler>(h => h?.OnComponentCardCreated(RuntimeParam));
     }
 }

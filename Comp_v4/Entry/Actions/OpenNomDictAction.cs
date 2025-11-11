@@ -1,3 +1,4 @@
+using Comp_v4.CompCard.Operations.Actions;
 using Comp_v4.Entry.Vm.Buts;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Operations.Actions.Components;
@@ -28,6 +29,9 @@ public class OpenNomDictAction : BaseActionAsyncCompletion
         _openNomDictHandler.GetRequiredService<UpdateCategoryNameAction>();
         
         _openNomDictHandler.GetRequiredService<AddComponentAction>();
+        _openNomDictHandler.GetRequiredService<EditComponentAction>();
+        
+        _openNomDictHandler.GetRequiredService<SaveComponentAction>();
         
         _windowOrderLocator.RegisterWindow(window);
         

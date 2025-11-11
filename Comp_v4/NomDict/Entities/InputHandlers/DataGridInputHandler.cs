@@ -6,7 +6,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.NomDict.Entities.InputHandlers;
 
-public class DataGridInputHandler : IMouseDoubleClickHandler
+/*public class DataGridInputHandler : IMouseDoubleClickHandler
 {
     protected readonly Grid _grid;
     
@@ -21,4 +21,4 @@ public class DataGridInputHandler : IMouseDoubleClickHandler
     public void OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         //_grid.OnMouseDoubleClick(sender, e);
     }
-}
+}*/

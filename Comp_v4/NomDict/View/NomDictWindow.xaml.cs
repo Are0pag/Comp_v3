@@ -1,3 +1,4 @@
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,16 +20,18 @@ public partial class NomDictWindow : Window, IDisposable
 {
     private readonly MoveCategoryAction _moveCategoryAction;
     private readonly TreeViewVm _treeViewVm;
+    protected readonly EditCompButVm _editCompButVm;
     private TreeViewItem? _draggedItem;
     private Point _startPoint;
 
     public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm,
                          AddNewCategoryButtonVm addNewCategoryButtonVm, DeleteCategoryButtonVm deleteCategoryButtonVm,
                          UpdateCategoryNameButtonVm updateCategoryNameButtonVm, MoveCategoryAction moveCategoryAction,
-                         AddCompButtonVm addCompButtonVm) {
+                         AddCompButtonVm addCompButtonVm, EditCompButVm editCompButVm) {
         InitializeComponent();
         _treeViewVm = treeViewVm;
         _moveCategoryAction = moveCategoryAction;
+        _editCompButVm = editCompButVm;
         CategoryTreeView.DataContext = treeViewVm;
         MainDataGrid.DataContext = dataGridVm;
         TreeView_Button_Add.DataContext = addNewCategoryButtonVm;
@@ -47,9 +50,9 @@ public partial class NomDictWindow : Window, IDisposable
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         if (MainDataGrid.SelectedItem is not Component component)
-            return;
-        
-        EventBus<IGlobalMouseSubscriber>.RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(component, e));
+            throw new InvalidDataException($"No component selected in {nameof(NomDictWindow)}");
+
+        _editCompButVm.OnClickAsync();
     }
 
     public void Dispose() {

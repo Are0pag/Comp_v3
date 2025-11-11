@@ -48,4 +48,8 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
         throw new NotImplementedException();
     }
+
+    public override async Task EditComp(TaskCompletionSource tcs, object? parameter, Grid grid) {
+        throw new NotImplementedException();
+    }
 }

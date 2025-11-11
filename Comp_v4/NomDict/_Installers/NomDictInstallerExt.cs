@@ -1,3 +1,5 @@
+using Comp_v4.CompCard.Operations.Actions;
+using Comp_v4.CompCard.Vm.Buttons;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Operations.Actions.Components;
 using Comp_v4.NomDict.View;
@@ -23,6 +25,12 @@ public static class NomDictInstallerExt
         
         services.AddSingleton<AddCompButtonVm>();
         services.AddSingleton<AddComponentAction>();
+
+        services.AddSingleton<EditCompButVm>();
+        services.AddSingleton<EditComponentAction>();
+
+        services.AddSingleton<SaveCompButtonVm>();
+        services.AddSingleton<SaveComponentAction>();
         
         States();
 
