@@ -83,7 +83,7 @@ public class CommentsFieldVm : BaseTextFieldVm
     }
 
     public override void OnCompCardLoaded(Component component) {
-        Value = component.QrCodeData;
+        Value = component.Comments;
     }
 }
 
