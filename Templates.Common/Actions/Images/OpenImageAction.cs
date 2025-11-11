@@ -17,7 +17,7 @@ public class OpenImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOw
     }
 
     public override void PerformAsync(object? parameter) {
-        if (string.IsNullOrWhiteSpace(_item.ImagePath) || !File.Exists(_item.ImagePath)) {
+        if (string.IsNullOrWhiteSpace(RuntimeParam.ImagePath) || !File.Exists(RuntimeParam.ImagePath)) {
             MessageBox.Show("Изображение не выбрано или файл не существует",
                             "Ошибка",
                             MessageBoxButton.OK,
@@ -27,14 +27,14 @@ public class OpenImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOw
 
         try {
             // Метод 1: Открытие через системный обработчик файлов
-            var imageWindow = new OpenImageWindow(_item.ImagePath);
+            var imageWindow = new OpenImageWindow(RuntimeParam.ImagePath);
             imageWindow.Show();
         }
         catch (Exception ex) {
             // Альтернативный метод: создание собственного окна просмотра
             try {
                 Process.Start(new ProcessStartInfo {
-                    FileName = _item.ImagePath,
+                    FileName = RuntimeParam.ImagePath,
                     UseShellExecute = true
                 });
             }
@@ -50,7 +50,7 @@ public class OpenImageAction : ImageActionBase, IRuntimeParamsContainer<IImageOw
     }
 
     public override bool CanPerform() {
-        return !string.IsNullOrWhiteSpace(_item.ImagePath) && File.Exists(_item.ImagePath);
+        return !string.IsNullOrWhiteSpace(RuntimeParam.ImagePath) && File.Exists(RuntimeParam.ImagePath);
     }
 
     public override void CancelAsync(object? parameter = null) {
