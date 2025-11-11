@@ -7,14 +7,14 @@ namespace Comp.Db.Repositories.Concrete;
 
 public class RepositoryComponent : DbRepository<Component>
 {
-    protected readonly IRepository<Category> _categoryRepository;
+    /*protected readonly IRepository<Category> _categoryRepository;
     protected readonly IRepository<GenericParametersSet> _genericParametersSetRepository;
     protected readonly IRepository<ConditionalDesignation> _conditionalDesignationRepository;
     protected readonly IRepository<Manufacturer> _manufacturerRepository;
     protected readonly IRepository<MeasurementUnit> _measurementUnitRepository;
-    protected readonly IRepository<TypeSize> _typeSizeRepository;
+    protected readonly IRepository<TypeSize> _typeSizeRepository;*/
     
-    public RepositoryComponent(AppDbContext context, 
+    /*public RepositoryComponent(AppDbContext context, 
                                IRepository<Category> categoryRepository, 
                                IRepository<ConditionalDesignation> conditionalDesignationRepository, 
                                IRepository<Manufacturer> manufacturerRepository, 
@@ -27,6 +27,9 @@ public class RepositoryComponent : DbRepository<Component>
         _measurementUnitRepository = measurementUnitRepository;
         _typeSizeRepository = typeSizeRepository;
         _genericParametersSetRepository = genericParametersSetRepository;
+    }*/
+
+    public RepositoryComponent(AppDbContext context) : base(context) {
     }
 
     public override async Task<List<Component>> GetAllAsync() {

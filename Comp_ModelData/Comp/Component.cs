@@ -9,6 +9,8 @@ namespace Comp.ModelData.Comp;
 [Table(nameof(Component) + "s")]
 public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
 {
+#region PrivateFields
+
     protected string _name = string.Empty;
     protected string _nomenclatureNumber = string.Empty;
     protected string _catalogNumber = string.Empty;
@@ -41,7 +43,10 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
     protected Manufacturer? _manufacturer;
     protected MeasurementUnit? _measurementUnit;
     protected TypeSize? _typeSize;
-    
+
+#endregion
+
+#region Ids
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -55,8 +60,10 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
     public int? MeasurementUnitId { get; set; }
     public int? TypeSizeId { get; set; }
 
-    
-    // Навигационные свойства
+#endregion
+
+#region ForeignKeys
+
     [ForeignKey(nameof(CategoryId))]
     public Category Category {
         get => _category;
@@ -112,7 +119,11 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
             OnPropertyChanged();
         }
     }
-    
+
+#endregion
+
+#region CommonTextData
+
     [Required]
     public string Name {
         get => _name;
@@ -162,6 +173,7 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
         }
     }
 
+#endregion
 
 #region Links
 
@@ -202,7 +214,8 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
     }
 
 #endregion
-    
+
+#region DescriptiveTextData
 
     public string QrCodeData {
         get => _qrCodeData;
@@ -230,6 +243,8 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner
             OnPropertyChanged();
         }
     }
+
+#endregion
 
 #region GenericParamsValues
 
