@@ -1,15 +1,19 @@
 using System.Windows.Input;
+using Comp_v4._Installers;
 using Comp_v4.TableWindows.Analogs._Installers;
 using Comp_v4.TableWindows.Analogs.Actions;
 using Comp.ModelData;
+using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Analogs.Entities;
 
-public class EditAnalogsTableState : BaseAnalogsTableState
+public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContainer<Component>
 {
     protected readonly AnalogsTableVm _analogsTableVm;
     protected readonly IServiceProvider _serviceProvider;
+    protected Component _component;
 
     public EditAnalogsTableState(AnalogsTableVm analogsTableVm, IServiceProvider serviceProvider) {
         _analogsTableVm = analogsTableVm;
@@ -21,7 +25,9 @@ public class EditAnalogsTableState : BaseAnalogsTableState
     }
 
     public override async Task Add(TaskCompletionSource tcs, AnalogsTable analogsTable) {
-        var analog = new Analog();
+        var analog = new Analog() {
+            SourceComponent = RuntimeParam
+        };
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
 
         _serviceProvider.GetRequiredService<ActionAnalogsSave>();
@@ -48,5 +54,23 @@ public class EditAnalogsTableState : BaseAnalogsTableState
         
         window.Show();
         await tcs.Task;
+    }
+    
+    public Component RuntimeParam {
+        get {
+            try {
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<Component>>(r => {
+                    r.ResolveRuntimeParams(this);
+                });
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return _component;
+        }
+        set {
+            _component = value;
+        }
     }
 }
