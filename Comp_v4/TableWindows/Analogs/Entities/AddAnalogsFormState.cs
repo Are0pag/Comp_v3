@@ -28,7 +28,10 @@ public class AddAnalogsFormState : BaseAnalogsFormState
         if (parameter is not TaskCompletionSource<Component> completionSource)
             throw new ArgumentException("parameter must be a TaskCompletionSource");
         
-        EventBus<INomDictWindowSubscriber>.RaiseEvent<IGridSelectingStateHandler>(h => h?.OnSelecting(completionSource));
+        EventBus<INomDictWindowSubscriber>
+           .RaiseEvent<IGridSelectingStateHandler>(h => {
+                h?.OnSelecting(completionSource);
+            });
         _analog.RelatedComponent = await completionSource.Task;
         _windowOrderLocator.MoveToBack<NomDictWindow>();
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());

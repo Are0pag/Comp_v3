@@ -20,7 +20,7 @@ public class AnalogsForm : GenericStateMachine<BaseAnalogsFormState, AnalogsForm
         tcs.SetResult();
     }
 
-    public async Task OnStartSelectingAnalog(object? parameter = null) {
+    async Task ISelectAnalogHandler.OnStartSelectingAnalog(object? parameter = null) {
         await CurrentState.OnStartSelectingAnalog(parameter);
     }
 }

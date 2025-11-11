@@ -6,10 +6,10 @@ using Utils.EventBus;
 
 namespace Comp_v4.NomDict.Entities;
 
-public class Grid : GenericStateMachine<BaseSGridState, Grid>
+public class Grid : GenericStateMachine<BaseSGridState, Grid>, IGridSelectingStateHandler
 {
     public Grid(IEnumerable<BaseSGridState> states, BaseSGridState initialState) : base(states, initialState) {
-        
+        EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
     public async Task EditComp(TaskCompletionSource tcs, object? parameter) {
@@ -24,11 +24,11 @@ public class Grid : GenericStateMachine<BaseSGridState, Grid>
         await CurrentState.Add(tcs, parameter, this);
     }
 
-    /*public void Dispose() {
-        
-    }*/
-
-    public void OnSelecting(TaskCompletionSource<Component> tcs) {
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
         _ = ChangeState(GetState<SelectionGridState>(), this);
+    }
+
+    public void Dispose() {
+        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
     }
 }

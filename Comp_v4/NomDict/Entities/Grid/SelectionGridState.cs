@@ -28,10 +28,10 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
 
     public void OnSelecting(TaskCompletionSource<Component> tcs) {
         _windowOrderLocator.MoveToFront<NomDictWindow>();
-        if (_selectionTcs is { Task.IsCompleted: false }) {
+        /*if (_selectionTcs is { Task.IsCompleted: false }) {
             tcs.TrySetCanceled(); 
             return;
-        }
+        }*/
         _selectionTcs = tcs;
     }
 
@@ -42,14 +42,14 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
             return;
         _selectionTcs.TrySetResult(_dataGridVm.SelectedItem);
         _selectionTcs = null;
-        _ = grid.ChangeState(grid.GetState<EditGridState>(), grid);
+        await grid.ChangeState(grid.GetState<EditGridState>(), grid);
     }
 
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 
     public override async Task EditComp(TaskCompletionSource tcs, object? parameter, Grid grid) {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }

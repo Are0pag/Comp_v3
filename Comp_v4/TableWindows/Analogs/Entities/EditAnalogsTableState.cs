@@ -30,8 +30,8 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         };
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
 
-        _serviceProvider.GetRequiredService<ActionAnalogsSave>();
-        
+        ResolveRelated();
+
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
@@ -47,6 +47,8 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         
         var form = _serviceProvider.GetRequiredService<AnalogsForm>();
         await form.ChangeState(form.GetState<EditAnalogsFormState>(), form);
+        
+        ResolveRelated();
 
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
@@ -55,7 +57,12 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         window.Show();
         await tcs.Task;
     }
-    
+
+    private void ResolveRelated() {
+        _serviceProvider.GetRequiredService<ActionAnalogsSave>();
+        _serviceProvider.GetRequiredService<AnalogsForm>();
+    }
+
     public Component RuntimeParam {
         get {
             try {
