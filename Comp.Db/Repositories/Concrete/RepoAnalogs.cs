@@ -1,15 +1,21 @@
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
+using Microsoft.EntityFrameworkCore;
 
 namespace Comp.Db.Repositories.Concrete;
 
 public class RepoAnalogs : DbRepository<Analog>
 {
-    protected readonly IRepository<Component> _repositoryComponent;
-    
-    public RepoAnalogs(AppDbContext context, IRepository<Component> repositoryComponent) : base(context) {
-        _repositoryComponent = repositoryComponent;
+    public RepoAnalogs(AppDbContext context) : base(context) {
+    }
+
+    public override async Task<List<Analog>> GetAllAsync() {
+        return await _context.Set<Analog>()
+                             .AsNoTracking()
+                             .Include(a => a.SourceComponent)
+                             .Include(a => a.RelatedComponent)
+                             .ToListAsync();
     }
 
     public override async Task AddAsync(Analog entity) {
@@ -25,15 +31,6 @@ public class RepoAnalogs : DbRepository<Analog>
         await base.AddAsync(dbEntity);
     }
 
-    public override async Task<List<Analog>> GetAllAsync() {
-        var dbInstances = await base.GetAllAsync();
-        foreach (var dbInstance in dbInstances) {
-            dbInstance.SourceComponent ??= await _repositoryComponent.GetByIdAsync(dbInstance.SourceComponentId);
-            dbInstance.RelatedComponent ??= await _repositoryComponent.GetByIdAsync(dbInstance.RelatedComponentId);
-        }
-        return dbInstances;
-    }
-
     public override async Task UpdateAsync(Analog entity) {
         ArgumentNullException.ThrowIfNull(entity.SourceComponent, nameof(entity.SourceComponent));
         ArgumentNullException.ThrowIfNull(entity.RelatedComponent, nameof(entity.RelatedComponent));
@@ -45,6 +42,7 @@ public class RepoAnalogs : DbRepository<Analog>
         dbEntity.SourceComponentId = entity.SourceComponent.Id;
         dbEntity.RelatedComponentId = entity.RelatedComponent.Id;
         
-        await base.UpdateAsync(entity);
+        _context.Entry(dbEntity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
     }
 }
