@@ -10,6 +10,7 @@ using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions.Images;
 using Utils.EventBus;
+using Utils.WPF;
 
 namespace Comp_v4.NomDict.Entities;
 
@@ -42,6 +43,9 @@ public class EditGridState : BaseSGridState
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
+        
+        _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
+        
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         window.Show();
         await tcs.Task;
@@ -58,7 +62,9 @@ public class EditGridState : BaseSGridState
         
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
+            _serviceProvider.GetRequiredService<IWindowOrderLocator>().UnregisterWindow(window);
         };
+        _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         window.Show();
         await tcs.Task;

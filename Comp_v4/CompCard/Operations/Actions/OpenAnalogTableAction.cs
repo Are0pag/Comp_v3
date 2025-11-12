@@ -25,6 +25,7 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
         _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
+            _windowOrderLocator.UnregisterWindow(window);
         };
         
         _serviceProvider.GetRequiredService<AddAnalogAction>();

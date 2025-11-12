@@ -22,6 +22,6 @@ public partial class AnalogsTableWindow : Window, IDisposable
 
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
         //EventBus<IAnalogsTableWindowSubscriber>.RaiseEvent<IMouseDoubleClickHandler>(h => h.OnMouseDoubleClick(sender, e));
-        _editAnalogButVm.OnClickAsync();
+        //_editAnalogButVm.OnClickAsync(); Не делаю, нахуй вообще нужно
     }
 }

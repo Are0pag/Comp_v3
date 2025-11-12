@@ -7,6 +7,7 @@ using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.EventBus;
+using Utils.WPF;
 
 namespace Comp_v4.TableWindows.Analogs.Entities;
 
@@ -45,11 +46,12 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         if (_analogsTableVm.SelectedItem is not { } analog) 
             throw new InvalidOperationException();
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
-        
+        _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         ResolveRelated();
 
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
+            _serviceProvider.GetRequiredService<IWindowOrderLocator>().UnregisterWindow(window);
         };
         
         window.Show();

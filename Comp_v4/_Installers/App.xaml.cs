@@ -41,6 +41,7 @@ public partial class App : Application
         _ = _appHost.Services.GetRequiredService<OpenSupplierOrdersAction>();
         
         var mainWindow = _appHost.Services.GetRequiredService<EntryWindow>();
+        _appHost.Services.GetRequiredService<IWindowOrderLocator>().RegisterWindow(mainWindow);
         mainWindow.Show();
         
         base.OnStartup(e);

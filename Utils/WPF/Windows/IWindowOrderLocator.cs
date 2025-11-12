@@ -6,6 +6,7 @@ namespace Utils.WPF;
 
 public interface IWindowOrderLocator
 {
+    List<Window> Windows { get; }
     void MoveToFront<T>() where T : Window;
     void MoveToBack<T>() where T : Window;
     void RegisterWindow(Window window);
@@ -38,6 +39,8 @@ public class WindowOrderLocator : IWindowOrderLocator
             _windows.Remove(window);
         }
     }
+
+    public List<Window> Windows { get => _windows; }
 
     public void MoveToFront<T>() where T : Window {
         lock (_lock) {

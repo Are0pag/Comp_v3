@@ -59,6 +59,7 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
             return;
         RuntimeParam.RelatedComponent = component;
         _windowOrderLocator.MoveToBack<NomDictWindow>();
+        
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
         _butTcs.SetResult();
     }

@@ -38,6 +38,7 @@ public class OpenNomDictAction : BaseActionAsyncCompletion
         window.Show();
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
+            _windowOrderLocator.UnregisterWindow(window);
         };
         await tcs.Task;
     }

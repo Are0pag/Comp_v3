@@ -1,8 +1,10 @@
 using Comp_v4._Installers;
+using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows.Analogs.Buttons;
 using Comp_v4.TableWindows.Analogs.Events;
 using Comp.ModelData;
 using Utils.EventBus;
+using Utils.WPF;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Analogs.Actions;
@@ -10,7 +12,9 @@ namespace Comp_v4.TableWindows.Analogs.Actions;
 public class ActionAnalogsSave : BaseActionAsyncCompletion, IRuntimeParamsContainer<Analog>
 {
     protected Analog _analog;
-    public ActionAnalogsSave(SaveAnalogButVm but) : base(but) {
+    protected readonly IWindowOrderLocator _windowOrderLocator;
+    public ActionAnalogsSave(SaveAnalogButVm but, IWindowOrderLocator windowOrderLocator) : base(but) {
+        _windowOrderLocator = windowOrderLocator;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -29,6 +33,9 @@ public class ActionAnalogsSave : BaseActionAsyncCompletion, IRuntimeParamsContai
         });
 
         await Task.WhenAll(tasks);
+        
+        _windowOrderLocator.MoveToBack<NomDictWindow>();
+        _windowOrderLocator.MoveToBack<NomDictWindow>();
     }
 
     public override bool CanPerform() {
