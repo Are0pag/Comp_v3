@@ -34,10 +34,14 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
             throw new InvalidOperationException("Selection grid state has not been started yet");
         if (_dataGridVm.SelectedItem == null) 
             return;
+        _selectionTcs.SetResult(_dataGridVm.SelectedItem);
         var grid = _serviceProvider.GetRequiredService<Grid>();
         await grid.ChangeState(grid.GetState<EditGridState>(), grid);
-        _selectionTcs.SetResult(_dataGridVm.SelectedItem);
-        _selectionTcs = null;
+        
+        EventBus<INomDictWindowSubscriber>
+           .RaiseEvent<IGetResultOfSelectionHanlder>(h => {
+                h?.OnGetResultOfSelection(_dataGridVm.SelectedItem);
+            });
     }
 
     void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {

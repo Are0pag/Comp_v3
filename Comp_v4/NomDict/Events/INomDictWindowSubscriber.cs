@@ -20,3 +20,8 @@ public interface ICommitSelectionHandler : INomDictWindowSubscriber
 {
     Task OnCommitSelection(TaskCompletionSource<Component> tcs);
 }
+
+public interface IGetResultOfSelectionHanlder : INomDictWindowSubscriber
+{
+    void OnGetResultOfSelection(Component component);
+}

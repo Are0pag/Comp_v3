@@ -67,17 +67,11 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         }
     }
 
-    private async Task ManageSelectingTask(object sender, MouseButtonEventArgs e) {
-
-    }
-
     public void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
     }
 
     void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
-        if (_selectingTcs != null)
-            throw new InvalidOperationException("Старт выбора компонента начался, когда предыдущий цикл не был завершён");
         _selectingTcs = tcs;
     }
 
