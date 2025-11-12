@@ -10,7 +10,7 @@ using Utils.WPF.VmEnumerableInteractiveData;
 
 namespace Comp_v4.TableWindows.Analogs;
 
-public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, IAnalogSaveHandler, IRuntimeParamsContainer<Component>
+public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, IAnalogSaveHandler, IRuntimeParamsContainer<Component>, IAnalogTableLoadHandler
 {
     protected readonly IRepository<Analog> _repository;
     protected Component _component;
@@ -31,8 +31,16 @@ public class AnalogsTableVm : VmEnumerableInteractiveData<Analog>, IAnalogSaveHa
         EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
     }
 
+    public async Task OnLoad(TaskCompletionSource tcs) {
+        Items.Clear();
+        await LoadDataAsync();
+        tcs.SetResult();
+    }
+
     public Task Save(TaskCompletionSource tcs, Analog analog) {
-        Items.Add(analog);
+        if (Items.FirstOrDefault(a => a.Id == analog.Id) is not { } newItem)
+          Items.Add(analog);
+        
         tcs.SetResult();
         return Task.CompletedTask;
     }

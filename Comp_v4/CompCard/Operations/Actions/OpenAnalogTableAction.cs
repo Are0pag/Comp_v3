@@ -33,6 +33,7 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
         await ReLoad();
         
         window.Show();
+        
         await tcs.Task;
     }
     
