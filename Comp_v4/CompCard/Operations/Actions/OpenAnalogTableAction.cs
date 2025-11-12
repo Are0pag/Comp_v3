@@ -1,8 +1,11 @@
 using Comp_v4.CompCard.Vm.Buttons;
 using Comp_v4.TableWindows.Analogs;
 using Comp_v4.TableWindows.Analogs.Actions;
+using Comp_v4.TableWindows.Analogs.Events;
+using Comp.ModelData;
 using DI;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 using Utils.WPF;
 using Utils.WPF.Buttons;
 
@@ -26,9 +29,20 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
         
         _serviceProvider.GetRequiredService<AddAnalogAction>();
         _serviceProvider.GetRequiredService<EditAnalogAction>();
+
+        await ReLoad();
         
         window.Show();
         await tcs.Task;
+    }
+    
+    private static async Task ReLoad() {
+        var loadingTcs = new TaskCompletionSource();
+        EventBus<IAnalogsTableWindowSubscriber>
+           .RaiseEvent<IAnalogTableLoadHandler>(h => {
+                h?.OnLoad(loadingTcs);
+            });
+        await loadingTcs.Task;
     }
 
     public override bool CanPerform() {

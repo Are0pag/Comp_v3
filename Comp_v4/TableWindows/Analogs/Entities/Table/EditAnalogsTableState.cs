@@ -2,6 +2,7 @@ using System.Windows.Input;
 using Comp_v4._Installers;
 using Comp_v4.TableWindows.Analogs._Installers;
 using Comp_v4.TableWindows.Analogs.Actions;
+using Comp_v4.TableWindows.Analogs.Events;
 using Comp.ModelData;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +36,7 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
-        
+
         window.Show();
         await tcs.Task;
     }
@@ -54,6 +55,8 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         window.Show();
         await tcs.Task;
     }
+
+
 
     private void ResolveRelated() {
         _serviceProvider.GetRequiredService<ActionAnalogsSave>();

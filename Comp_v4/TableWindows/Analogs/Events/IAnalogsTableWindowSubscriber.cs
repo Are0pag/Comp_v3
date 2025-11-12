@@ -28,3 +28,8 @@ public interface IAnalogSaveHandler : IAnalogsTableWindowSubscriber
 {
     Task Save(TaskCompletionSource tcs, Analog analog);
 }
+
+public interface IAnalogTableLoadHandler : IAnalogsTableWindowSubscriber
+{
+    Task OnLoad(TaskCompletionSource tcs);
+}
