@@ -43,12 +43,12 @@ public class CompCardWindowInstaller : AbstractInstaller
     }
 
     protected override void InstallBindings(AreopagContainer container) {
-        InstallTableWindowScope<CondDesignTableWindow>(new TableWindowInstaller<CondDesignTableWindow, ConditionalDesignation, CdValidator, CdFilter>());
+        /*InstallTableWindowScope<CondDesignTableWindow>(new TableWindowInstaller<CondDesignTableWindow, ConditionalDesignation, CdValidator, CdFilter>());
         InstallTableWindowScope<ManufacturersTableWindow>(new TableWindowInstaller<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>());
         InstallTableWindowScope<MeasurementUnitTableWindow>(new TableWindowInstaller<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>());
-        InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());
+        InstallTableWindowScope<TypeSizesTableWindow>(new TableWindowInstaller<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>());*/
         new InstallerTypeSizesTable().Install(_subContainers[typeof(TypeSizesTableWindow)]);
-        InstallTableWindowScope<GenericParametersSetsWindow>(new TableWindowInstaller<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>());
+        //InstallTableWindowScope<GenericParametersSetsWindow>(new TableWindowInstaller<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>());
 
 
         /*container.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
@@ -153,14 +153,14 @@ public class CompCardWindowInstaller : AbstractInstaller
         container.Add<CompCardWindow>().AsTransient();*/
     }
     
-    protected void InstallTableWindowScope<TWindow>(AbstractInstaller tableWindowInstaller) 
+    /*protected void InstallTableWindowScope<TWindow>(AbstractInstaller tableWindowInstaller) 
         where TWindow : Window, IDisposable
     {
         var cdSubContainer = new AreopagContainer();
         cdSubContainer.Add<AppDbContext>().AsSingleton().UsingFactoryMethod(() => _rootContainer.Resolve<AppDbContext>());
         tableWindowInstaller.Install(cdSubContainer);
         _subContainers[typeof(TWindow)] = cdSubContainer;
-    }
+    }*/
     
     /*protected void OpenTableWindow<TWindow, TData>()
         where TWindow : Window, IDisposable

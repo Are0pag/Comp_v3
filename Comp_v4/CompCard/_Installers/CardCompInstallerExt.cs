@@ -17,7 +17,7 @@ public static class CardCompInstallerExt
         TextFields(services);
         Urls(services);
         Images(services);
-        FieldsWithButsToNestedWindows(services);
+        //FieldsWithButsToNestedWindows(services);
 
         services.AddSingleton<CardCopmEditController>();
 

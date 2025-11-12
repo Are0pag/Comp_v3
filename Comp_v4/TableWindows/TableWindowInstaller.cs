@@ -70,16 +70,16 @@ public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstalle
                  .WithParameters(typeof(ApplyFilterCommand<Tw, T, FiltersVmBase>.Args));*/
 
 
-        container.Add<IPropertyValueRestoreService<T>>()
+        /*container.Add<IPropertyValueRestoreService<T>>()
                  .To<DataGridPropertyRestoreService<T>>()
                  .AsTransient();
 
         container.Add<IDataGridCommandScheduler>().To<DataGridCommandScheduler>().AsScoped<Tw>();
         
-        container.Add<ValidatorBase<T>>().To<TValidator>().AsScoped<Tw>();
+        container.Add<ValidatorBase<T>>().To<TValidator>().AsScoped<Tw>();*/
         container.Add<IFilter<T, FiltersVmBase>>().To<TFilter>().AsScoped<Tw>();
 
-        container.Add<DataGridViewModel<T>>().AsScoped<Tw>();
+        /*container.Add<DataGridViewModel<T>>().AsScoped<Tw>();
         container.Add<FiltersVmBase>().AsScoped<Tw>();
         container.Add<ModuleContext<Tw, T>>().AsScoped<Tw>();
 
@@ -115,6 +115,6 @@ public class TableWindowInstaller<Tw, T, TValidator, TFilter> : AbstractInstalle
         container.Add<TableCommandBinder<Tw, T>>().To<TableCommandBinderExternalSelectionCompatible<Tw, T>>().AsScoped<Tw>();
         container.Add<ActionFilter<Tw, T, FiltersVmBase>>().AsScoped<Tw>();
 
-        container.Add<Tw>().AsTransient();
+        container.Add<Tw>().AsTransient();*/
     }
 }

@@ -5,11 +5,21 @@ using Comp_v4.Entry._Installers;
 using Comp_v4.Entry.Actions;
 using Comp_v4.NomDict.Installers;
 using Comp_v4.TableWindows.Analogs._Installers;
+using Comp_v4.TableWindows.ConditionalDesignation;
+using Comp_v4.TableWindows.ConditionalDesignation.Overrided;
 using Comp_v4.TableWindows.Counterparties._Installers;
+using Comp_v4.TableWindows.GenericParametersSets;
+using Comp_v4.TableWindows.Manufacturers;
+using Comp_v4.TableWindows.Manufacturers.Overrided;
+using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.SupplierOrders.Installers;
+using Comp_v4.TableWindows.TypeSizes;
+using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Utils.WPF;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.Installers;
 
@@ -31,6 +41,22 @@ public partial class App : Application
                             services.RegisterCardComp();
                             services.RegisterAnalogs();
 
+                            services.RegisterCardCompButtonsToResolveTemplateWindows();
+
+                            services.RegisterTableWindows<CondDesignTableWindow, ConditionalDesignation, CdValidator, CdFilter>();
+                            services.AddSingleton<IFilter<ConditionalDesignation, FiltersVmBase>, CdFilter>();
+
+                            services.RegisterTableWindows<ManufacturersTableWindow, Manufacturer, mValidator, mFilter>();
+                            services.AddSingleton<IFilter<Manufacturer, FiltersVmBase>, mFilter>();
+                            
+                            services.RegisterTableWindows<MeasurementUnitTableWindow, MeasurementUnit, muValidator, muFilter>();
+                            services.AddSingleton<IFilter<MeasurementUnit, FiltersVmBase>, muFilter>();
+                            
+                            services.RegisterTableWindows<TypeSizesTableWindow, TypeSize, tsValidator, tsFilter>();
+                            services.AddSingleton<IFilter<TypeSize, FiltersVmBase>, tsFilter>();
+                            
+                            services.RegisterTableWindows<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>();
+                            services.AddSingleton<IFilter<GenericParametersSet, FiltersVmBase>, gpsFilter>();
                         }).Build();
     }
 
