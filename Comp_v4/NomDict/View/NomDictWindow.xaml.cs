@@ -16,13 +16,14 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.View;
 
-public partial class NomDictWindow : Window, IDisposable
+public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHandler
 {
     private readonly MoveCategoryAction _moveCategoryAction;
     private readonly TreeViewVm _treeViewVm;
     protected readonly EditCompButVm _editCompButVm;
     private TreeViewItem? _draggedItem;
     private Point _startPoint;
+    private TaskCompletionSource<Component>? _selectingTcs;
 
     public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm,
                          AddNewCategoryButtonVm addNewCategoryButtonVm, DeleteCategoryButtonVm deleteCategoryButtonVm,
@@ -39,6 +40,7 @@ public partial class NomDictWindow : Window, IDisposable
         TreeView_Button_UpdateName.DataContext = updateCategoryNameButtonVm;
         
         AddComponentButton.DataContext = addCompButtonVm;
+        EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
@@ -52,10 +54,31 @@ public partial class NomDictWindow : Window, IDisposable
         if (MainDataGrid.SelectedItem is not Component component)
             throw new InvalidDataException($"No component selected in {nameof(NomDictWindow)}");
 
-        _editCompButVm.OnClickAsync();
+        if (_editCompButVm.IsEnabled) {
+            _editCompButVm.OnClickAsync();
+        }
+        else {
+            if (_selectingTcs is { Task.IsCompleted: false }) {
+                EventBus<INomDictWindowSubscriber>
+                   .RaiseEvent<ICommitSelectionHandler>(h => {
+                        h?.OnCommitSelection(_selectingTcs!);
+                    });
+            }
+        }
+    }
+
+    private async Task ManageSelectingTask(object sender, MouseButtonEventArgs e) {
+
     }
 
     public void Dispose() {
+        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+    }
+
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
+        if (_selectingTcs != null)
+            throw new InvalidOperationException("Старт выбора компонента начался, когда предыдущий цикл не был завершён");
+        _selectingTcs = tcs;
     }
 
     private void CategoriesTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {

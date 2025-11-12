@@ -25,9 +25,10 @@ public class AddAnalogsFormState : BaseAnalogsFormState
     }
 
     public override async Task OnStartSelectingAnalog(object? parameter = null) {
-        if (parameter is not TaskCompletionSource<Component> completionSource)
+        if (parameter is not TaskCompletionSource butTcs)
             throw new ArgumentException("parameter must be a TaskCompletionSource");
         
+        var completionSource = new TaskCompletionSource<Component>();
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGridSelectingStateHandler>(h => {
                 h?.OnSelecting(completionSource);
@@ -35,6 +36,7 @@ public class AddAnalogsFormState : BaseAnalogsFormState
         _analog.RelatedComponent = await completionSource.Task;
         _windowOrderLocator.MoveToBack<NomDictWindow>();
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
+        butTcs.SetResult();
     }
 
     public override async Task Save(AnalogsForm form) {

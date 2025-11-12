@@ -3,20 +3,23 @@ using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp.ModelData.Comp;
+using Microsoft.Extensions.DependencyInjection;
 using Utils.EventBus;
 using Utils.WPF;
 
 namespace Comp_v4.NomDict.Entities;
 
-public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
+public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, ICommitSelectionHandler
 {
     protected readonly DataGridVm _dataGridVm;
     protected readonly IWindowOrderLocator _windowOrderLocator;
+    protected readonly IServiceProvider _serviceProvider;
     protected TaskCompletionSource<Component>? _selectionTcs;
     
-    public SelectionGridState(DataGridVm dataGridVm, IWindowOrderLocator windowOrderLocator) {
+    public SelectionGridState(DataGridVm dataGridVm, IWindowOrderLocator windowOrderLocator, IServiceProvider serviceProvider) {
         _dataGridVm = dataGridVm;
         _windowOrderLocator = windowOrderLocator;
+        _serviceProvider = serviceProvider;
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
@@ -26,23 +29,24 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler
         _selectionTcs?.TrySetCanceled();
     }
 
-    public void OnSelecting(TaskCompletionSource<Component> tcs) {
-        _windowOrderLocator.MoveToFront<NomDictWindow>();
-        /*if (_selectionTcs is { Task.IsCompleted: false }) {
-            tcs.TrySetCanceled(); 
-            return;
-        }*/
-        _selectionTcs = tcs;
-    }
-
-    public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
+    public async Task OnCommitSelection(TaskCompletionSource<Component> tcs) {
         if (_selectionTcs is null)
             throw new InvalidOperationException("Selection grid state has not been started yet");
         if (_dataGridVm.SelectedItem == null) 
             return;
-        _selectionTcs.TrySetResult(_dataGridVm.SelectedItem);
-        _selectionTcs = null;
+        var grid = _serviceProvider.GetRequiredService<Grid>();
         await grid.ChangeState(grid.GetState<EditGridState>(), grid);
+        _selectionTcs.SetResult(_dataGridVm.SelectedItem);
+        _selectionTcs = null;
+    }
+
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
+        _windowOrderLocator.MoveToFront<NomDictWindow>();
+        _selectionTcs = tcs;
+    }
+
+    public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
+
     }
 
     public override async Task Add(TaskCompletionSource tcs, object? parameter, Grid grid) {

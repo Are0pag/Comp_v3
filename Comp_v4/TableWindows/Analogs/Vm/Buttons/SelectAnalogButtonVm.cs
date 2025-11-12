@@ -23,9 +23,8 @@ public partial class SelectAnalogButtonVm
             return;
         
         _isEnabled = false;
-        var tsc = new TaskCompletionSource<Component>();
+        var tsc = new TaskCompletionSource();
         EventBus<IAnalogsTableWindowSubscriber>.RaiseEvent<ISelectAnalogHandler>(h => h?.OnStartSelectingAnalog(tsc));
-        
         await tsc.Task;
         _isEnabled = true;
     }
