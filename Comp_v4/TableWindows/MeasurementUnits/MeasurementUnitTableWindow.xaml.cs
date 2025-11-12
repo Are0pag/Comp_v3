@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp_v4.CompCard.Events;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
@@ -10,7 +11,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.MeasurementUnits;
 
-public partial class MeasurementUnitTableWindow : Window, IDisposable, IDataGridRequestResolver<MeasurementUnitTableWindow>
+public partial class MeasurementUnitTableWindow : Window, IDisposable, IDataGridRequestResolver<MeasurementUnitTableWindow>, ITableWindowHandler
 {
     public MeasurementUnitTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.MeasurementUnit> dataGridViewModel, 
                                       FiltersVmBase filtersVm, 
@@ -30,9 +31,17 @@ public partial class MeasurementUnitTableWindow : Window, IDisposable, IDataGrid
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
         EventBus<IGlobSubscriber>.Subscribe(this);
+        EventBus<ICompCardSubscriber>.Subscribe(this);
     }
     
-    public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
+    public void Dispose() {
+        EventBus<ICompCardSubscriber>.Unsubscribe(this);
+        EventBus<IGlobSubscriber>.Unsubscribe(this);
+    }
+
+    public void HandleClosingTableWindow<T>(object? args) where T : Window {
+        Application.Current.Dispatcher.BeginInvoke(Close);
+    }
 
     public required Guid Id { get; init; }
     

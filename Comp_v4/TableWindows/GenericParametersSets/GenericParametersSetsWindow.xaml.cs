@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp_v4.CompCard.Events;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
@@ -11,7 +12,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.GenericParametersSets;
 
-public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGridRequestResolver<GenericParametersSetsWindow>
+public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGridRequestResolver<GenericParametersSetsWindow>, ITableWindowHandler
 {
  public GenericParametersSetsWindow(DataGridViewModel<GenericParametersSet> dataGridViewModel, 
                                     FiltersVmBase filtersVm, 
@@ -31,9 +32,17 @@ public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGri
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
         EventBus<IGlobSubscriber>.Subscribe(this);
+        EventBus<ICompCardSubscriber>.Subscribe(this);
     }
     
-    public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
+    public void Dispose() {
+        EventBus<IGlobSubscriber>.Unsubscribe(this);
+        EventBus<ICompCardSubscriber>.Unsubscribe(this);
+    }
+
+    public void HandleClosingTableWindow<T>(object? args) where T : Window {
+        Application.Current.Dispatcher.BeginInvoke(Close);
+    }
 
     public required Guid Id { get; init; }
     
