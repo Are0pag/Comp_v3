@@ -7,6 +7,10 @@ public static class RepoAnalogsExtensions
 {
     public static async Task<int> GetAnalogsCount(this IRepository<Analog> repository, int sourceComponentId) {
         var dbInstances = await repository.GetAllAsync();
+        
+        if (dbInstances.Count == 0) 
+            return 0;
+        
         var analogsCount = dbInstances.Count(a => a.SourceComponentId == sourceComponentId);
         return analogsCount;
     }
