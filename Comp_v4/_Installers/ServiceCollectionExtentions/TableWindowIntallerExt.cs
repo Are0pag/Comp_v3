@@ -1,4 +1,5 @@
 using System.Windows;
+using Comp_v4.CompCard.Entities;
 using Comp_v4.TableWindows;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
@@ -63,7 +64,7 @@ public static class TableWindowIntallerExt
         
         services.AddSingleton<ActionStackTracker>();
         services.AddSingleton<PersistenceManager<Tw, T>>();
-        services.AddSingleton<TableCommandBinder<Tw, T>>();
+        services.AddSingleton<TableCommandBinder<Tw, T>, TableCommandBinderExternalSelectionCompatible<Tw, T>>();
         services.AddSingleton<ActionFilter<Tw, T, FiltersVmBase>>();
         
         services.AddTransient<Tw>();

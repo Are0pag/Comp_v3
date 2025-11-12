@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp_v4.CompCard.Events;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
@@ -10,7 +11,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.ConditionalDesignation;
 
-public partial class CondDesignTableWindow : Window, IDisposable, IDataGridRequestResolver<CondDesignTableWindow>
+public partial class CondDesignTableWindow : Window, IDisposable, IDataGridRequestResolver<CondDesignTableWindow>, ITableWindowHandler
 {
     protected readonly DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> _dataGridViewModel;
     protected readonly FiltersVmBase _filtersVm;
@@ -39,9 +40,17 @@ public partial class CondDesignTableWindow : Window, IDisposable, IDataGridReque
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
         EventBus<IGlobSubscriber>.Subscribe(this);
+        EventBus<ICompCardSubscriber>.Subscribe(this);
     }
 
-    public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
+    public void Dispose() {
+        EventBus<IGlobSubscriber>.Unsubscribe(this);
+        EventBus<ICompCardSubscriber>.Unsubscribe(this);
+    }
+
+    public void HandleClosingTableWindow<T>(object? args) where T : Window {
+        Application.Current.Dispatcher.BeginInvoke(Close);
+    }
 
     public required Guid Id { get; init; }
     
