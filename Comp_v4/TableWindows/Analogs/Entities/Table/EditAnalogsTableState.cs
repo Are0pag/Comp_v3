@@ -45,9 +45,6 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
             throw new InvalidOperationException();
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
         
-        var form = _serviceProvider.GetRequiredService<AnalogsForm>();
-        await form.ChangeState(form.GetState<EditAnalogsFormState>(), form);
-        
         ResolveRelated();
 
         window.Closed += (sender, args) => {

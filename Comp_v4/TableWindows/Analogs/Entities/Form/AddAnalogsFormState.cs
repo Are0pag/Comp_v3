@@ -43,7 +43,7 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
 
     public override async Task Save(AnalogsForm form) {
         try {
-            await _analogRepository.AddAsync(_analog);
+            await _analogRepository.AddAsync(RuntimeParam);
         }
         catch (Exception ex) {
             throw;
@@ -55,6 +55,8 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
     }
 
     public void OnGetResultOfSelection(Component component) {
+        if (_butTcs is null)
+            return;
         RuntimeParam.RelatedComponent = component;
         _windowOrderLocator.MoveToBack<NomDictWindow>();
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());

@@ -27,10 +27,10 @@ public static class AnalogsInstallerExt
         services.AddTransient<AnalogsFormWindow>();
         
         void States() {
-            services.AddSingleton<EditAnalogsFormState>();
+            //services.AddSingleton<EditAnalogFormState>();
             services.AddSingleton<AddAnalogsFormState>();
         
-            services.AddSingleton<BaseAnalogsFormState, EditAnalogsFormState>();
+            //services.AddSingleton<BaseAnalogsFormState, EditAnalogFormState>();
             services.AddSingleton<BaseAnalogsFormState, AddAnalogsFormState>();
 
             services.AddSingleton<AnalogsForm>();

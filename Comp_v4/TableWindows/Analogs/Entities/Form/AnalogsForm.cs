@@ -31,14 +31,3 @@ public abstract class BaseAnalogsFormState : StateBase<AnalogsForm>
 
     public abstract Task Save(AnalogsForm form);
 }
-
-public class EditAnalogsFormState : BaseAnalogsFormState
-{
-    public override async Task OnStartSelectingAnalog(object? parameter = null) {
-        throw new NotImplementedException();
-    }
-
-    public override async Task Save(AnalogsForm form) {
-        throw new NotImplementedException();
-    }
-}
