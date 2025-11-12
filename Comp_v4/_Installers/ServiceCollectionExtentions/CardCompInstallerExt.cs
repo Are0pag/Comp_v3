@@ -27,35 +27,6 @@ public static class CardCompInstallerExt
         services.AddTransient<CompCardWindow>();
     }
 
-    private static void FieldsWithButsToNestedWindows(IServiceCollection services) {
-        services.AddSingleton<CdFieldVm>((provider) => {
-            return new CdFieldVm(null);
-        });
-        services.AddSingleton<ManFieldVm>(provider => {
-            return new ManFieldVm(() => {
-                //ResolveTableWindow<ManufacturersTableWindow, Manufacturer>(provider);
-            });
-        });
-        
-        services.AddSingleton<MuFieldVm>(provider => {
-            return new MuFieldVm(() => {
-                //ResolveTableWindow<MeasurementUnitTableWindow, MeasurementUnit>(provider);
-            });
-        });
-        
-        services.AddSingleton<TsFieldVm>(provider => {
-            return new TsFieldVm(() => {
-                //ResolveTableWindow<TypeSizesTableWindow, TypeSize>(provider);
-            });
-        });
-        
-        services.AddSingleton<GpsFieldVm>(provider => {
-            return new GpsFieldVm(() => {
-                //ResolveTableWindow<GenericParametersSetsWindow, GenericParametersSet>(provider);
-            });
-        });
-    }
-
     private static void Images(IServiceCollection services) {
         services.AddSingleton<ImageFieldVmBase, ImageFieldVm>();
         services.AddSingleton<SelectImageAction>();
@@ -110,5 +81,34 @@ public static class CardCompInstallerExt
         services.AddSingleton<BaseStateCardComp, CreateStateCardComp>();
         
         services.AddSingleton<CardComp>();
+    }
+
+    private static void FieldsWithButsToNestedWindows(IServiceCollection services) {
+        services.AddSingleton<CdFieldVm>((provider) => {
+            return new CdFieldVm(null);
+        });
+        services.AddSingleton<ManFieldVm>(provider => {
+            return new ManFieldVm(() => {
+                //ResolveTableWindow<ManufacturersTableWindow, Manufacturer>(provider);
+            });
+        });
+        
+        services.AddSingleton<MuFieldVm>(provider => {
+            return new MuFieldVm(() => {
+                //ResolveTableWindow<MeasurementUnitTableWindow, MeasurementUnit>(provider);
+            });
+        });
+        
+        services.AddSingleton<TsFieldVm>(provider => {
+            return new TsFieldVm(() => {
+                //ResolveTableWindow<TypeSizesTableWindow, TypeSize>(provider);
+            });
+        });
+        
+        services.AddSingleton<GpsFieldVm>(provider => {
+            return new GpsFieldVm(() => {
+                //ResolveTableWindow<GenericParametersSetsWindow, GenericParametersSet>(provider);
+            });
+        });
     }
 }
