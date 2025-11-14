@@ -35,6 +35,7 @@ public static class TypeSizesInstExt
         services.AddSingleton<TsImageFieldVm>();
         services.AddSingleton<SelectTypeSizeImageAction>();
         services.AddSingleton<OpenTsImageAction>();
+        services.AddSingleton<ClearTsImageAction>();
         
         States();
 
