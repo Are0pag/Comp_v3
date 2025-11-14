@@ -29,6 +29,7 @@ public class ActionAddingNewTs : ActionStartAddingNewItem<TypeSizesTableWindow, 
         var window = ActivatorUtilities.CreateInstance<AddTypeSizeWindow>(_serviceProvider, new TypeSize());
 
         _serviceProvider.GetRequiredService<SelectTypeSizeImageAction>();
+        _serviceProvider.GetRequiredService<OpenTsImageAction>();
         
         window.Closed += (sender, args) => {
             _tcs.SetResult(this);

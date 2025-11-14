@@ -20,7 +20,7 @@ public class InstallerTypeSizesNewItemWindow : AbstractInstaller
         container.Add<ImageFieldVmBase>().To<TsImageFieldVm>().AsScoped<AddTypeSizeWindow>();
         container.Add<SelectImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
         container.Add<ClearImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
-        container.Add<OpenImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
+        container.Add<OpenTsImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
         
         /*container.Add<ActionSaveNewTsForm>().AsScoped<AddTypeSizeWindow>();
         container.Add<ButtonSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();*/
