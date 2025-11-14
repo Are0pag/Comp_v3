@@ -24,7 +24,7 @@ public class ActionOpenTsForm : BaseAction<TypeSizesTableWindow, TypeSize>, IMou
         if (_context.DataGridViewModel.SelectedItem is not { } selectedItem)
             throw new NullReferenceException();
         //EventBus<ITypeSizesWindowSubscriber>.RaiseEvent<ITypeSizeFormOpenHandler>(h => h?.OpenTsForm<EditItemTsStateForm>(selectedItem));
-        var window = ActivatorUtilities.CreateInstance<AddTypeSizeWindow>(_serviceProvider, _context.DataGridViewModel.SelectedItem);
+        var window = ActivatorUtilities.CreateInstance<TsFormWindow>(_serviceProvider, _context.DataGridViewModel.SelectedItem);
         window.Show();
         return Task.FromResult<BaseAction<TypeSizesTableWindow, TypeSize>>(this);
     }

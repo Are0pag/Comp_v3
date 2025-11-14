@@ -14,13 +14,13 @@ namespace Comp_v4.TableWindows.TypeSizes;
 public class InstallerTypeSizesNewItemWindow : AbstractInstaller
 {
     protected override void InstallBindings(AreopagContainer container) {
-        container.Add<TypeSize>().AsScoped<AddTypeSizeWindow>();
-        container.Add<IImageOwner>().AsScoped<AddTypeSizeWindow>();
+        container.Add<TypeSize>().AsScoped<TsFormWindow>();
+        container.Add<IImageOwner>().AsScoped<TsFormWindow>();
         
-        container.Add<ImageFieldVmBase>().To<TsImageFieldVm>().AsScoped<AddTypeSizeWindow>();
-        container.Add<SelectImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
-        container.Add<ClearImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
-        container.Add<OpenTsImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
+        container.Add<ImageFieldVmBase>().To<TsImageFieldVm>().AsScoped<TsFormWindow>();
+        container.Add<SelectImageAction>().AsScoped<TsFormWindow>().EnforceInstantiateOnBegin();
+        container.Add<ClearImageAction>().AsScoped<TsFormWindow>().EnforceInstantiateOnBegin();
+        container.Add<OpenTsImageAction>().AsScoped<TsFormWindow>().EnforceInstantiateOnBegin();
         
         /*container.Add<ActionSaveNewTsForm>().AsScoped<AddTypeSizeWindow>();
         container.Add<ButtonSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();*/

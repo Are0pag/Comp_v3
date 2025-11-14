@@ -39,9 +39,9 @@ public class AddTypeSizeWindowManager : ITypeSizeFormOpenHandler
             return new FormTs(states, initialState);
         });
         
-        var window = _container.BeginScope<AddTypeSizeWindow>();
+        var window = _container.BeginScope<TsFormWindow>();
         window.Closing += (sender, args) => {
-            _container.ReleaseScope<AddTypeSizeWindow>();
+            _container.ReleaseScope<TsFormWindow>();
         };
         window.Show();
     }

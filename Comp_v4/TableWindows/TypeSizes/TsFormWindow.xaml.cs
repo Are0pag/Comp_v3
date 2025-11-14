@@ -11,10 +11,10 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
-public partial class AddTypeSizeWindow : Window, IDisposable, ITypeSizeCreateHandler, IRuntimeParamsResolver<TypeSize>
+public partial class TsFormWindow : Window, IDisposable, ITypeSizeCreateHandler, IRuntimeParamsResolver<TypeSize>
 {
     protected TypeSize _typeSize;
-    public AddTypeSizeWindow(TsImageFieldVm imageFieldVm, TypeSize typeSize, ButtonSaveNewItemForm buttonSaveNewItemForm) {
+    public TsFormWindow(TsImageFieldVm imageFieldVm, TypeSize typeSize, ButtonSaveNewItemForm buttonSaveNewItemForm) {
         InitializeComponent();
         _typeSize = typeSize;
         DataContext = typeSize;

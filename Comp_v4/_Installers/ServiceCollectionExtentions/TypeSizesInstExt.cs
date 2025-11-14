@@ -21,10 +21,6 @@ public static class TypeSizesInstExt
     }
 
     private static void RegisterTable(IServiceCollection services) {
-        
-        //services.AddSingleton<ButtonOpenItemForm>();
-        //services.AddSingleton<ActionOpenTsForm>();
-
         services.AddSingleton<ActionStartAddingNewItem<TypeSizesTableWindow, TypeSize>, ActionAddingNewTs>();
     }
 
@@ -39,7 +35,7 @@ public static class TypeSizesInstExt
         
         States();
 
-        services.AddTransient<AddTypeSizeWindow>();
+        services.AddTransient<TsFormWindow>();
 
         void States() {
             services.AddSingleton<AddItemTsStateForm>();
