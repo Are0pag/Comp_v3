@@ -26,7 +26,9 @@ public class ActionSaveNewTsForm : IRuntimeParamsContainer<TypeSize>
     public TypeSize RuntimeParam {
         get {
             try {
-                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<TypeSize>>(r => { r.ResolveRuntimeParams(this); });
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<TypeSize>>(r => {
+                    r.ResolveRuntimeParams(this);
+                });
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
