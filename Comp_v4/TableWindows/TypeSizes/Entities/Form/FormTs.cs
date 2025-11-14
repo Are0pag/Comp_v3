@@ -5,9 +5,9 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.TypeSizes.Entities.Form;
 
-public class Form : GenericStateMachine<BaseStateForm, Form>, ITypeSizeCreateHandler
+public class FormTs : GenericStateMachine<BaseTsStateForm, FormTs>, ITypeSizeCreateHandler
 {
-    public Form(IEnumerable<BaseStateForm> states, BaseStateForm initialState) : base(states, initialState) {
+    public FormTs(IEnumerable<BaseTsStateForm> states, BaseTsStateForm initialState) : base(states, initialState) {
         EventBus<ITypeSizesWindowSubscriber>.Subscribe(this);
     }
 

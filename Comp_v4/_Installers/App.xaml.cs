@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using Comp_v4._Installers.ServiceCollectionExtentions;
 using Comp_v4.CompCard._Installers;
-using Comp_v4.CompCard.Entities;
 using Comp_v4.Entry;
 using Comp_v4.Entry._Installers;
 using Comp_v4.Entry.Actions;
@@ -19,8 +19,6 @@ using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Utils.WPF;
-using WPF.Templates.TableWindow.v1.Entities.InputHandlers;
-using WPF.Templates.TableWindow.v1.Operations.Actions;
 using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 
@@ -60,6 +58,8 @@ public partial class App : Application
                             
                             services.RegisterTableWindows<GenericParametersSetsWindow, GenericParametersSet, gpsValidator, gpsFilter>();
                             services.AddSingleton<IFilter<GenericParametersSet, FiltersVmBase>, gpsFilter>();
+                            
+                            services.RegisterTypeSizes();
                         }).Build();
     }
 

@@ -3,24 +3,30 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Comp_v4.CompCard.Events;
 using Comp_v4.TableWindows.TypeSizes.Events;
+using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
 using WPF.Templates.TableWindow.v1.Vm;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
-public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridRequestResolver<TypeSizesTableWindow>
+using W = TypeSizesTableWindow;
+using T = TypeSize;
+
+public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridRequestResolver<W>, ITableWindowHandler
 {
-    public TypeSizesTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.TypeSize> dataGridViewModel, 
-                                FiltersVmBase filtersVm, 
+    public TypeSizesTableWindow(DataGridViewModel<T> dataGridViewModel, 
+                                IFilter<T, FiltersVmBase> filtersVm, 
                         
-                                ButtonVmAddItem<TypeSizesTableWindow, Comp.ModelData.TechnicalItems.TypeSize> buttonVmAddItem, 
-                                ButtonVmSave<TypeSizesTableWindow, Comp.ModelData.TechnicalItems.TypeSize> buttonVmSave, 
-                                ButtonVmDeleteItem<TypeSizesTableWindow, Comp.ModelData.TechnicalItems.TypeSize> buttonVmDeleteItem) {
+                                ButtonVmAddItem<W, T> buttonVmAddItem, 
+                                ButtonVmSave<W, T> buttonVmSave, 
+                                ButtonVmDeleteItem<W, T> buttonVmDeleteItem) {
         InitializeComponent();
         MainDataGrid.DataContext = dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
@@ -33,14 +39,22 @@ public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridReques
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = buttonVmDeleteItem;
         EventBus<IGlobSubscriber>.Subscribe(this);
+        EventBus<ICompCardSubscriber>.Subscribe(this);
     }
     
     
-    public void Dispose() => EventBus<IGlobSubscriber>.Unsubscribe(this);
+    public void Dispose() {
+        EventBus<ICompCardSubscriber>.Unsubscribe(this);
+        EventBus<IGlobSubscriber>.Unsubscribe(this);
+    }
+
+    public void HandleClosingTableWindow<T>(object? args) where T : Window {
+        Application.Current.Dispatcher.BeginInvoke(Close);
+    }
 
     public required Guid Id { get; init; }
     
-    void IDataGridRequestResolver<TypeSizesTableWindow>.GetGrid(IDataGridRequester<TypeSizesTableWindow> requester) {
+    void IDataGridRequestResolver<W>.GetGrid(IDataGridRequester<W> requester) {
         requester.DataGrid = MainDataGrid;
     }
 

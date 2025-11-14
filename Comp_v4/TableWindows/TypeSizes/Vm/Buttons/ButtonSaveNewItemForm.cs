@@ -6,8 +6,8 @@ namespace Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 
 public partial class ButtonSaveNewItemForm : INotifyConditionalsChanged
 {
-    protected readonly ActionSaveNewItemForm _context;
-    public ButtonSaveNewItemForm(ActionSaveNewItemForm context) {
+    protected readonly ActionSaveNewTsForm _context;
+    public ButtonSaveNewItemForm(ActionSaveNewTsForm context) {
         _context = context;
         EventBus<IGlobalButtonEvent>.Subscribe(this);
     }

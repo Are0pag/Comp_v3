@@ -3,6 +3,7 @@ using Comp_v4.TableWindows.TypeSizes.Entities.Form.States;
 using Comp_v4.TableWindows.TypeSizes.Events;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
+using Microsoft.Extensions.DependencyInjection;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Entities;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
@@ -12,15 +13,19 @@ namespace Comp_v4.TableWindows.TypeSizes;
 
 public class ActionOpenTsForm : BaseAction<TypeSizesTableWindow, TypeSize>, IMouseDoubleClickHandler
 {
-    public ActionOpenTsForm(IDataGridCommandScheduler scheduler, ModuleContext<TypeSizesTableWindow, TypeSize> context, ICommandFactory commandFactory) 
+    protected readonly IServiceProvider _serviceProvider;
+    public ActionOpenTsForm(IDataGridCommandScheduler scheduler, ModuleContext<TypeSizesTableWindow, TypeSize> context, ICommandFactory commandFactory, IServiceProvider serviceProvider) 
         : base(scheduler, context, commandFactory) {
+        _serviceProvider = serviceProvider;
         EventBus<ITypeSizesWindowSubscriber>.Subscribe(this);
     }
 
     public override Task<BaseAction<TypeSizesTableWindow, TypeSize>> PerformAsync(object? parameter = null) {
         if (_context.DataGridViewModel.SelectedItem is not { } selectedItem)
             throw new NullReferenceException();
-        EventBus<ITypeSizesWindowSubscriber>.RaiseEvent<ITypeSizeFormOpenHandler>(h => h?.OpenTsForm<EditItemStateForm>(selectedItem));
+        //EventBus<ITypeSizesWindowSubscriber>.RaiseEvent<ITypeSizeFormOpenHandler>(h => h?.OpenTsForm<EditItemTsStateForm>(selectedItem));
+        var window = ActivatorUtilities.CreateInstance<AddTypeSizeWindow>(_serviceProvider, _context.DataGridViewModel.SelectedItem);
+        window.Show();
         return Task.FromResult<BaseAction<TypeSizesTableWindow, TypeSize>>(this);
     }
 

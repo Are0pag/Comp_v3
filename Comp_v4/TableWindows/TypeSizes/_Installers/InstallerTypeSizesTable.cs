@@ -20,7 +20,7 @@ public class InstallerTypeSizesTable : AbstractInstaller
     
     protected override void InstallBindings(AreopagContainer container) {
         
-        _formWindowContainer.Add<ValidatorBase<TypeSize>>()
+        /*_formWindowContainer.Add<ValidatorBase<TypeSize>>()
                                         .AsScoped<AddTypeSizeWindow>()
                                         .UsingFactoryMethod(() => {
                                              var validator = container.Resolve<ValidatorBase<TypeSize>>();
@@ -40,10 +40,10 @@ public class InstallerTypeSizesTable : AbstractInstaller
                                         .UsingFactoryMethod(() => {
                                              var vm = container.Resolve<DataGridViewModel<TypeSize>>();
                                              return vm;
-                                         });
+                                         });*/
         
         container.Select<ActionStartAddingNewItem<TypeSizesTableWindow, TypeSize>>()
-                 .OverrideTo<ActionAddingNewItem>();
+                 .OverrideTo<ActionAddingNewTs>();
 
         container.Add<AddTypeSizeWindowManager>()
                  .AsScoped<TypeSizesTableWindow>()

@@ -22,13 +22,13 @@ public class InstallerTypeSizesNewItemWindow : AbstractInstaller
         container.Add<ClearImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
         container.Add<OpenImageAction>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
         
-        container.Add<ActionSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();
-        container.Add<ButtonSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();
+        /*container.Add<ActionSaveNewTsForm>().AsScoped<AddTypeSizeWindow>();
+        container.Add<ButtonSaveNewItemForm>().AsScoped<AddTypeSizeWindow>();*/
         
-        container.Add<AddItemStateForm>().AsScoped<AddTypeSizeWindow>();
-        container.Add<EditItemStateForm>().AsScoped<AddTypeSizeWindow>();
-        container.Add<Form>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();
+        /*container.Add<AddItemTsStateForm>().AsScoped<AddTypeSizeWindow>();
+        container.Add<EditItemTsStateForm>().AsScoped<AddTypeSizeWindow>();
+        container.Add<FormTs>().AsScoped<AddTypeSizeWindow>().EnforceInstantiateOnBegin();*/
 
-        container.Add<AddTypeSizeWindow>().AsTransient();
+        //container.Add<AddTypeSizeWindow>().AsTransient();
     }
 }

@@ -37,6 +37,7 @@ public static class CompCardButtonsToResolveTemplateWindowsInstallerExt
         services.AddSingleton<TsFieldVm>(provider => {
             return new TsFieldVm(() => {
                 ResolveTableWindow<TypeSizesTableWindow, TypeSize>(provider);
+                
             });
         });
         

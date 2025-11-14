@@ -22,7 +22,7 @@ public class AddTypeSizeWindowManager : ITypeSizeFormOpenHandler
     }
 
     public void OpenTsForm<T>(object? parameter = null) 
-        where T : BaseStateForm
+        where T : BaseTsStateForm
     {
         if (parameter is not TypeSize typeSize)
             throw new InvalidCastException();
@@ -30,13 +30,13 @@ public class AddTypeSizeWindowManager : ITypeSizeFormOpenHandler
         _container.SetFactoryMethodFor<TypeSize>(() => typeSize);
         _container.SetFactoryMethodFor<IImageOwner>(() => typeSize);
 
-        _container.SetFactoryMethodFor<Form>(() => {
+        _container.SetFactoryMethodFor<FormTs>(() => {
             var initialState = _container.Resolve<T>();
-            var states = new List<BaseStateForm>() {
-                _container.Resolve<AddItemStateForm>(),
-                _container.Resolve<EditItemStateForm>(),
+            var states = new List<BaseTsStateForm>() {
+                _container.Resolve<AddItemTsStateForm>(),
+                _container.Resolve<EditItemTsStateForm>(),
             };
-            return new Form(states, initialState);
+            return new FormTs(states, initialState);
         });
         
         var window = _container.BeginScope<AddTypeSizeWindow>();

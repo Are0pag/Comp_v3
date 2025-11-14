@@ -181,7 +181,7 @@ public class CompCardWindowInstaller : AbstractInstaller
         window.Show();
     }*/
     
-    public class TableWindowClosingHandler : ITableWindowHandler
+    /*public class TableWindowClosingHandler : ITableWindowHandler
     {
         protected readonly Window _window;
 
@@ -199,6 +199,6 @@ public class CompCardWindowInstaller : AbstractInstaller
                 _window.Close();
             });
         }
-    }
+    }*/
 }
 

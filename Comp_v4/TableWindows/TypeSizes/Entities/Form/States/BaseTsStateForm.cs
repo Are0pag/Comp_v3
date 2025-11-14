@@ -5,21 +5,21 @@ using WPF.Templates.TableWindow.v1.Vm;
 
 namespace Comp_v4.TableWindows.TypeSizes.Entities.Form.States;
 
-public abstract class BaseStateForm : StateBase<Form>
+public abstract class BaseTsStateForm : StateBase<FormTs>
 {
     protected readonly IRepository<TypeSize> _repository;
     protected readonly DataGridViewModel<TypeSize> _dataGridViewModel;
 
-    protected BaseStateForm(IRepository<TypeSize> repository, DataGridViewModel<TypeSize> dataGridViewModel) {
+    protected BaseTsStateForm(IRepository<TypeSize> repository, DataGridViewModel<TypeSize> dataGridViewModel) {
         _repository = repository;
         _dataGridViewModel = dataGridViewModel;
     }
     public abstract Task OnCreate(object? parameter = null);
 }
 
-public class AddItemStateForm : BaseStateForm
+public class AddItemTsStateForm : BaseTsStateForm
 {
-    public AddItemStateForm(IRepository<TypeSize> repository, DataGridViewModel<TypeSize> dataGridViewModel) : base(repository, dataGridViewModel) {
+    public AddItemTsStateForm(IRepository<TypeSize> repository, DataGridViewModel<TypeSize> dataGridViewModel) : base(repository, dataGridViewModel) {
         Console.WriteLine("AddItemStateForm");
     }
 
@@ -34,9 +34,9 @@ public class AddItemStateForm : BaseStateForm
     }
 }
 
-public class EditItemStateForm : BaseStateForm
+public class EditItemTsStateForm : BaseTsStateForm
 {
-    public EditItemStateForm(IRepository<TypeSize> repository, DataGridViewModel<TypeSize> dataGridViewModel) : base(repository, dataGridViewModel) {
+    public EditItemTsStateForm(IRepository<TypeSize> repository, DataGridViewModel<TypeSize> dataGridViewModel) : base(repository, dataGridViewModel) {
         Console.WriteLine("AddItemStateForm");
     }
 

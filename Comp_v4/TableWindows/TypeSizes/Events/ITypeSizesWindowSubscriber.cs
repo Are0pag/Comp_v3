@@ -7,7 +7,7 @@ public interface ITypeSizesWindowSubscriber : IDisposable { }
 
 public interface ITypeSizeFormOpenHandler : ITypeSizesWindowSubscriber
 {
-    void OpenTsForm<T>(object? parameter = null) where T : BaseStateForm;
+    void OpenTsForm<T>(object? parameter = null) where T : BaseTsStateForm;
 }
 
 public interface ITypeSizeCreateHandler : ITypeSizesWindowSubscriber

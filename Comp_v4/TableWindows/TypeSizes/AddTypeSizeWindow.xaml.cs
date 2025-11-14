@@ -1,7 +1,9 @@
 using System.Windows;
 using System.Windows.Input;
+using Comp_v4._Installers;
 using Comp_v4.CompCard.Vm;
 using Comp_v4.TableWindows.TypeSizes.Events;
+using Comp_v4.TableWindows.TypeSizes.Vm;
 using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
@@ -9,18 +11,26 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
-public partial class AddTypeSizeWindow : Window, IDisposable, ITypeSizeCreateHandler
+public partial class AddTypeSizeWindow : Window, IDisposable, ITypeSizeCreateHandler, IRuntimeParamsResolver<TypeSize>
 {
-    public AddTypeSizeWindow(ImageFieldVmBase imageFieldVm, TypeSize typeSize, ButtonSaveNewItemForm buttonSaveNewItemForm) {
+    protected TypeSize _typeSize;
+    public AddTypeSizeWindow(TsImageFieldVm imageFieldVm, TypeSize typeSize, ButtonSaveNewItemForm buttonSaveNewItemForm) {
         InitializeComponent();
+        _typeSize = typeSize;
         DataContext = typeSize;
         ImageFieldControl.DataContext = imageFieldVm;
         ButtonSave.DataContext = buttonSaveNewItemForm;
         EventBus<ITypeSizesWindowSubscriber>.Subscribe(this);
+        EventBus<IGlSubscriber>.Subscribe(this);
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<TypeSize> container) {
+        container.RuntimeParam = _typeSize;
     }
 
     public void Dispose() {
         EventBus<ITypeSizesWindowSubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Unsubscribe(this);
     }
 
     public async Task OnCreate(object? parameter = null) {
