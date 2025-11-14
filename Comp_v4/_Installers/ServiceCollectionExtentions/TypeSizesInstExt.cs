@@ -33,6 +33,7 @@ public static class TypeSizesInstExt
         services.AddSingleton<ButtonSaveNewItemForm>();
         
         services.AddSingleton<TsImageFieldVm>();
+        services.AddSingleton<SelectTypeSizeImageAction>();
         
         States();
 

@@ -27,6 +27,9 @@ public class ActionAddingNewTs : ActionStartAddingNewItem<TypeSizesTableWindow, 
     public override async Task<BaseAction<TypeSizesTableWindow, TypeSize>> PerformAsync(object? parameter = null) {
         _tcs = new TaskCompletionSource<BaseAction<TypeSizesTableWindow, TypeSize>>();
         var window = ActivatorUtilities.CreateInstance<AddTypeSizeWindow>(_serviceProvider, new TypeSize());
+
+        _serviceProvider.GetRequiredService<SelectTypeSizeImageAction>();
+        
         window.Closed += (sender, args) => {
             _tcs.SetResult(this);
         };
