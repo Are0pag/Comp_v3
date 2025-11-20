@@ -50,18 +50,21 @@ public class MoveCategoryAction
                 return;
         }
         else {
-            prevOwner.Subcategories.Remove(sourceCategory);
+            if (prevOwner.Subcategories.FirstOrDefault(c => c.Id == sourceCategory.Id) is not { } cat)
+                throw new KeyNotFoundException();
+            prevOwner.Subcategories.Remove(cat);
         }
         targetCategory.AddSubcategory(sourceCategory);
         
         sourceFromDb.ParentCategory = targetFromDb;
+        sourceFromDb.ParentCategoryId = targetFromDb.Id;
         
         targetCategory.IsExpanded = true;
         targetFromDb.IsExpanded = true;
 
         _isProcessing = true;
         await _repository.UpdateAsync(sourceFromDb);
-        await _repository.UpdateAsync(targetFromDb);
+        //await _repository.UpdateAsync(targetFromDb);
         _isProcessing = false;
 
         _treeViewVm.NotifyUiForChanges();
