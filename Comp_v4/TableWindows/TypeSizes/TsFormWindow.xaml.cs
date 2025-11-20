@@ -18,7 +18,11 @@ public partial class TsFormWindow : Window, IDisposable, ITypeSizeCreateHandler,
         InitializeComponent();
         _typeSize = typeSize;
         DataContext = typeSize;
+        
+        imageFieldVm.ImagePath = typeSize.ImagePath;
+        imageFieldVm.OnLoaded(typeSize);
         ImageFieldControl.DataContext = imageFieldVm;
+        
         ButtonSave.DataContext = buttonSaveNewItemForm;
         EventBus<ITypeSizesWindowSubscriber>.Subscribe(this);
         EventBus<IGlSubscriber>.Subscribe(this);

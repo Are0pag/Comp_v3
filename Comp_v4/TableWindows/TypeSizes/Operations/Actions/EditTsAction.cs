@@ -38,7 +38,7 @@ public class EditTsAction : ActionUpdateItem<TypeSizesTableWindow, TypeSize>
 
     public override async Task<BaseAction<TypeSizesTableWindow, TypeSize>> PerformAsync(object? parameter = null) {
         _tcs = new TaskCompletionSource<BaseAction<TypeSizesTableWindow, TypeSize>>();
-        var window = ActivatorUtilities.CreateInstance<TsFormWindow>(_serviceProvider, new TypeSize());
+        var window = ActivatorUtilities.CreateInstance<TsFormWindow>(_serviceProvider, _dataGridViewModel.SelectedItem!);
 
         var form = _serviceProvider.GetRequiredService<FormTs>();
         await form.ChangeState(form.GetState<EditItemTsStateForm>(), form);

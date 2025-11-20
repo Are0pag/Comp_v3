@@ -29,7 +29,8 @@ public class ActionAddingNewTs : ActionStartAddingNewItem<TypeSizesTableWindow, 
         _tcs = new TaskCompletionSource<BaseAction<TypeSizesTableWindow, TypeSize>>();
         var window = ActivatorUtilities.CreateInstance<TsFormWindow>(_serviceProvider, new TypeSize());
 
-        _serviceProvider.GetRequiredService<FormTs>();
+        var form = _serviceProvider.GetRequiredService<FormTs>();
+        await form.ChangeState(form.GetState<AddItemTsStateForm>(), form);
         
         _serviceProvider.GetRequiredService<SelectTypeSizeImageAction>();
         _serviceProvider.GetRequiredService<OpenTsImageAction>();
