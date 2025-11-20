@@ -31,7 +31,8 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
             SourceComponent = RuntimeParam
         };
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
-
+        _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
+        
         ResolveRelated();
 
         window.Closed += (sender, args) => {

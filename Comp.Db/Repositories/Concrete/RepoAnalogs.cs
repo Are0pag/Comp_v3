@@ -24,19 +24,11 @@ public class RepoAnalogs : DbRepository<Analog>
         
         var dbEntity = new Analog() {
             Id = default,
-            //IsAllCount = entity.IsAllCount, - это надо переносить куда-то ещё
+            IsAllCount = entity.IsAllCount,
             SourceComponentId = entity.SourceComponent.Id,
             RelatedComponentId = entity.RelatedComponent.Id
         };
         await base.AddAsync(dbEntity);
-        
-        var dbEntity1 = new Analog() {
-            Id = default,
-            //IsAllCount = entity.IsAllCount,
-            SourceComponentId = entity.RelatedComponent.Id,
-            RelatedComponentId = entity.SourceComponent.Id
-        };
-        await base.AddAsync(dbEntity1);
     }
 
     public override async Task UpdateAsync(Analog entity) {
