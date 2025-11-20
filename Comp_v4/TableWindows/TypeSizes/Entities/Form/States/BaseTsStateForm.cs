@@ -27,7 +27,12 @@ public class AddItemTsStateForm : BaseTsStateForm
         if (parameter is not TypeSize newTypeSize)
             throw new InvalidOperationException();
 
-        await _repository.AddAsync(newTypeSize);
+        try {
+            await _repository.AddAsync(newTypeSize);
+        }
+        catch (Exception exception) {
+            Console.WriteLine(exception.Message);
+        }
         
         _dataGridViewModel.Items.Add(newTypeSize);
         _dataGridViewModel.SelectedItem = newTypeSize;
@@ -43,7 +48,12 @@ public class EditItemTsStateForm : BaseTsStateForm
     public override async Task OnCreate(object? parameter = null) {
         if (parameter is not TypeSize newTypeSize)
             throw new InvalidOperationException();
-        
-        await _repository.UpdateAsync(newTypeSize);
+
+        try {
+            await _repository.UpdateAsync(newTypeSize);
+        }
+        catch (Exception exception) {
+            Console.WriteLine(exception.Message);
+        }
     }
 }

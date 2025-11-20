@@ -14,5 +14,6 @@ public class TypeSizeConfiguration : IEntityTypeConfiguration<TypeSize>
         builder.Property(ts => ts.OutputsNumber);
         builder.Property(ts => ts.IsUsingSmd);
         builder.Property(ts => ts.Description);
+        builder.Property(ts => ts.ImagePath);
     }
 }

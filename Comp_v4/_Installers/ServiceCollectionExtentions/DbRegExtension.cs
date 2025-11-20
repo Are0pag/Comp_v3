@@ -34,7 +34,7 @@ public static class DbRegExtension
         services.AddTransient<IRepository<ConditionalDesignation>, DbRepository<ConditionalDesignation>>();
         services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
         services.AddTransient<IRepository<MeasurementUnit>, DbRepository<MeasurementUnit>>();
-        services.AddTransient<IRepository<TypeSize>, DbRepository<TypeSize>>();
+        services.AddTransient<IRepository<TypeSize>, TsRepo>();
         
         services.AddTransient<IRepository<Category>, RepositoryCategory>();
         services.AddTransient<IRepository<GenericParametersSet>, DbRepository<GenericParametersSet>>();

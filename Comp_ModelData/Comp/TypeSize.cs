@@ -5,7 +5,7 @@ using Utils.WPF.Mvvm;
 namespace Comp.ModelData.TechnicalItems;
 
 [Table(nameof(TypeSize) + "s")]
-public class TypeSize : NotifyPropertyChanged, IDbEntity, IImageOwner
+public class TypeSize : NotifyPropertyChanged, IDbEntity, IImageOwner, IPopulatable<TypeSize>
 {
     protected string _designation = string.Empty;
     protected int _outputsNumber;
@@ -63,5 +63,15 @@ public class TypeSize : NotifyPropertyChanged, IDbEntity, IImageOwner
             _description = value;
             OnPropertyChanged();
         }
+    }
+
+    public TypeSize PopulateFrom(TypeSize targetValues) {
+        Id = targetValues.Id;
+        Designation = targetValues.Designation;
+        OutputsNumber = targetValues.OutputsNumber;
+        IsUsingSmd = targetValues.IsUsingSmd;
+        ImagePath = targetValues.ImagePath;
+        Description = targetValues.Description;
+        return this;
     }
 }
