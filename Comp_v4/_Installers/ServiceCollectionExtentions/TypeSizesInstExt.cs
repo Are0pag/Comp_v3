@@ -23,6 +23,8 @@ public static class TypeSizesInstExt
     private static void RegisterTable(IServiceCollection services) {
         services.AddSingleton<ActionStartAddingNewItem<TypeSizesTableWindow, TypeSize>, ActionAddingNewTs>();
         services.AddSingleton<ActionUpdateItem<TypeSizesTableWindow, TypeSize>, EditTsAction>();
+
+        services.AddSingleton<EditTsButVm>();
     }
 
     private static void RegisterForm(IServiceCollection services) {

@@ -45,6 +45,7 @@
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
                   SelectionMode="Single" 
+                  IsReadOnly="True"
                   x:Name="MainDataGrid" 
                   EnableRowVirtualization="False"
                   EnableColumnVirtualization="False"
@@ -99,7 +100,8 @@
         <StackPanel Grid.Row="2" Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
             <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
-            <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
+            <!--<Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>-->
+            <Button x:Name="EditButton" Content="{Binding Label}" Command="{Binding ClickCommand}" Margin="5"/>
         </StackPanel>
     </Grid>
 </Window>

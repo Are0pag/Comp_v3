@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Comp_v4.CompCard.Events;
 using Comp_v4.TableWindows.TypeSizes.Events;
+using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
@@ -21,19 +22,23 @@ using T = TypeSize;
 
 public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridRequestResolver<W>, ITableWindowHandler
 {
+    protected readonly EditTsButVm _editTsButVm;
     public TypeSizesTableWindow(DataGridViewModel<T> dataGridViewModel, 
                                 IFilter<T, FiltersVmBase> filtersVm, 
                         
                                 ButtonVmAddItem<W, T> buttonVmAddItem, 
                                 ButtonVmSave<W, T> buttonVmSave, 
-                                ButtonVmDeleteItem<W, T> buttonVmDeleteItem) {
+                                ButtonVmDeleteItem<W, T> buttonVmDeleteItem, 
+                                EditTsButVm editTsButVm) {
         InitializeComponent();
+        _editTsButVm = editTsButVm;
+        EditButton.DataContext = editTsButVm;
         MainDataGrid.DataContext = dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
 
         AddNewItemButton.DataContext = buttonVmAddItem;
-        SaveChangesButton.DataContext = buttonVmSave;
+        //SaveChangesButton.DataContext = buttonVmSave;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
@@ -60,10 +65,12 @@ public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridReques
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewKeyDown(sender, e));
+        
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewMouseDown(sender, e));
+        _editTsButVm.NotifyCanExecute();
     }
 
     private void MainDataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
@@ -94,10 +101,11 @@ public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridReques
 
     private async Task HandleDoubleClick(object sender, MouseButtonEventArgs e) {
         // Ждем один цикл диспетчеризации
-        await Application.Current.Dispatcher.InvokeAsync(() => {
-            if (MainDataGrid.SelectedItem != null)
-                EventBus<ITypeSizesWindowSubscriber>
-                   .RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(sender, e));
+        await Application.Current.Dispatcher.InvokeAsync( async () => {
+            if (MainDataGrid.SelectedItem != null) {
+                await _editTsButVm.OnClickAsync();
+            }
+                
         }, DispatcherPriority.Background);
     }
 }
