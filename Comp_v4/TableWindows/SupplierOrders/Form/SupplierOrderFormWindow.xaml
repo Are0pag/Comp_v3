@@ -103,7 +103,7 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
-                <TextBlock Text="Статус НДС:" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBlock Text="Статус заказа:" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
                 <ComboBox x:Name="OrderStatusComboBox" 
                           ItemsSource="{Binding EnumValues}"
                           SelectedItem="{Binding SelectedValue}">
