@@ -27,6 +27,7 @@ public class SupplierOrder : ObservableObject, IDbEntity
 
     protected string _purchaseOrderNumber;
     protected string? _invoiceNumber;
+    protected string? _orderNumber;
     protected string? _note;
 
     /// <summary>
@@ -47,6 +48,14 @@ public class SupplierOrder : ObservableObject, IDbEntity
         get => _invoiceNumber;
         set {
             _invoiceNumber = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string? OrderNumber {
+        get => _orderNumber;
+        set {
+            _orderNumber = value;
             OnPropertyChanged();
         }
     }
@@ -181,15 +190,138 @@ public class SupplierOrder : ObservableObject, IDbEntity
 
 #endregion
 
+/// <summary>
+/// Суммарные значения составов заказа (OrderPosition)
+/// </summary>
+#region TotalOrderComposition
+
+    protected int _orderedUnitsAmount;
+    protected int _receivedUnitsAmount;
+    protected ReceiveStatus _receiveStatus;
+    protected decimal _totalOrderCost;
+    protected decimal _totalPayment;
+    protected decimal _totalVatAmount;
+    
+    protected decimal _percentageOfTotalPayment;
+    protected PaymentStatus _paymentStatus;
+
+    /// <summary>
+    /// Заказанное количество единиц
+    /// </summary>
+    public int OrderedUnitsAmount {
+        get => _orderedUnitsAmount;
+        set {
+            if (_orderedUnitsAmount == value) return;
+            _orderedUnitsAmount = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Количество полученных единиц
+    /// </summary>
+    public int ReceivedUnitsAmount {
+        get => _receivedUnitsAmount;
+        set {
+            if (_receivedUnitsAmount == value) return;
+            _receivedUnitsAmount = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Статус получения всех позиций (OrderPosition) заказа
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public string ReceiveStatus {
+        get => _receiveStatus.ToString();
+        set {
+            foreach (ReceiveStatus rs in Enum.GetValues(typeof(ReceiveStatus))) {
+                if (rs.ToString() != value)
+                    continue;
+                _receiveStatus = rs;
+                OnPropertyChanged();
+                return;
+            }
+            throw new ArgumentException($"Unknown {nameof(ReceiveStatus)} type: {value}");
+        }
+    }
+
+    /// <summary>
+    /// Сумма стоимости позиций заказов
+    /// </summary>
+    public decimal TotalOrderCost {
+        get => _totalOrderCost;
+        set {
+            if (_totalOrderCost == value) return;
+            _totalOrderCost = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Сумма платёжных поручений (PaymentOrder)
+    /// </summary>
+    public decimal TotalPayment {
+        get => _totalPayment;
+        set {
+            if (_totalPayment == value) return;
+            _totalPayment = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public decimal TotalVatAmount {
+        get => _totalVatAmount;
+        set {
+            if (_totalVatAmount == value) return;
+            _totalVatAmount = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public decimal PercentageOfTotalPayment {
+        get => _percentageOfTotalPayment;
+        set {
+            if (_percentageOfTotalPayment == value) return;
+            _percentageOfTotalPayment = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Отношение оплаченной суммы к суммарной сумме заказа
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public string PaymentStatus {
+        get => _paymentStatus.ToString();
+        set {
+            foreach (PaymentStatus ps in Enum.GetValues(typeof(PaymentStatus))) {
+                if (ps.ToString() != value)
+                    continue;
+                _paymentStatus = ps;
+                OnPropertyChanged();
+                return;
+            }
+            throw new ArgumentException($"Unknown {nameof(PaymentStatus)} type: {value}");
+        }
+    }
+    
+#endregion
+
     
 #region Copy
     
     public SupplierOrder CopyTo(SupplierOrder target) {
         target.Id = this.Id;
         
+        target.Counterparty = this.Counterparty;
+        target.CounterpartyId = this.CounterpartyId;
+        
         // Текстовые данные
         target.PurchaseOrderNumber = this.PurchaseOrderNumber;
         target.InvoiceNumber = this.InvoiceNumber;
+        target.OrderNumber = this.OrderNumber;
         target.Note = this.Note;
 
         // Статусы
@@ -204,8 +336,18 @@ public class SupplierOrder : ObservableObject, IDbEntity
         target.OrderDate = this.OrderDate;
         target.DeliveryDate = this.DeliveryDate;
         
-        target.Counterparty = this.Counterparty;
-        target.CounterpartyId = this.CounterpartyId;
+        
+        // Суммарные значения составов заказа
+        target.OrderedUnitsAmount = this.OrderedUnitsAmount;
+        target.ReceivedUnitsAmount = this.ReceivedUnitsAmount;
+        target.ReceiveStatus = this.ReceiveStatus;
+        
+        target.TotalOrderCost = this.TotalOrderCost;
+        target.TotalPayment = this.TotalPayment;
+        target.TotalVatAmount = this.TotalVatAmount;
+        
+        target.PercentageOfTotalPayment = this.PercentageOfTotalPayment;
+        target.PaymentStatus = this.PaymentStatus;
         
         return target;
     }

@@ -5,7 +5,7 @@ namespace Comp.ModelData;
 /// <summary>
 /// Статусы заказа поставщику
 /// </summary>
-public enum OrderStatus
+public enum OrderStatus : byte
 {
     [Description("Создан")]
     Created,

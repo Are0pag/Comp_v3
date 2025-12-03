@@ -7,7 +7,7 @@ using Comp.ModelData.TechnicalItems;
 namespace Comp.ModelData;
 
 /// <summary>
-/// Спецификация заказа
+/// Спецификация заказа (оно же "Позиция заказа", используется в контекстах: "Состав заказа", "Заказанные компоненты")
 /// </summary>
 [Table("OrderPositions")]
 public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosition>
@@ -38,7 +38,7 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
 
     protected int _orderQuantity;
     protected int _receivedQuantity;
-    protected OrderPositionReceiveStatus _receiveStatus;
+    protected ReceiveStatus _receiveStatus;
 
     public int OrderQuantity {
         get => _orderQuantity;
@@ -58,17 +58,21 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
         }
     }
     
+    /// <summary>
+    /// Статус получения всех единиц в одной позиции заказа (OrderPosition)
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
     public string ReceiveStatus {
         get => _receiveStatus.ToString();
         set {
-            foreach (OrderPositionReceiveStatus rs in Enum.GetValues(typeof(OrderPositionReceiveStatus))) {
+            foreach (ReceiveStatus rs in Enum.GetValues(typeof(ReceiveStatus))) {
                 if (rs.ToString() != value)
                     continue;
                 _receiveStatus = rs;
                 OnPropertyChanged();
                 return;
             }
-            throw new ArgumentException($"Unknown {nameof(OrderPositionReceiveStatus)} type: {value}");
+            throw new ArgumentException($"Unknown {nameof(ModelData.ReceiveStatus)} type: {value}");
         }
     }
 
@@ -88,6 +92,9 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
         }
     }
 
+    /// <summary>
+    /// Сумма стоимости единиц позиции
+    /// </summary>
     public decimal TotalCost {
         get => _totalCost;
         set {
