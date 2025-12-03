@@ -56,6 +56,13 @@
                         Width="30" ToolTip="Очистить" VerticalAlignment="Center"/>
             </StackPanel>
             
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
+                <TextBlock Text="Номер договора:" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding OrderNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                         Width="500" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <Button Content="✖" Width="30" ToolTip="Очистить" VerticalAlignment="Center"/>
+            </StackPanel>
+            
             <ucl:LinkFieldControl 
                 x:Name="ContractLinkFieldControl"
                 FieldName="{Binding FieldTitle}"
