@@ -30,6 +30,8 @@ public static class DbRegExtension
         
         services.AddTransient<IRepository<Counterparty>, CounterpartyRepository>();
         services.AddTransient<IRepository<SupplierOrder>, SupplierOrderRepository>();
+        services.AddTransient<IRepository<OrderPosition>, OrderPositionRepository>();
+        services.AddTransient<IRepository<PaymentOrder>, PaymentOrderRepository>();
         
         services.AddTransient<IRepository<ConditionalDesignation>, DbRepository<ConditionalDesignation>>();
         services.AddTransient<IRepository<Manufacturer>, DbRepository<Manufacturer>>();
