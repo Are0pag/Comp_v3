@@ -20,6 +20,9 @@ public class SupplierOrderConfig : IEntityTypeConfiguration<SupplierOrder>
         builder.Property(p => p.InvoiceNumber)
                .IsRequired(false);
         
+        builder.Property(p => p.OrderNumber)
+               .IsRequired(false);
+        
         builder.Property(p => p.Note)
                .IsRequired(false);
         
@@ -54,5 +57,31 @@ public class SupplierOrderConfig : IEntityTypeConfiguration<SupplierOrder>
                .HasForeignKey(p => p.CounterpartyId)
                .IsRequired()
                .OnDelete(DeleteBehavior.Restrict);
+
+        
+        builder.Property(p => p.OrderedUnitsAmount)
+               .HasDefaultValue(0);
+        
+        builder.Property(p => p.ReceivedUnitsAmount)
+               .HasDefaultValue(0);
+        
+        builder.Property(p => p.ReceiveStatus)
+               .HasDefaultValue(ReceiveStatus.NotReceived.ToString());
+        
+        builder.Property(p => p.TotalOrderCost)
+               .HasDefaultValue(0);
+        
+        builder.Property(p => p.TotalPayment)
+               .HasDefaultValue(0);
+        
+        builder.Property(p => p.TotalVatAmount)
+               .HasDefaultValue(0);
+        
+        builder.Property(p => p.PercentageOfTotalPayment)
+               .HasDefaultValue(0);
+        
+        builder.Property(p => p.PaymentStatus)
+               .HasDefaultValue(PaymentStatus.NotPayed.ToString());
+
     }
 }

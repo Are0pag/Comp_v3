@@ -40,6 +40,9 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
     protected int _receivedQuantity;
     protected ReceiveStatus _receiveStatus;
 
+    /// <summary>
+    /// Количество заказанных элементов
+    /// </summary>
     public int OrderQuantity {
         get => _orderQuantity;
         set {
@@ -49,6 +52,9 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
         }
     }
 
+    /// <summary>
+    /// Количество полученных элементов
+    /// </summary>
     public int ReceivedQuantity {
         get => _receivedQuantity;
         set {
