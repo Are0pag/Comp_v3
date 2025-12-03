@@ -24,6 +24,8 @@ public class AppDbContext : DbContext
     
     public DbSet<Counterparty> Counterparties { get; set; }
     public DbSet<SupplierOrder> SupplierOrders { get; set; }
+    public DbSet<OrderPosition> OrderPositions { get; set; }
+    public DbSet<PaymentOrder> PaymentOrders { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
