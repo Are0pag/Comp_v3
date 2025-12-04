@@ -102,17 +102,6 @@
                              IsReadOnly="True"
                              Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                 </Grid>
-                
-                <!-- Кнопка очистки выбора -->
-                <Button Grid.Column="2" 
-                        Content="×" 
-                        Width="30" Height="30"
-                        FontWeight="Bold"
-                        Command="{Binding ClearPositionCommand}">
-                    <Button.ToolTip>
-                        <ToolTip Content="Очистить выбор позиции"/>
-                    </Button.ToolTip>
-                </Button>
             </Grid>
         </GroupBox>
         
