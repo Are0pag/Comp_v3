@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4._Installers;
+using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm.Buts;
 using Comp.ModelData;
@@ -10,7 +11,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form;
 
-public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>
+public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>, IOrderPosSavingCommitHandler
 {
     protected readonly ReceiveStatusEnumVm _receiveStatusEnumVm;
     protected readonly OrderPosition _orderPosition;
@@ -31,6 +32,7 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
         SaveOrderPositionButton.DataContext = _saveOrderPositionButVm;
         
         EventBus<IGlSubscriber>.Subscribe(this);
+        EventBus<IOrderPositionSubscriber>.Subscribe(this);
     }
 
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPosition> container) => container.RuntimeParam = _orderPosition;
@@ -39,6 +41,7 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        EventBus<IOrderPositionSubscriber>.Unsubscribe(this);
     }
 
 #region Невозможность прописать буквы и т.д. в поле
@@ -58,5 +61,10 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
 
     private void OpFormWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         _saveOrderPositionButVm.NotifyCanExecute();
+    }
+
+    Task IOrderPosSavingCommitHandler.OnSaveOp(TaskCompletionSource tcs, object? args) {
+        Close();
+        return Task.CompletedTask;
     }
 }

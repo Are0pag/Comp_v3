@@ -1,6 +1,8 @@
+using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form.Entities;
 
@@ -38,6 +40,11 @@ public class CreateOpFormState : BaseOpFormState
             throw ex;
         }
 
+        var savingTcs = new TaskCompletionSource();
+        EventBus<IOrderPositionSubscriber>
+           .RaiseEvent<IOrderPosSavingCommitHandler>(h => h?.OnSaveOp(savingTcs));
+        await savingTcs.Task;
+        
         tcs.TrySetResult();
     }
 }

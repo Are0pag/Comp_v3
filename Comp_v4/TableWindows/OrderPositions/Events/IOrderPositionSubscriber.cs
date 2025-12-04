@@ -9,3 +9,7 @@ public interface IOrderPositionSubscriber { }
     Task OnOpSelected(TaskCompletionSource tcs, Component selectedItem, object? args = null);
 }*/
 
+public interface IOrderPosSavingCommitHandler : IOrderPositionSubscriber
+{
+    Task OnSaveOp(TaskCompletionSource tcs, object? args = null);
+}
