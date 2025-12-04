@@ -21,5 +21,8 @@ public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable
         _currentScope!.ServiceProvider.GetRequiredService<AddSoAction>();
         _currentScope.ServiceProvider.GetRequiredService<EditSoAction>();
         _currentScope.ServiceProvider.GetRequiredService<DeleteSoAction>();
+        
+        _currentScope.ServiceProvider.GetRequiredService<OpenOrderPositionsTableAction>();
+        _currentScope.ServiceProvider.GetRequiredService<OpenPaymentOrderTableAction>();
     }
 }

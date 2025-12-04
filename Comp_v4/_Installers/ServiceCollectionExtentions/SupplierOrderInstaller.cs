@@ -55,6 +55,12 @@ public static class SupplierOrderInstaller
         services.AddScoped<EditSoButVm>();
         services.AddScoped<EditSoAction>();
         
+        services.AddScoped<OpenOrderPositionsButVm>();
+        services.AddScoped<OpenOrderPositionsTableAction>();
+        
+        services.AddScoped<OpenPaymentOrdersButVm>();
+        services.AddScoped<OpenPaymentOrderTableAction>();
+        
         services.AddScoped<DeleteSoButVm>();
         services.AddScoped<DeleteSoAction>();
         

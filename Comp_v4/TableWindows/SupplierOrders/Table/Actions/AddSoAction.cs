@@ -37,5 +37,4 @@ public class AddSoAction : BaseActionAsyncScopeHandler
             await _currentTcs.Task;
         }
     }
-
 }

@@ -35,8 +35,10 @@ public partial class App : Application
                             
                             services.RegisterDb();
                             services.InstallEntry();
+                            
                             services.RegisterSupplierOrders();
                             services.RegisterCounterparties();
+                            services.RegisterOrderPositions();
                             
                             services.RegisterNomDict();
                             services.RegisterCardComp();

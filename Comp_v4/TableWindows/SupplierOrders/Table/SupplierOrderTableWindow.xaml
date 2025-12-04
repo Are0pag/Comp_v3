@@ -32,6 +32,14 @@
                     Content="{Binding Label}" 
                     Command="{Binding ClickCommand}" 
                     Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button x:Name="OpenOrderPositionsButton" 
+                    Content="{Binding Label}" 
+                    Command="{Binding ClickCommand}" 
+                    Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button x:Name="OpenPaymentOrdersButton" 
+                    Content="{Binding Label}" 
+                    Command="{Binding ClickCommand}" 
+                    Style="{StaticResource ToolBarButtonStyle}"/>
             <Button x:Name="DeleteButton" 
                     Content="{Binding Label}" 
                     Command="{Binding ClickCommand}" 

@@ -10,17 +10,24 @@ namespace Comp_v4.TableWindows.SupplierOrders.Table;
 public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 {
     protected readonly EditSoButVm _editSoButVm;
+    protected readonly OpenOrderPositionsButVm _positionsBut;
+    protected readonly OpenPaymentOrdersButVm _paymentOrdersBut;
     protected readonly DeleteSoButVm _deleteSoButVm;
-    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm) {
+    
+    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
         
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editButVm;
+        OpenOrderPositionsButton.DataContext = positionsBut;
+        OpenPaymentOrdersButton.DataContext = paymentOrdersBut;
         DeleteButton.DataContext = deleteSoButVm;
         
         _editSoButVm = editButVm;
         _deleteSoButVm = deleteSoButVm;
+        _positionsBut = positionsBut;
+        _paymentOrdersBut = paymentOrdersBut;
     }
 
     public void Dispose() {
@@ -60,6 +67,8 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
 
     private void SupplierOrderTableWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         _editSoButVm.NotifyCanExecute();
+        _positionsBut.NotifyCanExecute();
+        _paymentOrdersBut.NotifyCanExecute();
         _deleteSoButVm.NotifyCanExecute();
     }
 }
