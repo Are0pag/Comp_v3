@@ -55,4 +55,8 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
     }
 
 #endregion
+
+    private void OpFormWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+        _saveOrderPositionButVm.NotifyCanExecute();
+    }
 }

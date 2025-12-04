@@ -1,5 +1,6 @@
 using Comp_v4.TableWindows.OrderPositions.Form;
 using Comp_v4.TableWindows.OrderPositions.Form.Actions;
+using Comp_v4.TableWindows.OrderPositions.Form.Entities;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF;
@@ -25,6 +26,11 @@ public class EditOpTableState : BaseOpState
             tcs.TrySetResult();
         };
         _serviceProvider.GetRequiredService<SelectPositionAction>();
+        _serviceProvider.GetRequiredService<SaveOrderPositionAction>();
+        
+        var table = _serviceProvider.GetRequiredService<OpForm>();
+        await table.ChangeState(table.GetState<CreateOpFormState>(), table);
+        
         window.Show();
         await tcs.Task;
     }
