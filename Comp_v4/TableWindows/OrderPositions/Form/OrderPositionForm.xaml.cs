@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4._Installers;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm;
+using Comp_v4.TableWindows.OrderPositions.Form.Vm.Buts;
 using Comp.ModelData;
 using Utils.EventBus;
 
@@ -13,13 +14,16 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
 {
     protected readonly ReceiveStatusEnumVm _receiveStatusEnumVm;
     protected readonly OrderPosition _orderPosition;
-    public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm) {
+    protected readonly SelectPositionButVm _selectPositionButVm; 
+    public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SelectPositionButVm selectPositionButVm) {
         InitializeComponent();
         _receiveStatusEnumVm = receiveStatusEnumVm;
+        _selectPositionButVm = selectPositionButVm;
         _orderPosition = orderPosition;
         
         DataContext = new OrderPositionVm(receiveStatusEnumVm, orderPosition);
         ReceiveStatusComboBox.DataContext = receiveStatusEnumVm;
+        SelectPositionButton.DataContext = selectPositionButVm;
         
         EventBus<IGlSubscriber>.Subscribe(this);
     }

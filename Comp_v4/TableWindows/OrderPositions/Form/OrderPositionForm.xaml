@@ -57,9 +57,10 @@
                 
                 <!-- Кнопка выбора позиции -->
                 <Button Grid.Column="0" 
-                        Content="Выбрать позицию..." 
-                        Height="30" 
-                        Command="{Binding SelectPositionCommand}">
+                        x:Name="SelectPositionButton" 
+                        Content="{Binding Label}" 
+                        Command="{Binding ClickCommand}" 
+                        Height="30" >
                     <Button.ToolTip>
                         <ToolTip Content="Выбрать компонент из каталога"/>
                     </Button.ToolTip>
