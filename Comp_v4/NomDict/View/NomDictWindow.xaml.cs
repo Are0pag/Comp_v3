@@ -71,7 +71,7 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
     }
 
-    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
         _selectingTcs = tcs;
     }
 

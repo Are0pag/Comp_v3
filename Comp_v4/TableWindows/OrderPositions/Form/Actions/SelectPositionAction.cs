@@ -17,7 +17,7 @@ public class SelectPositionAction : BaseActionAsyncSelfWaiting
         _butTcs = tcs;
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGridSelectingStateHandler>(h => {
-                h?.OnSelecting(new TaskCompletionSource<Component>());
+                h?.OnSelecting(new TaskCompletionSource<Component>(), this.GetType());
             });
         return Task.CompletedTask;
     }

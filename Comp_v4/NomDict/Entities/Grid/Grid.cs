@@ -24,7 +24,7 @@ public class Grid : GenericStateMachine<BaseSGridState, Grid>, IGridSelectingSta
         await CurrentState.Add(tcs, parameter, this);
     }
 
-    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
         _ = ChangeState(GetState<SelectionGridState>(), this);
     }
 

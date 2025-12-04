@@ -7,5 +7,5 @@ namespace Comp_v4.NomDict.Events;
 /// </summary>
 public interface IGridSelectingStateHandler : INomDictWindowSubscriber
 {
-    void OnSelecting(TaskCompletionSource<Component> tcs);
+    void OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType);
 }

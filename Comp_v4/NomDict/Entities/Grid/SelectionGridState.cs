@@ -15,6 +15,7 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
     protected readonly IWindowOrderLocator _windowOrderLocator;
     protected readonly IServiceProvider _serviceProvider;
     protected TaskCompletionSource<Component>? _selectionTcs;
+    protected Type? _selectingRequesterType;
     
     public SelectionGridState(DataGridVm dataGridVm, IWindowOrderLocator windowOrderLocator, IServiceProvider serviceProvider) {
         _dataGridVm = dataGridVm;
@@ -44,7 +45,8 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
             });
     }
 
-    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs) {
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
+        _selectingRequesterType = requesterType;
         _windowOrderLocator.MoveToFront<NomDictWindow>();
         _selectionTcs = tcs;
     }

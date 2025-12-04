@@ -34,7 +34,7 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
         var completionSource = new TaskCompletionSource<Component>();
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGridSelectingStateHandler>(h => {
-                h?.OnSelecting(completionSource);
+                h?.OnSelecting(completionSource, this.GetType());
             });
         return Task.CompletedTask;
     }
