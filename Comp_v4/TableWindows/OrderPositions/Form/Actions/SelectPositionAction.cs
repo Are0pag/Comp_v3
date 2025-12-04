@@ -1,3 +1,4 @@
+using Comp_v4.Entry.Vm.Buts;
 using Comp_v4.NomDict.Events;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm.Buts;
 using Comp.ModelData.Comp;
@@ -8,13 +9,16 @@ namespace Comp_v4.TableWindows.OrderPositions.Form.Actions;
 
 public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSelectionHanlder
 {
+    protected readonly NomDictButVm _nomDictButVm;
     protected TaskCompletionSource? _butTcs;
     
-    public SelectPositionAction(SelectPositionButVm button) : base(button) {
+    public SelectPositionAction(SelectPositionButVm button, NomDictButVm nomDictButVm) : base(button) {
+        _nomDictButVm = nomDictButVm;
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
     public override Task Perform(TaskCompletionSource tcs) {
+        _nomDictButVm.OnClickAsync();
         _butTcs = tcs;
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGridSelectingStateHandler>(h => {

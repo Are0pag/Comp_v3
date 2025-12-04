@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.OrderPositions.Form;
+using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm.Buts;
 using Comp_v4.TableWindows.OrderPositions.Table;
@@ -20,7 +21,9 @@ public static class OrderPosInstallerExt
 
     private static void Form(IServiceCollection services) {
         services.AddSingleton<ReceiveStatusEnumVm>();
+        
         services.AddSingleton<SelectPositionButVm>();
+        services.AddSingleton<SelectPositionAction>();
         
         services.AddTransient<OrderPositionForm>();
     }

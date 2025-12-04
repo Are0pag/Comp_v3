@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.OrderPositions.Form;
+using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,7 @@ public class EditOpTableState : BaseOpState
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
+        _serviceProvider.GetRequiredService<SelectPositionAction>();
         window.Show();
         await tcs.Task;
     }
