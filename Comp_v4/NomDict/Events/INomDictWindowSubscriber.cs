@@ -23,5 +23,5 @@ public interface ICommitSelectionHandler : INomDictWindowSubscriber
 
 public interface IGetResultOfSelectionHanlder : INomDictWindowSubscriber
 {
-    void OnGetResultOfSelection(Component component);
+    void OnGetResultOfSelection(Component component, Type requesterType);
 }

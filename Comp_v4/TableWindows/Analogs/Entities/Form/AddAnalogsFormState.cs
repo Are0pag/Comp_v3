@@ -54,7 +54,9 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
     }
 
-    public void OnGetResultOfSelection(Component component) {
+    public void OnGetResultOfSelection(Component component, Type requesterType) {
+        if (requesterType != GetType())
+            return;
         if (_butTcs is null)
             return;
         RuntimeParam.RelatedComponent = component;

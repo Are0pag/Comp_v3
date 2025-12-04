@@ -6,11 +6,12 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form.Actions;
 
-public class SelectPositionAction : BaseActionAsyncSelfWaiting
+public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSelectionHanlder
 {
     protected TaskCompletionSource? _butTcs;
     
     public SelectPositionAction(SelectPositionButVm button) : base(button) {
+        EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
     public override Task Perform(TaskCompletionSource tcs) {
@@ -20,5 +21,20 @@ public class SelectPositionAction : BaseActionAsyncSelfWaiting
                 h?.OnSelecting(new TaskCompletionSource<Component>(), this.GetType());
             });
         return Task.CompletedTask;
+    }
+
+    public void OnGetResultOfSelection(Component component, Type requesterType) {
+        if (requesterType != GetType())
+            return;
+        if (_butTcs is null)
+            return;
+        
+        
+        
+        _butTcs.SetResult();
+    }
+
+    public void Dispose() {
+        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
     }
 }

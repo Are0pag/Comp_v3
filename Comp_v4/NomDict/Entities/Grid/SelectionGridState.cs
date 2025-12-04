@@ -31,7 +31,7 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
     }
 
     public async Task OnCommitSelection(TaskCompletionSource<Component> tcs) {
-        if (_selectionTcs is null)
+        if (_selectionTcs is null || _selectingRequesterType is null)
             throw new InvalidOperationException("Selection grid state has not been started yet");
         if (_dataGridVm.SelectedItem == null) 
             return;
@@ -41,8 +41,9 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
         
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGetResultOfSelectionHanlder>(h => {
-                h?.OnGetResultOfSelection(_dataGridVm.SelectedItem);
+                h?.OnGetResultOfSelection(_dataGridVm.SelectedItem, _selectingRequesterType);
             });
+        _selectingRequesterType = null;
     }
 
     void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
