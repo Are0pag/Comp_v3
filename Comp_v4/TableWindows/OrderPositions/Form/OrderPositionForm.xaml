@@ -105,8 +105,7 @@
                         Content="×" 
                         Width="30" Height="30"
                         FontWeight="Bold"
-                        Command="{Binding ClearPositionCommand}"
-                        Visibility="{Binding Position, Converter={StaticResource NullToVisibilityConverter}}">
+                        Command="{Binding ClearPositionCommand}">
                     <Button.ToolTip>
                         <ToolTip Content="Очистить выбор позиции"/>
                     </Button.ToolTip>
@@ -141,6 +140,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" 
                                    Text="Заказано:"/>
                         <TextBox Grid.Row="0" Grid.Column="1" 
+                                 PreviewTextInput="NumberValidationTextBox"
                                  Text="{Binding OrderQuantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <Validation.ErrorTemplate>
                                 <ControlTemplate>
@@ -160,6 +160,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" 
                                    Text="Получено:"/>
                         <TextBox Grid.Row="1" Grid.Column="1" 
+                                 PreviewTextInput="NumberValidationTextBox"
                                  Text="{Binding ReceivedQuantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <Validation.ErrorTemplate>
                                 <ControlTemplate>
@@ -200,7 +201,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" 
                                    Text="Цена за ед.:"/>
                         <TextBox Grid.Row="0" Grid.Column="1" 
-                                 Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2, ValidatesOnDataErrors=True}">
+                                 Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N22, ValidatesOnDataErrors=True}">
                             <Validation.ErrorTemplate>
                                 <ControlTemplate>
                                     <DockPanel>
@@ -219,7 +220,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" 
                                    Text="Общая сумма:"/>
                         <TextBox Grid.Row="1" Grid.Column="1" 
-                                 Text="{Binding TotalCost, UpdateSourceTrigger=PropertyChanged, StringFormat=N2, ValidatesOnDataErrors=True}"
+                                 Text="{Binding TotalCost, UpdateSourceTrigger=PropertyChanged, StringFormat=N22, ValidatesOnDataErrors=True}"
                                  IsReadOnly="True"
                                  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                             <TextBox.ToolTip>
