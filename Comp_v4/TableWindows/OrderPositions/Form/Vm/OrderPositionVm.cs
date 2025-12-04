@@ -1,17 +1,20 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Comp_v4._Installers;
 using Comp.ModelData;
+using Utils.EventBus;
 using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form.Vm;
 
 public class OrderPositionVm : ObservableObject, IDisposable
 {
-    private readonly OrderPosition _model;
+    protected readonly ReceiveStatusEnumVm _receiveStatusEnumVm;
+    protected readonly OrderPosition _model;
 
-    public OrderPositionVm(OrderPosition model) {
-        _model = model ?? throw new ArgumentNullException(nameof(model));
-        _model.PropertyChanged += OnModelPropertyChanged;
+    public OrderPositionVm(ReceiveStatusEnumVm receiveStatusEnumVm, OrderPosition model) {
+        _receiveStatusEnumVm = receiveStatusEnumVm;
+        _model = model;
     }
 
 #region Wrap
@@ -49,18 +52,26 @@ public class OrderPositionVm : ObservableObject, IDisposable
         }
     }
 
+    public decimal TotalCost {
+        get => _model.TotalCost;
+        set {
+            throw new InvalidOperationException(); // А вот без этого сеттера WPF хуй заработает хых
+        }
+    }
+
 #endregion
 
     protected void UpdateTotalCost() => _model.TotalCost = OrderQuantity * UnitPrice;
 
     protected void UpdateReceiveStatus() {
         var difference = OrderQuantity - ReceivedQuantity;
-        _model.ReceiveStatus = difference switch {
-            0                                  => ReceiveStatus.FullyReceived.ToString(),
-            < 0                                => ReceiveStatus.OverReceived.ToString(),
-            _ when difference == OrderQuantity => ReceiveStatus.NotReceived.ToString(),
-            _                                  => ReceiveStatus.PartiallyReceived.ToString()
+        _receiveStatusEnumVm.SelectedValue = difference switch {
+            0                                  => ReceiveStatus.FullyReceived,
+            < 0                                => ReceiveStatus.OverReceived,
+            _ when difference == OrderQuantity => ReceiveStatus.NotReceived,
+            _                                  => ReceiveStatus.PartiallyReceived
         };
+        _model.ReceiveStatus = _receiveStatusEnumVm.SelectedValue.ToString();
     }
 
     protected void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e) {

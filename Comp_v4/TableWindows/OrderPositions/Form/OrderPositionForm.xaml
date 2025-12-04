@@ -184,7 +184,6 @@
                         <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="ReceiveStatusComboBox" 
                                   ItemsSource="{Binding EnumValues}"
                                   SelectedItem="{Binding SelectedValue}"
-
                             >
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -230,7 +229,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" 
                                    Text="Общая сумма:"/>
                         <TextBox Grid.Row="1" Grid.Column="1" 
-                                 Text="{Binding TotalCost, UpdateSourceTrigger=PropertyChanged, StringFormat=N22, ValidatesOnDataErrors=True}"
+                                 Text="{Binding TotalCost, UpdateSourceTrigger=PropertyChanged, StringFormat=N22}"
                                  IsReadOnly="True"
                                  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                             <TextBox.ToolTip>
