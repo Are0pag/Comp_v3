@@ -1,8 +1,10 @@
 using Comp_v4.Entry.Vm.Buts;
 using Comp_v4.NomDict.Events;
+using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm.Buts;
 using Comp.ModelData.Comp;
 using Utils.EventBus;
+using Utils.WPF;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form.Actions;
@@ -10,10 +12,12 @@ namespace Comp_v4.TableWindows.OrderPositions.Form.Actions;
 public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSelectionHanlder
 {
     protected readonly NomDictButVm _nomDictButVm;
+    protected readonly IWindowOrderLocator _windowOrderLocator;
     protected TaskCompletionSource? _butTcs;
     
-    public SelectPositionAction(SelectPositionButVm button, NomDictButVm nomDictButVm) : base(button) {
+    public SelectPositionAction(SelectPositionButVm button, NomDictButVm nomDictButVm, IWindowOrderLocator windowOrderLocator) : base(button) {
         _nomDictButVm = nomDictButVm;
+        _windowOrderLocator = windowOrderLocator;
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
@@ -33,7 +37,7 @@ public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSele
         if (_butTcs is null)
             return;
         
-        
+        _windowOrderLocator.MoveToBack<NomDictWindow>();
         
         _butTcs.SetResult();
     }

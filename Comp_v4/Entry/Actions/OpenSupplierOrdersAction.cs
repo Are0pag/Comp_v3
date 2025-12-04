@@ -4,17 +4,26 @@ using Comp_v4.TableWindows.SupplierOrders.Table;
 using Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
+using Utils.WPF;
 
 namespace Comp_v4.Entry.Actions;
 
 public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable
 {
-    public OpenSupplierOrdersAction(OrdersButVm button, IServiceScopeFactory scopeFactory) 
+    protected readonly IWindowOrderLocator _windowOrderLocator;
+    public OpenSupplierOrdersAction(OrdersButVm button, IServiceScopeFactory scopeFactory, IWindowOrderLocator windowOrderLocator) 
         : base(button, scopeFactory) {
+        _windowOrderLocator = windowOrderLocator;
     }
 
     protected override Window GetWindow() {
-        return _currentScope!.ServiceProvider.GetRequiredService<SupplierOrderTableWindow>();
+        var supplierOrderTableWindow = _currentScope!.ServiceProvider.GetRequiredService<SupplierOrderTableWindow>();
+        
+        _windowOrderLocator.RegisterWindow(supplierOrderTableWindow);
+        supplierOrderTableWindow.Closed += (sender, args) => {
+            _windowOrderLocator.UnregisterWindow(supplierOrderTableWindow);
+        };
+        return supplierOrderTableWindow;
     }
 
     protected override void InstantiateRelatedServices() {
