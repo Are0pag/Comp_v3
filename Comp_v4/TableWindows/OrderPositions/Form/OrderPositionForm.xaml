@@ -4,9 +4,250 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.OrderPositions.Form"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="OrderPositionForm" Height="450" Width="800">
-    <Grid>
+        Title="Состав заказа" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5,0,0,0"/>
+            <Setter Property="Padding" Value="10,5"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Text="Позиция заказа" 
+                   FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+        
+        <!-- Разделительная линия -->
+        <Separator Grid.Row="1" Margin="0,0,0,15"/>
+        
+        <!-- Область 1: Выбор позиции -->
+        <GroupBox Grid.Row="2" Header="Позиция (Компонент)" 
+                  Padding="10" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Кнопка выбора позиции -->
+                <Button Grid.Column="0" 
+                        Content="Выбрать позицию..." 
+                        Height="30" 
+                        Command="{Binding SelectPositionCommand}">
+                    <Button.ToolTip>
+                        <ToolTip Content="Выбрать компонент из каталога"/>
+                    </Button.ToolTip>
+                </Button>
+                
+                <!-- Информация о выбранной позиции -->
+                <Grid Grid.Column="1" Margin="10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Название -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                               Text="Название:"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" 
+                             Text="{Binding Position.Name, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    
+                    <!-- Номенклатурный номер -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" 
+                               Text="Номенклатурный №:"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" 
+                             Text="{Binding Position.NomenclatureNumber, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    
+                    <!-- Каталоговый номер -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" 
+                               Text="Каталоговый №:"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" 
+                             Text="{Binding Position.CatalogNumber, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                </Grid>
+                
+                <!-- Кнопка очистки выбора -->
+                <Button Grid.Column="2" 
+                        Content="×" 
+                        Width="30" Height="30"
+                        FontWeight="Bold"
+                        Command="{Binding ClearPositionCommand}"
+                        Visibility="{Binding Position, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Button.ToolTip>
+                        <ToolTip Content="Очистить выбор позиции"/>
+                    </Button.ToolTip>
+                </Button>
+            </Grid>
+        </GroupBox>
+        
+        <!-- Область 2: Редактируемые поля данных -->
+        <GroupBox Grid.Row="3" Header="Данные позиции заказа" 
+                  Padding="10" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Левая колонка: Количества -->
+                <StackPanel Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Заказанное количество -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                                   Text="Заказано:"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding OrderQuantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Right" 
+                                                   Foreground="Red" 
+                                                   FontSize="14" 
+                                                   Text="!" 
+                                                   ToolTip="{Binding ElementName=AdornedElement, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                                        <AdornedElementPlaceholder Name="AdornedElement"/>
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+                        
+                        <!-- Полученное количество -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" 
+                                   Text="Получено:"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding ReceivedQuantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Right" 
+                                                   Foreground="Red" 
+                                                   FontSize="14" 
+                                                   Text="!" 
+                                                   ToolTip="{Binding ElementName=AdornedElement, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                                        <AdornedElementPlaceholder Name="AdornedElement"/>
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+                        
+                        <!-- Статус получения -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" 
+                                   Text="Статус:"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" 
+                                  SelectedValue="{Binding ReceiveStatus, UpdateSourceTrigger=PropertyChanged}">
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+                
+                <!-- Правая колонка: Стоимость -->
+                <StackPanel Grid.Column="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Цена за единицу -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                                   Text="Цена за ед.:"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2, ValidatesOnDataErrors=True}">
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Right" 
+                                                   Foreground="Red" 
+                                                   FontSize="14" 
+                                                   Text="!" 
+                                                   ToolTip="{Binding ElementName=AdornedElement, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                                        <AdornedElementPlaceholder Name="AdornedElement"/>
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+                        
+                        <!-- Общая стоимость -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" 
+                                   Text="Общая сумма:"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding TotalCost, UpdateSourceTrigger=PropertyChanged, StringFormat=N2, ValidatesOnDataErrors=True}"
+                                 IsReadOnly="True"
+                                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                            <TextBox.ToolTip>
+                                <ToolTip Content="Рассчитывается автоматически: Заказано × Цена за единицу"/>
+                            </TextBox.ToolTip>
+                        </TextBox>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        
+        <!-- Пустая область для расширения -->
+        <Grid Grid.Row="4" Margin="0,0,0,15"/>
+        
+        <!-- Кнопки действий -->
+        <Border Grid.Row="5" 
+                Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
+                Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Сохранить" 
+                        Width="100" 
+                        Command="{Binding SaveCommand}"
+                        IsDefault="True"/>
+                <Button Content="Отмена" 
+                        Width="100" 
+                        Command="{Binding CancelCommand}"
+                        IsCancel="True"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>
