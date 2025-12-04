@@ -1,4 +1,6 @@
 using Comp_v4.TableWindows.OrderPositions.Table;
+using Comp_v4.TableWindows.OrderPositions.Table.Actions;
+using Comp_v4.TableWindows.OrderPositions.Table.Entities;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
@@ -26,6 +28,8 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         window.Closed += async (sender, args) => {
             tcs.TrySetResult();
         };
+
+        _serviceProvider.GetRequiredService<CreateOrderPosAction>();
         
         window.Show();
         await tcs.Task;

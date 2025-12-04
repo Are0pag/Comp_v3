@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm;
+using Comp_v4.TableWindows.OrderPositions.Table.Vm.Buts;
 using Comp.ModelData;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table;
@@ -8,11 +9,18 @@ namespace Comp_v4.TableWindows.OrderPositions.Table;
 public partial class OrderPositionsTableWindow : Window
 {
     private readonly OpDataGridVm _opDataGridVm;
+    private readonly CreateOrderPosFormButVm _createOrderPosFormButVm; 
+    private readonly EditOrderPosFormButVm _editOrderPosFormButVm;
     
-    public OrderPositionsTableWindow(OpDataGridVm opDataGridVm) {
+    public OrderPositionsTableWindow(OpDataGridVm opDataGridVm, CreateOrderPosFormButVm createOrderPosFormButVm, EditOrderPosFormButVm editOrderPosFormButVm) {
         InitializeComponent();
         _opDataGridVm = opDataGridVm;
+        _createOrderPosFormButVm = createOrderPosFormButVm;
+        _editOrderPosFormButVm = editOrderPosFormButVm;
+        
         DataGrid.DataContext = opDataGridVm;
+        AddButton.DataContext = createOrderPosFormButVm;
+        EditButton.DataContext = editOrderPosFormButVm;
         
     }
 
