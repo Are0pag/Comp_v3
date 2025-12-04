@@ -239,10 +239,11 @@
                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
                 Padding="10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Сохранить" 
-                        Width="100" 
-                        Command="{Binding SaveCommand}"
-                        IsDefault="True"/>
+                <Button x:Name="SaveOrderPositionButton"
+                        Content="{Binding Label}"
+                        Command="{Binding ClickCommand}"
+                        Width="100"
+                        IsDefault="True" />
                 <Button Content="Отмена" 
                         Width="100" 
                         Command="{Binding CancelCommand}"
