@@ -10,27 +10,29 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form;
 
-public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>
+public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>
 {
     protected readonly ReceiveStatusEnumVm _receiveStatusEnumVm;
     protected readonly OrderPosition _orderPosition;
     protected readonly SelectPositionButVm _selectPositionButVm; 
+    protected readonly OrderPositionVm _orderPositionVm;
     public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SelectPositionButVm selectPositionButVm) {
         InitializeComponent();
         _receiveStatusEnumVm = receiveStatusEnumVm;
         _selectPositionButVm = selectPositionButVm;
         _orderPosition = orderPosition;
-        
-        DataContext = new OrderPositionVm(receiveStatusEnumVm, orderPosition);
+
+        _orderPositionVm = new OrderPositionVm(receiveStatusEnumVm, orderPosition);
+        DataContext = _orderPositionVm;
         ReceiveStatusComboBox.DataContext = receiveStatusEnumVm;
         SelectPositionButton.DataContext = selectPositionButVm;
         
         EventBus<IGlSubscriber>.Subscribe(this);
     }
 
-    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPosition> container) {
-        container.RuntimeParam = _orderPosition;
-    }
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPosition> container) => container.RuntimeParam = _orderPosition;
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPositionVm> container) => container.RuntimeParam = _orderPositionVm;
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
