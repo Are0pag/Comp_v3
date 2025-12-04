@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.OrderPositions.Form;
+using Comp_v4.TableWindows.OrderPositions.Form.Vm;
 using Comp_v4.TableWindows.OrderPositions.Table;
 using Comp_v4.TableWindows.OrderPositions.Table.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table.Entities;
@@ -17,6 +18,8 @@ public static class OrderPosInstallerExt
     }
 
     private static void Form(IServiceCollection services) {
+        services.AddSingleton<ReceiveStatusEnumVm>();
+        
         services.AddTransient<OrderPositionForm>();
     }
 
@@ -24,13 +27,6 @@ public static class OrderPosInstallerExt
         services.AddSingleton<BaseOpState, ChangedOpTableState>();
         services.AddSingleton<BaseOpState, EditOpTableState>();
         services.AddSingleton<OpTable>();
-        /*services.AddSingleton<OpTable>((provider) => {
-            var initialState = provider.GetService<BaseOpState>();
-            var states = new List<BaseOpState>() {
-                provider.GetServices<BaseOpState>()
-            };
-            return new OpTable(initialState, states);
-        });*/
 
         services.AddSingleton<CreateOrderPosFormButVm>();
         services.AddSingleton<CreateOrderPosAction>();

@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.OrderPositions.Form"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form"
         mc:Ignorable="d"
         Title="Состав заказа" Height="450" Width="800">
     <Window.Resources>
@@ -24,6 +25,7 @@
             <Setter Property="Margin" Value="5,0,0,0"/>
             <Setter Property="Padding" Value="10,5"/>
         </Style>
+        <form:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
     </Window.Resources>
     
     <Grid Margin="10">
@@ -179,8 +181,16 @@
                         <!-- Статус получения -->
                         <TextBlock Grid.Row="2" Grid.Column="0" 
                                    Text="Статус:"/>
-                        <ComboBox Grid.Row="2" Grid.Column="1" 
-                                  SelectedValue="{Binding ReceiveStatus, UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="ReceiveStatusComboBox" 
+                                  ItemsSource="{Binding EnumValues}"
+                                  SelectedItem="{Binding SelectedValue}"
+
+                            >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
                         </ComboBox>
                     </Grid>
                 </StackPanel>
