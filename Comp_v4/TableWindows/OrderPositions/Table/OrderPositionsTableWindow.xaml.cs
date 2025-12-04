@@ -12,6 +12,7 @@ public partial class OrderPositionsTableWindow : Window
         InitializeComponent();
         _orderPosition = orderPosition;
         DataContext = orderPosition;
+        
     }
 
     private void SupplierOrderTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {

@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.OrderPositions.Table"
         mc:Ignorable="d"
-        Title="Состав заказа" Height="450" Width="800"
+        Title="Состав заказа" Height="450" Width="1200"
         PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown"
         PreviewMouseDown="SupplierOrderTableWindow_OnPreviewMouseDown">
     
@@ -68,11 +68,16 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Наименование позиции" Binding="{Binding Position.Name}" Width="Auto"/>
                 <DataGridTextColumn Header="Номенклатурный номер" Binding="{Binding Position.NomenclatureNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Position.TypeSize.Designation}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Position.Manufacturer.Designation}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Position.CatalogNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Position.ConditionalDesignation.Designation}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}" Width="Auto"/>
+                <DataGridTextColumn Header="Номер по каталогу" Binding="{Binding Position.CatalogNumber}" Width="Auto"/>
+                <DataGridTextColumn Header="Типоразмер" Binding="{Binding Position.TypeSize.Designation}" Width="Auto"/>
+                <DataGridTextColumn Header="Производитель" Binding="{Binding Position.Manufacturer.Designation}" Width="Auto"/>
+                <DataGridTextColumn Header="Ед. изм-я" Binding="{Binding Position.ConditionalDesignation.Designation}" Width="Auto"/>
+                
+                <DataGridTextColumn Header="Кол-во заказано" Binding="{Binding OrderQuantity}" Width="Auto"/>
+                <DataGridTextColumn Header="Кол-во получено" Binding="{Binding ReceivedQuantity}" Width="Auto"/>
+                <DataGridTextColumn Header="Статус получения" Binding="{Binding ReceiveStatus}" Width="Auto"/>
+                <DataGridTextColumn Header="Цена за ед." Binding="{Binding UnitPrice}" Width="Auto"/>
+                <DataGridTextColumn Header="Сумма стоимости" Binding="{Binding TotalCost}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
