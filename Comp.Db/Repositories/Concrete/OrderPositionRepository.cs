@@ -33,10 +33,15 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
         entity.PositionId.ThrowIfDefault();
         
         var trackedEntity = _context.Set<OrderPosition>()
-                                    .FirstOrDefault(c => c.Id == entity.Id)
+                                                .FirstOrDefault(c => c.Id == entity.Id)
                             ?? throw new KeyNotFoundException("Cannot find component to update order position.");
         
         trackedEntity.PopulateFrom(entity);
+
+        if (trackedEntity.Position is { GenericParametersSet: not null })
+            trackedEntity.Position.GenericParametersSet = null;
+                                         
+        
         _context.Entry(trackedEntity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
