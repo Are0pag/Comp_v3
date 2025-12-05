@@ -131,7 +131,7 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
         Id = targetValues.Id;
         
         PositionId = targetValues.PositionId;
-        Position = targetValues.Position;
+        //Position = targetValues.Position;
         
         OrderQuantity = targetValues.OrderQuantity;
         ReceivedQuantity = targetValues.ReceivedQuantity;
