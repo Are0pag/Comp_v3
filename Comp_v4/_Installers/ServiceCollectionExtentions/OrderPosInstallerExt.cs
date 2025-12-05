@@ -47,6 +47,7 @@ public static class OrderPosInstallerExt
         services.AddSingleton<CreateOrderPosAction>();
         
         services.AddSingleton<EditOrderPosFormButVm>();
+        services.AddSingleton<EditOrderPosAction>();
         
         services.AddSingleton<OpDataGridVm>();
 

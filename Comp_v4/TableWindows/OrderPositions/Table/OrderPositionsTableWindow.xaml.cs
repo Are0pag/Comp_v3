@@ -29,7 +29,7 @@ public partial class OrderPositionsTableWindow : Window
     }
 
     private void SupplierOrderTableWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-        
+        _editOrderPosFormButVm.NotifyCanExecute();
     }
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {

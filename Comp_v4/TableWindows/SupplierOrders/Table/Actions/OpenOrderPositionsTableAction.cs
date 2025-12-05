@@ -37,6 +37,7 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         };
 
         _serviceProvider.GetRequiredService<CreateOrderPosAction>();
+        _serviceProvider.GetRequiredService<EditOrderPosAction>();
         
         EventBus<IOrderPositionSubscriber>.RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
         

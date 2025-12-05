@@ -25,9 +25,8 @@ public class EditOpTableState : BaseOpState
             _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
         };
-        _serviceProvider.GetRequiredService<SelectPositionAction>();
-        _serviceProvider.GetRequiredService<SaveOrderPositionAction>();
-        
+        ResolveRelated();
+
         var table = _serviceProvider.GetRequiredService<OpForm>();
         await table.ChangeState(table.GetState<CreateOpFormState>(), table);
         
@@ -36,6 +35,23 @@ public class EditOpTableState : BaseOpState
     }
 
     public override async Task Edit(TaskCompletionSource tcs, OpTable opTable, OrderPosition op, object? o) {
-        throw new NotImplementedException();
+        var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, op);
+        _windowOrderLocator.RegisterWindow(window);
+        window.Closed += (sender, args) => {
+            _windowOrderLocator.UnregisterWindow(window);
+            tcs.TrySetResult();
+        };
+        ResolveRelated();
+        
+        var table = _serviceProvider.GetRequiredService<OpForm>();
+        await table.ChangeState(table.GetState<EditOpFormState>(), table);
+        
+        window.Show();
+        await tcs.Task;
+    }
+
+    private void ResolveRelated() {
+        _serviceProvider.GetRequiredService<SelectPositionAction>();
+        _serviceProvider.GetRequiredService<SaveOrderPositionAction>();
     }
 }
