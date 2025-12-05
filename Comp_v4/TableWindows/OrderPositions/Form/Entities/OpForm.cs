@@ -25,6 +25,13 @@ public abstract class BaseOpFormState : StateBase<OpForm>
     }
 
     public abstract Task Save(TaskCompletionSource tcs, OrderPosition item, object? args, OpForm opForm);
+    
+    protected static async Task NotifyAboutSaving() {
+        var savingTcs = new TaskCompletionSource();
+        EventBus<IOrderPositionSubscriber>
+           .RaiseEvent<IOrderPosSavingCommitHandler>(h => h?.OnSaveOp(savingTcs));
+        await savingTcs.Task;
+    }
 }
 
 public class CreateOpFormState : BaseOpFormState
@@ -40,11 +47,8 @@ public class CreateOpFormState : BaseOpFormState
             throw ex;
         }
 
-        var savingTcs = new TaskCompletionSource();
-        EventBus<IOrderPositionSubscriber>
-           .RaiseEvent<IOrderPosSavingCommitHandler>(h => h?.OnSaveOp(savingTcs));
-        await savingTcs.Task;
-        
+        await NotifyAboutSaving();
+
         tcs.TrySetResult();
     }
 }
@@ -62,6 +66,8 @@ public class EditOpFormState : BaseOpFormState
             throw ex;
         }
 
+        await NotifyAboutSaving();
+        
         tcs.TrySetResult();
     }
 }
