@@ -13,7 +13,7 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
         return await _context.Set<OrderPosition>()
                              .AsNoTracking()
                              .Include(op => op.Position)
-                             .Include(op => op.SupplierOrder)
+                             .Include(op => op.RelatedSupplierOrder)
                              .ToListAsync();
     }
     
@@ -31,8 +31,8 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
                                   .FirstOrDefault(c => c.Id == entity.Position.Id)
                           ?? throw new KeyNotFoundException("Cannot add component to order position.");
         
-        entity.SupplierOrderId = entity.SupplierOrder.Id;
-        entity.SupplierOrder = null;
+        entity.SupplierOrderId = entity.RelatedSupplierOrder.Id;
+        entity.RelatedSupplierOrder = null;
         
         await base.AddAsync(entity);
     }
@@ -59,8 +59,8 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
     protected static void Validate(OrderPosition entity) {
         ArgumentNullException.ThrowIfNull(entity);
         ArgumentNullException.ThrowIfNull(entity.Position);
-        ArgumentNullException.ThrowIfNull(entity.SupplierOrder);
+        ArgumentNullException.ThrowIfNull(entity.RelatedSupplierOrder);
         entity.Position.Id.ThrowIfDefault();
-        entity.SupplierOrder.Id.ThrowIfDefault();
+        entity.RelatedSupplierOrder.Id.ThrowIfDefault();
     }
 }
