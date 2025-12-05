@@ -81,6 +81,19 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
             throw new ArgumentException($"Unknown {nameof(ModelData.ReceiveStatus)} type: {value}");
         }
     }
+    
+    /// <summary>
+    /// Статус получения всех единиц в одной позиции заказа (OrderPosition)
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public ReceiveStatus ReceiveStatusEnumValue {
+        get => _receiveStatus;
+        set {
+            if (_receiveStatus == value) return;
+            _receiveStatus = value;
+            OnPropertyChanged();
+        }
+    }
 
 #endregion
 
