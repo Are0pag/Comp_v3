@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.OrderPositions.Form"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form"
+        xmlns:form1="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
         Title="Состав заказа" Height="450" Width="800"
         PreviewMouseDown="OpFormWindow_OnPreviewMouseDown">
@@ -26,7 +27,7 @@
             <Setter Property="Margin" Value="5,0,0,0"/>
             <Setter Property="Padding" Value="10,5"/>
         </Style>
-        <form:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+        <form1:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
     </Window.Resources>
     
     <Grid Margin="10">

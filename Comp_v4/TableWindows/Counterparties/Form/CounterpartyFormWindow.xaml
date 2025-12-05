@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.Counterparties"
+        xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
         Title="Добавление контрагента" 
         Height="500" 
@@ -12,7 +13,7 @@
         ResizeMode="NoResize">
     
     <Window.Resources>
-        <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+        <form:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
