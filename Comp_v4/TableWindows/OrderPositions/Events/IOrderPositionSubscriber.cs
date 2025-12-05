@@ -13,3 +13,8 @@ public interface IOrderPosSavingCommitHandler : IOrderPositionSubscriber
 {
     Task OnSaveOp(TaskCompletionSource tcs, object? args = null);
 }
+
+public interface IOpTableReloadHandler : IOrderPositionSubscriber, IDisposable
+{
+    void OnOpTableReload(object? args = null);
+}

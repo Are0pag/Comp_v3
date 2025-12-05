@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp_v4.TableWindows.OrderPositions.Table;
 using Comp_v4.TableWindows.OrderPositions.Table.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table.Entities;
@@ -5,6 +6,7 @@ using Comp_v4.TableWindows.OrderPositions.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 using Utils.WPF;
 using Utils.WPF.Buttons;
 
@@ -35,6 +37,8 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         };
 
         _serviceProvider.GetRequiredService<CreateOrderPosAction>();
+        
+        EventBus<IOrderPositionSubscriber>.RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
         
         window.Show();
         await tcs.Task;
