@@ -31,6 +31,21 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
             OnPropertyChanged();
         }
     }
+    
+    
+    public int SupplierOrderId { get; set; }
+    
+    protected SupplierOrder _supplierOrder;
+
+    [ForeignKey(nameof(SupplierOrderId))]
+    public SupplierOrder SupplierOrder {
+        get => _supplierOrder;
+        set {
+            if (_supplierOrder == value) return;
+            _supplierOrder = value;
+            OnPropertyChanged();
+        }
+    }
 
 #endregion
 
@@ -131,6 +146,7 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
         Id = targetValues.Id;
         
         PositionId = targetValues.PositionId;
+        SupplierOrderId = targetValues.SupplierOrderId;
         //Position = targetValues.Position;
         
         OrderQuantity = targetValues.OrderQuantity;

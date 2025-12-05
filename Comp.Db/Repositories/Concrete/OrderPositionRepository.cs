@@ -13,8 +13,15 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
         return await _context.Set<OrderPosition>()
                              .AsNoTracking()
                              .Include(op => op.Position)
+                             .Include(op => op.SupplierOrder)
                              .ToListAsync();
     }
+    
+    public async Task<List<OrderPosition>> GetAllBySupplierOrderAsync(int supplierOrderId) {
+        var all = await GetAllAsync();
+        return all.Where(op => op.SupplierOrderId == supplierOrderId).ToList();
+    }
+    
 
     public override async Task AddAsync(OrderPosition entity) {
         Validate(entity);
@@ -23,6 +30,9 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
         entity.Position = _context.Set<Component>()
                                   .FirstOrDefault(c => c.Id == entity.Position.Id)
                           ?? throw new KeyNotFoundException("Cannot add component to order position.");
+        
+        entity.SupplierOrderId = entity.SupplierOrder.Id;
+        entity.SupplierOrder = null;
         
         await base.AddAsync(entity);
     }
@@ -49,6 +59,8 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
     protected static void Validate(OrderPosition entity) {
         ArgumentNullException.ThrowIfNull(entity);
         ArgumentNullException.ThrowIfNull(entity.Position);
+        ArgumentNullException.ThrowIfNull(entity.SupplierOrder);
         entity.Position.Id.ThrowIfDefault();
+        entity.SupplierOrder.Id.ThrowIfDefault();
     }
 }
