@@ -65,6 +65,7 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
 
     Task IOrderPosSavingCommitHandler.OnSaveOp(TaskCompletionSource tcs, object? args) {
         Close();
+        tcs.TrySetResult();
         return Task.CompletedTask;
     }
 }

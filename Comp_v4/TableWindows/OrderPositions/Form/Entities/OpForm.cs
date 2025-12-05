@@ -32,6 +32,11 @@ public abstract class BaseOpFormState : StateBase<OpForm>
            .RaiseEvent<IOrderPosSavingCommitHandler>(h => h?.OnSaveOp(savingTcs));
         await savingTcs.Task;
     }
+
+    protected static void NotifyAboutUiChanging() {
+        EventBus<IOrderPositionSubscriber>
+           .RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
+    }
 }
 
 public class CreateOpFormState : BaseOpFormState
@@ -47,6 +52,7 @@ public class CreateOpFormState : BaseOpFormState
             throw ex;
         }
 
+        NotifyAboutUiChanging();
         await NotifyAboutSaving();
 
         tcs.TrySetResult();
@@ -66,8 +72,9 @@ public class EditOpFormState : BaseOpFormState
             throw ex;
         }
 
+        NotifyAboutUiChanging();
         await NotifyAboutSaving();
-        
+
         tcs.TrySetResult();
     }
 }
