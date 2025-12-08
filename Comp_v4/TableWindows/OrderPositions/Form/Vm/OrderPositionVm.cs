@@ -15,6 +15,7 @@ public class OrderPositionVm : ObservableObject, IDisposable
     public OrderPositionVm(ReceiveStatusEnumVm receiveStatusEnumVm, OrderPosition model) {
         _receiveStatusEnumVm = receiveStatusEnumVm;
         _model = model;
+        _model.PropertyChanged += OnModelPropertyChanged;
     }
 
 #region Wrap
