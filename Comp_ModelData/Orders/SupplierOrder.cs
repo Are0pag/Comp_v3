@@ -322,6 +322,14 @@ public class SupplierOrder : ObservableObject, IDbEntity
             throw new ArgumentException($"Unknown {nameof(PaymentStatus)} type: {value}");
         }
     }
+
+    public PaymentStatus PaymentStatusEnumValue {
+        get => _paymentStatus;
+        set {
+            _paymentStatus = value;
+            OnPropertyChanged();
+        }
+    }
     
 #endregion
 

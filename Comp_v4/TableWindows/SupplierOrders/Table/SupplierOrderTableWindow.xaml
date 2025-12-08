@@ -82,17 +82,23 @@
                     Header="НДС" 
                     Binding="{Binding VatStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}" 
                     Width="Auto"/>
-
                 <DataGridTextColumn 
                     Header="Состояние" 
                     Binding="{Binding OrderStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}" 
                     Width="Auto"/>
-
                 <DataGridTextColumn Header="Номер договора" Binding="{Binding OrderNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер счёта" Binding="{Binding InvoiceNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Дата поставки" Binding="{Binding DeliveryDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Note}" Width="*"/>
+                
+                <DataGridTextColumn Header="% оплаты" Binding="{Binding PercentageOfTotalPayment}" Width="*"/>
+                <DataGridTextColumn 
+                    Header="Статус оплаты" 
+                    Binding="{Binding PaymentStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}" 
+                    Width="*"/>
+
+                
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
