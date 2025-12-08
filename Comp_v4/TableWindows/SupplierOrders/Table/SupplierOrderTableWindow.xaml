@@ -74,10 +74,13 @@
                   IsReadOnly="True"
                   MouseDoubleClick="DataGrid_OnMouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер заказа" Binding="{Binding PurchaseOrderNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="Поставщик" Binding="{Binding Counterparty.ShortName}" Width="Auto"/>
+                <DataGridTextColumn Header="НДС" Binding="{Binding VatStatus}" Width="Auto"/>
+                <DataGridTextColumn Header="Состояние" Binding="{Binding OrderStatus}" Width="Auto"/>
+                <DataGridTextColumn Header="Номер договора" Binding="{Binding OrderNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер счёта" Binding="{Binding InvoiceNumber}" Width="Auto"/>
+                <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Дата поставки" Binding="{Binding DeliveryDate}" Width="Auto"/>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Note}" Width="*"/>
             </DataGrid.Columns>
