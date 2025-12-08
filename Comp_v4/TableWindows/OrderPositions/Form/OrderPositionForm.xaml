@@ -8,7 +8,7 @@
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form"
         xmlns:form1="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="Состав заказа" Height="450" Width="800"
+        Title="Состав заказа" Height="600" Width="800"
         PreviewMouseDown="OpFormWindow_OnPreviewMouseDown">
     <Window.Resources>
         <Style TargetType="TextBlock">
@@ -32,6 +32,7 @@
     
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -175,8 +176,7 @@
                                    Text="Статус:"/>
                         <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="ReceiveStatusComboBox" 
                                   ItemsSource="{Binding EnumValues}"
-                                  SelectedItem="{Binding SelectedValue}"
-                            >
+                                  SelectedItem="{Binding SelectedValue}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
@@ -233,11 +233,113 @@
             </Grid>
         </GroupBox>
         
+        <!-- Область 3: Выбор заказа поставщика -->
+        <GroupBox Grid.Row="4" Header="Заказ поставщика" 
+                  Padding="10" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Кнопка выбора заказа -->
+                <Button Grid.Column="0" 
+                        x:Name="SelectSupplierOrderButton" 
+                        Content="{Binding Label}" 
+                        Command="{Binding ClickCommand}" 
+                        Height="30">
+                    <Button.ToolTip>
+                        <ToolTip Content="Выбрать заказ поставщика"/>
+                    </Button.ToolTip>
+                </Button>
+                
+                <!-- Информация о выбранном заказе -->
+                <Grid Grid.Column="1" Margin="10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Номер заказа -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                               Text="Номер заказа:"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" 
+                             Text="{Binding RelatedSupplierOrder.PurchaseOrderNumber, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    
+                    <!-- Номер счёта -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" 
+                               Text="Номер счёта:"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" 
+                             Text="{Binding RelatedSupplierOrder.InvoiceNumber, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    
+                    <!-- Поставщик -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" 
+                               Text="Поставщик:"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" 
+                             Text="{Binding RelatedSupplierOrder.Counterparty.Name, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                </Grid>
+                
+                <!-- Дополнительная информация о заказе -->
+                <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Дата заказа -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                                   Text="Дата заказа:"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding RelatedSupplierOrder.OrderDate, StringFormat='dd.MM.yyyy', Mode=OneWay}"
+                                 IsReadOnly="True"
+                                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                                 Width="100"/>
+                        
+                        <!-- Дата поставки -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" 
+                                   Text="Дата поставки:"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding RelatedSupplierOrder.DeliveryDate, StringFormat='dd.MM.yyyy', Mode=OneWay}"
+                                 IsReadOnly="True"
+                                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                                 Width="100"/>
+                        
+                        <!-- Статус заказа -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" 
+                                   Text="Статус:"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" 
+                                 Text="{Binding ReceiveStatusEnumValue, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}"
+                                 IsReadOnly="True"
+                                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                                 Width="100"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        
         <!-- Пустая область для расширения -->
-        <Grid Grid.Row="4" Margin="0,0,0,15"/>
+        <Grid Grid.Row="5" Margin="0,0,0,15"/>
         
         <!-- Кнопки действий -->
-        <Border Grid.Row="5" 
+        <Border Grid.Row="6" 
                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
                 Padding="10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

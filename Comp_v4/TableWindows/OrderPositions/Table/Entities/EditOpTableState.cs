@@ -18,7 +18,12 @@ public class EditOpTableState : BaseOpState
     }
 
     public override async Task Create(TaskCompletionSource tcs, OpTable opTable, object? o) {
-        var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, new OrderPosition());
+        if (o is not SupplierOrder so)
+            throw new InvalidOperationException();
+        
+        var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, new OrderPosition() {
+            RelatedSupplierOrder = so
+        });
         
         _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {

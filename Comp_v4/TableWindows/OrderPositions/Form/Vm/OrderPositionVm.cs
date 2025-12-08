@@ -27,6 +27,21 @@ public class OrderPositionVm : ObservableObject, IDisposable
         }
     }
 
+    public SupplierOrder RelatedSupplierOrder {
+        get => _model.RelatedSupplierOrder;
+        set {
+            SetProperty(_model.RelatedSupplierOrder, value, _model, (m, v) => m.RelatedSupplierOrder = v);
+            _model.SupplierOrderId = value.Id;
+        }
+    }
+
+    public ReceiveStatus ReceiveStatusEnumValue {
+        get => _model.ReceiveStatusEnumValue;
+        set {
+            SetProperty(_model.ReceiveStatusEnumValue, value, _model, (m, v) => m.ReceiveStatusEnumValue = v);
+        }
+    }
+
     public int OrderQuantity {
         get => _model.OrderQuantity;
         set {
