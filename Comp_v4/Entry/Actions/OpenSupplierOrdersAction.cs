@@ -1,6 +1,7 @@
 using System.Windows;
 using Comp_v4.Entry.Vm.Buts;
 using Comp_v4.TableWindows.OrderPositions.Table.Actions;
+using Comp_v4.TableWindows.OrderPositions.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table;
 using Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
@@ -45,5 +46,6 @@ public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable
         var soDg = _currentScope!.ServiceProvider.GetRequiredService<SoDataGridVm>();
         _serviceProvider.GetRequiredService<CreateOrderPosAction>().SoDataGridVm = soDg;
         _serviceProvider.GetRequiredService<EditOrderPosAction>().SoDataGridVm = soDg;
+        _serviceProvider.GetRequiredService<OpDataGridVm>().SoDataGridVm = soDg;
     }
 }

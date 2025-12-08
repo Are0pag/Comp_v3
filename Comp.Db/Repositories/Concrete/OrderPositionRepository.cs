@@ -16,12 +16,6 @@ public class OrderPositionRepository : DbRepository<OrderPosition>
                              .Include(op => op.RelatedSupplierOrder)
                              .ToListAsync();
     }
-    
-    public async Task<List<OrderPosition>> GetAllBySupplierOrderAsync(int supplierOrderId) {
-        var all = await GetAllAsync();
-        return all.Where(op => op.SupplierOrderId == supplierOrderId).ToList();
-    }
-    
 
     public override async Task AddAsync(OrderPosition entity) {
         Validate(entity);
