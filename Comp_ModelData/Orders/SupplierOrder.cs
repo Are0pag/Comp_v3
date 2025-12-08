@@ -90,6 +90,14 @@ public class SupplierOrder : ObservableObject, IDbEntity
         }
     }
 
+    public OrderStatus OrderStatusEnumValue {
+        get => _orderStatus;
+        set {
+            _orderStatus = value;
+            OnPropertyChanged();
+        }
+    }
+
     /// <summary>
     /// Статус НДС
     /// </summary>
@@ -105,6 +113,14 @@ public class SupplierOrder : ObservableObject, IDbEntity
                 return;
             }
             throw new ArgumentException($"Unknown {nameof(VatStatus)} type: {value}");
+        }
+    }
+
+    public VatStatus VatStatusEnumValue {
+        get => _vatStatus;
+        set {
+            _vatStatus = value;
+            OnPropertyChanged();
         }
     }
 
