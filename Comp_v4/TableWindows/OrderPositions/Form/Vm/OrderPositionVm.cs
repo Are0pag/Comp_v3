@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v4._Installers;
+using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp.ModelData;
 using Utils.EventBus;
 using Component = Comp.ModelData.Comp.Component;
@@ -46,6 +47,10 @@ public class OrderPositionVm : ObservableObject, IDisposable
     public int OrderQuantity {
         get => _model.OrderQuantity;
         set {
+            /*EventBus<ISupplierOrdersSubscriber>
+               .RaiseEvent<ISoPropertyChangeHandler>(h => h?.OnSoPropertyChanged(so => {
+                    so.OrderedUnitsAmount += value - _model.OrderQuantity;
+                }));*/
             SetProperty(_model.OrderQuantity, value, _model, (m, v) => m.OrderQuantity = v);
             UpdateReceiveStatus();
             UpdateTotalCost();
@@ -92,6 +97,10 @@ public class OrderPositionVm : ObservableObject, IDisposable
 
     protected void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e) {
         OnPropertyChanged(e.PropertyName);
+        EventBus<ISupplierOrdersSubscriber>
+           .RaiseEvent<ISoPropertyChangeHandler>(h => {
+                h?.OnOrderPositionChanged();
+            });
     }
 
     public void Dispose() {
