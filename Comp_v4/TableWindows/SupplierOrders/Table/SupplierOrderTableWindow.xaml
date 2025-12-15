@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Table"
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="Заказы поставщикам" Height="450" Width="800"
+        Title="Заказы поставщикам" Height="450" Width="1600"
         PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown"
         PreviewMouseDown="SupplierOrderTableWindow_OnPreviewMouseDown">
     
@@ -97,8 +97,18 @@
                     Header="Статус оплаты" 
                     Binding="{Binding PaymentStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}" 
                     Width="*"/>
-
                 
+                <DataGridTextColumn Header="Кол-во заказано" Binding="{Binding OrderedUnitsAmount}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во получено" Binding="{Binding ReceivedUnitsAmount}" Width="*"/>
+                <DataGridTextColumn 
+                    Header="Статус получения" 
+                    Binding="{Binding ReceiveStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}" 
+                    Width="*"/>
+                
+                <DataGridTextColumn Header="Сумма заказа" Binding="{Binding TotalOrderCost}" Width="*"/>
+                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding TotalPayment}" Width="*"/>
+                <DataGridTextColumn Header="Сумма НДС" Binding="{Binding TotalVatAmount}" Width="*"/>
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

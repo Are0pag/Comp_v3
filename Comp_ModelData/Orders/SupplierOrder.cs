@@ -263,6 +263,14 @@ public class SupplierOrder : ObservableObject, IDbEntity
         }
     }
 
+    public ReceiveStatus ReceiveStatusEnumValue {
+        get => _receiveStatus;
+        set {
+            _receiveStatus = value;
+            OnPropertyChanged();
+        }
+    }
+
     /// <summary>
     /// Сумма стоимости позиций заказов
     /// </summary>

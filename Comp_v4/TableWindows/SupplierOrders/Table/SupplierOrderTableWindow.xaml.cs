@@ -14,7 +14,9 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
     protected readonly OpenPaymentOrdersButVm _paymentOrdersBut;
     protected readonly DeleteSoButVm _deleteSoButVm;
     
-    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut) {
+    public SupplierOrderTableWindow(SoDataGridVm dataGridVm, 
+                                    AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, 
+                                    OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
         
