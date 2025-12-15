@@ -19,7 +19,7 @@ public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrd
 
     protected SupplierOrder _order;
     protected DateTime _date;
-    protected int _number;
+    protected string _number;
     protected decimal _paymentAmount;
     protected string? _paymentPurpose;
 
@@ -48,7 +48,7 @@ public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrd
     /// <summary>
     /// Номер платёжного поручения
     /// </summary>
-    public int Number {
+    public string Number {
         get => _number;
         set {
             if (_number == value) return;
