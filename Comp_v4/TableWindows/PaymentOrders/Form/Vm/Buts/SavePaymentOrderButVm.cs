@@ -6,7 +6,7 @@ namespace Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 public partial class SavePaymentOrderButVm : BaseButtonAdvanced
 {
     public SavePaymentOrderButVm() {
-        Label = "Сохранить платежное поручение";
+        Label = "Сохранить";
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]

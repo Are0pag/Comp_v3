@@ -39,6 +39,7 @@ public partial class App : Application
                             services.RegisterSupplierOrders();
                             services.RegisterCounterparties();
                             services.RegisterOrderPositions();
+                            services.RegisterPaymentOrders();
                             
                             services.RegisterNomDict();
                             services.RegisterCardComp();

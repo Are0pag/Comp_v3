@@ -4,9 +4,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.PaymentOrders.Form"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="PaymentOrderFormWindow" Height="450" Width="800">
-    <Grid>
+        Title="Платёжное поручение" Height="350" Width="500"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="15">
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="0,5,0,10"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="Margin" Value="0,5,0,10"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Дата -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата:"/>
+        <DatePicker Grid.Row="0" Grid.Column="1"
+                    SelectedDate="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <!-- Номер -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Номер:"/>
+        <TextBox Grid.Row="1" Grid.Column="1"
+                 Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <Validation.ErrorTemplate>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="true">
+                        <TextBlock DockPanel.Dock="Right" 
+                                   Foreground="Red" 
+                                   FontSize="20" 
+                                   Text="!" 
+                                   Margin="5,0,0,0"
+                                   ToolTip="{Binding ElementName=adornerPlaceholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                        <AdornedElementPlaceholder Name="adornerPlaceholder">
+                            <Border BorderBrush="Red" BorderThickness="1"/>
+                        </AdornedElementPlaceholder>
+                    </DockPanel>
+                </ControlTemplate>
+            </Validation.ErrorTemplate>
+        </TextBox>
+        
+        <!-- Сумма платежа -->
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Сумма платежа:"/>
+        <TextBox Grid.Row="2" Grid.Column="1"
+                 Text="{Binding PaymentAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}">
+            <Validation.ErrorTemplate>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="true">
+                        <TextBlock DockPanel.Dock="Right" 
+                                   Foreground="Red" 
+                                   FontSize="20" 
+                                   Text="!" 
+                                   Margin="5,0,0,0"
+                                   ToolTip="{Binding ElementName=adornerPlaceholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                        <AdornedElementPlaceholder Name="adornerPlaceholder">
+                            <Border BorderBrush="Red" BorderThickness="1"/>
+                        </AdornedElementPlaceholder>
+                    </DockPanel>
+                </ControlTemplate>
+            </Validation.ErrorTemplate>
+        </TextBox>
+        
+        <!-- Назначение платежа -->
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Назначение платежа:"/>
+        <TextBox Grid.Row="3" Grid.Column="1"
+                 Text="{Binding PaymentPurpose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 Height="80"/>
+        
+        <!-- Кнопки действий -->
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0">
+            <Button x:Name="SaveButton" 
+                    Content="{Binding Label}" 
+                    Command="{Binding ClickCommand}" 
+                    Width="80" 
+                    Height="25" 
+                    Margin="0,0,10,0"
+                    IsDefault="True"/>
+            <Button Content="Отмена" 
+                    Name="CancelButton"
+                    Width="80" 
+                    Height="25"
+                    IsCancel="True"/>
+        </StackPanel>
         
     </Grid>
 </Window>

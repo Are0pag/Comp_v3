@@ -6,7 +6,7 @@ namespace Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 public partial class DeletePaymentOrderButVm : BaseButtonAdvanced
 {
     public DeletePaymentOrderButVm() {
-        Label = "Удалить платежное поручение";
+        Label = "Удалить";
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]

@@ -6,7 +6,7 @@ namespace Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 public partial class EditPaymentOrderButVm : BaseButtonAdvanced
 {
     public EditPaymentOrderButVm() {
-        Label = "Редактировать платежное поручение";
+        Label = "Редактировать";
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]

@@ -6,7 +6,7 @@ namespace Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 public partial class AddPaymentOrderButVm : BaseButtonAdvanced
 {
     public AddPaymentOrderButVm() {
-        Label = "Добавить платежное поручение";
+        Label = "Добавить";
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.PaymentOrders.Table"
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="PaymentOrdersTableWindow" Height="450" Width="800"
+        Title="Платёжные поручения" Height="450" Width="800"
         PreviewKeyDown="Window_OnPreviewKeyDown"
         PreviewMouseDown="Window_OnPreviewMouseDown">
     
@@ -35,10 +35,6 @@
                     Command="{Binding ClickCommand}" 
                     Style="{StaticResource ToolBarButtonStyle}"/>
             <Button x:Name="DeleteButton" 
-                    Content="{Binding Label}" 
-                    Command="{Binding ClickCommand}" 
-                    Style="{StaticResource ToolBarButtonStyle}"/>
-            <Button x:Name="SaveButton" 
                     Content="{Binding Label}" 
                     Command="{Binding ClickCommand}" 
                     Style="{StaticResource ToolBarButtonStyle}"/>
