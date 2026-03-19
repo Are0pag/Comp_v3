@@ -47,21 +47,20 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Номер:"/>
         <TextBox Grid.Row="1" Grid.Column="1"
                  Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <Validation.ErrorTemplate>
-                <ControlTemplate>
-                    <DockPanel LastChildFill="true">
-                        <TextBlock DockPanel.Dock="Right" 
-                                   Foreground="Red" 
-                                   FontSize="20" 
-                                   Text="!" 
-                                   Margin="5,0,0,0"
-                                   ToolTip="{Binding ElementName=adornerPlaceholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
-                        <AdornedElementPlaceholder Name="adornerPlaceholder">
-                            <Border BorderBrush="Red" BorderThickness="1"/>
-                        </AdornedElementPlaceholder>
-                    </DockPanel>
-                </ControlTemplate>
-            </Validation.ErrorTemplate>
+            <!-- Базовая проверка на пустое поле для номера. Если не надо можно удалить блок тупо -->
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                    <Style.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="ToolTip" 
+                                    Value="{Binding RelativeSource={RelativeSource Self}, 
+                                   Path=(Validation.Errors)[0].ErrorContent}"/>
+                            <Setter Property="BorderBrush" Value="Red"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+            <!-- block end -->
         </TextBox>
         
         <!-- Сумма платежа -->

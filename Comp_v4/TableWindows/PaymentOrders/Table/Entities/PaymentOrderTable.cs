@@ -14,8 +14,8 @@ public class PaymentOrderTable : GenericStateMachine<PaymentOrderTableBaseState,
         Console.WriteLine("fve");
     }
 
-    public async Task AddItem(TaskCompletionSource tcs, object? parameter = null) {
-        await CurrentState.Add(this, tcs, parameter);
+    public async Task AddItem(TaskCompletionSource tcs, PaymentOrder po, object? parameter = null) {
+        await CurrentState.Add(this, tcs, po, parameter);
     }
     
     public async Task EditItem(TaskCompletionSource tcs, PaymentOrder po, object? parameter = null) {
@@ -37,8 +37,8 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
         _serviceProvider = serviceProvider;
     }
 
-    public async Task Add(PaymentOrderTable paymentOrderTable, TaskCompletionSource tcs, object? parameter) {
-        var window = ActivatorUtilities.CreateInstance<PaymentOrderFormWindow>(_serviceProvider, new PaymentOrder());
+    public async Task Add(PaymentOrderTable paymentOrderTable, TaskCompletionSource tcs, PaymentOrder po, object? parameter) {
+        var window = ActivatorUtilities.CreateInstance<PaymentOrderFormWindow>(_serviceProvider, po);
 
         var form = _serviceProvider.GetRequiredService<PaymentOrderForm>();
         await form.ChangeState(form.GetState<CreatePoState>(), form);

@@ -20,3 +20,13 @@ public interface ISoPropertyChangeHandler : ISupplierOrdersSubscriber
     //void OnSoPropertyChanged(Action<SupplierOrder> propertyChange, object parameter = null);
     void OnOrderPositionChanged(object parameter = null);
 }
+
+public interface ISelectedSoRequester : ISupplierOrdersSubscriber
+{
+    public SupplierOrder? CurrentSo { get; set; }
+}
+
+public interface ISelectedSoContainer : ISupplierOrdersSubscriber
+{
+    void GetSelectedSoInfo(ISelectedSoRequester requester, object parameter = null);
+}

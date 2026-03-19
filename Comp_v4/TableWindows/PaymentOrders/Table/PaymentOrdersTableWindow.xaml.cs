@@ -30,7 +30,9 @@ public partial class PaymentOrdersTableWindow : Window
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-        
+        _addPaymentOrderButVm.NotifyCanExecute();
+        _editPaymentOrderButVm.NotifyCanExecute();
+        _deletePaymentOrderButVm.NotifyCanExecute();
     }
 
     private void Window_OnPreviewKeyDown(object sender, KeyEventArgs e) {
