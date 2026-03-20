@@ -1,4 +1,4 @@
-namespace Component_v2.Tools.EventBus;
+namespace Utils.EventBus;
 
 public static class TypeExposer<TBaseModuleType>
 {
@@ -7,6 +7,8 @@ public static class TypeExposer<TBaseModuleType>
     /// <summary>
     /// Find all types, that derived from TBaseModuleType
     /// </summary>
+    /// <param name="globalSubscriber"> Take an instance of the type, that implements one or more interfaces, derived from TBaseModuleType </param>
+    /// <returns> Return types of implemented intrfaces </returns>
     public static List<Type> GetSubscriberTypes(TBaseModuleType globalSubscriber) {
         var type = globalSubscriber.GetType();
         if (_cashedSubscriberTypes.TryGetValue(type, out var types)) 

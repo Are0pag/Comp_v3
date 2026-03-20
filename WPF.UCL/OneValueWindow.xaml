@@ -1,0 +1,48 @@
+<Window x:Class="WPF.UCL.OneValueWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:WPF.UCL"
+        mc:Ignorable="d" 
+        Height="200" 
+        Width="400"
+        Background="#F0F0F0"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        PreviewKeyDown="OneValueWindow_OnPreviewKeyDown">
+    <Window.Resources>
+        <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="10,10,10,5"/>
+            <Setter Property="Foreground" Value="#333333"/>
+        </Style>
+        
+        <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="10,0,10,10"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="ValueNameTextBlock" 
+                   Grid.Row="0" 
+                   Text="Введите значение"
+                   Style="{StaticResource HeaderTextBlockStyle}"/>
+
+        <TextBox x:Name="InputTextBox" 
+                 Grid.Row="1"
+                 TextChanged="InputTextBox_OnTextChanged"
+                 Style="{StaticResource InputTextBoxStyle}"/>
+    </Grid>
+</Window>
+

@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Comp.Db.Repositories;
 
-public class DbRepository<T> : IRepository<T> where T : class
+public class DbRepository<T> : IRepository<T> 
+    where T : class
 {
     protected readonly AppDbContext _context;
 
@@ -12,7 +13,7 @@ public class DbRepository<T> : IRepository<T> where T : class
     }
 
     public virtual async Task<List<T>> GetAllAsync() {
-        return await _context.Set<T>().ToListAsync();
+        return await _context.Set<T>().AsNoTracking().ToListAsync();
     }
 
     public virtual async Task<T?> GetByIdAsync(int id) {
@@ -23,10 +24,29 @@ public class DbRepository<T> : IRepository<T> where T : class
         await _context.Set<T>().AddAsync(entity);
         await _context.SaveChangesAsync();
     }
-
+    
     public virtual async Task UpdateAsync(T entity) {
-        _context.Set<T>().Update(entity);
-        await _context.SaveChangesAsync();
+        try {
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+        }
+    }
+    
+    public virtual async Task<bool> UpdateAsync(int id) {
+        try {
+            if (await GetByIdAsync(id) is not { } entity) 
+                return false;
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            return false;
+        }
+        return true;
     }
 
     public virtual async Task DeleteAsync(int id) {

@@ -1,0 +1,38 @@
+using System.Collections.ObjectModel;
+using Comp.Db.Contracts;
+using Utils.EventBus;
+using Utils.WPF.VmEnumerableInteractiveData;
+using WPF.Templates.TableWindow.v1.Events.Update;
+
+namespace WPF.Templates.TableWindow.v1.Vm;
+
+public class DataGridViewModel<T> : VmEnumerableInteractiveData<T>
+    where T : class
+{
+    protected readonly IRepository<T> _repository;
+    
+    public DataGridViewModel(IRepository<T> repository) {
+        _repository = repository;
+        LoadDataAsync();
+    }
+
+    public override T? SelectedItem { 
+        get => _selectedItem;
+        set {
+            _selectedItem = value;
+            try {
+                EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(n => n?.NotifyCanExecute());
+            }
+            catch (KeyNotFoundException ex) {
+                Console.WriteLine($"KeyNotFoundException: {ex.Message} in {nameof(DataGridViewModel<T>)}, {nameof(SelectedItem)}: {SelectedItem}");
+            }
+            OnPropertyChanged();
+        }
+    }
+
+    private async void LoadDataAsync() {  /* VmRepo : базы */
+        var items = await _repository.GetAllAsync();
+        Items = new ObservableCollection<T?>(items!);
+        OnPropertyChanged(nameof(Items));
+    }
+}

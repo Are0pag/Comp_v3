@@ -1,0 +1,32 @@
+using System.Windows;
+using Utils.EventBus;
+using WPF.Templates.TableWindow.v1.Entities;
+using WPF.Templates.TableWindow.v1.Events;
+
+namespace WPF.Templates.TableWindow.v1.Operations.Commands.Ui;
+
+public class RemoveItemCommand<TWindow, T> : BaseCommand<T>
+    where TWindow : Window
+    where T : class
+{
+    protected readonly ModuleContext<TWindow, T> _context;
+    public RemoveItemCommand(T parameter, ModuleContext<TWindow, T> context) : base(parameter) {
+        _context = context;
+    }
+
+    public override Task ExecuteAsync() {
+        _context.DataGridViewModel.Items.Remove(_parameter);
+        return Task.CompletedTask;
+    }
+
+    public override async Task UndoAsync() {
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStartEditing());
+        await Task.Delay(100);
+        var collection = _context.DataGridViewModel.Items;
+
+        collection.Add(_parameter);
+        
+        _context.DataGrid.ScrollIntoView(_parameter);
+        EventBus<IGlobSubscriber>.RaiseEvent<IFilteringHandler>(h => h?.OnSourceCollectionStopEditing());
+    }
+}

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Comp.Db\Comp.Db.csproj" />
+    <ProjectReference Include="..\Comp_ModelData\Comp.ModelData.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\WPF.Extensions\WPF.Extensions.csproj" />
+    <ProjectReference Include="..\WPF.Services\WPF.Services.csproj" />
+    <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
+  </ItemGroup>
+
+</Project>

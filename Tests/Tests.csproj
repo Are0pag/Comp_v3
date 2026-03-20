@@ -9,7 +9,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\WPF.Services\WPF.Services.csproj" />
       <ProjectReference Include="..\WPF.UCL\WPF.UCL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Castle.Windsor" Version="6.0.0" />
+      <PackageReference Include="Castle.Windsor.Extensions.DependencyInjection" Version="6.0.0" />
+      <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="4.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.7.25380.108" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0-preview.7.25380.108" />
     </ItemGroup>
 
 </Project>

@@ -13,9 +13,19 @@ public class GenericStateMachine<TState, TContext> : IStateMachine<TState, TCont
     public TState CurrentState { get; protected set; }
 
     public virtual async Task ChangeState(TState newState, TContext context) {
+        if (newState == CurrentState)
+            return;
+        
         await CurrentState.Exit(context).ConfigureAwait(false);
         CurrentState = newState;
         await CurrentState.Enter(context);
+    }
+
+    /// <summary>
+    /// В разработке. Требует тщательного анализа
+    /// </summary>
+    public virtual async Task RollbackState(TState newState, TContext context) {
+        CurrentState = newState;
     }
 
     public TState GetState<T>() where T : TState => _states[typeof(T)];

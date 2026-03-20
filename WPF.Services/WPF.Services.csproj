@@ -8,7 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\RuntimeContract\RuntimeContract.csproj" />
     <ProjectReference Include="..\WPF.Extensions\WPF.Extensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UserActionsHandling\Converters\" />
   </ItemGroup>
 
 </Project>

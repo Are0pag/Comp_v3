@@ -6,43 +6,51 @@ namespace WPF.Services.View.AutoNavigation.Focusing;
 
 public class DataGridCursorPositionService : CursorPositionService<DataGrid>
 {
-    public override void FocusAndEditItem(DataGrid dataGrid, object item, Dispatcher dispatcher) {
-        FocusItem(dataGrid, item);
-        dispatcher.BeginInvoke(() => {
-            ManageCursorPosition(dataGrid, item);
+    public override DataGridMemento RememberCursorPos(DataGrid container) => new(container);
+
+    public override DataGridMemento FocusAndEditFirstEditableItem(DataGrid dataGrid, object item) {
+        var memento = new DataGridMemento(dataGrid);
+        
+        dataGrid.Focus();
+        dataGrid.ScrollIntoView(item);
+        dataGrid.SelectedItem = item;
+        var firstEditableColumn = dataGrid.Columns
+                                          .FirstOrDefault(column => !column.IsReadOnly && column.Visibility == Visibility.Visible);
+        
+        Dispatcher.CurrentDispatcher.BeginInvoke(() => {
+
+            if (firstEditableColumn == null)
+                throw new InvalidOperationException("DataGrid have not any editable items");
+            
+            ManageCursorPosition(dataGrid, item, firstEditableColumn);
         }, DispatcherPriority.ContextIdle);
+        return memento;
+    }
+
+    public override CellMemento FocusAndEditItem(DataGrid dataGrid, DataGridCellEditEndingEventArgs e) {
+        return new CellMemento(dataGrid, e).TryFocusLastEditedCell();
     }
 
     /// <summary>
     /// WithoutEditing
     /// </summary>
-    public override void FocusItem(DataGrid dataGrid, object item) {
+    public override DataGridMemento FocusItem(DataGrid dataGrid, object item) {
+        var memento = new DataGridMemento(dataGrid);
+        
         dataGrid.Focus();
         dataGrid.ScrollIntoView(item);
         dataGrid.SelectedItem = item;
+        return memento;
     }
 
-    // Дополнительные специфичные методы
-    public void FocusAndEditSpecificColumn(DataGrid dataGrid, object item, string columnName) {
-        var column = dataGrid.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
-        if (column == null) return;
-        dataGrid.CurrentCell = new DataGridCellInfo(item, column);
-        dataGrid.BeginEdit();
-    }
-
-    protected void ManageCursorPosition(DataGrid dataGrid, object item) {
+    protected void ManageCursorPosition(DataGrid dataGrid, object item, DataGridColumn column) {
         if (dataGrid.ItemContainerGenerator.ContainerFromItem(item) is not DataGridRow row)
             throw new ArgumentException("Could not find DataGridRow for item");
-
-        var editableColumn = dataGrid.Columns
-                                     .FirstOrDefault(column => !column.IsReadOnly && column.Visibility == Visibility.Visible);
             
-        if (editableColumn != null) {
-            dataGrid.CurrentCell = new DataGridCellInfo(item, editableColumn);
-            dataGrid.BeginEdit();
-            return;
-        }
-            
+        if (column == null) return;
+        
+        dataGrid.CurrentCell = new DataGridCellInfo(item, column);
+        dataGrid.BeginEdit();
         row.Focus();
     }
 }

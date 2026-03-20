@@ -1,0 +1,24 @@
+using CommunityToolkit.Mvvm.Input;
+using Utils.WPF.Buttons;
+
+namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
+
+public partial class AddSoButVm : BaseButtonAdvanced
+{
+    public AddSoButVm() {
+        Label = "Добавить";
+    }
+    [RelayCommand(CanExecute = nameof(CanClick))]
+    public override Task OnClickAsync() {
+        return base.OnClickAsync();
+    }
+
+    public override void NotifyCanExecute() {
+        ClickCommand.NotifyCanExecuteChanged();
+    }
+
+    public override void Dispose() {
+        base.Dispose();
+        Console.WriteLine($"{nameof(AddSoButVm)} disposed");
+    }
+}

@@ -1,0 +1,315 @@
+<Window x:Class="Comp_v4.CompCard.CompCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Comp_v4.CompCard"
+        xmlns:fields="clr-namespace:WPF.UCL.UserControls.Fields;assembly=WPF.UCL"
+        xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Width="1500" Height="900"
+        MinWidth="1200" MinHeight="720"
+        SizeToContent="Manual"
+        Title="Карточка компонента">
+    
+  <Viewbox Stretch="Uniform">
+        <Grid Width="1500" Height="900" Background="White">
+            <!-- Основное разделение -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="540"/>  <!-- 60% -->
+                <RowDefinition Height="360"/>  <!-- 40% -->
+            </Grid.RowDefinitions>
+            
+            <!-- Часть A -->
+            <Grid Grid.Row="0" Name="PartA">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1050"/>  <!-- 70% -->
+                    <ColumnDefinition Width="450"/>   <!-- 30% -->
+                </Grid.ColumnDefinitions>
+                
+                <!-- Часть B -->
+                <Grid Grid.Column="0" Name="PartB">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="108"/>  <!-- 20% -->
+                        <RowDefinition Height="432"/>  <!-- 80% -->
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Часть C -->
+                    <Border Grid.Row="0" Name="PartC" BorderBrush="Gray" BorderThickness="1" Margin="2">
+                        <StackPanel x:Name="UniqueParametersStackPanel" Orientation="Vertical">
+                            <fields:InputTextFieldUc 
+                                x:Name="NameFieldUc"
+                                FieldName="Наименование: "
+                                InputText="{Binding Value, Mode=TwoWay}"/>
+                            <fields:InputTextFieldUc 
+                                x:Name="NomenclatureNumberFieldUc"
+                                FieldName="Номенклатурный номер: "
+                                InputText="{Binding Value, Mode=TwoWay}"/>
+                            
+                            <StackPanel 
+                                x:Name="CategoryDisplayPanel" 
+                                Orientation="Horizontal" 
+                                Margin="0,5,0,0">
+                                <TextBlock 
+                                    Text="Категория: " 
+                                    FontWeight="Bold" 
+                                    Margin="5,0,10,0"/>
+    
+                                <TextBlock x:Name="CategoryNameTextBlock"
+                                    Text="{Binding Category}" 
+                                    Margin="5,0,0,0"/>
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Часть D -->
+                    <Grid Grid.Row="1" Name="PartD">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="630"/>  <!-- 60% -->
+                            <ColumnDefinition Width="420"/>  <!-- 40% -->
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Часть E -->
+                        <Border Grid.Column="0" x:Name="PartE" BorderBrush="Gray" BorderThickness="1" Margin="2">
+                            <StackPanel Orientation="Vertical">
+                                <fields:InputTextFieldWithButtonUc x:Name="GpsField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
+                                <fields:InputTextFieldWithButtonUc x:Name="CdField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
+
+                                <fields:InputTextFieldWithButtonUc x:Name="ManField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
+                                
+                                <fields:InputTextFieldWithButtonUc x:Name="MuField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
+                                
+                                <fields:InputTextFieldWithButtonUc x:Name="TsField"
+                                                                   FieldName="{Binding Label}"
+                                                                   InputText="{Binding Value, Mode=TwoWay}"
+                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                   ButtonContent="🎲"
+                                                                   ButtonToolTip="Открыть таблицу" />
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="CatalogNumberFieldUc"
+                                    FieldName="Номер по каталогу: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="LabelingOptionsFieldUc"
+                                    FieldName="Варианты маркировки: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="CodeOfElementFieldUc"
+                                    FieldName="Код элемента: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="QrCodeDataFieldUc"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="DescriptionFieldUc"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                                
+                                <fields:InputTextFieldUc 
+                                    x:Name="CommentsFieldUc"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Часть F -->
+<!-- Часть F -->
+<Border Grid.Column="1" Name="PartF" BorderBrush="Gray" BorderThickness="1" Margin="2">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Заголовок в углу -->
+            <RowDefinition Height="Auto"/>  <!-- Центральный заголовок 1 -->
+            <RowDefinition Height="Auto"/>  <!-- Главное поле -->
+            <RowDefinition Height="Auto"/>  <!-- Центральный заголовок 2 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 1 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 2 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 3 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 4 -->
+            <RowDefinition Height="Auto"/>  <!-- Поле 5 -->
+            <RowDefinition Height="*"/>     <!-- Оставшееся пространство -->
+        </Grid.RowDefinitions>
+        
+        <!-- Заголовок в верхнем левом углу -->
+        <TextBlock Grid.Row="0" 
+                   Text="Характеристики" 
+                   FontSize="14" 
+                   FontWeight="SemiBold"
+                   Foreground="#555555"
+                   Margin="10,8,0,5"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"/>
+        
+        <!-- Первый центральный заголовок -->
+        <TextBlock Grid.Row="1" 
+                   Text="Основной параметр" 
+                   FontSize="12" 
+                   FontWeight="Normal"
+                   Foreground="#777777"
+                   Margin="5,15,5,5"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"/>
+        
+        <!-- Главное поле -->
+        <Border Grid.Row="2" 
+                Margin="10,2,10,8">
+            <fields:InputTextFieldUc 
+                x:Name="MainParameterField"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <!-- Второй центральный заголовок -->
+        <TextBlock Grid.Row="3" 
+                   Text="Дополнительные параметры" 
+                   FontSize="12" 
+                   FontWeight="Normal"
+                   Foreground="#777777"
+                   Margin="5,15,5,5"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"/>
+        
+        <!-- Пять полей под вторым заголовком -->
+        <Border Grid.Row="4" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param1Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="5" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param2Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="6" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param3Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="7" 
+                Margin="10,2,10,5">
+            <fields:InputTextFieldUc 
+                x:Name="Param4Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+        
+        <Border Grid.Row="8" 
+                Margin="10,2,10,8">
+            <fields:InputTextFieldUc 
+                x:Name="Param5Field"
+                FieldName="{Binding Label}"
+                InputText="{Binding Value, Mode=TwoWay}"/>
+        </Border>
+    </Grid>
+</Border>
+                        
+                        
+                        
+                        
+                    </Grid>
+                </Grid>
+                
+                <!-- Часть G -->
+                <Border Grid.Column="1" Name="PartG" BorderBrush="Gray" BorderThickness="1" Margin="2">
+                    <StackPanel Orientation="Vertical">
+                        <ucl:ImageFieldControl 
+                            x:Name="ImageFieldControl"
+                            ImageSource="{Binding Image}"
+                            Button1Text="{Binding ButSelectText}"
+                            Button2Text="{Binding ButOpenText}"
+                            Button3Text="{Binding ButClearText}"
+                            Button1Command="{Binding SelectCommand}"
+                            Button2Command="{Binding OpenCommand}"
+                            Button3Command="{Binding ClearCommand}"/>
+                        <ucl:LinkFieldControl 
+                            x:Name="UrlFieldControl"
+                            FieldName="{Binding FieldTitle}"
+                            LinkUrl="{Binding Url}"
+                            SetLinkCommand="{Binding SetLinkCommand}"/>
+                        <ucl:LinkFieldControl 
+                            x:Name="UrlAlternativeFieldControl"
+                            FieldName="{Binding FieldTitle}"
+                            LinkUrl="{Binding Url}"
+                            SetLinkCommand="{Binding SetLinkCommand}"/>
+                        <ucl:LinkFieldControl 
+                            x:Name="FilePathFieldControl"
+                            FieldName="{Binding FieldTitle}"
+                            LinkUrl="{Binding Url}"
+                            SetLinkCommand="{Binding SetLinkCommand}"/>
+                        
+                        <Grid x:Name="AnalogsFieldGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+    
+                            <TextBlock Grid.Column="0" 
+                                       Text="{Binding Label}" 
+                                       VerticalAlignment="Center" 
+                                       Margin="0,0,10,0"/>
+    
+                            <TextBox Grid.Column="1" 
+                                     Text="{Binding AnalogsCount, Mode=OneWay}" 
+                                     IsReadOnly="True"
+                                     VerticalAlignment="Center"/>
+    
+                            <Button Grid.Column="2" 
+                                    x:Name="AnalogsFieldButton"
+                                    Content="🎲" 
+                                    Command="{Binding ClickCommand}"
+                                    ToolTip="Открыть таблицу"
+                                    Margin="10,0,0,0"/>
+                        </Grid>
+
+                    </StackPanel>
+                    
+                </Border>
+            </Grid>
+            
+            <!-- Часть H -->
+            <Border Grid.Row="1" Name="PartH" BorderBrush="Gray" BorderThickness="1" Margin="2">
+                <Button x:Name="SaveComponentButton"
+                        Command="{Binding ClickCommand}"
+                        />
+
+            </Border>
+        </Grid>
+    </Viewbox>
+</Window>

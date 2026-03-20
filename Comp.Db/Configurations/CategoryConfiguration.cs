@@ -1,0 +1,31 @@
+using Comp.ModelData.SortingItems;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Comp.Db.Configurations;
+
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+{
+    public void Configure(EntityTypeBuilder<Category> builder) {
+        builder.ToTable("Categories")
+               .HasKey(c => c.Id);
+
+        builder.Property(c => c.Id)
+               .ValueGeneratedOnAdd();
+        
+        builder.Property(c => c.Name)
+               .IsRequired();
+
+        builder.Property(c => c.IsExpanded)
+               .HasColumnType("BIT");
+        
+        // Самореференсная связь для иерархии категорий
+        builder.HasOne(c => c.ParentCategory)
+               .WithMany()
+               .HasForeignKey(c => c.ParentCategoryId)
+               .OnDelete(DeleteBehavior.Restrict); 
+        
+        // Индекс для родительской категории для улучшения производительности
+        builder.HasIndex(c => c.ParentCategoryId);
+    }
+}

@@ -1,9 +1,14 @@
-namespace Component_v2.Tools.EventBus;
+namespace Utils.EventBus;
 
-public static class EventBus<TBaseModuleType> where TBaseModuleType : class {
+public static class EventBus<TBaseModuleType> 
+    where TBaseModuleType : class 
+{
     private static readonly Dictionary<Type, SubscribersList<TBaseModuleType>> _subscribers = new();
+    private static bool _isExecuting = false;
 
     public static void Subscribe(TBaseModuleType subscriber) {
+        /*if (_isExecuting)
+            throw new InvalidOperationException("Cannot subscribe while executing");*/
         var subscriberTypes = TypeExposer<TBaseModuleType>.GetSubscriberTypes(subscriber);
         foreach (var t in subscriberTypes) {
             if (!_subscribers.ContainsKey(t)) 
@@ -14,6 +19,8 @@ public static class EventBus<TBaseModuleType> where TBaseModuleType : class {
     }
 
     public static void Unsubscribe(TBaseModuleType subscriber) {
+        /*if (_isExecuting)
+            throw new InvalidOperationException("Cannot subscribe while executing");*/
         var subscriberTypes = TypeExposer<TBaseModuleType>.GetSubscriberTypes(subscriber);
         foreach (var t in subscriberTypes) {
             if (_subscribers.TryGetValue(t, out var subscriber1))
@@ -22,6 +29,7 @@ public static class EventBus<TBaseModuleType> where TBaseModuleType : class {
     }
 
     public static void RaiseEvent<TSubscriber>(Action<TSubscriber?> action) where TSubscriber : class, TBaseModuleType {
+        _isExecuting = true;
         var subscribers = _subscribers[typeof(TSubscriber)];
 
         subscribers.Executing = true;
@@ -30,11 +38,12 @@ public static class EventBus<TBaseModuleType> where TBaseModuleType : class {
                 action.Invoke(subscriber as TSubscriber);
             }
             catch (Exception e) {
-                Console.WriteLine(e);
+                throw;
             }
         }
 
         subscribers.Executing = false;
         subscribers.Cleanup();
+        _isExecuting = false;
     }
 }

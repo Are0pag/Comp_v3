@@ -1,0 +1,75 @@
+using Comp.ModelData.Comp;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Comp.Db.Configurations;
+
+public class ComponentConfiguration : IEntityTypeConfiguration<Component>
+{
+    public void Configure(EntityTypeBuilder<Component> builder) {
+        builder.ToTable("Components").HasKey(c => c.Id);
+        
+        builder.Property(c => c.Id).ValueGeneratedOnAdd();
+        
+        builder.HasIndex(c => c.Name).IsUnique();
+        builder.Property(c => c.Name).IsRequired();
+        
+        builder.HasIndex(c => c.NomenclatureNumber).IsUnique();
+        builder.Property(c => c.NomenclatureNumber).IsRequired();
+
+        builder.Property(c => c.CatalogNumber);
+        builder.Property(c => c.LabelingOptions);
+        builder.Property(c => c.CodeOfElement);
+
+        builder.Property(c => c.Url);
+        builder.Property(c => c.UrlAlternative);
+        builder.Property(c => c.FilePath);
+        builder.Property(c => c.ImagePath);
+
+        builder.Property(c => c.QrCodeData);
+        builder.Property(c => c.Description);
+        builder.Property(c => c.Comments);
+        
+        builder.Property(c => c.GpMain);
+        builder.Property(c => c.Gp1);
+        builder.Property(c => c.Gp2);
+        builder.Property(c => c.Gp3);
+        builder.Property(c => c.Gp4);
+        builder.Property(c => c.Gp5);
+        
+        /*// Явно указываем nullable для внешних ключей
+        builder.Property(c => c.GenericParametersSetId)
+               .IsRequired(false);*/
+        
+        builder.HasOne(c => c.Category)
+               .WithMany() 
+               .HasForeignKey(c => c.CategoryId)
+               .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(c => c.GenericParametersSet)
+               .WithMany()
+               .HasForeignKey(c => c.GenericParametersSetId)
+               .IsRequired(false)
+               .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(c => c.ConditionalDesignation)
+               .WithMany()
+               .HasForeignKey(c => c.ConditionalDesignationId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(c => c.Manufacturer)
+               .WithMany()
+               .HasForeignKey(c => c.ManufacturerId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(c => c.MeasurementUnit)
+               .WithMany()
+               .HasForeignKey(c => c.MeasurementUnitId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(c => c.TypeSize)
+               .WithMany()
+               .HasForeignKey(c => c.TypeSizeId)
+               .OnDelete(DeleteBehavior.Restrict);
+    }
+}
