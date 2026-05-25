@@ -8,246 +8,361 @@
         xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Width="1500" Height="900"
-        MinWidth="1200" MinHeight="720"
-        SizeToContent="Manual"
-        Title="Карточка компонента">
+        Width="1400" Height="850"
+        MinWidth="1100" MinHeight="650"
+        Title="Карточка компонента"
+        Background="#F0F4F8">
     
-  <Viewbox Stretch="Uniform">
-        <Grid Width="1500" Height="900" Background="White">
-            <!-- Основное разделение -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="540"/>  <!-- 60% -->
-                <RowDefinition Height="360"/>  <!-- 40% -->
-            </Grid.RowDefinitions>
-            
-            <!-- Часть A -->
-            <Grid Grid.Row="0" Name="PartA">
+    <Window.Resources>
+        <!-- Стиль для заголовков секций -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+        
+        <!-- Стиль для подзаголовков -->
+        <Style x:Key="SubHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#7F8C8D"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        
+        <!-- Стиль для карточек -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.08" Color="#000000"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Стиль для кнопки сохранения -->
+        <Style x:Key="SaveButtonStyle" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#3498DB" Offset="0"/>
+                        <GradientStop Color="#2980B9" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="32,14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#5DADE2" Offset="0"/>
+                                            <GradientStop Color="#3498DB" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#2980B9" Offset="0"/>
+                                            <GradientStop Color="#1F618D" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Заголовок окна -->
+        <Border Grid.Row="0" 
+                Background="White" 
+                Padding="24,16" 
+                Margin="8,8,8,0"
+                CornerRadius="8,8,0,0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="1" Opacity="0.05"/>
+            </Border.Effect>
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1050"/>  <!-- 70% -->
-                    <ColumnDefinition Width="450"/>   <!-- 30% -->
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Border Background="#3498DB" 
+                            CornerRadius="6" 
+                            Padding="10" 
+                            Margin="0,0,12,0"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="📦" FontSize="20"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Карточка компонента" 
+                                   FontSize="20" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#2C3E50"/>
+                        <TextBlock Text="Редактирование информации о компоненте" 
+                                   FontSize="12" 
+                                   Foreground="#95A5A6"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Основное содержимое -->
+        <Grid Grid.Row="1" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65*"/>
+                <ColumnDefinition Width="35*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Левая часть - Основные поля -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 
-                <!-- Часть B -->
-                <Grid Grid.Column="0" Name="PartB">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="108"/>  <!-- 20% -->
-                        <RowDefinition Height="432"/>  <!-- 80% -->
-                    </Grid.RowDefinitions>
+                <!-- Уникальные параметры -->
+                <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="📋 Основная информация" Style="{StaticResource SectionHeaderStyle}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Border Grid.Row="0" Grid.Column="0" Margin="0,0,8,12">
+                                <fields:InputTextFieldUc 
+                                    x:Name="NameFieldUc"
+                                    FieldName="Наименование: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                            </Border>
+                            
+                            <Border Grid.Row="0" Grid.Column="1" Margin="8,0,0,12">
+                                <fields:InputTextFieldUc 
+                                    x:Name="NomenclatureNumberFieldUc"
+                                    FieldName="Номенклатурный номер: "
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                            </Border>
+                            
+                            <Border Grid.Row="1" Grid.Column="0" Margin="0,0,8,12">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Категория: " 
+                                               FontWeight="SemiBold" 
+                                               Foreground="#555555"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,8,0"/>
+                                    <Border Background="#E8F4FD" 
+                                            CornerRadius="4" 
+                                            Padding="8,4"
+                                            VerticalAlignment="Center">
+                                        <TextBlock x:Name="CategoryNameTextBlock"
+                                                   Text="{Binding Category}" 
+                                                   Foreground="#2980B9"
+                                                   FontWeight="Medium"/>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Поля с кнопками и характеристики -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="55*"/>
+                        <ColumnDefinition Width="45*"/>
+                    </Grid.ColumnDefinitions>
                     
-                    <!-- Часть C -->
-                    <Border Grid.Row="0" Name="PartC" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                        <StackPanel x:Name="UniqueParametersStackPanel" Orientation="Vertical">
-                            <fields:InputTextFieldUc 
-                                x:Name="NameFieldUc"
-                                FieldName="Наименование: "
-                                InputText="{Binding Value, Mode=TwoWay}"/>
-                            <fields:InputTextFieldUc 
-                                x:Name="NomenclatureNumberFieldUc"
-                                FieldName="Номенклатурный номер: "
-                                InputText="{Binding Value, Mode=TwoWay}"/>
-                            
-                            <StackPanel 
-                                x:Name="CategoryDisplayPanel" 
-                                Orientation="Horizontal" 
-                                Margin="0,5,0,0">
-                                <TextBlock 
-                                    Text="Категория: " 
-                                    FontWeight="Bold" 
-                                    Margin="5,0,10,0"/>
-    
-                                <TextBlock x:Name="CategoryNameTextBlock"
-                                    Text="{Binding Category}" 
-                                    Margin="5,0,0,0"/>
-                            </StackPanel>
-                            
+                    <!-- Поля с кнопками -->
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="🔗 Связанные данные" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="380">
+                                <StackPanel>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldWithButtonUc x:Name="GpsField"
+                                                                           FieldName="{Binding Label}"
+                                                                           InputText="{Binding Value, Mode=TwoWay}"
+                                                                           ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                           ButtonContent="🎲"
+                                                                           ButtonToolTip="Открыть таблицу"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldWithButtonUc x:Name="CdField"
+                                                                           FieldName="{Binding Label}"
+                                                                           InputText="{Binding Value, Mode=TwoWay}"
+                                                                           ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                           ButtonContent="🎲"
+                                                                           ButtonToolTip="Открыть таблицу"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldWithButtonUc x:Name="ManField"
+                                                                           FieldName="{Binding Label}"
+                                                                           InputText="{Binding Value, Mode=TwoWay}"
+                                                                           ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                           ButtonContent="🎲"
+                                                                           ButtonToolTip="Открыть таблицу"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldWithButtonUc x:Name="MuField"
+                                                                           FieldName="{Binding Label}"
+                                                                           InputText="{Binding Value, Mode=TwoWay}"
+                                                                           ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                           ButtonContent="🎲"
+                                                                           ButtonToolTip="Открыть таблицу"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldWithButtonUc x:Name="TsField"
+                                                                           FieldName="{Binding Label}"
+                                                                           InputText="{Binding Value, Mode=TwoWay}"
+                                                                           ButtonCommand="{Binding OpenNestedWindowCommand}"
+                                                                           ButtonContent="🎲"
+                                                                           ButtonToolTip="Открыть таблицу"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldUc 
+                                            x:Name="CatalogNumberFieldUc"
+                                            FieldName="Номер по каталогу: "
+                                            InputText="{Binding Value, Mode=TwoWay}"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldUc 
+                                            x:Name="LabelingOptionsFieldUc"
+                                            FieldName="Варианты маркировки: "
+                                            InputText="{Binding Value, Mode=TwoWay}"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldUc 
+                                            x:Name="CodeOfElementFieldUc"
+                                            FieldName="Код элемента: "
+                                            InputText="{Binding Value, Mode=TwoWay}"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldUc 
+                                            x:Name="QrCodeDataFieldUc"
+                                            FieldName="{Binding Label}"
+                                            InputText="{Binding Value, Mode=TwoWay}"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,10">
+                                        <fields:InputTextFieldUc 
+                                            x:Name="DescriptionFieldUc"
+                                            FieldName="{Binding Label}"
+                                            InputText="{Binding Value, Mode=TwoWay}"/>
+                                    </Border>
+                                    <Border Margin="0,0,0,0">
+                                        <fields:InputTextFieldUc 
+                                            x:Name="CommentsFieldUc"
+                                            FieldName="{Binding Label}"
+                                            InputText="{Binding Value, Mode=TwoWay}"/>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
                         </StackPanel>
                     </Border>
                     
-                    <!-- Часть D -->
-                    <Grid Grid.Row="1" Name="PartD">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="630"/>  <!-- 60% -->
-                            <ColumnDefinition Width="420"/>  <!-- 40% -->
-                        </Grid.ColumnDefinitions>
-                        
-                        <!-- Часть E -->
-                        <Border Grid.Column="0" x:Name="PartE" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                            <StackPanel Orientation="Vertical">
-                                <fields:InputTextFieldWithButtonUc x:Name="GpsField"
-                                                                   FieldName="{Binding Label}"
-                                                                   InputText="{Binding Value, Mode=TwoWay}"
-                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
-                                                                   ButtonContent="🎲"
-                                                                   ButtonToolTip="Открыть таблицу" />
-                                <fields:InputTextFieldWithButtonUc x:Name="CdField"
-                                                                   FieldName="{Binding Label}"
-                                                                   InputText="{Binding Value, Mode=TwoWay}"
-                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
-                                                                   ButtonContent="🎲"
-                                                                   ButtonToolTip="Открыть таблицу" />
-
-                                <fields:InputTextFieldWithButtonUc x:Name="ManField"
-                                                                   FieldName="{Binding Label}"
-                                                                   InputText="{Binding Value, Mode=TwoWay}"
-                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
-                                                                   ButtonContent="🎲"
-                                                                   ButtonToolTip="Открыть таблицу" />
-                                
-                                <fields:InputTextFieldWithButtonUc x:Name="MuField"
-                                                                   FieldName="{Binding Label}"
-                                                                   InputText="{Binding Value, Mode=TwoWay}"
-                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
-                                                                   ButtonContent="🎲"
-                                                                   ButtonToolTip="Открыть таблицу" />
-                                
-                                <fields:InputTextFieldWithButtonUc x:Name="TsField"
-                                                                   FieldName="{Binding Label}"
-                                                                   InputText="{Binding Value, Mode=TwoWay}"
-                                                                   ButtonCommand="{Binding OpenNestedWindowCommand}"
-                                                                   ButtonContent="🎲"
-                                                                   ButtonToolTip="Открыть таблицу" />
-                                
+                    <!-- Характеристики -->
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="⚙️ Характеристики" Style="{StaticResource SectionHeaderStyle}"/>
+                            
+                            <TextBlock Text="Основной параметр" Style="{StaticResource SubHeaderStyle}"/>
+                            <Border Background="#F8F9FA" 
+                                    CornerRadius="6" 
+                                    Padding="12" 
+                                    Margin="0,0,0,16"
+                                    BorderBrush="#E9ECEF"
+                                    BorderThickness="1">
                                 <fields:InputTextFieldUc 
-                                    x:Name="CatalogNumberFieldUc"
-                                    FieldName="Номер по каталогу: "
-                                    InputText="{Binding Value, Mode=TwoWay}"/>
-                                
-                                <fields:InputTextFieldUc 
-                                    x:Name="LabelingOptionsFieldUc"
-                                    FieldName="Варианты маркировки: "
-                                    InputText="{Binding Value, Mode=TwoWay}"/>
-                                
-                                <fields:InputTextFieldUc 
-                                    x:Name="CodeOfElementFieldUc"
-                                    FieldName="Код элемента: "
-                                    InputText="{Binding Value, Mode=TwoWay}"/>
-                                
-                                <fields:InputTextFieldUc 
-                                    x:Name="QrCodeDataFieldUc"
+                                    x:Name="MainParameterField"
                                     FieldName="{Binding Label}"
                                     InputText="{Binding Value, Mode=TwoWay}"/>
-                                
+                            </Border>
+                            
+                            <TextBlock Text="Дополнительные параметры" Style="{StaticResource SubHeaderStyle}"/>
+                            <Border Margin="0,0,0,8">
                                 <fields:InputTextFieldUc 
-                                    x:Name="DescriptionFieldUc"
+                                    x:Name="Param1Field"
                                     FieldName="{Binding Label}"
                                     InputText="{Binding Value, Mode=TwoWay}"/>
-                                
+                            </Border>
+                            <Border Margin="0,0,0,8">
                                 <fields:InputTextFieldUc 
-                                    x:Name="CommentsFieldUc"
+                                    x:Name="Param2Field"
                                     FieldName="{Binding Label}"
                                     InputText="{Binding Value, Mode=TwoWay}"/>
-                            </StackPanel>
-                        </Border>
-                        
-                        <!-- Часть F -->
-<!-- Часть F -->
-<Border Grid.Column="1" Name="PartF" BorderBrush="Gray" BorderThickness="1" Margin="2">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>  <!-- Заголовок в углу -->
-            <RowDefinition Height="Auto"/>  <!-- Центральный заголовок 1 -->
-            <RowDefinition Height="Auto"/>  <!-- Главное поле -->
-            <RowDefinition Height="Auto"/>  <!-- Центральный заголовок 2 -->
-            <RowDefinition Height="Auto"/>  <!-- Поле 1 -->
-            <RowDefinition Height="Auto"/>  <!-- Поле 2 -->
-            <RowDefinition Height="Auto"/>  <!-- Поле 3 -->
-            <RowDefinition Height="Auto"/>  <!-- Поле 4 -->
-            <RowDefinition Height="Auto"/>  <!-- Поле 5 -->
-            <RowDefinition Height="*"/>     <!-- Оставшееся пространство -->
-        </Grid.RowDefinitions>
-        
-        <!-- Заголовок в верхнем левом углу -->
-        <TextBlock Grid.Row="0" 
-                   Text="Характеристики" 
-                   FontSize="14" 
-                   FontWeight="SemiBold"
-                   Foreground="#555555"
-                   Margin="10,8,0,5"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"/>
-        
-        <!-- Первый центральный заголовок -->
-        <TextBlock Grid.Row="1" 
-                   Text="Основной параметр" 
-                   FontSize="12" 
-                   FontWeight="Normal"
-                   Foreground="#777777"
-                   Margin="5,15,5,5"
-                   HorizontalAlignment="Center"
-                   TextAlignment="Center"/>
-        
-        <!-- Главное поле -->
-        <Border Grid.Row="2" 
-                Margin="10,2,10,8">
-            <fields:InputTextFieldUc 
-                x:Name="MainParameterField"
-                FieldName="{Binding Label}"
-                InputText="{Binding Value, Mode=TwoWay}"/>
-        </Border>
-        
-        <!-- Второй центральный заголовок -->
-        <TextBlock Grid.Row="3" 
-                   Text="Дополнительные параметры" 
-                   FontSize="12" 
-                   FontWeight="Normal"
-                   Foreground="#777777"
-                   Margin="5,15,5,5"
-                   HorizontalAlignment="Center"
-                   TextAlignment="Center"/>
-        
-        <!-- Пять полей под вторым заголовком -->
-        <Border Grid.Row="4" 
-                Margin="10,2,10,5">
-            <fields:InputTextFieldUc 
-                x:Name="Param1Field"
-                FieldName="{Binding Label}"
-                InputText="{Binding Value, Mode=TwoWay}"/>
-        </Border>
-        
-        <Border Grid.Row="5" 
-                Margin="10,2,10,5">
-            <fields:InputTextFieldUc 
-                x:Name="Param2Field"
-                FieldName="{Binding Label}"
-                InputText="{Binding Value, Mode=TwoWay}"/>
-        </Border>
-        
-        <Border Grid.Row="6" 
-                Margin="10,2,10,5">
-            <fields:InputTextFieldUc 
-                x:Name="Param3Field"
-                FieldName="{Binding Label}"
-                InputText="{Binding Value, Mode=TwoWay}"/>
-        </Border>
-        
-        <Border Grid.Row="7" 
-                Margin="10,2,10,5">
-            <fields:InputTextFieldUc 
-                x:Name="Param4Field"
-                FieldName="{Binding Label}"
-                InputText="{Binding Value, Mode=TwoWay}"/>
-        </Border>
-        
-        <Border Grid.Row="8" 
-                Margin="10,2,10,8">
-            <fields:InputTextFieldUc 
-                x:Name="Param5Field"
-                FieldName="{Binding Label}"
-                InputText="{Binding Value, Mode=TwoWay}"/>
-        </Border>
-    </Grid>
-</Border>
-                        
-                        
-                        
-                        
-                    </Grid>
+                            </Border>
+                            <Border Margin="0,0,0,8">
+                                <fields:InputTextFieldUc 
+                                    x:Name="Param3Field"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                            </Border>
+                            <Border Margin="0,0,0,8">
+                                <fields:InputTextFieldUc 
+                                    x:Name="Param4Field"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                            </Border>
+                            <Border Margin="0,0,0,0">
+                                <fields:InputTextFieldUc 
+                                    x:Name="Param5Field"
+                                    FieldName="{Binding Label}"
+                                    InputText="{Binding Value, Mode=TwoWay}"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Grid>
-                
-                <!-- Часть G -->
-                <Border Grid.Column="1" Name="PartG" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                    <StackPanel Orientation="Vertical">
+            </Grid>
+            
+            <!-- Правая часть - Изображение и ссылки -->
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="0,8,8,8">
+                <StackPanel>
+                    <TextBlock Text="🖼️ Медиа и ссылки" Style="{StaticResource SectionHeaderStyle}"/>
+                    
+                    <Border Background="#F8F9FA" 
+                            CornerRadius="6" 
+                            Padding="12" 
+                            Margin="0,0,0,16"
+                            BorderBrush="#E9ECEF"
+                            BorderThickness="1">
                         <ucl:ImageFieldControl 
                             x:Name="ImageFieldControl"
                             ImageSource="{Binding Image}"
@@ -257,59 +372,122 @@
                             Button1Command="{Binding SelectCommand}"
                             Button2Command="{Binding OpenCommand}"
                             Button3Command="{Binding ClearCommand}"/>
+                    </Border>
+                    
+                    <TextBlock Text="Ссылки и файлы" Style="{StaticResource SubHeaderStyle}"/>
+                    
+                    <Border Margin="0,0,0,10">
                         <ucl:LinkFieldControl 
                             x:Name="UrlFieldControl"
                             FieldName="{Binding FieldTitle}"
                             LinkUrl="{Binding Url}"
                             SetLinkCommand="{Binding SetLinkCommand}"/>
+                    </Border>
+                    
+                    <Border Margin="0,0,0,10">
                         <ucl:LinkFieldControl 
                             x:Name="UrlAlternativeFieldControl"
                             FieldName="{Binding FieldTitle}"
                             LinkUrl="{Binding Url}"
                             SetLinkCommand="{Binding SetLinkCommand}"/>
+                    </Border>
+                    
+                    <Border Margin="0,0,0,16">
                         <ucl:LinkFieldControl 
                             x:Name="FilePathFieldControl"
                             FieldName="{Binding FieldTitle}"
                             LinkUrl="{Binding Url}"
                             SetLinkCommand="{Binding SetLinkCommand}"/>
-                        
+                    </Border>
+                    
+                    <TextBlock Text="Аналоги" Style="{StaticResource SubHeaderStyle}"/>
+                    <Border Background="#F8F9FA" 
+                            CornerRadius="6" 
+                            Padding="12"
+                            BorderBrush="#E9ECEF"
+                            BorderThickness="1">
                         <Grid x:Name="AnalogsFieldGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-    
+                            
                             <TextBlock Grid.Column="0" 
                                        Text="{Binding Label}" 
                                        VerticalAlignment="Center" 
-                                       Margin="0,0,10,0"/>
-    
-                            <TextBox Grid.Column="1" 
-                                     Text="{Binding AnalogsCount, Mode=OneWay}" 
-                                     IsReadOnly="True"
-                                     VerticalAlignment="Center"/>
-    
+                                       Margin="0,0,12,0"
+                                       FontWeight="Medium"
+                                       Foreground="#555555"/>
+                            
+                            <Border Grid.Column="1" 
+                                    Background="White" 
+                                    CornerRadius="4" 
+                                    Padding="8,6"
+                                    Margin="0,0,12,0"
+                                    BorderBrush="#DEE2E6"
+                                    BorderThickness="1">
+                                <TextBlock Text="{Binding AnalogsCount, Mode=OneWay}"
+                                           VerticalAlignment="Center"
+                                           Foreground="#495057"/>
+                            </Border>
+                            
                             <Button Grid.Column="2" 
-                                    x:Name="AnalogsFieldButton"
+                                    x:Name="AnalogsFieldButton" 
                                     Content="🎲" 
                                     Command="{Binding ClickCommand}"
                                     ToolTip="Открыть таблицу"
-                                    Margin="10,0,0,0"/>
+                                    Padding="12,6"
+                                    Background="#3498DB"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border" 
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="4"
+                                                Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#5DADE2"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#2980B9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
-
-                    </StackPanel>
-                    
-                </Border>
-            </Grid>
-            
-            <!-- Часть H -->
-            <Border Grid.Row="1" Name="PartH" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <Button x:Name="SaveComponentButton"
-                        Command="{Binding ClickCommand}"
-                        />
-
+                    </Border>
+                </StackPanel>
             </Border>
         </Grid>
-    </Viewbox>
+        
+        <!-- Нижняя панель с кнопкой сохранения -->
+        <Border Grid.Row="2" 
+                Background="White" 
+                Padding="24,16" 
+                Margin="8,0,8,8"
+                CornerRadius="0,0,8,8">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="-2" Opacity="0.05"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="1"
+                        x:Name="SaveComponentButton"
+                        Style="{StaticResource SaveButtonStyle}"
+                        Command="{Binding ClickCommand}"
+                        Content="💾 Сохранить компонент"/>
+            </Grid>
+        </Border>
+    </Grid>
 </Window>
