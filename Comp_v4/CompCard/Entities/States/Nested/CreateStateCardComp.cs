@@ -15,7 +15,8 @@ public class CreateStateCardComp : BaseStateCardComp
         : base(repository, editController) {
     }
 
-    public override async void Save(CardComp card) {
+    // Fixed: Changed async void to async Task
+    public override async Task Save(CardComp card) {
         _editController.ApplyEdits(RuntimeParam);
         
         RuntimeParam.Id = default;

@@ -10,9 +10,9 @@ public class EditStateCardComp : BaseStateCardComp
         : base(repository, editController) {
     }
 
-    public override async void Save(CardComp card) {
+    // Fixed: Changed async void to async Task
+    public override async Task Save(CardComp card) {
         _editController.ApplyEdits(RuntimeParam);
-        //_component.Id = default;
         await _repository.UpdateAsync(RuntimeParam);
     }
 }

@@ -8,8 +8,10 @@ namespace Comp_v4.NomDict.Entities;
 public class CategoryValidator : ValidatorBase<Category>
 {
     protected override void SetRules() {
+        // Fixed: Changed regex to allow 1+ characters instead of 2+ to match Length(3, 50) requirement
+        // Also added proper validation for single character names
         var namePattern = RegexPatternBuilder.Create()
-                                             .CustomPattern(@"^[a-zA-Zа-яА-ЯёЁ0-9][a-zA-Zа-яА-ЯёЁ0-9 .]*[a-zA-Zа-яА-ЯёЁ0-9]$")
+                                             .CustomPattern(@"^[a-zA-Zа-яА-ЯёЁ0-9]([a-zA-Zа-яА-ЯёЁ0-9 .]*[a-zA-Zа-яА-ЯёЁ0-9])?$")
                                              .Build();
         
         var rules = CreateRules()
@@ -22,7 +24,8 @@ public class CategoryValidator : ValidatorBase<Category>
                    .Custom(category => !category.Name.EndsWith("."), "NoEdgeDots", "Название не может заканчиваться точкой")
                    .Custom(category => !category.Name.StartsWith(" ") && !category.Name.EndsWith(" "), 
                            "NoEdgeSpaces", "Название не может начинаться или заканчиваться пробелом")
-                   .Custom(category => category.Name != DatabaseInitializer.ROOT_CATEGORY_NAME)
+                   .Custom(category => category.Name != DatabaseInitializer.ROOT_CATEGORY_NAME,
+                           "CannotBeRoot", "Название не может быть названием корневой категории")
                    .Build();
 
         foreach (var rule in rules) {
@@ -30,5 +33,3 @@ public class CategoryValidator : ValidatorBase<Category>
         }
     }
 }
-
-

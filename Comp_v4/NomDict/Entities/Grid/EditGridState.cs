@@ -53,7 +53,8 @@ public class EditGridState : BaseSGridState
 
     public override async Task EditComp(TaskCompletionSource tcs, object? parameter, Grid grid) {
         if (_dataGridVm.SelectedItem is not { } component)
-            throw new Exception();
+            // Fixed: Added meaningful exception message
+            throw new InvalidOperationException("No component selected for editing");
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
         ResolveRelated();
         

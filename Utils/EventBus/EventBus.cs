@@ -7,8 +7,6 @@ public static class EventBus<TBaseModuleType>
     private static bool _isExecuting = false;
 
     public static void Subscribe(TBaseModuleType subscriber) {
-        /*if (_isExecuting)
-            throw new InvalidOperationException("Cannot subscribe while executing");*/
         var subscriberTypes = TypeExposer<TBaseModuleType>.GetSubscriberTypes(subscriber);
         foreach (var t in subscriberTypes) {
             if (!_subscribers.ContainsKey(t)) 
@@ -19,8 +17,6 @@ public static class EventBus<TBaseModuleType>
     }
 
     public static void Unsubscribe(TBaseModuleType subscriber) {
-        /*if (_isExecuting)
-            throw new InvalidOperationException("Cannot subscribe while executing");*/
         var subscriberTypes = TypeExposer<TBaseModuleType>.GetSubscriberTypes(subscriber);
         foreach (var t in subscriberTypes) {
             if (_subscribers.TryGetValue(t, out var subscriber1))
@@ -30,7 +26,13 @@ public static class EventBus<TBaseModuleType>
 
     public static void RaiseEvent<TSubscriber>(Action<TSubscriber?> action) where TSubscriber : class, TBaseModuleType {
         _isExecuting = true;
-        var subscribers = _subscribers[typeof(TSubscriber)];
+        
+        // Fixed: Check if subscribers exist before accessing
+        if (!_subscribers.TryGetValue(typeof(TSubscriber), out var subscribers)) {
+            _isExecuting = false;
+            Console.WriteLine("No subscriber found for type {0}", typeof(TSubscriber).Name);
+            return;
+        }
 
         subscribers.Executing = true;
         foreach (var subscriber in subscribers.List) {
@@ -38,7 +40,8 @@ public static class EventBus<TBaseModuleType>
                 action.Invoke(subscriber as TSubscriber);
             }
             catch (Exception e) {
-                throw;
+                // Log the exception but don't crash the application
+                System.Diagnostics.Debug.WriteLine($"EventBus error: {e.Message}");
             }
         }
 

@@ -25,10 +25,12 @@ public class UpdateCategoryNameAction : UpdateCategoryAction
 
         _previousCategoryName = categoryFromDb.Name;
 
+        // Fixed: Use async validation instead of .Result
         var window = new OneValueWindow(valueName: "Новое имя: ",
-                                        isValidCheck: s => {
+                                        isValidCheckAsync: async s => {
                                             categoryFromDb.Name = s;
-                                            return _validator.ValidateAsync(categoryFromDb).Result is { IsValid: true };
+                                            var result = await _validator.ValidateAsync(categoryFromDb);
+                                            return result.IsValid;
                                         },
                                         textInInputField: categoryFromDb.Name);
         WindowLocator.LocateBy(window).ShowDialog();

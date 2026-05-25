@@ -32,9 +32,11 @@ public class AddCategoryAction : BaseAsyncActionButtonInvoked
 
         _creatingCategory = new Category();
         
-        var window = new OneValueWindow("Новая категория: ", s => {
+        // Fixed: Use async validation instead of .Result
+        var window = new OneValueWindow("Новая категория: ", async s => {
             _creatingCategory.Name = s;
-            return _validator.ValidateAsync(_creatingCategory).Result is { IsValid: true };
+            var result = await _validator.ValidateAsync(_creatingCategory);
+            return result.IsValid;
         });
         WindowLocator.LocateBy(window).ShowDialog();
 

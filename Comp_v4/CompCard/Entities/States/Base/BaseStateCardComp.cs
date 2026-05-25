@@ -28,7 +28,10 @@ public abstract class BaseStateCardComp : StateBase<CardComp>,
         _editController = editController;
     }
 
-    public virtual void Save(CardComp card) { }
+    // Fixed: Changed void to Task for proper async handling
+    public virtual Task Save(CardComp card) {
+        return Task.CompletedTask;
+    }
 
     void IExternalTableInputHandler<ConditionalDesignation>.HandleTableInput(ConditionalDesignation? args) => RuntimeParam.ConditionalDesignation = args;
     void IExternalTableInputHandler<Manufacturer>.HandleTableInput(Manufacturer? args) => RuntimeParam.Manufacturer = args;
