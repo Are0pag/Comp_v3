@@ -91,18 +91,17 @@
             
             <!-- Основное содержимое части B -->
             <Border Grid.Row="1" Name="PartBContent" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                     <DataGrid ItemsSource="{Binding Items}"
                               AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               SelectionMode="Single"
                               x:Name="MainDataGrid"
-                              EnableRowVirtualization="False"
-                              EnableColumnVirtualization="False"
+                              EnableRowVirtualization="True" 
+                              EnableColumnVirtualization="True"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
                               MouseDoubleClick="DataGrid_OnMouseDoubleClick"
-                              SelectedItem="{Binding SelectedItem}"
-                              HorizontalScrollBarVisibility="Disabled"
-                              VerticalScrollBarVisibility="Auto">
+                              SelectedItem="{Binding SelectedItem}">
 
                         <DataGrid.Columns>
                             <!-- Основные текстовые данные -->
@@ -155,7 +154,6 @@
                     </DataGrid.ContextMenu>
 
                 </DataGrid>
-                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>
