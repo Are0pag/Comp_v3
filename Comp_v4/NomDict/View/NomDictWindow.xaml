@@ -87,34 +87,37 @@
             
             <!-- Основное содержимое части B -->
             <Border Grid.Row="1" Name="PartBContent" BorderBrush="Gray" BorderThickness="1" Margin="2">
-                <DataGrid ItemsSource="{Binding Items}" 
-                          AutoGenerateColumns="False" 
-                          CanUserAddRows="False"
-                          SelectionMode="Single" 
-                          x:Name="MainDataGrid" 
-                          EnableRowVirtualization="False"
-                          EnableColumnVirtualization="False"
-                          MouseDoubleClick="DataGrid_OnMouseDoubleClick"
-                          SelectedItem="{Binding SelectedItem}">
-            
-                    <DataGrid.Columns>
-                        <!-- Основные текстовые данные -->
-                        <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="2*"/>
-                        <DataGridTextColumn Header="Номенклатурный номер" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1.5*"/>
-                        <DataGridTextColumn Header="Каталожный номер" IsReadOnly="True" Binding="{Binding CatalogNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1.5*"/>
-                        <DataGridTextColumn Header="Варианты маркировки" IsReadOnly="True" Binding="{Binding LabelingOptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1.5*"/>
-                        <DataGridTextColumn Header="Код элемента" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <DataGrid ItemsSource="{Binding Items}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              SelectionMode="Single"
+                              x:Name="MainDataGrid"
+                              EnableRowVirtualization="False"
+                              EnableColumnVirtualization="False"
+                              MouseDoubleClick="DataGrid_OnMouseDoubleClick"
+                              SelectedItem="{Binding SelectedItem}"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto">
+
+                        <DataGrid.Columns>
+                            <!-- Основные текстовые данные -->
+                            <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
+                            <DataGridTextColumn Header="Номенклатурный номер" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn Header="Каталожный номер" IsReadOnly="True" Binding="{Binding CatalogNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn Header="Варианты маркировки" IsReadOnly="True" Binding="{Binding LabelingOptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn Header="Код элемента" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
 
                         <!-- Справочные данные -->
-                        <DataGridTextColumn Header="Условное обозначение" IsReadOnly="True" Binding="{Binding ConditionalDesignation.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1.5*"/>
-                        <DataGridTextColumn Header="Производитель" IsReadOnly="True" Binding="{Binding Manufacturer.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1.5*"/>
-                        <DataGridTextColumn Header="Единица измерения" IsReadOnly="True" Binding="{Binding MeasurementUnit.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="Типоразмер" IsReadOnly="True" Binding="{Binding TypeSize.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
+                        <DataGridTextColumn Header="Условное обозначение" IsReadOnly="True" Binding="{Binding ConditionalDesignation.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                        <DataGridTextColumn Header="Производитель" IsReadOnly="True" Binding="{Binding Manufacturer.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                        <DataGridTextColumn Header="Единица измерения" IsReadOnly="True" Binding="{Binding MeasurementUnit.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150"/>
+                        <DataGridTextColumn Header="Типоразмер" IsReadOnly="True" Binding="{Binding TypeSize.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
 
                         <!-- Описательные данные -->
-                        <DataGridTextColumn Header="QR код" IsReadOnly="True" Binding="{Binding QrCodeData, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="Описание" IsReadOnly="True" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="2*"/>
-                        <DataGridTextColumn Header="Комментарии" IsReadOnly="True" Binding="{Binding Comments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="2*"/>
+                        <DataGridTextColumn Header="QR код" IsReadOnly="True" Binding="{Binding QrCodeData, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150"/>
+                        <DataGridTextColumn Header="Описание" IsReadOnly="True" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="300"/>
+                        <DataGridTextColumn Header="Комментарии" IsReadOnly="True" Binding="{Binding Comments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="300"/>
 
                         <!-- Фото -->
                         <DataGridTemplateColumn Header="Фото" Width="80" IsReadOnly="True">
@@ -128,27 +131,27 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
+
                         <!-- Общие параметры -->
-                        <DataGridTextColumn Header="GP Main" IsReadOnly="True" Binding="{Binding GpMain, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="GP 1" IsReadOnly="True" Binding="{Binding Gp1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="GP 2" IsReadOnly="True" Binding="{Binding Gp2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="GP 3" IsReadOnly="True" Binding="{Binding Gp3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="GP 4" IsReadOnly="True" Binding="{Binding Gp4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
-                        <DataGridTextColumn Header="GP 5" IsReadOnly="True" Binding="{Binding Gp5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="1*"/>
+                        <DataGridTextColumn Header="Основной параметр" IsReadOnly="True" Binding="{Binding GpMain, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="1-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="2-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="3-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="4-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                        <DataGridTextColumn Header="5-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
                     </DataGrid.Columns>
-            
+
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
+                            <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand"
                                       Header="Новое обозначение" Command="{Binding AddItemCommand}"></MenuItem>
                             <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
                                       Header="Удалить" Command="{Binding DeleteCommand}"></MenuItem>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
-            
+
                 </DataGrid>
-                
+                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>
