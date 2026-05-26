@@ -4,49 +4,160 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF.UCL.UserControls.Fields"
-             mc:Ignorable="d" 
-             d:DesignWidth="450" MinWidth="300" 
-             d:DesignHeight="50" MinHeight="50"
+             mc:Ignorable="d"
+             d:DesignWidth="450" MinWidth="300"
+             d:DesignHeight="36" MinHeight="36"
              Background="Transparent">
-    
-    <Border Background="Bisque" CornerRadius="20">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="100" /> <!-- Для названия -->
-                <ColumnDefinition Width="*" />   <!-- Для поля ввода -->
-                <ColumnDefinition Width="40" />  <!-- Для доп. кнопки -->
-                <ColumnDefinition Width="40" />  <!-- Для кнопки очистки -->
-            </Grid.ColumnDefinitions>
-            
-            <!-- Название поля -->
-            <TextBlock Grid.Column="0" x:Name="InputNameTextBlock"
-                       Text="{Binding FieldName, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       VerticalAlignment="Center"
-                       Margin="10,0,5,0"
-                       FontWeight="Bold" />
 
-            <!-- Поле ввода -->
-            <TextBox Grid.Column="1" x:Name="InputTextBox"
-                     Text="{Binding InputText, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     VerticalContentAlignment="Center" Padding="5,0" />
+    <UserControl.Resources>
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="BorderBrush" Value="#D1D8E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                        Focusable="false"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        VerticalScrollBarVisibility="Hidden"
+                                        Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3498DB"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3498DB"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#F5F6FA"/>
+                                <Setter Property="Foreground" Value="#95A5A6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-            <!-- Дополнительная кнопка -->
-            <Button Grid.Column="2" 
-                    Background="LightBlue" 
-                    Content="{Binding ButtonContent, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    Command="{Binding ButtonCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding ButtonCommandParameter, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    ToolTip="{Binding ButtonToolTip, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    Margin="2" />
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3498DB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5DADE2"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2980B9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-            <!-- Кнопка очистки -->
-            <Button Grid.Column="3" 
-                    Background="Tan" 
-                    Content="❌" 
-                    Click="ClearButton_OnClick"
-                    ToolTip="Очистить поле"
-                    Margin="2" />
+        <Style x:Key="ClearButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#95A5A6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFEBEE"/>
+                                <Setter Property="Foreground" Value="#E74C3C"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCDD2"/>
+                                <Setter Property="Foreground" Value="#C0392B"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-        </Grid>
-    </Border>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="120"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Название поля -->
+        <TextBlock Grid.Column="0"
+                   x:Name="InputNameTextBlock"
+                   Text="{Binding FieldName, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                   VerticalAlignment="Center"
+                   Margin="0,0,12,0"
+                   FontSize="13"
+                   FontWeight="Medium"
+                   Foreground="#555555"
+                   TextTrimming="CharacterEllipsis"/>
+
+        <!-- Поле ввода -->
+        <TextBox Grid.Column="1"
+                 x:Name="InputTextBox"
+                 Text="{Binding InputText, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource ModernTextBoxStyle}"/>
+
+        <!-- Дополнительная кнопка -->
+        <Button Grid.Column="2"
+                Content="{Binding ButtonContent, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Command="{Binding ButtonCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                CommandParameter="{Binding ButtonCommandParameter, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                ToolTip="{Binding ButtonToolTip, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Margin="8,0,0,0"
+                Style="{StaticResource ActionButtonStyle}"/>
+
+        <!-- Кнопка очистки -->
+        <Button Grid.Column="3"
+                Content="✕"
+                Click="ClearButton_OnClick"
+                ToolTip="Очистить поле"
+                Margin="8,0,0,0"
+                Style="{StaticResource ClearButtonStyle}"/>
+    </Grid>
 </UserControl>
