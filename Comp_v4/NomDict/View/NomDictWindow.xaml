@@ -8,8 +8,12 @@
         Title="Номенклатурный словарь" Height="750" Width="1500"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="Window_OnPreviewMouseDown">
+    
+    <Window.Resources>
+        <local:RelativeToAbsolutePathConverter x:Key="RelativeToAbsolutePathConverter"/>
+    </Window.Resources>
      
-        <Grid>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>  <!-- Часть A: 30% ширины -->
             <ColumnDefinition Width="7*"/>  <!-- Часть B: 70% ширины -->
@@ -123,7 +127,7 @@
                         <DataGridTemplateColumn Header="Фото" Width="80" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding ImagePath, Converter={StaticResource RelativeToAbsolutePathConverter}}"
                                            Stretch="Uniform"
                                            MaxHeight="60"
                                            MaxWidth="60"
