@@ -37,4 +37,52 @@ public static class WindowLocator
         }
         return window;
     }
+
+    public static void BindChildToParent(Window parent, Window child) {
+        if (parent == null)
+            throw new ArgumentNullException(nameof(parent));
+        if (child == null)
+            throw new ArgumentNullException(nameof(child));
+
+        // Устанавливаем владельца
+        child.Owner = parent;
+
+        // Логика удержания дочернего окна в границах родительского
+        void KeepChildInside() {
+            // 1. Контроль максимальных размеров
+            if (child.Width > parent.ActualWidth)
+                child.Width = parent.ActualWidth;
+            if (child.Height > parent.ActualHeight)
+                child.Height = parent.ActualHeight;
+
+            // 2. Контроль по горизонтали (ось X)
+            if (child.Left < parent.Left) {
+                child.Left = parent.Left;
+            }
+            else if (child.Left + child.ActualWidth > parent.Left + parent.ActualWidth) {
+                child.Left = parent.Left + parent.ActualWidth - child.ActualWidth;
+            }
+
+            // 3. Контроль по вертикали (ось Y)
+            if (child.Top < parent.Top) {
+                child.Top = parent.Top;
+            }
+            else if (child.Top + child.ActualHeight > parent.Top + parent.ActualHeight) {
+                child.Top = parent.Top + parent.ActualHeight - child.ActualHeight;
+            }
+        }
+
+        // Подписываемся на события обоих окон
+        parent.LocationChanged += (s, e) => KeepChildInside();
+        parent.SizeChanged += (s, e) => KeepChildInside();
+
+        child.LocationChanged += (s, e) => KeepChildInside();
+        child.SizeChanged += (s, e) => KeepChildInside();
+
+        // Срабатывает при первом открытии для выравнивания
+        child.ContentRendered += (s, e) => KeepChildInside();
+    }
+
 }
+
+
