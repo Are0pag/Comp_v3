@@ -25,33 +25,33 @@ public partial class TsImageFieldVm : ImageFieldVmBase
     
     public void OnLoaded(IImageOwner imageOwner) {
         ImagePath = imageOwner.ImagePath;
-        if (!string.IsNullOrEmpty(ImagePath) && File.Exists(ImagePath))
-        {
-            try 
-            {
-                // Создаем новый BitmapImage
+    
+        if (string.IsNullOrEmpty(ImagePath)) {
+            Image = null;
+            return;
+        }
+
+        try {
+            // Объединяем папку приложения и относительный путь
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string absolutePath = Path.GetFullPath(Path.Combine(basePath, ImagePath));
+
+            if (File.Exists(absolutePath)) {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.UriSource = new Uri(ImagePath, UriKind.Absolute);
+                bitmap.UriSource = new Uri(absolutePath, UriKind.Absolute);
                 bitmap.EndInit();
-                bitmap.Freeze(); // Рекомендуется для потокобезопасности
+                bitmap.Freeze(); 
 
-                // Устанавливаем изображение
                 Image = bitmap;
             }
-            catch (Exception ex)
-            {
-                // Обработка ошибок загрузки изображения
+            else {
                 Image = null;
-                // Можно добавить логирование ошибки
-                // _logger.LogError($"Ошибка загрузки изображения: {ex.Message}");
             }
         }
-        else 
-        {
-            // Если путь пустой или файл не существует
+        catch (Exception ex) {
             Image = null;
+            // _logger.LogError($"Ошибка загрузки изображения: {ex.Message}");
         }
-    }
-}
+    }}

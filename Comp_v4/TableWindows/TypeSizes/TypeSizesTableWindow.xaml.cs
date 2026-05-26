@@ -65,7 +65,6 @@ public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridReques
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IPreviewKeyDownHandler>(h => h.OnPreviewKeyDown(sender, e));
-        
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {

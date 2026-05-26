@@ -10,6 +10,9 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
+/// <summary>
+/// Имеется в виду назначение изображения
+/// </summary>
 public class SelectTypeSizeImageAction : ImageActionBase, IRuntimeParamsContainer<TypeSize>
 {
     protected TypeSize _targetItem;
@@ -20,14 +23,18 @@ public class SelectTypeSizeImageAction : ImageActionBase, IRuntimeParamsContaine
     }
 
     public void LoadImageFromPath() {
-        if (string.IsNullOrWhiteSpace(RuntimeParam.ImagePath) || !File.Exists(RuntimeParam.ImagePath))
+        if (string.IsNullOrWhiteSpace(RuntimeParam.ImagePath))
             return;
 
+        string absolutePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, RuntimeParam.ImagePath));
+        if (!File.Exists(absolutePath))
+            return;
+        
         try {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(RuntimeParam.ImagePath, UriKind.Absolute);
+            bitmap.UriSource = new Uri(absolutePath, UriKind.Absolute);
             bitmap.EndInit();
             bitmap.Freeze(); // Важно для потокобезопасности
 
@@ -38,23 +45,6 @@ public class SelectTypeSizeImageAction : ImageActionBase, IRuntimeParamsContaine
         catch (Exception ex) {
             Debug.WriteLine($"Ошибка загрузки изображения: {ex.Message}");
         }
-    }
-    
-    public TypeSize RuntimeParam {
-        get {
-            try {
-                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<TypeSize>>(r => {
-                    r.ResolveRuntimeParams(this);
-                    
-                });
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-            return _targetItem;
-        }
-        set => _targetItem = value;
     }
 
     public override void PerformAsync(object? parameter) {
@@ -83,8 +73,14 @@ public class SelectTypeSizeImageAction : ImageActionBase, IRuntimeParamsContaine
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() => {
                     _imageFieldVm.Image = bitmap;
-                    _imageFieldVm.ImagePath = openFileDialog.FileName;
-                    RuntimeParam.ImagePath = openFileDialog.FileName;
+                    
+                    // _imageFieldVm.ImagePath = openFileDialog.FileName;
+                    // RuntimeParam.ImagePath = openFileDialog.FileName;
+                    
+                    string relativePath = Path.GetRelativePath(AppDomain.CurrentDomain.BaseDirectory, openFileDialog.FileName);
+
+                    _imageFieldVm.ImagePath = relativePath;
+                    RuntimeParam.ImagePath = relativePath;
                 });
             }
             catch (Exception ex) {
@@ -102,5 +98,22 @@ public class SelectTypeSizeImageAction : ImageActionBase, IRuntimeParamsContaine
 
     public override void CancelAsync(object? parameter = null) {
         throw new NotImplementedException();
+    }
+
+    public TypeSize RuntimeParam {
+        get {
+            try {
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<TypeSize>>(r => {
+                    r.ResolveRuntimeParams(this);
+                    
+                });
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return _targetItem;
+        }
+        set => _targetItem = value;
     }
 }

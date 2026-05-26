@@ -11,6 +11,7 @@
     
     <Window.Resources>
         <local:BoolToTextConverter x:Key="BoolToTextConverter"/>
+        <local:RelativeToAbsolutePathConverter x:Key="RelativeToAbsolutePathConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -62,7 +63,7 @@
                 <DataGridTemplateColumn Header="Изображение" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding ImagePath}" 
+                            <Image Source="{Binding ImagePath, Converter={StaticResource RelativeToAbsolutePathConverter}}" 
                                    Width="70" 
                                    Height="50" 
                                    Stretch="Uniform"/>

@@ -11,6 +11,9 @@ using WPF.UCL;
 
 namespace Comp_v4.TableWindows.TypeSizes;
 
+/// <summary>
+/// Имеется в виду просто полноэкранное открытие назначенного изображения
+/// </summary>
 public class OpenTsImageAction : ImageActionBase, IRuntimeParamsContainer<TypeSize>
 {
     protected TypeSize _typeSize;
