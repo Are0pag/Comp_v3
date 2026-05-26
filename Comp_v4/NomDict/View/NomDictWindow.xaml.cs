@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Comp_v4._Installers;
 using Comp_v4.NomDict.Entities;
 using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.Vm;
@@ -16,7 +17,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.NomDict.View;
 
-public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHandler
+public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHandler, IRuntimeParamsResolver<NomDictWindow>
 {
     private readonly MoveCategoryAction _moveCategoryAction;
     private readonly TreeViewVm _treeViewVm;
@@ -41,6 +42,7 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         
         AddComponentButton.DataContext = addCompButtonVm;
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
+        EventBus<IGlSubscriber>.Subscribe(this);
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
@@ -67,8 +69,13 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         }
     }
 
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<NomDictWindow> container) {
+        container.RuntimeParam = this;
+    }
+
     public void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Unsubscribe(this);
     }
 
     void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
@@ -166,4 +173,5 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
 
         return null;
     }
+
 }

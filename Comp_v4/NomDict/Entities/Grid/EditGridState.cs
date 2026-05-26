@@ -1,10 +1,12 @@
 using System.Windows.Input;
+using Comp_v4._Installers;
 using Comp_v4.CompCard;
 using Comp_v4.CompCard._Installers;
 using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
+using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,11 +16,13 @@ using Utils.WPF;
 
 namespace Comp_v4.NomDict.Entities;
 
-public class EditGridState : BaseSGridState
+public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWindow>
 {
     protected readonly IServiceProvider _serviceProvider;
     protected readonly DataGridVm _dataGridVm;
     protected readonly TreeViewVm _treeViewVm;
+    protected NomDictWindow _item;
+
 
     public EditGridState(IServiceProvider serviceProvider, DataGridVm dataGridVm, TreeViewVm treeViewVm) {
         _serviceProvider = serviceProvider;
@@ -35,6 +39,7 @@ public class EditGridState : BaseSGridState
             Category = _treeViewVm.SelectedCategory!
         };
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
+        window.Owner = RuntimeParam;
         ResolveRelated();
         
         var card = _serviceProvider.GetRequiredService<CardComp>();
@@ -56,6 +61,7 @@ public class EditGridState : BaseSGridState
             // Fixed: Added meaningful exception message
             throw new InvalidOperationException("No component selected for editing");
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
+        window.Owner = RuntimeParam;
         ResolveRelated();
         
         var card = _serviceProvider.GetRequiredService<CardComp>();
@@ -81,5 +87,21 @@ public class EditGridState : BaseSGridState
         _serviceProvider.GetRequiredService<ClearImageAction>();
 
         _serviceProvider.GetRequiredService<OpenAnalogTableAction>();
+    }
+    
+    public NomDictWindow RuntimeParam {
+        get {
+            try {
+                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<NomDictWindow>>(r => {
+                    r.ResolveRuntimeParams(this);
+                });
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return _item;
+        }
+        set => _item = value;
     }
 }
