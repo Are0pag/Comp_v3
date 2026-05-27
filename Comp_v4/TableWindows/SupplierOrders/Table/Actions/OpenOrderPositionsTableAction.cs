@@ -3,6 +3,7 @@ using Comp_v4.TableWindows.OrderPositions.Table;
 using Comp_v4.TableWindows.OrderPositions.Table.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table.Entities;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm;
+using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
 
         _currentTcs = tcs;
         var window = _serviceProvider.GetRequiredService<OrderPositionsTableWindow>();
+        var parent = new WindowContainer<SupplierOrderTableWindow>().RuntimeParam;
+        window.Owner = parent;
         _windowOrderLocator.RegisterWindow(window);
         window.Closed += async (sender, args) => {
             _windowOrderLocator.UnregisterWindow(window);
@@ -41,6 +44,7 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         
         EventBus<IOrderPositionSubscriber>.RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
         
+        WindowService.BindChildToParent(parent, window);
         window.Show();
         await tcs.Task;
     }

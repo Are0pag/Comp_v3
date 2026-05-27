@@ -1,5 +1,6 @@
 using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
+using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF.Buttons;
@@ -15,12 +16,15 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<PaymentOrdersTableWindow>();
+        var parent = new WindowContainer<SupplierOrderTableWindow>().RuntimeParam;
+        window.Owner = parent;
 
         ResolveRelated();
 
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
+        WindowService.BindChildToParent(parent, window);
         window.Show();
     }
 

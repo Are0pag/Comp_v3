@@ -31,6 +31,8 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
         _currentTcs = tcs;
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderFormWindow>();
+            var parent = new WindowContainer<SupplierOrderTableWindow>().RuntimeParam;
+            window.Owner = parent;
             
             var soForm = scope.ServiceProvider.GetRequiredService<SoForm>();
             await soForm.ChangeState(soForm.GetState<EditSoFormState>(), soForm);
@@ -65,6 +67,7 @@ public class EditSoAction : BaseActionAsyncSelfWaiting
                 await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
                 _supplierOrderTableWindow.OnReload?.Invoke();
             };
+            WindowService.BindChildToParent(parent, window);
             window.Show();
         
             await _currentTcs.Task;

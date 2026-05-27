@@ -1,13 +1,15 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Comp_v4._Installers;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Templates.Common;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
-public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
+public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable, IRuntimeParamsResolver<SupplierOrderTableWindow>
 {
     protected readonly EditSoButVm _editSoButVm;
     protected readonly OpenOrderPositionsButVm _positionsBut;
@@ -30,11 +32,10 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
         _deleteSoButVm = deleteSoButVm;
         _positionsBut = positionsBut;
         _paymentOrdersBut = paymentOrdersBut;
+        EventBus<IGlSubscriber>.Subscribe(this);
     }
 
-    public void Dispose() {
-        //Console.WriteLine($"{nameof(SupplierOrderTableWindow)} disposed");
-    }
+
 
     public Func<Task> OnReload { get; set; }
 
@@ -72,5 +73,13 @@ public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable
         _positionsBut.NotifyCanExecute();
         _paymentOrdersBut.NotifyCanExecute();
         _deleteSoButVm.NotifyCanExecute();
+    }
+    
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<SupplierOrderTableWindow> container) {
+        container.RuntimeParam = this;
+    }
+
+    public void Dispose() {
+        EventBus<IGlSubscriber>.Unsubscribe(this);
     }
 }
