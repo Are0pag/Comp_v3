@@ -24,13 +24,11 @@ public static class WindowService
         if (parent == null) throw new ArgumentNullException(nameof(parent));
         if (child == null) throw new ArgumentNullException(nameof(child));
 
-        // 1. Базовая привязка
+        // 1. Базовая привязка и скрытие с панели задач
         child.Owner = parent;
-        
-        // 1.5. СКРЫВАЕМ ОКНО ИЗ ПАНЕЛИ ЗАДАЧ WINDOWS
         child.ShowInTaskbar = false;
 
-        // 2. Отключаем дефолтное позиционирование WPF (будем выставлять координаты вручную)
+        // 2. Отключаем дефолтное позиционирование WPF
         child.WindowStartupLocation = WindowStartupLocation.Manual;
 
         // 3. Задаем начальные ограничения размеров
@@ -40,27 +38,50 @@ public static class WindowService
         if (child.Width > parent.ActualWidth) child.Width = parent.ActualWidth;
         if (child.Height > parent.ActualHeight) child.Height = parent.ActualHeight;
 
-        // 4. Изначальное позиционирование строго по центру родителя (до открытия)
-        // Если у дочернего окна размеры заданы как Auto, используем Width/Height по умолчанию
+        // 4. Изначальное позиционирование строго по центру родителя
         double childWidth = double.IsNaN(child.Width) ? 300 : child.Width; 
         double childHeight = double.IsNaN(child.Height) ? 200 : child.Height;
 
         child.Left = parent.Left + (parent.ActualWidth - childWidth) / 2;
         child.Top = parent.Top + (parent.ActualHeight - childHeight) / 2;
 
-        // 5. Динамическое обновление ограничений размеров при изменении родителя
+        // Переменные для запоминания последней позиции родителя (нужны для расчета сдвига)
+        double lastParentLeft = parent.Left;
+        double lastParentTop = parent.Top;
+
+        // 5. СИНХРОННОЕ ПЕРЕМЕЩЕНИЕ (Исправленный тип делегата: EventHandler)
+        EventHandler parentLocationChanged = (s, e) =>
+        {
+            double deltaX = parent.Left - lastParentLeft;
+            double deltaY = parent.Top - lastParentTop;
+
+            child.Left += deltaX;
+            child.Top += deltaY;
+
+            lastParentLeft = parent.Left;
+            lastParentTop = parent.Top;
+        };
+        parent.LocationChanged += parentLocationChanged;
+
+        // Обновляем стартовую позицию родителя после его инициализации
+        parent.SourceInitialized += (s, e) =>
+        {
+            lastParentLeft = parent.Left;
+            lastParentTop = parent.Top;
+        };
+
+        // 6. Динамическое обновление ограничений размеров при изменении родителя
         SizeChangedEventHandler parentSizeChanged = (s, e) =>
         {
             child.MaxWidth = parent.ActualWidth;
             child.MaxHeight = parent.ActualHeight;
 
-            // Если родитель сжался меньше, чем текущий размер дочернего окна — сжимаем дочернее
             if (child.Width > parent.ActualWidth) child.Width = parent.ActualWidth;
             if (child.Height > parent.ActualHeight) child.Height = parent.ActualHeight;
         };
         parent.SizeChanged += parentSizeChanged;
 
-        // 6. Win32 Хук для плавного перемещения мышью
+        // 7. Win32 Хук для плавного перемещения мышью (удержание внутри границ)
         child.SourceInitialized += (sender, args) =>
         {
             var windowInteropHelper = new WindowInteropHelper(child);
@@ -84,15 +105,19 @@ public static class WindowService
                     else if (wp.y + wp.cy > parentBottom) wp.y = parentBottom - wp.cy;
 
                     Marshal.StructureToPtr(wp, lParam, true);
+                    
+                    lastParentLeft = parent.Left;
+                    lastParentTop = parent.Top;
                 }
                 return IntPtr.Zero;
             });
         };
 
-        // 7. Освобождение памяти
+        // 8. Безопасное освобождение памяти от обоих событий
         child.Closed += (s, e) =>
         {
             parent.SizeChanged -= parentSizeChanged;
+            parent.LocationChanged -= parentLocationChanged;
         };
     }
 }
