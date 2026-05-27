@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Width="1400" Height="850"
-        MinWidth="1100" MinHeight="650"
+        MinWidth="1300" MinHeight="850"
         Title="Карточка компонента"
         Background="#F0F4F8">
     

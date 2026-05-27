@@ -7,7 +7,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Analogs;
 
-public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler, IRuntimeParamsResolver<Analog>
+public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler, IRuntimeParamsResolver<Analog>, IRuntimeParamsResolver<AnalogsFormWindow>
 {
     protected readonly Analog _analog;
     public AnalogsFormWindow(Analog analog, SelectAnalogButtonVm selectAnalogButtonVm, SaveAnalogButVm saveButVm) {
@@ -20,10 +20,6 @@ public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler
         EventBus<IGlSubscriber>.Subscribe(this);
     }
 
-    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<Analog> container) {
-        container.RuntimeParam = _analog;
-    }
-
     public void Dispose() {
         EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
@@ -33,5 +29,13 @@ public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler
         Close();
         tcs.SetResult();
         return Task.CompletedTask;
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<Analog> container) {
+        container.RuntimeParam = _analog;
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<AnalogsFormWindow> container) {
+        container.RuntimeParam = this;
     }
 }
