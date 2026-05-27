@@ -19,6 +19,7 @@ public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSele
     protected readonly IWindowOrderLocator _windowOrderLocator;
     
     protected TaskCompletionSource? _butTcs;
+    protected Type? _requesterType;
     
     public SelectPositionAction(SelectPositionButVm button, NomDictButVm nomDictButVm, IWindowOrderLocator windowOrderLocator) : base(button) {
         _nomDictButVm = nomDictButVm;
@@ -29,20 +30,21 @@ public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSele
     public override Task Perform(TaskCompletionSource tcs) {
         _nomDictButVm.OnClickAsync();
         _butTcs = tcs;
+        _requesterType = GetType();
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGridSelectingStateHandler>(h => {
-                h?.OnSelecting(new TaskCompletionSource<Component>(), this.GetType());
+                h?.OnSelecting(new TaskCompletionSource<Component>(), _requesterType);
             });
         return Task.CompletedTask;
     }
 
     public void OnGetResultOfSelection(Component component, Type requesterType) {
-        if (requesterType != GetType())
+        if (requesterType != _requesterType)
             return;
         if (_butTcs is null)
             return;
         
-        _windowOrderLocator.MoveToBack<NomDictWindow>();
+        new WindowContainer<NomDictWindow>().RuntimeParam.Hide();
         
         RuntimeParam.Position = component;
         
