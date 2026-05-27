@@ -7,7 +7,7 @@
         xmlns:form="clr-namespace:Comp_v4.TableWindows.OrderPositions.Form"
         xmlns:form1="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="Состав заказа" Height="450" Width="1200"
+        Title="Состав заказа" Height="900" Width="1200"
         PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown"
         PreviewMouseDown="SupplierOrderTableWindow_OnPreviewMouseDown">
     

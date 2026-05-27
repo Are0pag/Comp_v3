@@ -24,8 +24,12 @@ public class EditOpTableState : BaseOpState
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, new OrderPosition() {
             RelatedSupplierOrder = so
         });
+
+        var parent = new WindowContainer<OrderPositionsTableWindow>().RuntimeParam;
+        window.Owner = parent;
+        WindowService.BindChildToParent(parent, window);
         
-        _windowOrderLocator.RegisterWindow(window);
+        //_windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {
             _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
@@ -41,7 +45,11 @@ public class EditOpTableState : BaseOpState
 
     public override async Task Edit(TaskCompletionSource tcs, OpTable opTable, OrderPosition op, object? o) {
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, op);
-        _windowOrderLocator.RegisterWindow(window);
+        //_windowOrderLocator.RegisterWindow(window);
+        var parent = new WindowContainer<OrderPositionsTableWindow>().RuntimeParam;
+        window.Owner = parent;
+        WindowService.BindChildToParent(parent, window);
+        
         window.Closed += (sender, args) => {
             _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();

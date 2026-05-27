@@ -8,7 +8,7 @@
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form"
         xmlns:form1="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="Состав заказа" Height="900" Width="1000"
+        Title="Состав заказа" Height="600" Width="800"
         PreviewMouseDown="OpFormWindow_OnPreviewMouseDown">
     <Window.Resources>
         <Style TargetType="TextBlock">

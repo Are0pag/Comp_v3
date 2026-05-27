@@ -11,7 +11,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form;
 
-public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>, IOrderPosSavingCommitHandler
+public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>, IOrderPosSavingCommitHandler, IRuntimeParamsResolver<OrderPositionForm>
 {
     protected readonly ReceiveStatusEnumVm _receiveStatusEnumVm;
     protected readonly OrderPosition _orderPosition;
@@ -36,8 +36,8 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
     }
 
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPosition> container) => container.RuntimeParam = _orderPosition;
-
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPositionVm> container) => container.RuntimeParam = _orderPositionVm;
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<OrderPositionForm> container) => container.RuntimeParam = this;
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
