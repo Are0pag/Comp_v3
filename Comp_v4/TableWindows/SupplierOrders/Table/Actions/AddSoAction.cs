@@ -19,7 +19,7 @@ public class AddSoAction : BaseActionAsyncScopeHandler
         _currentTcs = tcs;
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<SupplierOrderFormWindow>();
-            var parent = new WindowContainer<SupplierOrderTableWindow>().RuntimeParam;
+            var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
             window.Owner = parent;
             
             scope.ServiceProvider.GetRequiredService<SoForm>();

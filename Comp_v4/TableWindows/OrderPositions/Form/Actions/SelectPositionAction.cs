@@ -44,7 +44,7 @@ public class SelectPositionAction : BaseActionAsyncSelfWaiting, IGetResultOfSele
         if (_butTcs is null)
             return;
         
-        new WindowContainer<NomDictWindow>().RuntimeParam.Hide();
+        new InstanceContainer<NomDictWindow>().RuntimeParam.Hide();
         
         RuntimeParam.Position = component;
         

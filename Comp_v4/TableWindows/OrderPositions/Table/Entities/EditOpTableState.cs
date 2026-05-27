@@ -25,7 +25,7 @@ public class EditOpTableState : BaseOpState
             RelatedSupplierOrder = so
         });
 
-        var parent = new WindowContainer<OrderPositionsTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
         window.Owner = parent;
         WindowService.BindChildToParent(parent, window);
         
@@ -46,7 +46,7 @@ public class EditOpTableState : BaseOpState
     public override async Task Edit(TaskCompletionSource tcs, OpTable opTable, OrderPosition op, object? o) {
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, op);
         //_windowOrderLocator.RegisterWindow(window);
-        var parent = new WindowContainer<OrderPositionsTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
         window.Owner = parent;
         WindowService.BindChildToParent(parent, window);
         

@@ -28,7 +28,7 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
 
     void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
         _selectingRequesterType = requesterType;
-        WindowService.HideChildren(new WindowContainer<NomDictWindow>().RuntimeParam);
+        WindowService.HideChildren(new InstanceContainer<NomDictWindow>().RuntimeParam);
         _selectionTcs = tcs;
     }
 

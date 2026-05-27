@@ -64,7 +64,7 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
         if (_butTcs is null)
             return;
         RuntimeParam.RelatedComponent = component;
-        WindowService.ShowChildren(new WindowContainer<NomDictWindow>().RuntimeParam);
+        WindowService.ShowChildren(new InstanceContainer<NomDictWindow>().RuntimeParam);
         //_windowOrderLocator.MoveToBack<NomDictWindow>();
         
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());

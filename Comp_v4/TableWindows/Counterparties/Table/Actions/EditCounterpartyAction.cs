@@ -22,7 +22,7 @@ public class EditCounterpartyAction : BaseActionAsyncScopeHandler
         _currentTcs = tcs;
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
-            var parent = new WindowContainer<CounterpartyTableWindow>().RuntimeParam;
+            var parent = new InstanceContainer<CounterpartyTableWindow>().RuntimeParam;
             window.Owner = parent;
             WindowService.BindChildToParent(parent, window);
             

@@ -16,7 +16,7 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<PaymentOrdersTableWindow>();
-        var parent = new WindowContainer<SupplierOrderTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
         window.Owner = parent;
 
         ResolveRelated();

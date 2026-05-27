@@ -4,7 +4,7 @@ using Utils.EventBus;
 
 namespace Comp_v4;
 
-public class WindowContainer<T> : IRuntimeParamsContainer<T> where T : Window
+public class InstanceContainer<T> : IRuntimeParamsContainer<T> where T : Window
 {
     protected T _item;
     public T RuntimeParam {

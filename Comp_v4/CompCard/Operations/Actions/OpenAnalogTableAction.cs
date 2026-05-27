@@ -22,7 +22,7 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<AnalogsTableWindow>();
-        var parentWindow = new WindowContainer<CompCardWindow>().RuntimeParam;
+        var parentWindow = new InstanceContainer<CompCardWindow>().RuntimeParam;
         window.Owner = parentWindow;
         _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {

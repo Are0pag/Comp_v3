@@ -32,7 +32,7 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         };
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
         //_serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
-        var parent = new WindowContainer<AnalogsTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<AnalogsTableWindow>().RuntimeParam;
         window.Owner = parent;
         
         ResolveRelated();
@@ -51,7 +51,7 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
             throw new InvalidOperationException();
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
         //_serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
-        var parent = new WindowContainer<AnalogsTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<AnalogsTableWindow>().RuntimeParam;
         window.Owner = parent;
         ResolveRelated();
 
