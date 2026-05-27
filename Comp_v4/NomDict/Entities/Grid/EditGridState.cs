@@ -52,6 +52,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
         _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
+        WindowService.BindChildToParent(RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
