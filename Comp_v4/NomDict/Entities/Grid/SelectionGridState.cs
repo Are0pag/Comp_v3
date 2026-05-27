@@ -1,7 +1,11 @@
+using System.Windows;
 using System.Windows.Input;
+using Comp_v4.CompCard;
+using Comp_v4.Entry;
 using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
+using Comp_v4.TableWindows.Analogs;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.EventBus;
@@ -12,22 +16,20 @@ namespace Comp_v4.NomDict.Entities;
 public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, ICommitSelectionHandler
 {
     protected readonly DataGridVm _dataGridVm;
-    protected readonly IWindowOrderLocator _windowOrderLocator;
     protected readonly IServiceProvider _serviceProvider;
     protected TaskCompletionSource<Component>? _selectionTcs;
     protected Type? _selectingRequesterType;
     
     public SelectionGridState(DataGridVm dataGridVm, IWindowOrderLocator windowOrderLocator, IServiceProvider serviceProvider) {
         _dataGridVm = dataGridVm;
-        _windowOrderLocator = windowOrderLocator;
         _serviceProvider = serviceProvider;
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
     }
 
-
-    public void Dispose() {
-        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
-        _selectionTcs?.TrySetCanceled();
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
+        _selectingRequesterType = requesterType;
+        WindowService.HideChildren(new WindowContainer<NomDictWindow>().RuntimeParam);
+        _selectionTcs = tcs;
     }
 
     public async Task OnCommitSelection(TaskCompletionSource<Component> tcs) {
@@ -46,12 +48,6 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
         _selectingRequesterType = null;
     }
 
-    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
-        _selectingRequesterType = requesterType;
-        _windowOrderLocator.MoveToFront<NomDictWindow>();
-        _selectionTcs = tcs;
-    }
-
     public override async Task OnMouseDoubleClick(TaskCompletionSource tcs, object sender, MouseButtonEventArgs mouseButtonEventArgs, Grid grid) {
 
     }
@@ -62,5 +58,10 @@ public class SelectionGridState : BaseSGridState, IGridSelectingStateHandler, IC
 
     public override async Task EditComp(TaskCompletionSource tcs, object? parameter, Grid grid) {
         throw new NotSupportedException();
+    }
+    
+    public void Dispose() {
+        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+        _selectionTcs?.TrySetCanceled();
     }
 }

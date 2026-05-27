@@ -33,9 +33,6 @@ public class ActionAnalogsSave : BaseActionAsyncCompletion, IRuntimeParamsContai
         });
 
         await Task.WhenAll(tasks);
-        
-        _windowOrderLocator.MoveToBack<NomDictWindow>();
-        _windowOrderLocator.MoveToBack<NomDictWindow>();
     }
 
     public override bool CanPerform() {

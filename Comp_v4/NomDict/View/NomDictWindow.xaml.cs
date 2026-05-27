@@ -69,15 +69,6 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         }
     }
 
-    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<NomDictWindow> container) {
-        container.RuntimeParam = this;
-    }
-
-    public void Dispose() {
-        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
-        EventBus<IGlSubscriber>.Unsubscribe(this);
-    }
-
     void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
         _selectingTcs = tcs;
     }
@@ -100,7 +91,9 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         _draggedItem = FindAncestor<TreeViewItem>((DependencyObject)e.OriginalSource);
     }
 
+
     // Обработчик движения мыши - отслеживает, когда начинается перетаскивание
+
     private void TreeViewItem_PreviewMouseMove(object sender, MouseEventArgs e) {
         if (e.LeftButton != MouseButtonState.Pressed || _draggedItem == null) 
             return;
@@ -123,7 +116,9 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         _draggedItem = null;
     }
 
+
     // Обработчик события "броска" элемента
+
     private async void TreeViewItem_Drop(object sender, DragEventArgs e) {
         // FindAncestor<TreeViewItem> - ищем TreeViewItem, НА который бросаем
         // e.OriginalSource - это конкретный элемент внутри TreeViewItem (TextBlock, Border и т.д.)
@@ -142,7 +137,9 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         }
     }
 
+
     // Обработчик события "перетаскивания над элементом"
+
     private void TreeViewItem_DragOver(object sender, DragEventArgs e) {
         // Проверяем: перетаскиваем ли мы Category?
         if (e.Data.GetData(typeof(Category)) is Category) {
@@ -152,7 +149,9 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         }
     }
 
+
     // ★ ВАЖНО: Поиск предка (Ancestor) в визуальном дереве ★
+
     private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject {
         // Дерево элементов WPF:
         // TreeView
@@ -174,4 +173,12 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         return null;
     }
 
+    public void Dispose() {
+        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Unsubscribe(this);
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<NomDictWindow> container) {
+        container.RuntimeParam = this;
+    }
 }

@@ -18,6 +18,7 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
     protected readonly IServiceProvider _serviceProvider;
     protected Analog _analog;
     protected TaskCompletionSource _butTcs;
+    protected Type? _requesterType;
 
     public AddAnalogsFormState(IWindowOrderLocator windowOrderLocator, IRepository<Analog> analogRepository, IServiceProvider serviceProvider) {
         _windowOrderLocator = windowOrderLocator;
@@ -32,9 +33,10 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
         _butTcs = butTcs;
         
         var completionSource = new TaskCompletionSource<Component>();
+        _requesterType = GetType();
         EventBus<INomDictWindowSubscriber>
            .RaiseEvent<IGridSelectingStateHandler>(h => {
-                h?.OnSelecting(completionSource, this.GetType());
+                h?.OnSelecting(completionSource, _requesterType);
             });
         return Task.CompletedTask;
     }
@@ -55,12 +57,15 @@ public class AddAnalogsFormState : BaseAnalogsFormState, IGetResultOfSelectionHa
     }
 
     public void OnGetResultOfSelection(Component component, Type requesterType) {
-        if (requesterType != GetType())
+        if (requesterType != _requesterType)
             return;
+        _requesterType = null;
+        
         if (_butTcs is null)
             return;
         RuntimeParam.RelatedComponent = component;
-        _windowOrderLocator.MoveToBack<NomDictWindow>();
+        WindowService.ShowChildren(new WindowContainer<NomDictWindow>().RuntimeParam);
+        //_windowOrderLocator.MoveToBack<NomDictWindow>();
         
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
         _butTcs.SetResult();

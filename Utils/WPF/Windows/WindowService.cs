@@ -120,4 +120,23 @@ public static class WindowService
             parent.LocationChanged -= parentLocationChanged;
         };
     }
+
+    public static void HideChildren(Window parent) {
+        // Делаем копию списка, чтобы избежать ошибок изменения коллекции при скрытии
+        var children = parent.OwnedWindows.Cast<Window>().ToArray();
+        foreach (Window child in children) {
+            HideChildren(child);
+            child.Hide();
+        }
+    }
+    
+    public static void ShowChildren(Window parent) {
+        var children = parent.OwnedWindows.Cast<Window>().ToArray();
+
+        foreach (Window child in children) {
+            child.Show();
+            // Рекурсивно показываем вложенные окна
+            ShowChildren(child);
+        }
+    }
 }
