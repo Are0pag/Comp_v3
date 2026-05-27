@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,6 +22,11 @@ public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGri
                                     ButtonVmSave<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmSave, 
                                     ButtonVmDeleteItem<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmDeleteItem) {
         InitializeComponent();
+        
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
+        
         MainDataGrid.DataContext = dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
@@ -38,6 +44,8 @@ public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGri
     public void Dispose() {
         EventBus<IGlobSubscriber>.Unsubscribe(this);
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
 
     public void HandleClosingTableWindow<T>(object? args) where T : Window {
@@ -74,4 +82,7 @@ public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGri
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
     }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

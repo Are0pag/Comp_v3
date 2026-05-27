@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Vm;
@@ -12,6 +13,10 @@ public partial class CounterpartyFormWindow : Window, IDisposable
     public CounterpartyFormWindow(Counterparty counterparty, SaveCpFormButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm) {
         InitializeComponent();
         
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
+        
         CounterpartyTypeComboBox.DataContext = counterpartyEnumsVm;
         
         DataContext = counterparty;
@@ -21,6 +26,8 @@ public partial class CounterpartyFormWindow : Window, IDisposable
 
     public void Dispose() {
         //EventBus<ICounterpartySubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
 
     public Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null) {
@@ -28,4 +35,7 @@ public partial class CounterpartyFormWindow : Window, IDisposable
         tcs.TrySetResult((Counterparty)parameter!);
         return Task.CompletedTask;
     }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

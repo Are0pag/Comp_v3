@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,9 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
     protected readonly SaveOrderPositionButVm _saveOrderPositionButVm;
     public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SelectPositionButVm selectPositionButVm, SaveOrderPositionButVm saveOrderPositionButVm) {
         InitializeComponent();
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         _receiveStatusEnumVm = receiveStatusEnumVm;
         _selectPositionButVm = selectPositionButVm;
         _saveOrderPositionButVm = saveOrderPositionButVm;
@@ -42,6 +46,8 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
         EventBus<IOrderPositionSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
 
 #region Невозможность прописать буквы и т.д. в поле
@@ -68,4 +74,7 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
         tcs.TrySetResult();
         return Task.CompletedTask;
     }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using Comp_v4._Installers;
 using Comp_v4.TableWindows.Analogs.Buttons;
@@ -12,6 +13,9 @@ public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler
     protected readonly Analog _analog;
     public AnalogsFormWindow(Analog analog, SelectAnalogButtonVm selectAnalogButtonVm, SaveAnalogButVm saveButVm) {
         InitializeComponent();
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         _analog = analog;
         DataContext = analog;
         SelectAnalogButton.DataContext = selectAnalogButtonVm;
@@ -23,6 +27,8 @@ public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler
     public void Dispose() {
         EventBus<IAnalogsTableWindowSubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
 
     public Task Save(TaskCompletionSource tcs, Analog analog) {
@@ -38,4 +44,7 @@ public partial class AnalogsFormWindow : Window, IDisposable, IAnalogSaveHandler
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<AnalogsFormWindow> container) {
         container.RuntimeParam = this;
     }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

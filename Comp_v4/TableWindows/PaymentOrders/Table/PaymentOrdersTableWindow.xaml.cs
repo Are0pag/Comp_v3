@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
@@ -5,7 +6,7 @@ using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Table;
 
-public partial class PaymentOrdersTableWindow : Window
+public partial class PaymentOrdersTableWindow : Window, IDisposable
 {
     private readonly PaymentOrdersGridVm _gridVm;
     private readonly AddPaymentOrderButVm _addPaymentOrderButVm;
@@ -14,6 +15,9 @@ public partial class PaymentOrdersTableWindow : Window
     
     public PaymentOrdersTableWindow(AddPaymentOrderButVm addPaymentOrderButVm, EditPaymentOrderButVm editPaymentOrderButVm, DeletePaymentOrderButVm deletePaymentOrderButVm, PaymentOrdersGridVm gridVm) {
         InitializeComponent();
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         _gridVm = gridVm;
         _addPaymentOrderButVm = addPaymentOrderButVm;
         _editPaymentOrderButVm = editPaymentOrderButVm;
@@ -38,4 +42,12 @@ public partial class PaymentOrdersTableWindow : Window
     private void Window_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         
     }
+
+    public void Dispose() {
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
+    }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

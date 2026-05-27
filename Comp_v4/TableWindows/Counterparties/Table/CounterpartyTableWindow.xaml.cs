@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -23,6 +24,10 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
                                    CounterpartyDataGridVm dataGridVm, 
                                    ConfirmSelectiontButVm confirmSelectiontButVm) {
         InitializeComponent();
+        
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         _confirmSelectiontButVm = confirmSelectiontButVm;
         _deleteCounterpartyButVm = deleteCounterpartyButVm;
         
@@ -92,7 +97,12 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
     public void Dispose() {
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }
 
 public class CounterpartyTableDoubleClickTaskCompletionSource : TaskCompletionSource {}

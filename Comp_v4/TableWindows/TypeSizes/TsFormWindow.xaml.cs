@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Comp_v4._Installers;
@@ -16,6 +17,9 @@ public partial class TsFormWindow : Window, IDisposable, ITypeSizeCreateHandler,
     protected TypeSize _typeSize;
     public TsFormWindow(TsImageFieldVm imageFieldVm, TypeSize typeSize, ButtonSaveNewItemForm buttonSaveNewItemForm) {
         InitializeComponent();
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         _typeSize = typeSize;
         DataContext = typeSize;
         
@@ -35,6 +39,8 @@ public partial class TsFormWindow : Window, IDisposable, ITypeSizeCreateHandler,
     public void Dispose() {
         EventBus<ITypeSizesWindowSubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
 
     public async Task OnCreate(object? parameter = null) {
@@ -44,4 +50,6 @@ public partial class TsFormWindow : Window, IDisposable, ITypeSizeCreateHandler,
     private void AddTypeSizeWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
     }
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Comp_v4._Installers;
@@ -25,6 +26,9 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
                                    OrderStatusEnumsVm orderStatusEnumsVm, 
                                    VatStatusEnumVm vatStatusEnumsVm) {
         InitializeComponent();
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         DataContext = supplierOrder;
 
         VatStatusComboBox.DataContext = vatStatusEnumsVm;
@@ -53,5 +57,10 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
+    
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

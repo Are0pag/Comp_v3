@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,11 +10,12 @@ using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp_v4.NomDict.Vm.Buttons.Components;
-using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Templates.Common.Events.Input;
 using Utils.EventBus;
+using Utils.WPF;
 using Utils.WPF.Buttons;
+using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.NomDict.View;
 
@@ -31,6 +33,11 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
                          UpdateCategoryNameButtonVm updateCategoryNameButtonVm, MoveCategoryAction moveCategoryAction,
                          AddCompButtonVm addCompButtonVm, EditCompButVm editCompButVm) {
         InitializeComponent();
+        
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
+        
         _treeViewVm = treeViewVm;
         _moveCategoryAction = moveCategoryAction;
         _editCompButVm = editCompButVm;
@@ -44,6 +51,10 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
         EventBus<IGlSubscriber>.Subscribe(this);
     }
+
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, nameof(NomDictWindow));
+
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, nameof(NomDictWindow));
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
     }
@@ -173,6 +184,8 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
     public void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
 
     public void OnGetResultOfSelection(Component component, Type requesterType) {

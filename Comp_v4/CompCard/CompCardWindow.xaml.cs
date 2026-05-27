@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,6 +22,10 @@ public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolve
                           CardCopmEditController ec,
                           SaveCompButtonVm saveCompButtonVm) {
         InitializeComponent();
+        
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SourceInitialized += LoadPlacement;
+        Closing += SavePlacement;
         _component = component;
 
         AnalogsFieldGrid.DataContext = analogsFieldVm;
@@ -85,8 +90,13 @@ public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolve
         container.RuntimeParam = this;
     }
 
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, nameof(CompCardWindow));
+
+    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, nameof(CompCardWindow));
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= LoadPlacement;
+        Closing -= SavePlacement;
     }
     
     private void InitSimpleField(BaseTextFieldVm baseFieldVm, string currentValue, TextBox textBox) {
