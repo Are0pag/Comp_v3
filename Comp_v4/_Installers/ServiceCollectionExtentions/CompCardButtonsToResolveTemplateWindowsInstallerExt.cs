@@ -53,9 +53,12 @@ public static class CompCardButtonsToResolveTemplateWindowsInstallerExt
         where TData : class, IDbEntity, new() 
     {
         var window = serviceProvider.GetRequiredService<TWindow>();
+        var compCardWindow = new WindowContainer<CompCardWindow>().RuntimeParam;
+        window.Owner = compCardWindow;
         serviceProvider.GetRequiredService<PersistenceManager<TWindow, TData>>();
         serviceProvider.GetRequiredService<TableCommandBinder<TWindow, TData>>();
         serviceProvider.GetRequiredService<ActionFilter<TWindow, TData, FiltersVmBase>>();
+        WindowService.BindChildToParent(compCardWindow, window);
         window.Show();
     }
 }

@@ -11,7 +11,7 @@ using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.CompCard;
 
-public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolver<Component>, IRuntimeParamsResolver<IImageOwner>
+public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolver<Component>, IRuntimeParamsResolver<IImageOwner>, IRuntimeParamsResolver<CompCardWindow>
 {
     protected readonly Component _component;
     
@@ -79,6 +79,10 @@ public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolve
     public Task ResolveRuntimeParams(IRuntimeParamsContainer<IImageOwner> container) {
         container.RuntimeParam = _component;
         return Task.CompletedTask;
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<CompCardWindow> container) {
+        container.RuntimeParam = this;
     }
 
     public void Dispose() {
