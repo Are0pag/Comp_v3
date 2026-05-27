@@ -14,7 +14,11 @@ public class CounterpartySelectAction : BaseAsyncActionScopeReloadable
     }
 
     protected override Window GetWindow() {
-        return _currentScope!.ServiceProvider.GetRequiredService<CounterpartyTableWindow>();
+        var window = _currentScope!.ServiceProvider.GetRequiredService<CounterpartyTableWindow>();
+        var parent = new WindowContainer<SupplierOrderFormWindow>().RuntimeParam;
+        window.Owner = parent;
+        WindowService.BindChildToParent(parent, window);
+        return window;
     }
 
     protected override void InstantiateRelatedServices() {

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Table"
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="Заказы поставщикам" Height="450" Width="1600"
+        Title="Заказы поставщикам" Height="950" Width="1600"
         PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown"
         PreviewMouseDown="SupplierOrderTableWindow_OnPreviewMouseDown">
     

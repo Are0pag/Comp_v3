@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Comp_v4._Installers;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
@@ -9,7 +10,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
-public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable
+public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, IRuntimeParamsResolver<CounterpartyTableWindow>
 {
     protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
     protected readonly DeleteCounterpartyButVm _deleteCounterpartyButVm;
@@ -32,10 +33,7 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
         MainDataGrid.DataContext = dataGridVm;
         
         EventBus<ICounterpartySubscriber>.Subscribe(this);
-    }
-
-    public void Dispose() {
-        EventBus<ICounterpartySubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Subscribe(this);
     }
 
     public Task OnSaveCpForm(TaskCompletionSource tcs, object? parameter = null) {
@@ -85,6 +83,15 @@ public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSav
             #endif
                 break;
         }
+    }
+    
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<CounterpartyTableWindow> container) {
+        container.RuntimeParam = this;
+    }
+
+    public void Dispose() {
+        EventBus<ICounterpartySubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Unsubscribe(this);
     }
 }
 

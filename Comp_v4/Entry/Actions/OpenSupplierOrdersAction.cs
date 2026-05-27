@@ -30,7 +30,7 @@ public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable, IRuntime
         supplierOrderTableWindow.Owner = RuntimeParam;
         WindowService.BindChildToParent(RuntimeParam, supplierOrderTableWindow);
         
-        _windowOrderLocator.RegisterWindow(supplierOrderTableWindow);
+        //_windowOrderLocator.RegisterWindow(supplierOrderTableWindow);
         supplierOrderTableWindow.Closed += (sender, args) => {
             _windowOrderLocator.UnregisterWindow(supplierOrderTableWindow);
         };

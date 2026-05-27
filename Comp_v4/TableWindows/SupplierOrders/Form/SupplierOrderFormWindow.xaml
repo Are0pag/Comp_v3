@@ -7,7 +7,7 @@
         xmlns:ucl="clr-namespace:WPF.UCL;assembly=WPF.UCL"
         xmlns:form="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
-        Title="Заказ поставщику" Height="450" Width="800"
+        Title="Заказ поставщику" Height="850" Width="1000"
         PreviewMouseDown="SupplierOrderFormWindow_OnPreviewMouseDown">
     
     <Window.Resources>

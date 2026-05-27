@@ -18,6 +18,9 @@ public class AddCounterpartyAction : BaseActionAsyncScopeHandler
         _currentTcs = tcs;
         using (var scope = _scopeFactory.CreateScope()) {
             var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
+            var parent = new WindowContainer<CounterpartyTableWindow>().RuntimeParam;
+            window.Owner = parent;
+            WindowService.BindChildToParent(parent, window);
 
             scope.ServiceProvider.GetRequiredService<FormCp>();
             scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
