@@ -26,7 +26,7 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
 {
     protected readonly EditTsButVm _editTsButVm;
     public TypeSizesTableWindow(DataGridViewModel<T> dataGridViewModel, 
-                                IFilter<T, FiltersVmBase> filtersVm, 
+                                FiltersVmBase filtersVm, 
                         
                                 ButtonVmAddItem<W, T> buttonVmAddItem, 
                                 ButtonVmSave<W, T> buttonVmSave, 

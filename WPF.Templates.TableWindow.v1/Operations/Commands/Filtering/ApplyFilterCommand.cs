@@ -24,8 +24,8 @@ public class ApplyFilterCommand<TWindow, T, TFiltersSource> : BaseCommand<ApplyF
 
     public override Task ExecuteAsync() {
         var comparisonType = _args.Filters.IgnoreCase 
-            ? StringComparison.OrdinalIgnoreCase 
-            : StringComparison.Ordinal;
+            ? StringComparison.Ordinal 
+            : StringComparison.OrdinalIgnoreCase;
 
         var sorted = _args.Items.Where(item => _filter.ApplyFilter(item, _args.Filters, comparisonType)).ToList();
 
