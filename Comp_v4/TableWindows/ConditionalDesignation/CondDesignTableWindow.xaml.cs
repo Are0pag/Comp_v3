@@ -13,17 +13,19 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.ConditionalDesignation;
 
+using Cd = Comp.ModelData.TechnicalItems.ConditionalDesignation;
+
 public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IDataGridRequestResolver<CondDesignTableWindow>, ITableWindowHandler
 {
-    protected readonly DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> _dataGridViewModel;
+    protected readonly DataGridViewModel<Cd> _dataGridViewModel;
     protected readonly FiltersVmBase _filtersVm;
     
-    public CondDesignTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.ConditionalDesignation> dataGridViewModel, 
+    public CondDesignTableWindow(DataGridViewModel<Cd> dataGridViewModel, 
                         FiltersVmBase filtersVm, 
                         
-                        ButtonVmAddItem<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmAddItem, 
-                        ButtonVmSave<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmSave, 
-                        ButtonVmDeleteItem<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmDeleteItem) 
+                        ButtonVmAddItem<CondDesignTableWindow, Cd> buttonVmAddItem, 
+                        ButtonVmSave<CondDesignTableWindow, Cd> buttonVmSave, 
+                        ButtonVmDeleteItem<CondDesignTableWindow, Cd> buttonVmDeleteItem) 
     {
         InitializeComponent();
 

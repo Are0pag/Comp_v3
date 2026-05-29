@@ -12,28 +12,48 @@ public class FocusCellCommand<TWindow, T> : BaseCommand<T>
     where T : class, new()
 {
     protected readonly ModuleContext<TWindow, T> _moduleContext;
+
     public FocusCellCommand(T parameter, ModuleContext<TWindow, T> moduleContext) : base(parameter) {
         _moduleContext = moduleContext;
     }
 
     public override async Task ExecuteAsync() {
         var dg = _moduleContext.DataGrid;
-        Dispatcher.CurrentDispatcher.BeginInvoke(async () => {
+
+        // Переносим выполнение в UI-поток с правильным приоритетом
+        await dg.Dispatcher.InvokeAsync(async () => {
             try {
                 var column = dg.GetFirstEditableColumn();
-                await Task.Delay(200);
-                var raw = await dg.GetRowFromItemAsync(_parameter!);
-                var cell = dg.GetCell(raw, column);
+                if (column == null)
+                    return;
 
+                dg.ScrollIntoView(_parameter);
+
+                // 2. Даем WPF время обновить визуальное дерево после скролла
+                await Task.Delay(50);
+
+                // 3. Получаем строку (убедитесь, что ваш метод GetRowFromItemAsync учитывает виртуализацию)
+                var row = await dg.GetRowFromItemAsync(_parameter!);
+                if (row == null)
+                    return;
+
+                // 4. Получаем ячейку
+                var cell = dg.GetCell(row, column);
+                if (cell == null)
+                    return;
+
+                // 5. Устанавливаем текущую ячейку и фокус
                 dg.CurrentCell = new DataGridCellInfo(_parameter!, column);
+
                 cell.Focus();
-                dg.BeginEdit();
+
+                // 6. Вызываем редактирование чуть позже, когда фокус окончательно закрепился
+                await dg.Dispatcher.InvokeAsync(() => { dg.BeginEdit(); }, DispatcherPriority.Input);
             }
             catch (Exception e) {
                 e.Log(this);
                 throw;
             }
-        }, DispatcherPriority.ContextIdle);
-        return;
+        }, DispatcherPriority.Background); // Background гарантирует, что данные уже привязались к UI
     }
 }
