@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Comp_v4.CompCard.Events;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
 using WPF.Templates.TableWindow.v1.Vm;
@@ -13,7 +14,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.GenericParametersSets;
 
-public partial class GenericParametersSetsWindow : Window, IDisposable, IDataGridRequestResolver<GenericParametersSetsWindow>, ITableWindowHandler
+public partial class GenericParametersSetsWindow : TableWindowBase, IDisposable, IDataGridRequestResolver<GenericParametersSetsWindow>, ITableWindowHandler
 {
  public GenericParametersSetsWindow(DataGridViewModel<GenericParametersSet> dataGridViewModel, 
                                     FiltersVmBase filtersVm, 

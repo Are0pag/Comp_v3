@@ -1,18 +1,19 @@
-<Window x:Class="Comp_v4.TableWindows.TypeSizes.TypeSizesTableWindow"
+<windows:TableWindowBase x:Class="Comp_v4.TableWindows.TypeSizes.TypeSizesTableWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.TableWindows.TypeSizes"
+        xmlns:windows="clr-namespace:Utils.WPF.Windows;assembly=Utils"
         mc:Ignorable="d"
         Title="Типоразмеры" Height="750" Width="800"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="Window_OnPreviewMouseDown">
     
-    <Window.Resources>
+    <windows:TableWindowBase.Resources>
         <local:BoolToTextConverter x:Key="BoolToTextConverter"/>
         <local:RelativeToAbsolutePathConverter x:Key="RelativeToAbsolutePathConverter"/>
-    </Window.Resources>
+    </windows:TableWindowBase.Resources>
     
     <Grid>
          <Grid.ColumnDefinitions>
@@ -105,4 +106,4 @@
             <!--<Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>-->
         </StackPanel>
     </Grid>
-</Window>
+</windows:TableWindowBase>

@@ -9,6 +9,7 @@ using Comp_v4.TableWindows.TypeSizes.Events;
 using Comp_v4.TableWindows.TypeSizes.Vm.Buttons;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
 using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
@@ -21,7 +22,7 @@ namespace Comp_v4.TableWindows.TypeSizes;
 using W = TypeSizesTableWindow;
 using T = TypeSize;
 
-public partial class TypeSizesTableWindow : Window, IDisposable, IDataGridRequestResolver<W>, ITableWindowHandler
+public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataGridRequestResolver<W>, ITableWindowHandler
 {
     protected readonly EditTsButVm _editTsButVm;
     public TypeSizesTableWindow(DataGridViewModel<T> dataGridViewModel, 

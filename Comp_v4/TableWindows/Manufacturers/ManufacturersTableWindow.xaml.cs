@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.CompCard.Events;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
 using WPF.Templates.TableWindow.v1.Vm;
@@ -12,7 +13,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.Manufacturers;
 
-public partial class ManufacturersTableWindow : Window, IDisposable, IDataGridRequestResolver<ManufacturersTableWindow>, ITableWindowHandler
+public partial class ManufacturersTableWindow : TableWindowBase, IDisposable, IDataGridRequestResolver<ManufacturersTableWindow>, ITableWindowHandler
 {
     public ManufacturersTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.Manufacturer> dataGridViewModel, 
                                     FiltersVmBase filtersVm, 

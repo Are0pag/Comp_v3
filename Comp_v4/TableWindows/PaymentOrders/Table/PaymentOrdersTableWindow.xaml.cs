@@ -3,10 +3,11 @@ using System.Windows;
 using System.Windows.Input;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
+using Utils.WPF.Windows;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Table;
 
-public partial class PaymentOrdersTableWindow : Window, IDisposable
+public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
 {
     private readonly PaymentOrdersGridVm _gridVm;
     private readonly AddPaymentOrderButVm _addPaymentOrderButVm;

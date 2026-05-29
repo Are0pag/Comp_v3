@@ -8,10 +8,11 @@ using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Templates.Common;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
-public partial class CounterpartyTableWindow : Window, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, IRuntimeParamsResolver<CounterpartyTableWindow>
+public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, IRuntimeParamsResolver<CounterpartyTableWindow>
 {
     protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
     protected readonly DeleteCounterpartyButVm _deleteCounterpartyButVm;

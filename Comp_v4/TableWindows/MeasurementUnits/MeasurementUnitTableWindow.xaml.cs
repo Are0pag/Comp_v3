@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.CompCard.Events;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Events.Requests;
 using WPF.Templates.TableWindow.v1.Vm;
@@ -12,7 +13,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components.Buttons;
 
 namespace Comp_v4.TableWindows.MeasurementUnits;
 
-public partial class MeasurementUnitTableWindow : Window, IDisposable, IDataGridRequestResolver<MeasurementUnitTableWindow>, ITableWindowHandler
+public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, IDataGridRequestResolver<MeasurementUnitTableWindow>, ITableWindowHandler
 {
     public MeasurementUnitTableWindow(DataGridViewModel<Comp.ModelData.TechnicalItems.MeasurementUnit> dataGridViewModel, 
                                       FiltersVmBase filtersVm, 

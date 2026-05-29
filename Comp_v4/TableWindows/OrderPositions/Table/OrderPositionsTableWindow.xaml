@@ -1,4 +1,4 @@
-<Window x:Class="Comp_v4.TableWindows.OrderPositions.Table.OrderPositionsTableWindow"
+<windows:TableWindowBase x:Class="Comp_v4.TableWindows.OrderPositions.Table.OrderPositionsTableWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,19 +6,20 @@
         xmlns:local="clr-namespace:Comp_v4.TableWindows.OrderPositions.Table"
         xmlns:form="clr-namespace:Comp_v4.TableWindows.OrderPositions.Form"
         xmlns:form1="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
+        xmlns:windows="clr-namespace:Utils.WPF.Windows;assembly=Utils"
         mc:Ignorable="d"
         Title="Состав заказа" Height="900" Width="1200"
         PreviewKeyDown="SupplierOrderTableWindow_OnPreviewKeyDown"
         PreviewMouseDown="SupplierOrderTableWindow_OnPreviewMouseDown">
     
-    <Window.Resources>
+    <windows:TableWindowBase.Resources>
         <Style x:Key="ToolBarButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="80"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="5,0,0,0"/>
         </Style>
         <form1:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
-    </Window.Resources>
+    </windows:TableWindowBase.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -90,4 +91,4 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-</Window>
+</windows:TableWindowBase>

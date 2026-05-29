@@ -7,10 +7,11 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Templates.Common;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
-public partial class SupplierOrderTableWindow : Window, IDisposable, IReloadable, IRuntimeParamsResolver<SupplierOrderTableWindow>
+public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IReloadable, IRuntimeParamsResolver<SupplierOrderTableWindow>
 {
     protected readonly EditSoButVm _editSoButVm;
     protected readonly OpenOrderPositionsButVm _positionsBut;

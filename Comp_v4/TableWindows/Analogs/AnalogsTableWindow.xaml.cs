@@ -5,10 +5,11 @@ using Comp_v4._Installers;
 using Comp_v4.TableWindows.Analogs.Buttons;
 using Comp_v4.TableWindows.Analogs.Events;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 
 namespace Comp_v4.TableWindows.Analogs;
 
-public partial class AnalogsTableWindow : Window, IDisposable, IRuntimeParamsResolver<AnalogsTableWindow>
+public partial class AnalogsTableWindow : TableWindowBase, IDisposable, IRuntimeParamsResolver<AnalogsTableWindow>
 {
     protected readonly EditAnalogButVm _editAnalogButVm;
     public AnalogsTableWindow(AnalogsTableVm analogsTableVm, AddAnalogButtonVm addAnalogButtonVm, EditAnalogButVm editAnalogButVm) {

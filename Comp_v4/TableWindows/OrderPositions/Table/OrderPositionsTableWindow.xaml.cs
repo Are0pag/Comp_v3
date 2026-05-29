@@ -6,10 +6,11 @@ using Comp_v4.TableWindows.OrderPositions.Table.Vm;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm.Buts;
 using Comp.ModelData;
 using Utils.EventBus;
+using Utils.WPF.Windows;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table;
 
-public partial class OrderPositionsTableWindow : Window, IRuntimeParamsResolver<OrderPositionsTableWindow>
+public partial class OrderPositionsTableWindow : TableWindowBase, IRuntimeParamsResolver<OrderPositionsTableWindow>
 {
     private readonly OpDataGridVm _opDataGridVm;
     private readonly CreateOrderPosFormButVm _createOrderPosFormButVm; 
