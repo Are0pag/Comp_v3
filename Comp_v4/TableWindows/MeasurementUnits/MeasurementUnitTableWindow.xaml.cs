@@ -22,9 +22,6 @@ public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, 
                                       ButtonVmSave<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmSave, 
                                       ButtonVmDeleteItem<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmDeleteItem) {
         InitializeComponent();
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
         MainDataGrid.DataContext = dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
@@ -42,8 +39,6 @@ public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, 
     public void Dispose() {
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
         EventBus<IGlobSubscriber>.Unsubscribe(this);
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
     }
 
     public void HandleClosingTableWindow<T>(object? args) where T : Window {
@@ -81,6 +76,4 @@ public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, 
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

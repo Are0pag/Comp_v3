@@ -14,9 +14,6 @@ public partial class AnalogsTableWindow : TableWindowBase, IDisposable, IRuntime
     protected readonly EditAnalogButVm _editAnalogButVm;
     public AnalogsTableWindow(AnalogsTableVm analogsTableVm, AddAnalogButtonVm addAnalogButtonVm, EditAnalogButVm editAnalogButVm) {
         InitializeComponent();
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
         _editAnalogButVm = editAnalogButVm;
         MainDataGrid.DataContext = analogsTableVm;
         AddAnalogButton.DataContext = addAnalogButtonVm;
@@ -27,12 +24,9 @@ public partial class AnalogsTableWindow : TableWindowBase, IDisposable, IRuntime
         container.RuntimeParam = this;
     }
 
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
     }
 
     private void MainDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {

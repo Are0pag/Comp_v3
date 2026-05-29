@@ -4,7 +4,7 @@ using WPF.Extensions.View.Elements;
 
 namespace Utils.WPF.Windows;
 
-public class TableWindowBase : Window
+public class TableWindowBase : PosWindowBase
 {
     public TableWindowBase() {
         Closed += (sender, args) => {
@@ -34,4 +34,9 @@ public class TableWindowBase : Window
 
         return null;
     }
+}
+
+public class WindowBase : Window
+{
+
 }

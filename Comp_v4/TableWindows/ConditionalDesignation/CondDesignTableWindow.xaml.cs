@@ -26,10 +26,6 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
                         ButtonVmDeleteItem<CondDesignTableWindow, Comp.ModelData.TechnicalItems.ConditionalDesignation> buttonVmDeleteItem) 
     {
         InitializeComponent();
-        
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
 
         Id = new Guid();
         _dataGridViewModel = dataGridViewModel;
@@ -53,8 +49,6 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
         EventBus<IGlobSubscriber>.Unsubscribe(this);
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
         
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
     }
 
     public void HandleClosingTableWindow<T>(object? args) where T : Window {
@@ -89,7 +83,4 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
     }
-    
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

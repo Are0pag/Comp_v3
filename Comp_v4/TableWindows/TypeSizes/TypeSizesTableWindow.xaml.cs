@@ -33,9 +33,6 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
                                 ButtonVmDeleteItem<W, T> buttonVmDeleteItem, 
                                 EditTsButVm editTsButVm) {
         InitializeComponent();
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
         _editTsButVm = editTsButVm;
         EditButton.DataContext = editTsButVm;
         MainDataGrid.DataContext = dataGridViewModel;
@@ -56,8 +53,6 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
     public void Dispose() {
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
         EventBus<IGlobSubscriber>.Unsubscribe(this);
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
     }
 
     public void HandleClosingTableWindow<T>(object? args) where T : Window {
@@ -115,8 +110,6 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
         }, DispatcherPriority.Background);
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }
 
 // Расширительный метод для упрощения поиска родительского элемента

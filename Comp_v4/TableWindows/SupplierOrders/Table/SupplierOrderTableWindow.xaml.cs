@@ -22,9 +22,6 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
                                     AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, 
                                     OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut) {
         InitializeComponent();
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
         DataGrid.DataContext = dataGridVm;
         
         AddButton.DataContext = addButVm;
@@ -86,10 +83,6 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }

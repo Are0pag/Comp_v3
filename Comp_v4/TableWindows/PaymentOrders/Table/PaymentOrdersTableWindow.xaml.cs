@@ -16,9 +16,6 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     
     public PaymentOrdersTableWindow(AddPaymentOrderButVm addPaymentOrderButVm, EditPaymentOrderButVm editPaymentOrderButVm, DeletePaymentOrderButVm deletePaymentOrderButVm, PaymentOrdersGridVm gridVm) {
         InitializeComponent();
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
         _gridVm = gridVm;
         _addPaymentOrderButVm = addPaymentOrderButVm;
         _editPaymentOrderButVm = editPaymentOrderButVm;
@@ -43,12 +40,5 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     private void Window_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         
     }
-
-    public void Dispose() {
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
-    }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
 }
