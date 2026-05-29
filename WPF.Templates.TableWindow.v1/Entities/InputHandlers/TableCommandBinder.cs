@@ -1,7 +1,9 @@
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
+using Utils.WPF;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
 
@@ -32,6 +34,21 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
             
             case Key.Delete when _actionDeleteItem.CanPerform():
                 await _actionDeleteItem.PerformAsync();
+                break;
+            
+            case Key.F1:
+                var cb = VisualHelper.FindVisualChild<CheckBox>((Window)sender);
+                cb.IsChecked = !cb.IsChecked;
+                break;
+            
+            case Key.Escape:
+                try {
+                    ((Window)sender).Close();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
                 break;
         }
     }

@@ -10,7 +10,7 @@ public class TableWindowBase : PosWindowBase
         Closed += (sender, args) => {
             try {
                 // Находим DataGrid на форме через логическое дерево
-                var dataGrid = FindVisualChild<DataGrid>(this);
+                var dataGrid = VisualHelper.FindVisualChild<DataGrid>(this);
                 if (dataGrid != null && dataGrid.IsEditing()) {
                     dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
                 }
@@ -22,18 +22,7 @@ public class TableWindowBase : PosWindowBase
         };
     }
 
-    private T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject {
-        for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(obj); i++) {
-            var child = System.Windows.Media.VisualTreeHelper.GetChild(obj, i);
-            if (child is T t)
-                return t;
-            var childOfChild = FindVisualChild<T>(child);
-            if (childOfChild != null)
-                return childOfChild;
-        }
 
-        return null;
-    }
 }
 
 public class WindowBase : Window
