@@ -1,6 +1,7 @@
 using System.Windows;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
+using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Entities;
 using WPF.Templates.TableWindow.v1.Entities.Cells;
 using WPF.Templates.TableWindow.v1.Entities.Cells.States;
@@ -20,6 +21,9 @@ public class ActionSave<TWindow, T> : BaseAction<TWindow, T>
     public override async Task<BaseAction<TWindow, T>> PerformAsync(object? parameter = null) {
         try {
             await _scheduler.CommitDeferredChanges();
+            EventBus<WPF.Templates.TableWindow.v1.Events.Update.IGlobalButtonEvent>.
+                RaiseEvent<WPF.Templates.TableWindow.v1.Events.Update.INotifyConditionalsChanged>
+                    (n => n.NotifyCanExecute());
         }
         catch (Exception ex) {
             Console.WriteLine(ex.Message);

@@ -30,7 +30,7 @@ public class FocusCellCommand<TWindow, T> : BaseCommand<T>
                 dg.ScrollIntoView(_parameter);
 
                 // 2. Даем WPF время обновить визуальное дерево после скролла
-                await Task.Delay(50);
+                await Task.Delay(100);
 
                 // 3. Получаем строку (убедитесь, что ваш метод GetRowFromItemAsync учитывает виртуализацию)
                 var row = await dg.GetRowFromItemAsync(_parameter!);
