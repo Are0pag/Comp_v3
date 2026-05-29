@@ -342,4 +342,8 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner, IPopulat
     }
 
 #endregion
+
+    public override string ToString() {
+        return Name;
+    }
 }

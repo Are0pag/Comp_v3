@@ -23,6 +23,13 @@ public class TableCommandBinderExternalSelectionCompatible<TWindow, T> : TableCo
     }
 
     public override async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        if (!((Window)sender).IsLoaded) 
+            return;
+        
+        // у каждого окна свой тип обработчика, а ивент общий, поэтому необходимо убедиться что обработчик соотв. типу окна
+        if (_context.GetType().GetGenericArguments()[0] != sender.GetType())
+            return;
+        
         await base.OnPreviewKeyDown(sender, e);
         switch (e.Key) {
             case Key.Enter when Keyboard.Modifiers == ModifierKeys.Shift:
