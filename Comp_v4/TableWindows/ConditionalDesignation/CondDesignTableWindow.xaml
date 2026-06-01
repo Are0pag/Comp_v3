@@ -39,9 +39,10 @@
 
         </StackPanel>
         
-        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Items}" 
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
+                  CanUserDeleteRows="False"
                   SelectionMode="Single" 
                   x:Name="MainDataGrid" 
                   EnableRowVirtualization="False"

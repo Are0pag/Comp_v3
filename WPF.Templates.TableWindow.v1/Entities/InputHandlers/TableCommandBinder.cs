@@ -37,15 +37,10 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
             
             case Key.Delete when _actionDeleteItem.CanPerform():
                 if (!await _actionDeleteItem.TryExecuteAsync<Component>()) {
-                    
+                    MessageBox.Show("Невозможно удалить элемент, так как он ещё используется другим компонентом");
                     return;
                 }
-                try {
-                    await _actionDeleteItem.PerformAsync();
-                }
-                catch (Exception exception) {
-                    MessageBox.Show(DbExceptionInterpreter.GetUserFriendlyMessage(exception));
-                }
+                await _actionDeleteItem.PerformAsync();
                 break;
             
             case Key.F1:

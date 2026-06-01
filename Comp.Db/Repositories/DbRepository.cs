@@ -69,7 +69,8 @@ public class DbRepository<T> : IRepository<T>
         where TSet : class, IDbEntity
         where TItem : class, IDbEntity
     {
-        var entity = await GetByIdAsync(item.Id);
+        if (await GetByIdAsync(item.Id) is not {} entity) 
+            return false;
         return await _context.Set<TSet>()
                              .AnyAsync(c => EF.Property<TItem>(c, typeof(TItem).Name) == entity);
     }
