@@ -21,6 +21,7 @@
         <DataGrid ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
+                  CanUserDeleteRows="False"
                   SelectionMode="Single" 
                   x:Name="MainDataGrid" 
                   EnableRowVirtualization="False"
