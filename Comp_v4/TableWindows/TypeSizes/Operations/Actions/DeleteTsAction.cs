@@ -21,7 +21,7 @@ public class DeleteTsAction : ActionDeleteItem<TypeSizesTableWindow, TypeSize>
 
     public override async Task<BaseAction<TypeSizesTableWindow, TypeSize>> PerformAsync(object? parameter = null) {
         await base.PerformAsync(parameter);
-        await _actionSave.PerformAsync();
+        //await _actionSave.PerformAsync();
         return this;
     }
 }

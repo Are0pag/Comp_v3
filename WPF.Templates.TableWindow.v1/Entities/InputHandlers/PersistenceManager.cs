@@ -1,7 +1,9 @@
-using System.Windows;
-using System.Windows.Input;
+using Comp.Db;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
+using System;
+using System.Windows;
+using System.Windows.Input;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
@@ -32,6 +34,7 @@ public class PersistenceManager<TWindow, T> : IPreviewKeyDownHandler
                 }
                 catch (Exception ex) {
                     ex.Log(this);
+                    MessageBox.Show(DbExceptionInterpreter.GetUserFriendlyMessage(ex));
                 }
                 break;
         }

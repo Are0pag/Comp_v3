@@ -26,7 +26,8 @@ public class ActionSave<TWindow, T> : BaseAction<TWindow, T>
                     (n => n.NotifyCanExecute());
         }
         catch (Exception ex) {
-            Console.WriteLine(ex.Message);
+            //Console.WriteLine(ex.Message);
+            throw;
         }
         return this;
     }
