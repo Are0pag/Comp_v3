@@ -139,7 +139,7 @@
 
         <!-- Поле ввода -->
         <TextBox Grid.Column="1"
-                 x:Name="InputTextBox"
+                 x:Name="InputTextBox" IsReadOnly="True"
                  Text="{Binding InputText, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Style="{StaticResource ModernTextBoxStyle}"/>
 

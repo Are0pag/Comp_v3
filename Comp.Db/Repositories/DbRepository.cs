@@ -61,6 +61,7 @@ public class DbRepository<T> : IRepository<T>
             }
         }
         catch (Exception e) {
+            Console.WriteLine(e);
             throw;
         }
     }
