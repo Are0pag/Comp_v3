@@ -40,7 +40,7 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
         IgnoreCaseCheckBox.DataContext = filtersVm;
 
         AddNewItemButton.DataContext = buttonVmAddItem;
-        //SaveChangesButton.DataContext = buttonVmSave;
+        SaveChangesButton.DataContext = buttonVmSave;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;

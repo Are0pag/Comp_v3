@@ -32,6 +32,7 @@ public class DbRepository<T> : IRepository<T>
         }
         catch (Exception e) {
             Console.WriteLine(e);
+            throw;
         }
     }
     
@@ -44,16 +45,22 @@ public class DbRepository<T> : IRepository<T>
         }
         catch (Exception e) {
             Console.WriteLine(e);
-            return false;
+            throw;
         }
         return true;
     }
 
     public virtual async Task DeleteAsync(int id) {
-        var entity = await GetByIdAsync(id);
-        if (entity != null) {
-            _context.Set<T>().Remove(entity);
-            await _context.SaveChangesAsync();
+        try {
+            var entity = await GetByIdAsync(id);
+            if (entity != null) {
+                _context.Set<T>().Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            throw;
         }
     }
 }

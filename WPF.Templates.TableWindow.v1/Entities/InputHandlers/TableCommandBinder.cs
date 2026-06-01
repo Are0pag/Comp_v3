@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp.Db;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using Utils.WPF;
@@ -27,13 +28,18 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
 
     public virtual async Task OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
-            case Key.Add when _actionStartAddingNewItem.CanPerform():
-            case Key.OemPlus when _actionStartAddingNewItem.CanPerform():
+            //case Key.Add when _actionStartAddingNewItem.CanPerform():
+            case Key.Insert /*Key.OemPlus*/ when _actionStartAddingNewItem.CanPerform():
                 await _actionStartAddingNewItem.PerformAsync();
                 break;
             
             case Key.Delete when _actionDeleteItem.CanPerform():
-                await _actionDeleteItem.PerformAsync();
+                try {
+                    await _actionDeleteItem.PerformAsync();
+                }
+                catch (Exception exception) {
+                    MessageBox.Show(DbExceptionInterpreter.GetUserFriendlyMessage(exception));
+                }
                 break;
             
             case Key.F1:
