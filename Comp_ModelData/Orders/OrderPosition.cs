@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp.ModelData.Comp;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 
 namespace Comp.ModelData;

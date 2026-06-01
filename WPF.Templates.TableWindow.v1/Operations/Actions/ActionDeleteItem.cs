@@ -1,5 +1,8 @@
 using System.Windows;
+using Comp.Db;
 using Comp.Db.Contracts;
+using Comp.ModelData.Comp;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure;
 using Infrastructure.Command;
@@ -51,5 +54,13 @@ public class ActionDeleteItem<TWindow, T> : BaseAction<TWindow, T>
 
     public override Task CancelAsync(object? parameter = null) {
         return Task.CompletedTask;
+    }
+
+    public override async Task<bool> TryExecuteAsync<TSet>() {
+        if (_context.DataGrid.SelectedItem is T item)
+            return !await _repository.HasAnyUsages<Component, T>(item);
+        new ArgumentException().Log(this);
+        return false;
+
     }
 }

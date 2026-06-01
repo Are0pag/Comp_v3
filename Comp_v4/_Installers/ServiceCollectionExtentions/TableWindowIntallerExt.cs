@@ -1,6 +1,8 @@
 using System.Windows;
 using Comp_v4.CompCard.Entities;
 using Comp_v4.TableWindows;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using Microsoft.Extensions.DependencyInjection;

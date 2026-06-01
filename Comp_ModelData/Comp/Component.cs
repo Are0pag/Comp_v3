@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.SortingItems;
 using Comp.ModelData.TechnicalItems;
 using Utils.WPF.Mvvm;

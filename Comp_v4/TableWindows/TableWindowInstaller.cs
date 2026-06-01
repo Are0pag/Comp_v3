@@ -1,7 +1,9 @@
 using System.Windows;
 using Comp_v4.CompCard.Entities;
+using Comp.Db;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using DI;
 using Infrastructure.Command;

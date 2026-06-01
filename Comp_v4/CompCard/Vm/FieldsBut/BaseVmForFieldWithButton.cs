@@ -1,6 +1,8 @@
 
 using Comp_v4.CompCard.Events;
+using Comp.Db;
 using Comp.ModelData.Comp;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 

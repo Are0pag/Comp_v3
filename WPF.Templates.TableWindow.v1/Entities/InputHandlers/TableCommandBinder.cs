@@ -2,6 +2,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp.Db;
+using Comp.ModelData.Comp;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using Utils.WPF;
@@ -34,6 +36,10 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
                 break;
             
             case Key.Delete when _actionDeleteItem.CanPerform():
+                if (!await _actionDeleteItem.TryExecuteAsync<Component>()) {
+                    
+                    return;
+                }
                 try {
                     await _actionDeleteItem.PerformAsync();
                 }

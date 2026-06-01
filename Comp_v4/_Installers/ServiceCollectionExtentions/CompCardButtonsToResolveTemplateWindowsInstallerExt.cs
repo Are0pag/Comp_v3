@@ -5,6 +5,8 @@ using Comp_v4.TableWindows.GenericParametersSets;
 using Comp_v4.TableWindows.Manufacturers;
 using Comp_v4.TableWindows.MeasurementUnits;
 using Comp_v4.TableWindows.TypeSizes;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates.TableWindow.v1.Entities.InputHandlers;

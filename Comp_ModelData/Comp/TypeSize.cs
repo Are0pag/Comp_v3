@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Comp.ModelData.Contracts;
 using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.TechnicalItems;

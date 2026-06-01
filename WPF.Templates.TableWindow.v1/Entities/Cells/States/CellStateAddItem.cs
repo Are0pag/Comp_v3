@@ -1,5 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Services.UserActionsHandling.InputText;

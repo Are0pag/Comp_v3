@@ -1,6 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using Utils.EventBus;

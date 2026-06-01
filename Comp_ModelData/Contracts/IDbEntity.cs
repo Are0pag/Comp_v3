@@ -1,4 +1,4 @@
-namespace Comp.ModelData.TechnicalItems;
+namespace Comp.ModelData.Contracts;
 
 public interface IDbEntity
 {

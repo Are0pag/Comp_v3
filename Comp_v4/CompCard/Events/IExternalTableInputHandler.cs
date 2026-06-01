@@ -1,3 +1,5 @@
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 
 namespace Comp_v4.CompCard.Events;

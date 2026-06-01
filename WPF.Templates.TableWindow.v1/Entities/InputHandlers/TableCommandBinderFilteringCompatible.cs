@@ -1,5 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Operations.Actions;

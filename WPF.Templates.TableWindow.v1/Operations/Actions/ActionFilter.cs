@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using Utils.EventBus;

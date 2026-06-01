@@ -1,4 +1,6 @@
 using Comp.Db.Contracts;
+using Comp.ModelData.Contracts;
+using Comp.ModelData.TechnicalItems;
 using Microsoft.EntityFrameworkCore;
 
 namespace Comp.Db.Repositories;
@@ -61,5 +63,14 @@ public class DbRepository<T> : IRepository<T>
         catch (Exception e) {
             throw;
         }
+    }
+
+    public virtual async Task<bool> HasAnyUsages<TSet, TItem>(TItem item) 
+        where TSet : class, IDbEntity
+        where TItem : class, IDbEntity
+    {
+        var entity = await GetByIdAsync(item.Id);
+        return await _context.Set<TSet>()
+                             .AnyAsync(c => EF.Property<TItem>(c, typeof(TItem).Name) == entity);
     }
 }

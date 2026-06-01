@@ -1,5 +1,7 @@
 using System.Windows;
+using Comp.Db;
 using Comp.Db.Contracts;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Templates.TableWindow.v1.Entities;

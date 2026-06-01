@@ -1,6 +1,8 @@
 using System.Windows;
 using System.Windows.Input;
 using Comp_v4.CompCard.Events;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Entities;

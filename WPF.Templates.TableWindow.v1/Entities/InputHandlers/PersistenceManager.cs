@@ -4,6 +4,7 @@ using Infrastructure;
 using System;
 using System.Windows;
 using System.Windows.Input;
+using Comp.ModelData.Contracts;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Operations.Actions;

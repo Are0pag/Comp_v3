@@ -1,4 +1,7 @@
 using System.Windows;
+using Comp.Db;
+using Comp.ModelData.Contracts;
+using Comp.ModelData.TechnicalItems;
 using Infrastructure.Command;
 using WPF.Templates.TableWindow.v1.Entities;
 
@@ -23,4 +26,7 @@ public abstract class BaseAction<TWindow, T>
     public abstract bool CanPerform();
     
     public abstract Task CancelAsync(object? parameter = null);
+
+    public virtual Task<bool> TryExecuteAsync<TSet>() where TSet : class, IDbEntity => Task.FromResult(true);
+
 }

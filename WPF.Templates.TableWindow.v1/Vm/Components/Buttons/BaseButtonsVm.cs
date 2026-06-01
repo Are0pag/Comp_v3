@@ -1,5 +1,7 @@
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Comp.Db;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Events.Update;

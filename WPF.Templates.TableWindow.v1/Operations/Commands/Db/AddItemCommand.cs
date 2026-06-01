@@ -1,4 +1,6 @@
+using Comp.Db;
 using Comp.Db.Contracts;
+using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 
 namespace WPF.Templates.TableWindow.v1.Operations.Commands.Db;
