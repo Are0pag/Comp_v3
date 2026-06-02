@@ -41,6 +41,12 @@
                             Command="{Binding ClickCommand}"
                             />
                     <!-- Добавьте свои инструменты для части A -->
+                    <CheckBox x:Name="ViewSubcategoriesContentCheckBox"
+                              Content="Показывать содержимое вложенных категорий" 
+                              IsChecked="{Binding ViewSubcategoriesContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center"
+                              Margin="5"/>
                     
                 </StackPanel>
             </Border>

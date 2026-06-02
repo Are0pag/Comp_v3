@@ -43,6 +43,8 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         _editCompButVm = editCompButVm;
         CategoryTreeView.DataContext = treeViewVm;
         MainDataGrid.DataContext = dataGridVm;
+        ViewSubcategoriesContentCheckBox.DataContext = _treeViewVm;
+        
         TreeView_Button_Add.DataContext = addNewCategoryButtonVm;
         TreeView_Button_Delete.DataContext = deleteCategoryButtonVm;
         TreeView_Button_UpdateName.DataContext = updateCategoryNameButtonVm;

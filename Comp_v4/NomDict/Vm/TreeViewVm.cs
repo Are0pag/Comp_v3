@@ -6,6 +6,7 @@ using Comp_v4.NomDict.Events;
 using Comp.Db.Contracts;
 using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
+using Utils;
 using Utils.EventBus;
 using Utils.WPF.Buttons;
 
@@ -16,6 +17,7 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
     protected readonly IRepository<Category> _repository;
     protected readonly DataGridVm _dataGridVm;
     protected Category? _selectedCategory;
+    protected bool _viewSubcategoriesContent;
     
     public TreeViewVm(DataGridVm dataGridVm, IRepository<Category> repository) {
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
@@ -35,11 +37,22 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
         }
     }
 
+    public bool ViewSubcategoriesContent {
+        get => _viewSubcategoriesContent;
+        set {
+            _viewSubcategoriesContent = value;
+            OnPropertyChanged();
+            CollectionViewSource.GetDefaultView(_dataGridVm.Items).Refresh();
+        }
+    }
+
     protected async Task LoadDataAsync() {
         var items = await _repository.GetAllAsync();
         Items = new ObservableCollection<Category>(items);
         OnPropertyChanged(nameof(Items));
     }
+
+#region UpdatesUi
 
     public void OnSelectedCategoryChanged(object? args) {
         if (args is not TreeView treeView) 
@@ -55,10 +68,18 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
         _ = LoadDataAsync(); OnPropertyChanged(nameof(Items));
     }
 
+    public void OnComponentCardCreated(object? args) {
+        NotifyUiForChanges();
+    }
+
+#endregion
+
     protected virtual bool ItemsFilter(object item) {
         if (_selectedCategory == null) return false;
         try {
-            return item is Component component && IsSelectedCategoryIsParent(component.Category);
+            if (item is not Component component)
+                return false;
+            return IsSelectedCategoryIsParent(component.Category);
         }
         catch (Exception e) {
             throw new ArgumentException($"Invalid category: {_selectedCategory}", e);
@@ -68,15 +89,19 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
     protected bool IsSelectedCategoryIsParent(Category category) {
         if (category.Id == _selectedCategory!.Id) 
             return true;
+
+        if (ViewSubcategoriesContent) {
+            return _selectedCategory.Subcategories
+                                    .FindAllRecursive(c => c.Subcategories, c => c.Id == category.Id)
+                                    .Any();
+        }
+        
+        // не совсем понятно зачем, но пусть
         category.ParentCategory ??= Items.FirstOrDefault(c => c.Id == category.ParentCategoryId);
         return category.ParentCategory != null && IsSelectedCategoryIsParent(category.ParentCategory);
     }
 
     public virtual void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
-    }
-
-    public void OnComponentCardCreated(object? args) {
-        NotifyUiForChanges();
     }
 }
