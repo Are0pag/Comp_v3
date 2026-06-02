@@ -1,14 +1,15 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v4.NomDict.Events;
 using Comp.Db.Contracts;
-using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Utils;
 using Utils.EventBus;
 using Utils.WPF.Buttons;
+using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.NomDict.Vm;
 
@@ -110,15 +111,24 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
 
     protected void ObserveCategoriesProps() {
         foreach (var category in Items!.FindAllRecursive(c => c.Subcategories, _ => true)) {
-            category.PropertyChanged += (_, args) => {
-                if (args.PropertyName == nameof(category.IsExpanded)) {
-                    _repository.UpdateAsync(category);
-                }
-            };
+            category.PropertyChanged += Category_PropertyChanged;
+        }
+    }
+    
+    private void Category_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
+        if (e.PropertyName == nameof(Category.IsExpanded) && sender is Category category) {
+            _repository.UpdateAsync(category);
         }
     }
 
     public virtual void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+        
+        if (Items == null) return;
+    
+        // В Dispose проходим по той же коллекции и отписываем метод
+        foreach (var category in Items.FindAllRecursive(c => c.Subcategories, _ => true)) {
+            category.PropertyChanged -= Category_PropertyChanged;
+        }
     }
 }

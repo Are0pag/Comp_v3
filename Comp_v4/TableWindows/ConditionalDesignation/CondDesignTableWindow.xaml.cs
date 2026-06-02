@@ -18,7 +18,6 @@ using Cd = Comp.ModelData.TechnicalItems.ConditionalDesignation;
 public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IDataGridRequestResolver<CondDesignTableWindow>, ITableWindowHandler
 {
     protected readonly DataGridViewModel<Cd> _dataGridViewModel;
-    protected readonly FiltersVmBase _filtersVm;
     
     public CondDesignTableWindow(DataGridViewModel<Cd> dataGridViewModel, 
                         FiltersVmBase filtersVm, 
@@ -33,7 +32,6 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
         _dataGridViewModel = dataGridViewModel;
         MainDataGrid.DataContext = _dataGridViewModel;
         FiltersStackPanel.DataContext = filtersVm;
-        _filtersVm = filtersVm;
         
         IgnoreCaseCheckBox.DataContext = filtersVm;
 

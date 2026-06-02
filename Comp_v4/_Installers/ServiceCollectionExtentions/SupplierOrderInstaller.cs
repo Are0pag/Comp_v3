@@ -10,6 +10,8 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
+using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Installers;
 
@@ -42,7 +44,6 @@ public static class SupplierOrderInstaller
         services.AddScoped<SetContractLinkAction>();
         services.AddScoped<SetInvoiceLinkAction>();
         
-        
         services.AddScoped<SupplierOrderFormWindow>();
     }
 
@@ -65,6 +66,9 @@ public static class SupplierOrderInstaller
         services.AddScoped<DeleteSoAction>();
         
         services.AddScoped<SupplierOrderTableWindow>();
+        
+        services.AddScoped<FiltersVmBase>();
+        services.AddScoped<SoFilter>();
         
         /* form */
         services.AddScoped<SoForm>();

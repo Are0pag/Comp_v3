@@ -8,6 +8,7 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Templates.Common;
 using Utils.EventBus;
 using Utils.WPF.Windows;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
@@ -20,16 +21,21 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
     
     public SupplierOrderTableWindow(SoDataGridVm dataGridVm, 
                                     AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, 
-                                    OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut) {
+                                    OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut,
+                                    FiltersVmBase filtersVm) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
         
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editButVm;
-        OpenOrderPositionsButton.DataContext = positionsBut;
-        OpenPaymentOrdersButton.DataContext = paymentOrdersBut;
         DeleteButton.DataContext = deleteSoButVm;
         
+        OpenOrderPositionsButton.DataContext = positionsBut;
+        OpenPaymentOrdersButton.DataContext = paymentOrdersBut;
+
+        FilterTextBox.DataContext = filtersVm;
+        IgnoreCaseCheckBox.DataContext = filtersVm;
+
         _editSoButVm = editButVm;
         _deleteSoButVm = deleteSoButVm;
         _positionsBut = positionsBut;
@@ -50,9 +56,9 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
             
             
         #if DEBUG
-            case Key.K:
-                OnReload?.Invoke();
-                break;
+            // case Key.K:
+            //     OnReload?.Invoke();
+            //     break;
         #endif
         }
     }
