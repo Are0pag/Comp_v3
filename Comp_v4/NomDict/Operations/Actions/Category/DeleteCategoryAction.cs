@@ -4,6 +4,7 @@ using Comp_v4.NomDict.Vm;
 using Comp_v4.NomDict.Vm.Buttons;
 using Comp.Db;
 using Comp.Db.Contracts;
+using Comp.ModelData.Comp;
 using Comp.ModelData.SortingItems;
 using Utils.WPF;
 
@@ -53,8 +54,8 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
     }
 
     public override bool CanPerform() {
-        var canPerform = _treeViewVm.SelectedCategory is { Name: not DatabaseInitializer.ROOT_CATEGORY_NAME, Subcategories.Count: 0 };
-        return canPerform;
+        return _treeViewVm.SelectedCategory is { Name: not DatabaseInitializer.ROOT_CATEGORY_NAME, Subcategories.Count: 0 } 
+               && !_repository.HasAnyUsages<Component, Category>(_treeViewVm.SelectedCategory!).Result;
     }
 
     public override async Task CancelAsync(object? parameter = null) {

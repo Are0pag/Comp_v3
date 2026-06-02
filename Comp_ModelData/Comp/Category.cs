@@ -1,12 +1,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Comp.ModelData.Contracts;
 using Utils.WPF.Mvvm;
 
 namespace Comp.ModelData.SortingItems;
 
 [Table(nameof(Category) + "s")]
-public class Category : NotifyPropertyChanged, IPopulatable<Category>
+public class Category : NotifyPropertyChanged, IPopulatable<Category>, IDbEntity
 {
     protected string _name = string.Empty;
     protected bool _isExpanded;
