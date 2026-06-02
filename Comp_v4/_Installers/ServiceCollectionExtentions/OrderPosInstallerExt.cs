@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.OrderPositions;
 using Comp_v4.TableWindows.OrderPositions.Form;
 using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp_v4.TableWindows.OrderPositions.Form.Entities;
@@ -8,7 +9,10 @@ using Comp_v4.TableWindows.OrderPositions.Table.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table.Entities;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm.Buts;
+using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4._Installers.ServiceCollectionExtentions;
 
@@ -48,6 +52,8 @@ public static class OrderPosInstallerExt
         
         services.AddSingleton<EditOrderPosFormButVm>();
         services.AddSingleton<EditOrderPosAction>();
+        
+        services.AddTransient<IFilter<OrderPosition, FiltersVmBase>, OpFilter>();
         
         services.AddSingleton<OpDataGridVm>();
 

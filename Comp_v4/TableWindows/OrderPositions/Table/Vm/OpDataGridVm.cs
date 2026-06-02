@@ -8,22 +8,21 @@ using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
 using Utils.EventBus;
 using Utils.WPF.VmEnumerableInteractiveData;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table.Vm;
 
-public class OpDataGridVm : VmEnumerableInteractiveData<OrderPosition>, IOpTableReloadHandler, ISoPropertyChangeHandler
+public class OpDataGridVm : FilterDataGridVm<OrderPosition>, IOpTableReloadHandler, ISoPropertyChangeHandler
 {
-    protected readonly IRepository<OrderPosition> _repository;
     protected SupplierOrder? _correspondingSo;
+    public OpDataGridVm(IRepository<OrderPosition> repository, FiltersVmBase filtersVm, IFilter<OrderPosition, FiltersVmBase> filter) 
+        : base(repository, filtersVm, filter) {
+    }
 
     public SoDataGridVm? SoDataGridVm { get; set; }
     
-    public OpDataGridVm(IRepository<OrderPosition> repository) {
-        _repository = repository;
-        EventBus<IOrderPositionSubscriber>.Subscribe(this);
-        EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
-    }
-
     protected override async Task LoadDataAsync() {
         await Task.Delay(100);
         
