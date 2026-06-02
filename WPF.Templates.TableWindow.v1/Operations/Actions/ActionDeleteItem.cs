@@ -58,7 +58,7 @@ public class ActionDeleteItem<TWindow, T> : BaseAction<TWindow, T>
 
     public override async Task<bool> TryExecuteAsync<TSet>() {
         if (_context.DataGrid.SelectedItem is T item)
-            return !await _repository.HasAnyUsages<Component, T>(item);
+            return !await _repository.HasAnyUsagesAsync<Component, T>(item);
         new ArgumentException().Log(this);
         return false;
 

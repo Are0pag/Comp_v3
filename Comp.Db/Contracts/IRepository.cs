@@ -12,7 +12,11 @@ public interface IRepository<T>
     Task UpdateAsync(T entity);
     Task DeleteAsync(int id);
 
-    Task<bool> HasAnyUsages<TSet, TItem>(TItem item)
-        where TSet : class, IDbEntity
-        where TItem : class, IDbEntity;
+    Task<bool> HasAnyUsagesAsync<TWho, TWhat>(TWhat item)
+        where TWho : class, IDbEntity
+        where TWhat : class, IDbEntity;
+    
+    bool HasAnyUsages<TWho, TWhat>(TWhat item)
+        where TWho : class, IDbEntity
+        where TWhat : class, IDbEntity;
 }

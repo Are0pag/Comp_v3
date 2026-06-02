@@ -66,13 +66,23 @@ public class DbRepository<T> : IRepository<T>
         }
     }
 
-    public virtual async Task<bool> HasAnyUsages<TSet, TItem>(TItem item) 
-        where TSet : class, IDbEntity
-        where TItem : class, IDbEntity
+    public virtual async Task<bool> HasAnyUsagesAsync<TWho, TWhat>(TWhat item) 
+        where TWho : class, IDbEntity
+        where TWhat : class, IDbEntity
     {
         if (await GetByIdAsync(item.Id) is not {} entity) 
             return false;
-        return await _context.Set<TSet>()
-                             .AnyAsync(c => EF.Property<TItem>(c, typeof(TItem).Name) == entity);
+        return await _context.Set<TWho>()
+                             .AnyAsync(c => EF.Property<TWhat>(c, typeof(TWhat).Name) == entity);
+    }
+    
+    public virtual bool HasAnyUsages<TWho, TWhat>(TWhat item) 
+        where TWho : class, IDbEntity
+        where TWhat : class, IDbEntity
+    {
+        if (_context.Set<T>().Find(item.Id) is not {} entity) 
+            return false;
+        return _context.Set<TWho>()
+                             .Any(c => EF.Property<TWhat>(c, typeof(TWhat).Name) == entity);
     }
 }

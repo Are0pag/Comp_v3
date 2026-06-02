@@ -55,7 +55,7 @@ public class DeleteCategoryAction : BaseAsyncActionButtonInvoked
 
     public override bool CanPerform() {
         return _treeViewVm.SelectedCategory is { Name: not DatabaseInitializer.ROOT_CATEGORY_NAME, Subcategories.Count: 0 } 
-               && !_repository.HasAnyUsages<Component, Category>(_treeViewVm.SelectedCategory!).Result;
+               && !_repository.HasAnyUsages<Component, Category>(_treeViewVm.SelectedCategory!);
     }
 
     public override async Task CancelAsync(object? parameter = null) {
