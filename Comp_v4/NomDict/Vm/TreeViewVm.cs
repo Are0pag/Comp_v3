@@ -23,7 +23,10 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
         _dataGridVm = dataGridVm;
         _repository = repository;
+        
         _ = LoadDataAsync();
+        ObserveCategoriesProps();
+        
         var collectionView = CollectionViewSource.GetDefaultView(_dataGridVm.Items);
         collectionView.Filter = ItemsFilter;
     }
@@ -74,6 +77,8 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
 
 #endregion
 
+#region Filtering
+
     protected virtual bool ItemsFilter(object item) {
         if (_selectedCategory == null) return false;
         try {
@@ -99,6 +104,18 @@ public class TreeViewVm : ObservableObject, ISelectedCategoryChangedHandler, ICo
         // не совсем понятно зачем, но пусть
         category.ParentCategory ??= Items.FirstOrDefault(c => c.Id == category.ParentCategoryId);
         return category.ParentCategory != null && IsSelectedCategoryIsParent(category.ParentCategory);
+    }
+
+#endregion
+
+    protected void ObserveCategoriesProps() {
+        foreach (var category in Items!.FindAllRecursive(c => c.Subcategories, _ => true)) {
+            category.PropertyChanged += (_, args) => {
+                if (args.PropertyName == nameof(category.IsExpanded)) {
+                    _repository.UpdateAsync(category);
+                }
+            };
+        }
     }
 
     public virtual void Dispose() {
