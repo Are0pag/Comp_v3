@@ -9,9 +9,8 @@ public class SoFilter : IFilter<SupplierOrder, FiltersVmBase>
     public Func<SupplierOrder, FiltersVmBase, StringComparison, bool> ApplyFilter { get; init; }
 
     public SoFilter() {
-        ApplyFilter = (item, source, comparison) => {
-            return String.IsNullOrEmpty(source.FilterString)
-                   || item.PurchaseOrderNumber.Contains(source.FilterString, comparison);
-        };
+        ApplyFilter = (item, source, comparison) 
+            => String.IsNullOrEmpty(source.FilterString)
+               || item.PurchaseOrderNumber.Contains(source.FilterString, comparison);
     }
 }

@@ -11,6 +11,7 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Installers;
@@ -68,7 +69,7 @@ public static class SupplierOrderInstaller
         services.AddScoped<SupplierOrderTableWindow>();
         
         services.AddScoped<FiltersVmBase>();
-        services.AddScoped<SoFilter>();
+        services.AddScoped<IFilter<SupplierOrder, FiltersVmBase>, SoFilter>();
         
         /* form */
         services.AddScoped<SoForm>();
