@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using Comp_v4.NomDict.Vm;
 using Comp.Db.Contracts;
 using Comp.ModelData.SortingItems;
+using Utils;
 
 namespace Comp_v4.NomDict.Entities;
 
@@ -29,16 +30,17 @@ public class MoveCategoryAction
         // Проверка на циклические ссылки
         if (IsChildOf(sourceCategory, targetCategory)) 
             return;
+
+        var n = await _repository.GetAllAsync();
+        var categories = n.FindAllRecursive(c => c.Subcategories, _ => true).ToList();
         
-        // Загружаем сущности из БД чтобы гарантировать, что работаем с отслеживаемыми экземплярами
-        var sourceFromDb = await _repository.GetByIdAsync(sourceCategory.Id);
-        var targetFromDb = await _repository.GetByIdAsync(targetCategory.Id);
-        
+        var sourceFromDb = categories.FirstOrDefault(c => c.Id == sourceCategory.Id);
+        var targetFromDb = categories.FirstOrDefault(c => c.Id == targetCategory.Id);
         if (sourceFromDb == null || targetFromDb == null)
             return;
         
         var prevOwner = sourceFromDb.ParentCategoryId.HasValue 
-            ? await _repository.GetByIdAsync(sourceFromDb.ParentCategoryId.Value)
+            ? categories.FirstOrDefault(c => c.Id == sourceFromDb.ParentCategoryId.Value)
             : null;
         
         // Проверяем, не пытаемся ли переместить в того же родителя
@@ -64,7 +66,7 @@ public class MoveCategoryAction
 
         _isProcessing = true;
         await _repository.UpdateAsync(sourceFromDb);
-        //await _repository.UpdateAsync(targetFromDb);
+        await _repository.UpdateAsync(targetFromDb);
         _isProcessing = false;
 
         _treeViewVm.NotifyUiForChanges();
