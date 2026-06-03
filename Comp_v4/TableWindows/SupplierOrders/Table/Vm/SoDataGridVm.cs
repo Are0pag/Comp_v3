@@ -31,7 +31,7 @@ public class SoDataGridVm : DataGridViewModel<SupplierOrder>
         }
     }
 
-    private void OnFiltersVmOnPropertyChanged(object? s, PropertyChangedEventArgs e) {
+    protected void OnFiltersVmOnPropertyChanged(object? s, PropertyChangedEventArgs e) {
         var comparisonType = _filtersVm.IgnoreCase 
             ? StringComparison.Ordinal 
             : StringComparison.OrdinalIgnoreCase;

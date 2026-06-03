@@ -63,7 +63,7 @@
         
         <DataGrid Grid.Row="1" 
                   x:Name="DataGrid" 
-                  ItemsSource="{Binding Items}"
+                  ItemsSource="{Binding ItemsSorted}"
                   SelectedItem="{Binding SelectedItem}"
                   Margin="10" 
                   AutoGenerateColumns="False" 

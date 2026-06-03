@@ -160,4 +160,8 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
     }
 
 #endregion
+
+    public override string ToString() {
+        return "op " + Position.Name;
+    }
 }

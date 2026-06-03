@@ -7,6 +7,7 @@ using Comp_v4.TableWindows.OrderPositions.Table.Vm.Buts;
 using Comp.ModelData;
 using Utils.EventBus;
 using Utils.WPF.Windows;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table;
 
@@ -15,7 +16,7 @@ public partial class OrderPositionsTableWindow : TableWindowBase, IRuntimeParams
     private readonly OpDataGridVm _opDataGridVm;
     private readonly CreateOrderPosFormButVm _createOrderPosFormButVm; 
     private readonly EditOrderPosFormButVm _editOrderPosFormButVm;
-    
+
     public OrderPositionsTableWindow(OpDataGridVm opDataGridVm, CreateOrderPosFormButVm createOrderPosFormButVm, EditOrderPosFormButVm editOrderPosFormButVm) {
         InitializeComponent();
         _opDataGridVm = opDataGridVm;
@@ -26,6 +27,11 @@ public partial class OrderPositionsTableWindow : TableWindowBase, IRuntimeParams
         AddButton.DataContext = createOrderPosFormButVm;
         EditButton.DataContext = editOrderPosFormButVm;
         EventBus<IGlSubscriber>.Subscribe(this);
+
+        var filtersVm = new FiltersVmBase();
+        opDataGridVm.FiltersVm = filtersVm;
+        FilterTextBox.DataContext = filtersVm;
+        IgnoreCaseCheckBox.DataContext = filtersVm;
     }
 
     private void SupplierOrderTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
