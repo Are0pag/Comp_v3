@@ -35,6 +35,9 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
 
         FilterTextBox.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
+        
+        InfoDataGridContextMenuAddNewItemCommand.DataContext = addButVm;
+        InfoDataGridContextMenuDeleteItemCommand.DataContext = deleteSoButVm;
 
         _editSoButVm = editButVm;
         _deleteSoButVm = deleteSoButVm;

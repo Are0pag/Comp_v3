@@ -70,6 +70,8 @@
         
         <DataGrid Grid.Row="1" 
                   x:Name="DataGrid" 
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
                   ItemsSource="{Binding ItemsSorted}"
                   SelectedItem="{Binding SelectedItem}"
                   Margin="10" 
@@ -111,6 +113,15 @@
                 <DataGridTextColumn Header="Сумма НДС" Binding="{Binding TotalVatAmount}" Width="*"/>
 
             </DataGrid.Columns>
+            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
+                              Header="Новое обозначение" Command="{Binding ClickCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
+                              Header="Удалить" Command="{Binding ClickCommand}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </windows:TableWindowBase>
