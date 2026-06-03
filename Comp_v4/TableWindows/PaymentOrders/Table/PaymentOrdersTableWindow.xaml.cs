@@ -14,7 +14,8 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     private readonly EditPaymentOrderButVm _editPaymentOrderButVm;
     private readonly DeletePaymentOrderButVm _deletePaymentOrderButVm;
     
-    public PaymentOrdersTableWindow(AddPaymentOrderButVm addPaymentOrderButVm, EditPaymentOrderButVm editPaymentOrderButVm, DeletePaymentOrderButVm deletePaymentOrderButVm, PaymentOrdersGridVm gridVm) {
+    public PaymentOrdersTableWindow(AddPaymentOrderButVm addPaymentOrderButVm, EditPaymentOrderButVm editPaymentOrderButVm, 
+                                    DeletePaymentOrderButVm deletePaymentOrderButVm, PaymentOrdersGridVm gridVm) {
         InitializeComponent();
         _gridVm = gridVm;
         _addPaymentOrderButVm = addPaymentOrderButVm;
@@ -25,6 +26,9 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
         AddButton.DataContext = _addPaymentOrderButVm;
         EditButton.DataContext = _editPaymentOrderButVm;
         DeleteButton.DataContext = _deletePaymentOrderButVm;
+        
+        InfoDataGridContextMenuAddNewItemCommand.DataContext = addPaymentOrderButVm;
+        InfoDataGridContextMenuDeleteItemCommand.DataContext = deletePaymentOrderButVm;
     }
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
