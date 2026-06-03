@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Comp_v4._Installers;
@@ -7,6 +8,7 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Templates.Common;
 using Utils.EventBus;
+using Utils.WPF;
 using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 
@@ -14,11 +16,12 @@ namespace Comp_v4.TableWindows.SupplierOrders.Table;
 
 public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IReloadable, IRuntimeParamsResolver<SupplierOrderTableWindow>
 {
+    protected readonly AddSoButVm _addSoButVm;
     protected readonly EditSoButVm _editSoButVm;
-    protected readonly OpenOrderPositionsButVm _positionsBut;
-    protected readonly OpenPaymentOrdersButVm _paymentOrdersBut;
     protected readonly DeleteSoButVm _deleteSoButVm;
-    
+    protected readonly OpenPaymentOrdersButVm _paymentOrdersBut;
+    protected readonly OpenOrderPositionsButVm _positionsBut;
+
     public SupplierOrderTableWindow(SoDataGridVm dataGridVm, 
                                     AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, 
                                     OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut,
@@ -37,8 +40,13 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
         IgnoreCaseCheckBox.DataContext = filtersVm;
         
         InfoDataGridContextMenuAddNewItemCommand.DataContext = addButVm;
+        InfoDataGridContextMenuEditItemCommand.DataContext = editButVm;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = deleteSoButVm;
+        
+        InfoDataGridContext_OpenOrderPositions_Command.DataContext = positionsBut;
+        InfoDataGridContext_OpenPaymentOrders_Command.DataContext = paymentOrdersBut;
 
+        _addSoButVm = addButVm;
         _editSoButVm = editButVm;
         _deleteSoButVm = deleteSoButVm;
         _positionsBut = positionsBut;
@@ -52,11 +60,30 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
 
     private void SupplierOrderTableWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {
+            case Key.Insert:
+                if (_addSoButVm.CanClick())
+                    _addSoButVm.OnClickAsync();
+                break;
+            
             case Key.Delete:
                 if (_deleteSoButVm.CanClick())
                     _deleteSoButVm.OnClickAsync();
                 break;
             
+            case Key.F1:
+                var cb = VisualHelper.FindVisualChild<CheckBox>((Window)sender);
+                cb.IsChecked = !cb.IsChecked;
+                break;
+            
+            case Key.Escape:
+                try {
+                    ((Window)sender).Close();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                break;
             
         #if DEBUG
             // case Key.K:
