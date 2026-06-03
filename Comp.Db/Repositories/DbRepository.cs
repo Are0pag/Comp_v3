@@ -72,8 +72,9 @@ public class DbRepository<T> : IRepository<T>
     {
         if (await GetByIdAsync(item.Id) is not {} entity) 
             return false;
-        return await _context.Set<TWho>()
+        var result = await _context.Set<TWho>()
                              .AnyAsync(c => EF.Property<TWhat>(c, typeof(TWhat).Name) == entity);
+        return result;
     }
     
     public virtual bool HasAnyUsages<TWho, TWhat>(TWhat item) 

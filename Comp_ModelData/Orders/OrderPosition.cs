@@ -39,7 +39,7 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
     protected SupplierOrder _supplierOrder;
 
     [ForeignKey(nameof(SupplierOrderId))]
-    public SupplierOrder RelatedSupplierOrder {
+    public SupplierOrder SupplierOrder {
         get => _supplierOrder;
         set {
             if (_supplierOrder == value) return;

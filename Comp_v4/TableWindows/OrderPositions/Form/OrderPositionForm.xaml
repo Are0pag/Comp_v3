@@ -270,7 +270,7 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" 
                                Text="Номер заказа:"/>
                     <TextBox Grid.Row="0" Grid.Column="1" 
-                             Text="{Binding RelatedSupplierOrder.PurchaseOrderNumber, Mode=OneWay}"
+                             Text="{Binding SupplierOrder.PurchaseOrderNumber, Mode=OneWay}"
                              IsReadOnly="True"
                              Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                     
@@ -278,7 +278,7 @@
                     <TextBlock Grid.Row="1" Grid.Column="0" 
                                Text="Номер счёта:"/>
                     <TextBox Grid.Row="1" Grid.Column="1" 
-                             Text="{Binding RelatedSupplierOrder.InvoiceNumber, Mode=OneWay}"
+                             Text="{Binding SupplierOrder.InvoiceNumber, Mode=OneWay}"
                              IsReadOnly="True"
                              Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                     
@@ -286,7 +286,7 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" 
                                Text="Поставщик:"/>
                     <TextBox Grid.Row="2" Grid.Column="1" 
-                             Text="{Binding RelatedSupplierOrder.Counterparty.Name, Mode=OneWay}"
+                             Text="{Binding SupplierOrder.Counterparty.Name, Mode=OneWay}"
                              IsReadOnly="True"
                              Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                 </Grid>
@@ -308,7 +308,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" 
                                    Text="Дата заказа:"/>
                         <TextBox Grid.Row="0" Grid.Column="1" 
-                                 Text="{Binding RelatedSupplierOrder.OrderDate, StringFormat='dd.MM.yyyy', Mode=OneWay}"
+                                 Text="{Binding SupplierOrder.OrderDate, StringFormat='dd.MM.yyyy', Mode=OneWay}"
                                  IsReadOnly="True"
                                  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                                  Width="100"/>
@@ -317,7 +317,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" 
                                    Text="Дата поставки:"/>
                         <TextBox Grid.Row="1" Grid.Column="1" 
-                                 Text="{Binding RelatedSupplierOrder.DeliveryDate, StringFormat='dd.MM.yyyy', Mode=OneWay}"
+                                 Text="{Binding SupplierOrder.DeliveryDate, StringFormat='dd.MM.yyyy', Mode=OneWay}"
                                  IsReadOnly="True"
                                  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                                  Width="100"/>

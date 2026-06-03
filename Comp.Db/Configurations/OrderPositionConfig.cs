@@ -19,7 +19,7 @@ public class OrderPositionConfig : IEntityTypeConfiguration<OrderPosition>
                .IsRequired()
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(p => p.RelatedSupplierOrder)
+        builder.HasOne(p => p.SupplierOrder)
                .WithMany()
                .HasForeignKey(p => p.SupplierOrderId)
                .IsRequired()

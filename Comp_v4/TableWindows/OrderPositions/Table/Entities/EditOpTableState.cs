@@ -22,7 +22,7 @@ public class EditOpTableState : BaseOpState
             throw new InvalidOperationException();
         
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, new OrderPosition() {
-            RelatedSupplierOrder = so
+            SupplierOrder = so
         });
 
         var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;

@@ -30,9 +30,9 @@ public class OrderPositionVm : ObservableObject, IDisposable
     }
 
     public SupplierOrder RelatedSupplierOrder {
-        get => _model.RelatedSupplierOrder;
+        get => _model.SupplierOrder;
         set {
-            SetProperty(_model.RelatedSupplierOrder, value, _model, (m, v) => m.RelatedSupplierOrder = v);
+            SetProperty(_model.SupplierOrder, value, _model, (m, v) => m.SupplierOrder = v);
             _model.SupplierOrderId = value.Id;
         }
     }
