@@ -26,10 +26,17 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
     public SoDataGridVm? SoDataGridVm { get; set; }
     
 
-
-    protected override async Task LoadDataAsync() {
+    public async Task LoadCorrectlyAsync() {
         await Task.Delay(100);
         
+
+    }
+
+    public void OnOpTableReload(object? args = null) {
+        _ = InitFilteringCollection();
+    }
+
+    public override async Task InitFilteringCollection() {
         if (SoDataGridVm is null)
             throw new NullReferenceException("Доигрался со scope-ами, мудила: SoDataGridVm is null");
 
@@ -39,11 +46,8 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
         _correspondingSo = SoDataGridVm.LastSelectedSupplierOrder;
         var data = await _repository.GetAllBySupplierOrderAsync(_correspondingSo.Id);
         Items = new ObservableCollection<OrderPosition>(data);
-        OnPropertyChanged(nameof(Items));
-    }
-
-    public void OnOpTableReload(object? args = null) {
-        LoadDataAsync();
+        ItemsSorted = new ObservableCollection<OrderPosition>(Items);
+        OnPropertyChanged(nameof(ItemsSorted));
     }
 
     public void Dispose() {

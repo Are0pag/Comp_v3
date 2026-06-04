@@ -50,7 +50,6 @@ public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable, IRuntime
 
     private void VeryBagPractice() {
         var soDg = _currentScope!.ServiceProvider.GetRequiredService<SoDataGridVm>();
-        _serviceProvider.GetRequiredService<CreateOrderPosAction>().SoDataGridVm = soDg;
         _serviceProvider.GetRequiredService<EditOrderPosAction>().SoDataGridVm = soDg;
         _serviceProvider.GetRequiredService<OpDataGridVm>().SoDataGridVm = soDg;
     }

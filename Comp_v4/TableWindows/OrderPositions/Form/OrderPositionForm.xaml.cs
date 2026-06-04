@@ -12,27 +12,27 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.OrderPositions.Form;
 
-public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>, IOrderPosSavingCommitHandler, IRuntimeParamsResolver<OrderPositionForm>
+public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPosition>, IRuntimeParamsResolver<OrderPositionVm>, 
+                                         IOrderPosSavingCommitHandler, IRuntimeParamsResolver<OrderPositionForm>
 {
     protected readonly ReceiveStatusEnumVm _receiveStatusEnumVm;
     protected readonly OrderPosition _orderPosition;
-    protected readonly SelectPositionButVm _selectPositionButVm; 
     protected readonly OrderPositionVm _orderPositionVm;
     protected readonly SaveOrderPositionButVm _saveOrderPositionButVm;
-    public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SelectPositionButVm selectPositionButVm, SaveOrderPositionButVm saveOrderPositionButVm) {
+    public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SaveOrderPositionButVm saveOrderPositionButVm) {
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.Manual;
         SourceInitialized += LoadPlacement;
         Closing += SavePlacement;
         _receiveStatusEnumVm = receiveStatusEnumVm;
-        _selectPositionButVm = selectPositionButVm;
+        //_selectPositionButVm = selectPositionButVm;
         _saveOrderPositionButVm = saveOrderPositionButVm;
         _orderPosition = orderPosition;
 
         _orderPositionVm = new OrderPositionVm(receiveStatusEnumVm, orderPosition);
         DataContext = _orderPositionVm;
         ReceiveStatusComboBox.DataContext = receiveStatusEnumVm;
-        SelectPositionButton.DataContext = selectPositionButVm;
+        //SelectPositionButton.DataContext = selectPositionButVm;
         SaveOrderPositionButton.DataContext = _saveOrderPositionButVm;
         
         EventBus<IGlSubscriber>.Subscribe(this);

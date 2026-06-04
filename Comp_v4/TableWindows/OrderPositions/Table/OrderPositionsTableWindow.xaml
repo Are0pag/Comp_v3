@@ -61,34 +61,39 @@
             </Grid>
         </StackPanel>
         
-        <DataGrid Grid.Row="1" 
-                  x:Name="DataGrid" 
-                  ItemsSource="{Binding ItemsSorted}"
-                  SelectedItem="{Binding SelectedItem}"
-                  Margin="10" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True"
-                  MouseDoubleClick="DataGrid_OnMouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование позиции" Binding="{Binding Position.Name}" Width="Auto"/>
-                <DataGridTextColumn Header="Номенклатурный номер" Binding="{Binding Position.NomenclatureNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="Номер по каталогу" Binding="{Binding Position.CatalogNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="Типоразмер" Binding="{Binding Position.TypeSize.Designation}" Width="Auto"/>
-                <DataGridTextColumn Header="Производитель" Binding="{Binding Position.Manufacturer.Designation}" Width="Auto"/>
-                <DataGridTextColumn Header="Ед. изм-я" Binding="{Binding Position.ConditionalDesignation.Designation}" Width="Auto"/>
-                
-                <DataGridTextColumn Header="Кол-во заказано" Binding="{Binding OrderQuantity}" Width="Auto"/>
-                <DataGridTextColumn Header="Кол-во получено" Binding="{Binding ReceivedQuantity}" Width="Auto"/>
-                <DataGridTemplateColumn Header="Статус получения" Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ReceiveStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Цена за ед." Binding="{Binding UnitPrice}" Width="Auto"/>
-                <DataGridTextColumn Header="Сумма стоимости" Binding="{Binding TotalCost}" Width="Auto"/>
-            </DataGrid.Columns>
-        </DataGrid>
+<DataGrid Grid.Row="1" 
+          x:Name="DataGrid" 
+          ItemsSource="{Binding ItemsSorted}"
+          SelectedItem="{Binding SelectedItem}"
+          Margin="10" 
+          AutoGenerateColumns="False" 
+          MouseDoubleClick="DataGrid_OnMouseDoubleClick"> <!-- Убрали IsReadOnly="True" отсюда -->
+    <DataGrid.Columns>
+        <!-- Блокируем чтение для остальных колонок через IsReadOnly="True" -->
+        <DataGridTextColumn Header="Наименование позиции" Binding="{Binding Position.Name}" Width="Auto" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Номенклатурный номер" Binding="{Binding Position.NomenclatureNumber}" Width="Auto" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Номер по каталогу" Binding="{Binding Position.CatalogNumber}" Width="Auto" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Типоразмер" Binding="{Binding Position.TypeSize.Designation}" Width="Auto" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Производитель" Binding="{Binding Position.Manufacturer.Designation}" Width="Auto" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Ед. изм-я" Binding="{Binding Position.ConditionalDesignation.Designation}" Width="Auto" IsReadOnly="True"/>
+        
+        <!-- РЕДАКТИРУЕМЫЕ КОЛОНКИ (IsReadOnly по умолчанию False, указывать не обязательно) -->
+        <DataGridTextColumn Header="Кол-во заказано" Binding="{Binding OrderQuantity, UpdateSourceTrigger=LostFocus}" Width="Auto"/>
+        <DataGridTextColumn Header="Кол-во получено" Binding="{Binding ReceivedQuantity, UpdateSourceTrigger=LostFocus}" Width="Auto" IsReadOnly="True"/>
+        
+        <!-- Шаблонная колонка по умолчанию IsReadOnly, если внутри TextBlock -->
+        <DataGridTemplateColumn Header="Статус получения" Width="Auto">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ReceiveStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTextColumn Header="Цена за ед." Binding="{Binding UnitPrice, StringFormat=N2}" Width="Auto"/>
+        <DataGridTextColumn Header="Сумма стоимости" Binding="{Binding TotalCost, StringFormat=N2}" Width="Auto" IsReadOnly="True"/>
+    </DataGrid.Columns>
+</DataGrid>
+        
     </Grid>
 </windows:TableWindowBase>

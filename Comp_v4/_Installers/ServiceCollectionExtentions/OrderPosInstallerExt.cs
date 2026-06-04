@@ -31,9 +31,6 @@ public static class OrderPosInstallerExt
         
         services.AddSingleton<ReceiveStatusEnumVm>();
         
-        services.AddSingleton<SelectPositionButVm>();
-        services.AddSingleton<SelectPositionAction>();
-        
         services.AddSingleton<SaveOrderPositionButVm>();
         services.AddSingleton<SaveOrderPositionAction>();
         

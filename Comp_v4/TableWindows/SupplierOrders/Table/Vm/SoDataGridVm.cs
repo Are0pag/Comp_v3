@@ -1,13 +1,15 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Comp_v4._Installers;
 using Comp.Db.Contracts;
 using Comp.ModelData;
+using Utils.EventBus;
 using WPF.Templates.TableWindow.v1.Vm;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 
-public class SoDataGridVm : DataGridViewModel<SupplierOrder>
+public class SoDataGridVm : DataGridViewModel<SupplierOrder>, IRuntimeParamsResolver<SoDataGridVm>
 {
     protected readonly FiltersVmBase _filtersVm;
     protected readonly SoFilter _filter;
@@ -17,6 +19,8 @@ public class SoDataGridVm : DataGridViewModel<SupplierOrder>
         filtersVm.PropertyChanged += OnFiltersVmOnPropertyChanged;
         
         ItemsSorted = new ObservableCollection<SupplierOrder>(Items);
+        
+        EventBus<IGlSubscriber>.Subscribe(this);
     }
 
     public ObservableCollection<SupplierOrder> ItemsSorted {get; set;}
@@ -43,7 +47,12 @@ public class SoDataGridVm : DataGridViewModel<SupplierOrder>
         }
     }
 
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<SoDataGridVm> container) {
+        container.RuntimeParam = this;
+    }
+
     public void Dispose() {
         _filtersVm.PropertyChanged -= OnFiltersVmOnPropertyChanged;
+        EventBus<IGlSubscriber>.Unsubscribe(this);
     }
 }

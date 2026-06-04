@@ -30,7 +30,7 @@ public class DataGridViewModel<T> : VmEnumerableInteractiveData<T>
         }
     }
 
-    private async void LoadDataAsync() {  /* VmRepo : базы */
+    protected virtual async void LoadDataAsync() {  /* VmRepo : базы */
         var items = await _repository.GetAllAsync();
         Items = new ObservableCollection<T?>(items!);
         OnPropertyChanged(nameof(Items));

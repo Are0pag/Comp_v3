@@ -49,6 +49,7 @@ public class CreateOpFormState : BaseOpFormState
             await _repository.AddAsync(item);
         }
         catch (Exception ex) {
+            await Console.Error.WriteLineAsync(ex.Message);
             throw ex;
         }
 

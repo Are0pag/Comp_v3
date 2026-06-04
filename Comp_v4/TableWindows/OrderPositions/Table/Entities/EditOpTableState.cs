@@ -3,24 +3,22 @@ using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp_v4.TableWindows.OrderPositions.Form.Entities;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
-using Utils.WPF;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table.Entities;
 
 public class EditOpTableState : BaseOpState
 {
     protected readonly IServiceProvider _serviceProvider;
-    protected readonly IWindowOrderLocator _windowOrderLocator;
-    
-    public EditOpTableState(IServiceProvider serviceProvider, IWindowOrderLocator windowOrderLocator) {
+
+    public EditOpTableState(IServiceProvider serviceProvider) {
         _serviceProvider = serviceProvider;
-        _windowOrderLocator = windowOrderLocator;
     }
 
     public override async Task Create(TaskCompletionSource tcs, OpTable opTable, object? o) {
-        if (o is not SupplierOrder so)
+        throw new NotImplementedException();
+        /*if (o is not SupplierOrder so)
             throw new InvalidOperationException();
-        
+
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, new OrderPosition() {
             SupplierOrder = so
         });
@@ -28,30 +26,26 @@ public class EditOpTableState : BaseOpState
         var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
         window.Owner = parent;
         WindowService.BindChildToParent(parent, window);
-        
-        //_windowOrderLocator.RegisterWindow(window);
+
         window.Closed += (sender, args) => {
-            _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
         };
         ResolveRelated();
 
         var table = _serviceProvider.GetRequiredService<OpForm>();
         await table.ChangeState(table.GetState<CreateOpFormState>(), table);
-        
+
         window.Show();
-        await tcs.Task;
+        await tcs.Task;*/
     }
 
     public override async Task Edit(TaskCompletionSource tcs, OpTable opTable, OrderPosition op, object? o) {
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, op);
-        //_windowOrderLocator.RegisterWindow(window);
         var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
         window.Owner = parent;
         WindowService.BindChildToParent(parent, window);
         
         window.Closed += (sender, args) => {
-            _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
         };
         ResolveRelated();
@@ -64,7 +58,6 @@ public class EditOpTableState : BaseOpState
     }
 
     private void ResolveRelated() {
-        _serviceProvider.GetRequiredService<SelectPositionAction>();
         _serviceProvider.GetRequiredService<SaveOrderPositionAction>();
     }
 }

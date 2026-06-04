@@ -7,16 +7,17 @@ using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace WPF.Templates.TableWindow.v1.Vm;
 
-public class FilterGridVm<T> : DataGridViewModel<T> where T : class, IDbEntity
+public abstract class FilterGridVm<T> : DataGridViewModel<T> where T : class, IDbEntity
 {
     protected FiltersVmBase _filtersVm;
     protected readonly IFilter<T, FiltersVmBase> _filter;
     
     public FilterGridVm(IRepository<T> repository, IFilter<T, FiltersVmBase> filter) : base(repository) {
         _filter = filter;
-        ItemsSorted = new ObservableCollection<T>(Items);
     }
-    
+
+    public abstract Task InitFilteringCollection();
+
     public ObservableCollection<T> ItemsSorted {get; set;}
 
     public FiltersVmBase FiltersVm {

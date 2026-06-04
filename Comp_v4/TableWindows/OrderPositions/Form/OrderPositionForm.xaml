@@ -58,17 +58,6 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <!-- Кнопка выбора позиции -->
-                <Button Grid.Column="0" 
-                        x:Name="SelectPositionButton" 
-                        Content="{Binding Label}" 
-                        Command="{Binding ClickCommand}" 
-                        Height="30" >
-                    <Button.ToolTip>
-                        <ToolTip Content="Выбрать компонент из каталога"/>
-                    </Button.ToolTip>
-                </Button>
-                
                 <!-- Информация о выбранной позиции -->
                 <Grid Grid.Column="1" Margin="10,0">
                     <Grid.RowDefinitions>
@@ -156,7 +145,8 @@
                                    Text="Получено:"/>
                         <TextBox Grid.Row="1" Grid.Column="1" 
                                  PreviewTextInput="NumberValidationTextBox"
-                                 Text="{Binding ReceivedQuantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                 Text="{Binding ReceivedQuantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 IsReadOnly="True">
                             <Validation.ErrorTemplate>
                                 <ControlTemplate>
                                     <DockPanel>
@@ -176,7 +166,8 @@
                                    Text="Статус:"/>
                         <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="ReceiveStatusComboBox" 
                                   ItemsSource="{Binding EnumValues}"
-                                  SelectedItem="{Binding SelectedValue}">
+                                  SelectedItem="{Binding SelectedValue}"
+                                  IsReadOnly="True">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
@@ -243,17 +234,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <!-- Кнопка выбора заказа -->
-                <Button Grid.Column="0" 
-                        x:Name="SelectSupplierOrderButton" 
-                        Content="{Binding Label}" 
-                        Command="{Binding ClickCommand}" 
-                        Height="30">
-                    <Button.ToolTip>
-                        <ToolTip Content="Выбрать заказ поставщика"/>
-                    </Button.ToolTip>
-                </Button>
-                
+               
                 <!-- Информация о выбранном заказе -->
                 <Grid Grid.Column="1" Margin="10,0">
                     <Grid.RowDefinitions>

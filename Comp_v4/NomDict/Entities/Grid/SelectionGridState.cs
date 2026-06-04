@@ -1,11 +1,7 @@
-using System.Windows;
 using System.Windows.Input;
-using Comp_v4.CompCard;
-using Comp_v4.Entry;
 using Comp_v4.NomDict.Events;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
-using Comp_v4.TableWindows.Analogs;
 using Comp.ModelData.Comp;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.EventBus;
