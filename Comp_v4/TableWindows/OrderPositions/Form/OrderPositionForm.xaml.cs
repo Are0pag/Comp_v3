@@ -25,14 +25,12 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
         SourceInitialized += LoadPlacement;
         Closing += SavePlacement;
         _receiveStatusEnumVm = receiveStatusEnumVm;
-        //_selectPositionButVm = selectPositionButVm;
         _saveOrderPositionButVm = saveOrderPositionButVm;
         _orderPosition = orderPosition;
 
         _orderPositionVm = new OrderPositionVm(receiveStatusEnumVm, orderPosition);
         DataContext = _orderPositionVm;
         ReceiveStatusComboBox.DataContext = receiveStatusEnumVm;
-        //SelectPositionButton.DataContext = selectPositionButVm;
         SaveOrderPositionButton.DataContext = _saveOrderPositionButVm;
         
         EventBus<IGlSubscriber>.Subscribe(this);

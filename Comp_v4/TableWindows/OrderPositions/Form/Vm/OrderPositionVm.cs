@@ -80,6 +80,8 @@ public class OrderPositionVm : ObservableObject, IDisposable
         }
     }
 
+    public SupplierOrder SupplierOrder => _model.SupplierOrder;
+
 #endregion
 
     protected void UpdateTotalCost() => _model.TotalCost = OrderQuantity * UnitPrice;

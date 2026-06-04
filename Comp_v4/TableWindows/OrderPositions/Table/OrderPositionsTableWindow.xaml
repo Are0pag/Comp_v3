@@ -67,7 +67,9 @@
           SelectedItem="{Binding SelectedItem}"
           Margin="10" 
           AutoGenerateColumns="False" 
-          MouseDoubleClick="DataGrid_OnMouseDoubleClick"> <!-- Убрали IsReadOnly="True" отсюда -->
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          MouseDoubleClick="DataGrid_OnMouseDoubleClick"> 
     <DataGrid.Columns>
         <!-- Блокируем чтение для остальных колонок через IsReadOnly="True" -->
         <DataGridTextColumn Header="Наименование позиции" Binding="{Binding Position.Name}" Width="Auto" IsReadOnly="True"/>
