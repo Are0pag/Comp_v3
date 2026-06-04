@@ -21,21 +21,9 @@ public class OrderPositionVm : ObservableObject, IDisposable
 
 #region Wrap
 
-    public Component Position {
-        get => _model.Position;
-        set {
-            SetProperty(_model.Position, value, _model, (m, v) => m.Position = v);
-            _model.PositionId = value.Id;
-        }
-    }
+    public Component Position => _model.Position;
 
-    public SupplierOrder RelatedSupplierOrder {
-        get => _model.SupplierOrder;
-        set {
-            SetProperty(_model.SupplierOrder, value, _model, (m, v) => m.SupplierOrder = v);
-            _model.SupplierOrderId = value.Id;
-        }
-    }
+    public SupplierOrder RelatedSupplierOrder => _model.SupplierOrder;
 
     public ReceiveStatus ReceiveStatusEnumValue {
         get => _model.ReceiveStatusEnumValue;
@@ -47,10 +35,6 @@ public class OrderPositionVm : ObservableObject, IDisposable
     public int OrderQuantity {
         get => _model.OrderQuantity;
         set {
-            /*EventBus<ISupplierOrdersSubscriber>
-               .RaiseEvent<ISoPropertyChangeHandler>(h => h?.OnSoPropertyChanged(so => {
-                    so.OrderedUnitsAmount += value - _model.OrderQuantity;
-                }));*/
             SetProperty(_model.OrderQuantity, value, _model, (m, v) => m.OrderQuantity = v);
             UpdateReceiveStatus();
             UpdateTotalCost();

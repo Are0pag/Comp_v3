@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration.Provider;
 using Comp_v4.TableWindows.OrderPositions.Events;
+using Comp_v4.TableWindows.OrderPositions.Form.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp.Db.Contracts;
@@ -25,11 +27,18 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
 
     public SoDataGridVm? SoDataGridVm { get; set; }
     
-
-    public async Task LoadCorrectlyAsync() {
-        await Task.Delay(100);
+    
+    private void Op_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
+        if (sender is not OrderPosition orderPosition) 
+            return;
         
-
+        switch (e.PropertyName) {
+            case nameof(OrderPosition.OrderQuantity):
+            case nameof(OrderPosition.UnitPrice):
+                orderPosition.TotalCost = orderPosition.OrderQuantity * orderPosition.UnitPrice;
+                _repository.UpdateAsync(orderPosition);
+                break;
+        }
     }
 
     public void OnOpTableReload(object? args = null) {
@@ -47,6 +56,10 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
         var data = await _repository.GetAllBySupplierOrderAsync(_correspondingSo.Id);
         Items = new ObservableCollection<OrderPosition>(data);
         ItemsSorted = new ObservableCollection<OrderPosition>(Items);
+        
+        foreach (var op in Items)
+            op.PropertyChanged += Op_PropertyChanged;
+        
         OnPropertyChanged(nameof(ItemsSorted));
     }
 
