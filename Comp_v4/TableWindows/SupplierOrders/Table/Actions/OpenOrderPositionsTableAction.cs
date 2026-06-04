@@ -34,13 +34,14 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
         window.Owner = parent;
         _windowOrderLocator.RegisterWindow(window);
-        window.Closed += async (sender, args) => {
+        window.Closed += (sender, args) => {
             _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
         };
 
         _serviceProvider.GetRequiredService<CreateOrderPosAction>();
         _serviceProvider.GetRequiredService<EditOrderPosAction>();
+        _serviceProvider.GetRequiredService<DeleteOrderPositionAction>();
         
         EventBus<IOrderPositionSubscriber>.RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
         

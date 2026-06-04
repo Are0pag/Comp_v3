@@ -27,7 +27,9 @@ public abstract class FilterGridVm<T> : DataGridViewModel<T> where T : class, ID
             _filtersVm.PropertyChanged += OnFiltersVmOnPropertyChanged;
         }
     }
-    
+
+    public bool RemoveItem(T item) => ItemsSorted.Remove(item) && Items.Remove(item);
+
     protected void OnFiltersVmOnPropertyChanged(object? s, PropertyChangedEventArgs e) {
         var comparisonType = _filtersVm.IgnoreCase 
             ? StringComparison.Ordinal 

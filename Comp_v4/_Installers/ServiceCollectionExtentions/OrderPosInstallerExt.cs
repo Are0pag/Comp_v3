@@ -48,6 +48,9 @@ public static class OrderPosInstallerExt
         
         services.AddSingleton<EditOrderPosFormButVm>();
         services.AddSingleton<EditOrderPosAction>();
+
+        services.AddSingleton<DeleteOrderPositionButVm>();
+        services.AddSingleton<DeleteOrderPositionAction>();
         
         services.AddSingleton<IFilter<OrderPosition, FiltersVmBase>, OpFilter>();
         

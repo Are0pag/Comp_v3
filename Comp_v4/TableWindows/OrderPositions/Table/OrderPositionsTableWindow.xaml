@@ -69,7 +69,8 @@
           AutoGenerateColumns="False" 
           CanUserAddRows="False"
           CanUserDeleteRows="False"
-          MouseDoubleClick="DataGrid_OnMouseDoubleClick"> 
+          MouseDoubleClick="DataGrid_OnMouseDoubleClick"
+          SelectionChanged="DataGrid_OnSelectionChanged"> 
     <DataGrid.Columns>
         <!-- Блокируем чтение для остальных колонок через IsReadOnly="True" -->
         <DataGridTextColumn Header="Наименование позиции" Binding="{Binding Position.Name}" Width="Auto" IsReadOnly="True"/>
@@ -95,6 +96,18 @@
         <DataGridTextColumn Header="Цена за ед." Binding="{Binding UnitPrice, StringFormat=N2}" Width="Auto"/>
         <DataGridTextColumn Header="Сумма стоимости" Binding="{Binding TotalCost, StringFormat=N2}" Width="Auto" IsReadOnly="True"/>
     </DataGrid.Columns>
+    
+    <DataGrid.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
+                      Header="Создать" Command="{Binding ClickCommand}"></MenuItem>
+            <MenuItem x:Name="InfoDataGridContextMenuEditItemCommand"
+                      Header="Редактировать" Command="{Binding ClickCommand}"></MenuItem>
+            <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
+                      Header="Удалить" Command="{Binding ClickCommand}"></MenuItem>
+        </ContextMenu>
+    </DataGrid.ContextMenu>
+    
 </DataGrid>
         
     </Grid>
