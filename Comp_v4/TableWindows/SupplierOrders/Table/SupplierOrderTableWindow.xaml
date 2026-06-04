@@ -116,17 +116,16 @@
             
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem x:Name="InfoDataGridContext_OpenOrderPositions_Command"
+                              Header="Состав заказа" Command="{Binding ClickCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGridContext_OpenPaymentOrders_Command"
+                              Header="Платёжные поручения" Command="{Binding ClickCommand}"></MenuItem>
                     <MenuItem x:Name="InfoDataGridContextMenuAddNewItemCommand" 
-                              Header="Новое обозначение" Command="{Binding ClickCommand}"></MenuItem>
+                              Header="Создать" Command="{Binding ClickCommand}"></MenuItem>
                     <MenuItem x:Name="InfoDataGridContextMenuEditItemCommand"
                               Header="Редактировать" Command="{Binding ClickCommand}"></MenuItem>
                     <MenuItem x:Name="InfoDataGridContextMenuDeleteItemCommand"
                               Header="Удалить" Command="{Binding ClickCommand}"></MenuItem>
-
-                    <MenuItem x:Name="InfoDataGridContext_OpenPaymentOrders_Command"
-                              Header="Платёжные поручения" Command="{Binding ClickCommand}"></MenuItem>
-                    <MenuItem x:Name="InfoDataGridContext_OpenOrderPositions_Command"
-                              Header="Состав заказа" Command="{Binding ClickCommand}"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
