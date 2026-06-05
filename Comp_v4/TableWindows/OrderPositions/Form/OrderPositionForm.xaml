@@ -164,10 +164,11 @@
                         <!-- Статус получения -->
                         <TextBlock Grid.Row="2" Grid.Column="0" 
                                    Text="Статус:"/>
-                        <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="ReceiveStatusComboBox" 
+                        <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ReceiveStatusComboBox" 
                                   ItemsSource="{Binding EnumValues}"
                                   SelectedItem="{Binding SelectedValue}"
-                                  IsReadOnly="True">
+                                  IsHitTestVisible="False"
+                                  Focusable="False"> <!-- Отключает фокус и клики мышью -->
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource EnumDescriptionConverter}}"/>
