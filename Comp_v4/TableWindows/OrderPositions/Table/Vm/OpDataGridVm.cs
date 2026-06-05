@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration.Provider;
+using System.Windows.Controls;
 using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Events;
@@ -81,5 +82,18 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
 
         //so.PercentageOfTotalPayment = Items.Sum(op => op.);
         //so.PaymentStatusEnumValue = Items.Sum(op => op.);
+    }
+
+    /// <summary>
+    /// не исп-ся
+    /// </summary>
+    public void DataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
+        if (e.Row.Item is not OrderPosition op) {
+            Console.Error.WriteLine("DataGrid_OnBeginningEdit Op");
+            throw new ProviderException();
+        }
+        EventBus<IOrderPositionSubscriber>.RaiseEvent<IStartEditingOpHandler>((h) => {
+            h!.OnStartEditing(op);
+        });
     }
 }

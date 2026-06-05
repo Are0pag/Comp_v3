@@ -70,7 +70,8 @@
           CanUserAddRows="False"
           CanUserDeleteRows="False"
           MouseDoubleClick="DataGrid_OnMouseDoubleClick"
-          SelectionChanged="DataGrid_OnSelectionChanged"> 
+          SelectionChanged="DataGrid_OnSelectionChanged"
+          BeginningEdit="DataGrid_OnBeginningEdit"> 
     <DataGrid.Columns>
         <!-- Блокируем чтение для остальных колонок через IsReadOnly="True" -->
         <DataGridTextColumn Header="Наименование позиции" Binding="{Binding Position.Name}" Width="Auto" IsReadOnly="True"/>

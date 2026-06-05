@@ -329,10 +329,11 @@
                         Command="{Binding ClickCommand}"
                         Width="100"
                         IsDefault="True" />
-                <Button Content="Отмена" 
-                        Width="100" 
-                        Command="{Binding CancelCommand}"
-                        IsCancel="True"/>
+                <Button x:Name="CanselOrderPositionButton"
+                        Content="{Binding Label}"
+                        Command="{Binding ClickCommand}"
+                        Width="100"
+                        IsDefault="True" />
             </StackPanel>
         </Border>
     </Grid>

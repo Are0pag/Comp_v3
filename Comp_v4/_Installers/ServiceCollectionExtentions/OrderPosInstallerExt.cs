@@ -34,6 +34,9 @@ public static class OrderPosInstallerExt
         services.AddSingleton<SaveOrderPositionButVm>();
         services.AddSingleton<SaveOrderPositionAction>();
         
+        services.AddSingleton<CancelEditingOpAction>();
+        services.AddSingleton<CancelEditingOpButVm>();
+        
         services.AddTransient<OrderPositionForm>();
         services.AddTransient<OrderPositionValidator>();
     }

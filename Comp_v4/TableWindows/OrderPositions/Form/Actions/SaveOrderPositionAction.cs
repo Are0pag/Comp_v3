@@ -24,7 +24,9 @@ public class SaveOrderPositionAction : BaseActionAsyncSelfWaiting, IRuntimeParam
     public override bool CanPerform() {
         return base.CanPerform() && _orderPositionValidator.ValidateAsync(RuntimeParam).Result is { IsValid: true };
     }
-    
+
+#region rp
+
     protected OrderPosition _orderPosition;
     public OrderPosition RuntimeParam {
         get {
@@ -43,4 +45,6 @@ public class SaveOrderPositionAction : BaseActionAsyncSelfWaiting, IRuntimeParam
             _orderPosition = value;
         }
     }
+
+#endregion
 }

@@ -19,19 +19,22 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
     protected readonly OrderPosition _orderPosition;
     protected readonly OrderPositionVm _orderPositionVm;
     protected readonly SaveOrderPositionButVm _saveOrderPositionButVm;
-    public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SaveOrderPositionButVm saveOrderPositionButVm) {
+    protected readonly CancelEditingOpButVm _cancelEditingOpButVm;
+    public OrderPositionForm(OrderPosition orderPosition, ReceiveStatusEnumVm receiveStatusEnumVm, SaveOrderPositionButVm saveOrderPositionButVm, CancelEditingOpButVm cancelEditingOpButVm) {
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.Manual;
         SourceInitialized += LoadPlacement;
         Closing += SavePlacement;
         _receiveStatusEnumVm = receiveStatusEnumVm;
         _saveOrderPositionButVm = saveOrderPositionButVm;
+        _cancelEditingOpButVm = cancelEditingOpButVm;
         _orderPosition = orderPosition;
 
         _orderPositionVm = new OrderPositionVm(receiveStatusEnumVm, orderPosition);
         DataContext = _orderPositionVm;
         ReceiveStatusComboBox.DataContext = receiveStatusEnumVm;
         SaveOrderPositionButton.DataContext = _saveOrderPositionButVm;
+        CanselOrderPositionButton.DataContext = _cancelEditingOpButVm;
         
         EventBus<IGlSubscriber>.Subscribe(this);
         EventBus<IOrderPositionSubscriber>.Subscribe(this);

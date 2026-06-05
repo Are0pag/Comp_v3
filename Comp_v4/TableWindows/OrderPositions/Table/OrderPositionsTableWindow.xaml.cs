@@ -14,6 +14,7 @@ namespace Comp_v4.TableWindows.OrderPositions.Table;
 
 public partial class OrderPositionsTableWindow : TableWindowBase, IRuntimeParamsResolver<OrderPositionsTableWindow>
 {
+    private readonly OpDataGridVm _dataGridVm;
     private readonly CreateOrderPosFormButVm _createOrderPosFormButVm;
     private readonly EditOrderPosFormButVm _editOrderPosFormButVm;
     private readonly DeleteOrderPositionButVm _deleteOrderPositionButVm;
@@ -27,7 +28,8 @@ public partial class OrderPositionsTableWindow : TableWindowBase, IRuntimeParams
         _createOrderPosFormButVm = createOrderPosFormButVm;
         _editOrderPosFormButVm = editOrderPosFormButVm;
         _deleteOrderPositionButVm = delBut;
-        
+        _dataGridVm = opDataGridVm;
+
         DataGrid.DataContext = opDataGridVm;
         ButsAndContexMenu(createOrderPosFormButVm, editOrderPosFormButVm, delBut);
 
@@ -121,5 +123,9 @@ public partial class OrderPositionsTableWindow : TableWindowBase, IRuntimeParams
     private void DataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
         _editOrderPosFormButVm.NotifyCanExecute();
         _deleteOrderPositionButVm.NotifyCanExecute();
+    }
+
+    private void DataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e) {
+        _dataGridVm.DataGrid_OnBeginningEdit(sender, e); // не исп-ся
     }
 }

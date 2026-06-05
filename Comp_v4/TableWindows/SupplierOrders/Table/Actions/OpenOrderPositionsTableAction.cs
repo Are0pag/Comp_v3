@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.OrderPositions.Events;
+using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table;
 using Comp_v4.TableWindows.OrderPositions.Table.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table.Entities;
@@ -42,6 +43,7 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         _serviceProvider.GetRequiredService<CreateOrderPosAction>();
         _serviceProvider.GetRequiredService<EditOrderPosAction>();
         _serviceProvider.GetRequiredService<DeleteOrderPositionAction>();
+        _serviceProvider.GetRequiredService<CancelEditingOpAction>();
         
         EventBus<IOrderPositionSubscriber>.RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
         

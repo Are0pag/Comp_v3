@@ -1,8 +1,10 @@
+using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp_v4.TableWindows.OrderPositions.Form;
 using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp_v4.TableWindows.OrderPositions.Form.Entities;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table.Entities;
 
@@ -52,6 +54,10 @@ public class EditOpTableState : BaseOpState
         
         var table = _serviceProvider.GetRequiredService<OpForm>();
         await table.ChangeState(table.GetState<EditOpFormState>(), table);
+
+        EventBus<IOrderPositionSubscriber>.RaiseEvent<IStartEditingOpHandler>((h) => {
+            h!.OnStartEditing(op);
+        });
         
         window.Show();
         await tcs.Task;
