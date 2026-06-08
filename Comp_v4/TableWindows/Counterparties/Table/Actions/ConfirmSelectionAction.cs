@@ -22,7 +22,7 @@ public class ConfirmSelectionAction : BaseActionAsyncCompletion
                .RaiseEvent<ISelectionConfirmationHandler>(h => h?.OnConfirmSelection(tcs, _dataGridVm.SelectedItem!));
         }
         catch (Exception e) {
-            Console.WriteLine(e);
+            Console.Error.WriteLine(e);
             throw;
         }
         await tcs.Task;

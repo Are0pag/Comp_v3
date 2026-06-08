@@ -44,9 +44,9 @@
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
                 <TextBlock Text="Поставщик:" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                <TextBlock 
+                <TextBox IsReadOnly="True" Focusable="False"
                     Text="{Binding Counterparty.ShortName, UpdateSourceTrigger=PropertyChanged}"
-                    Width="Auto" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    Width="Auto" MinWidth="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
                 <Button x:Name="CounterpartySelectButton"
                         Command="{Binding ClickCommand}"
                         Content="🔍" 

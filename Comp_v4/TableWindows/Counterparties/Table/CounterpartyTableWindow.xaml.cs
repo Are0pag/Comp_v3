@@ -62,8 +62,6 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         await Application.Current.Dispatcher.InvokeAsync(() => {
             if (MainDataGrid.SelectedItem is null)
                 return;
-            /*EventBus<ICounterpartySubscriber>
-               .RaiseEvent<IMouseDoubleClickHandler>(h => h?.OnMouseDoubleClick(_tcsMouseDoubleClick!, sender, e));*/
             OnDoubleClickSelectingItemInTable?.Invoke(_tcsMouseDoubleClick!, MainDataGrid, e);
         }, DispatcherPriority.Background);
     }
