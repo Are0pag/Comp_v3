@@ -6,10 +6,12 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 
 public partial class VatPercentageVm : ObservableObject
 {
-    protected SupplierOrder _supplierOrder;
+    protected readonly SupplierOrder _supplierOrder;
+    protected readonly VatStatusEnumVm _vatStatusEnumVm;
 
-    public VatPercentageVm(SupplierOrder supplierOrder) {
+    public VatPercentageVm(SupplierOrder supplierOrder, VatStatusEnumVm vatStatusEnumVm) {
         _supplierOrder = supplierOrder;
+        _vatStatusEnumVm = vatStatusEnumVm;
     }
 
     public float VatPercentage {
@@ -17,6 +19,16 @@ public partial class VatPercentageVm : ObservableObject
         set {
             if (value < 0) value = 0;
             if (value > 100) value = 100;
+
+            if (value == 0) {
+                if (_vatStatusEnumVm.SelectedValue != VatStatus.WithoutVat)
+                    _vatStatusEnumVm.SelectedValue = VatStatus.WithoutVat;
+            }
+            else {
+                if (_vatStatusEnumVm.SelectedValue == VatStatus.WithoutVat) {
+                    _vatStatusEnumVm.SelectedValue = VatStatus.VatIncluded;
+                }
+            }
 
             _supplierOrder.VatPercentage = value;
             OnPropertyChanged();

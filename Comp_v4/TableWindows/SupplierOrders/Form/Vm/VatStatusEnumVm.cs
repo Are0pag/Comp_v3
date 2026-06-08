@@ -17,6 +17,15 @@ public class VatStatusEnumVm : EnumVmSourceChanging<VatStatus, SupplierOrder>, I
         set {
             SetProperty(ref _selectedValue, value);
             _source.VatStatus = value.ToString();
+
+            if (value == VatStatus.WithoutVat) {
+                _source.VatPercentage = 0;
+            }
+            else {
+                if (_source.VatPercentage == 0) {
+                    _source.VatPercentage = 1;
+                }
+            }
         }
     }
 

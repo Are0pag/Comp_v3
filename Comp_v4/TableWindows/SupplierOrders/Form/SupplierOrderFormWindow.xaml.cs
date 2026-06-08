@@ -45,7 +45,7 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
         
         _counterpartySelectButVm = counterpartySelectButVm;
 
-        VatPercentageButsGrid.DataContext = new VatPercentageVm(supplierOrder);
+        VatPercentageButsGrid.DataContext = new VatPercentageVm(supplierOrder, vatStatusEnumsVm);
         
         EventBus<IGlSubscriber>.Subscribe(this);
     }
