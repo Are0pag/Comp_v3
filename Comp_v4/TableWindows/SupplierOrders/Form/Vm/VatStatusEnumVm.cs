@@ -12,20 +12,27 @@ public class VatStatusEnumVm : EnumVmSourceChanging<VatStatus, SupplierOrder>, I
         EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
     }
 
+    public Action OnVatStatusChanged { get; set; }
+    public Action OnResetVatStatus { get; set; }
     public override VatStatus SelectedValue {
         get => _selectedValue;
         set {
             SetProperty(ref _selectedValue, value);
             _source.VatStatus = value.ToString();
 
+            // Установка в "Без НДС"
             if (value == VatStatus.WithoutVat) {
-                _source.VatPercentage = 0;
+                //_source.VatPercentage = 0;
+                OnResetVatStatus?.Invoke();
             }
-            else {
+            else { 
+                // Если это было переназначение с WithoutVat 
                 if (_source.VatPercentage == 0) {
-                    _source.VatPercentage = 1;
+                    //_source.VatPercentage = SupplierOrder.VAT_PERCENTAGE_DEFAULT;
+                    OnResetVatStatus?.Invoke();
                 }
             }
+            OnVatStatusChanged?.Invoke();
         }
     }
 

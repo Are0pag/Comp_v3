@@ -96,7 +96,9 @@
                 </ComboBox>
                 
                 <TextBlock Text="Ставка (%): " Width="60" Margin="0,0,0,0" VerticalAlignment="Center"/>
-                <Grid Margin="2,0,10,0">
+                <Grid Name="VatPercentageButsGrid"
+                      IsEnabled="{Binding IsVatPercentageEnabled}"
+                      Margin="2,0,10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -110,7 +112,7 @@
                              VerticalContentAlignment="Center"/>
 
                     <!-- Блок со стрелочками поверх или рядом -->
-                    <Grid Grid.Column="0" Name="VatPercentageButsGrid"
+                    <Grid Grid.Column="0" 
                           HorizontalAlignment="Right" Width="16" Margin="0,1,1,1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>

@@ -5,16 +5,18 @@ using Comp.ModelData;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 
-public enum VatStatusFilter : byte
+public enum OrderStatusFilter : byte
 {
     [Description("Все")]
     All,
-    [Description("Без НДС")]
-    WithoutVat,
-    [Description("НДС включён")]
-    VatIncluded,
-    [Description("НДС сверху")]
-    VatOnTop
+    [Description("Создан")]
+    Created,
+    [Description("Заказан")]
+    Ordered,
+    [Description("Получен")]
+    Received,
+    [Description("Архивный")]
+    Archived
 }
 
 public class VatStatusFilterVm : ObservableObject
@@ -22,26 +24,27 @@ public class VatStatusFilterVm : ObservableObject
     protected ObservableCollection<SupplierOrder> _items;
     protected ObservableCollection<SupplierOrder> _filteredItems;
     
-    public List<VatStatusFilter> VatStatusFilterValues { get; } = new() {
-        VatStatusFilter.All,
-        VatStatusFilter.WithoutVat,
-        VatStatusFilter.VatIncluded,
-        VatStatusFilter.VatOnTop
+    public List<OrderStatusFilter> OrderStatusFilterValues { get; } = new() {
+        OrderStatusFilter.All,
+        OrderStatusFilter.Created,
+        OrderStatusFilter.Ordered,
+        OrderStatusFilter.Received,
+        OrderStatusFilter.Archived
     };
     
-    private VatStatusFilter _selectedVatStatusFilter = VatStatusFilter.All;
+    private OrderStatusFilter _selectedOrderStatusFilter = OrderStatusFilter.All;
 
     public void Init(ObservableCollection<SupplierOrder> items, ObservableCollection<SupplierOrder> filteredItems) {
         _items = items;
         _filteredItems = filteredItems;
     }
 
-    public VatStatusFilter SelectedVatStatusFilter
+    public OrderStatusFilter SelectedOrderStatusFilter
     {
-        get => _selectedVatStatusFilter;
+        get => _selectedOrderStatusFilter;
         set {
-            _selectedVatStatusFilter = value;
-            OnPropertyChanged(nameof(SelectedVatStatusFilter));
+            _selectedOrderStatusFilter = value;
+            OnPropertyChanged(nameof(SelectedOrderStatusFilter));
             ApplyFilter();
         }
     }
@@ -49,18 +52,18 @@ public class VatStatusFilterVm : ObservableObject
     public void ApplyFilter() {
         _filteredItems.Clear();
 
-        if (SelectedVatStatusFilter == VatStatusFilter.All) {
+        if (SelectedOrderStatusFilter == OrderStatusFilter.All) {
             foreach (var item in _items) {
                 _filteredItems.Add(item);
             }
         }
         else {
-            var selectedName = SelectedVatStatusFilter.ToString();
+            var selectedName = SelectedOrderStatusFilter.ToString();
 
             // Превращаем эту строку в оригинальный бизнес-enum VatStatus
-            var targetVatStatus = (VatStatus)Enum.Parse(typeof(VatStatus), selectedName);
+            var targetVatStatus = (OrderStatus)Enum.Parse(typeof(OrderStatus), selectedName);
 
-            var query = _items.Where(item => item.VatStatusEnumValue == targetVatStatus);
+            var query = _items.Where(item => item.OrderStatusEnumValue == targetVatStatus);
             foreach (var item in query) {
                 _filteredItems.Add(item);
             }

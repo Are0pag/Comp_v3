@@ -78,7 +78,7 @@
 
                 <!-- Текстовая метка -->
                 <TextBlock Grid.Column="0" 
-                           Text="Фильтр по НДС:" 
+                           Text="Фильтр по статусу:" 
                            VerticalAlignment="Center" 
                            Margin="20,0,0,0"/>
 
@@ -89,8 +89,8 @@
                           VerticalAlignment="Center"
                           VerticalContentAlignment="Center" 
                           Padding="5,0,5,0" 
-                          ItemsSource="{Binding VatStatusFilterValues}"
-                          SelectedItem="{Binding SelectedVatStatusFilter, UpdateSourceTrigger=PropertyChanged}">
+                          ItemsSource="{Binding OrderStatusFilterValues}"
+                          SelectedItem="{Binding SelectedOrderStatusFilter, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <!-- Слегка уменьшаем FontSize или убираем внешние margins, если они мешали -->
