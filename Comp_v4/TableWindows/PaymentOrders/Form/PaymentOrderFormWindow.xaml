@@ -66,7 +66,7 @@
         <!-- Сумма платежа -->
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Сумма платежа:"/>
         <TextBox Grid.Row="2" Grid.Column="1"
-                 Text="{Binding PaymentAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}">
+                 Text="{Binding PaymentAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N10}">
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <DockPanel LastChildFill="true">

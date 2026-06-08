@@ -1,7 +1,8 @@
 using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
-using Comp_v4.TableWindows.SupplierOrders.Form;
+using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
+using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.WPF.Buttons;
 
@@ -10,8 +11,10 @@ namespace Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 {
     protected readonly IServiceProvider _serviceProvider;
-    public OpenPaymentOrderTableAction(OpenPaymentOrdersButVm button, IServiceProvider serviceProvider) : base(button) {
+    protected readonly SoDataGridVm _soDataGridVm;
+    public OpenPaymentOrderTableAction(OpenPaymentOrdersButVm button, IServiceProvider serviceProvider, SoDataGridVm soDataGridVm) : base(button) {
         _serviceProvider = serviceProvider;
+        _soDataGridVm = soDataGridVm;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
@@ -29,6 +32,10 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
     }
 
     private void ResolveRelated() {
-        _serviceProvider.GetRequiredService<AddPoAction>();
+        _serviceProvider.GetRequiredService<AddPoAction>().CurrentSo = _soDataGridVm.SelectedItem;
+    }
+
+    public override bool CanPerform() {
+        return base.CanPerform() && _soDataGridVm.SelectedItem != null;
     }
 }

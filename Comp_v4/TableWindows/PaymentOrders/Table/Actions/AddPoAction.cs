@@ -9,28 +9,26 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Table.Actions;
 
-public class AddPoAction : BaseActionAsyncSelfWaiting, ISelectedSoRequester
+public class AddPoAction : BaseActionAsyncSelfWaiting
 {
     protected readonly PaymentOrderTable _table;
     public AddPoAction(AddPaymentOrderButVm button, PaymentOrderTable table) : base(button) {
         _table = table;
     }
+    
+    public SupplierOrder? CurrentSo { get; set; }
 
     public override async Task Perform(TaskCompletionSource tcs) {
-        EventBus<ISupplierOrdersSubscriber>
-           .RaiseEvent<ISelectedSoContainer>(c => c?.GetSelectedSoInfo(this));
         if (CurrentSo == null)
             throw new NullReferenceException("CurrentSo is null");
         await _table.AddItem(tcs, new PaymentOrder() {
             Order = CurrentSo,
-            OrderId = CurrentSo.Id
+            OrderId = CurrentSo.Id,
+            Date = DateTime.Now,
         });
     }
 
     public override bool CanPerform() {
-        EventBus<ISupplierOrdersSubscriber>
-           .RaiseEvent<ISelectedSoContainer>(c => c?.GetSelectedSoInfo(this));
-
         return base.CanPerform() && CurrentSo != null; 
     }
 
@@ -38,5 +36,4 @@ public class AddPoAction : BaseActionAsyncSelfWaiting, ISelectedSoRequester
         
     }
 
-    public SupplierOrder? CurrentSo { get; set; }
 }
