@@ -13,12 +13,15 @@ public class SoDataGridVm : DataGridViewModel<SupplierOrder>, IRuntimeParamsReso
 {
     protected readonly FiltersVmBase _filtersVm;
     protected readonly SoFilter _filter;
-    public SoDataGridVm(IRepository<SupplierOrder> repository, FiltersVmBase filtersVm, SoFilter filter) : base(repository) {
+    protected readonly VatStatusFilterVm _vatStatusFilterVm;
+    public SoDataGridVm(IRepository<SupplierOrder> repository, FiltersVmBase filtersVm, SoFilter filter, VatStatusFilterVm vatStatusFilterVm) : base(repository) {
         _filtersVm = filtersVm;
         _filter = filter;
+        _vatStatusFilterVm = vatStatusFilterVm;
         filtersVm.PropertyChanged += OnFiltersVmOnPropertyChanged;
         
         ItemsSorted = new ObservableCollection<SupplierOrder>(Items);
+        _vatStatusFilterVm.Init(Items, ItemsSorted);
         
         EventBus<IGlSubscriber>.Subscribe(this);
     }

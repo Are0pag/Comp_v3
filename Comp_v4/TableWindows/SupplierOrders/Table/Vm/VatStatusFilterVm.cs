@@ -1,26 +1,42 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp.ModelData;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 
+public enum VatStatusFilter : byte
+{
+    [Description("Все")]
+    All,
+    [Description("Без НДС")]
+    WithoutVat,
+    [Description("НДС включён")]
+    VatIncluded,
+    [Description("НДС сверху")]
+    VatOnTop
+}
+
 public class VatStatusFilterVm : ObservableObject
 {
-    protected readonly SoDataGridVm _soDataGridVm;
+    protected ObservableCollection<SupplierOrder> _items;
+    protected ObservableCollection<SupplierOrder> _filteredItems;
     
-    public List<VatStatus?> VatStatusFilterValues { get; } = new() {
-        null, // Это пункт "Все"
-        VatStatus.WithoutVat,
-        VatStatus.VatIncluded,
-        VatStatus.VatOnTop
+    public List<VatStatusFilter> VatStatusFilterValues { get; } = new() {
+        VatStatusFilter.All,
+        VatStatusFilter.WithoutVat,
+        VatStatusFilter.VatIncluded,
+        VatStatusFilter.VatOnTop
     };
     
-    private VatStatus? _selectedVatStatusFilter;
+    private VatStatusFilter _selectedVatStatusFilter = VatStatusFilter.All;
 
-    public VatStatusFilterVm(SoDataGridVm soDataGridVm) {
-        _soDataGridVm = soDataGridVm;
+    public void Init(ObservableCollection<SupplierOrder> items, ObservableCollection<SupplierOrder> filteredItems) {
+        _items = items;
+        _filteredItems = filteredItems;
     }
 
-    public VatStatus? SelectedVatStatusFilter
+    public VatStatusFilter SelectedVatStatusFilter
     {
         get => _selectedVatStatusFilter;
         set {
@@ -31,22 +47,23 @@ public class VatStatusFilterVm : ObservableObject
     }
 
     public void ApplyFilter() {
-        _soDataGridVm.ItemsSorted.Clear();
+        _filteredItems.Clear();
 
-        // Фильтруем данные через обычный LINQ в зависимости от выбора
-        IEnumerable<SupplierOrder> query;
-
-        if (SelectedVatStatusFilter == null) {
-            query = _soDataGridVm.Items; // Если выбрано "Все", берем весь список
+        if (SelectedVatStatusFilter == VatStatusFilter.All) {
+            foreach (var item in _items) {
+                _filteredItems.Add(item);
+            }
         }
         else {
-            // Фильтруем по вашему свойству Enum в модели
-            query = _soDataGridVm.Items
-                                 .Where(item => item.VatStatusEnumValue == SelectedVatStatusFilter.Value);
-        }
+            var selectedName = SelectedVatStatusFilter.ToString();
 
-        foreach (var item in query) {
-            _soDataGridVm.ItemsSorted.Add(item);
+            // Превращаем эту строку в оригинальный бизнес-enum VatStatus
+            var targetVatStatus = (VatStatus)Enum.Parse(typeof(VatStatus), selectedName);
+
+            var query = _items.Where(item => item.VatStatusEnumValue == targetVatStatus);
+            foreach (var item in query) {
+                _filteredItems.Add(item);
+            }
         }
     }
 }
