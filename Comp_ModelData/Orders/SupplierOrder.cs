@@ -23,6 +23,16 @@ public class SupplierOrder : ObservableObject, IDbEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    protected float _vatPercentage = VAT_PERCENTAGE_DEFAULT;
+    public const float VAT_PERCENTAGE_DEFAULT = 22f;
+    public float VatPercentage {
+        get => _vatPercentage;
+        set {
+            _vatPercentage = value;
+            OnPropertyChanged();
+        }
+    }
+    
     // Bindings +    
 #region TextData
 
@@ -350,6 +360,8 @@ public class SupplierOrder : ObservableObject, IDbEntity
         
         target.Counterparty = this.Counterparty;
         target.CounterpartyId = this.CounterpartyId;
+
+        target.VatPercentage = this.VatPercentage;
         
         // Текстовые данные
         target.PurchaseOrderNumber = this.PurchaseOrderNumber;

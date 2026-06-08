@@ -26,6 +26,9 @@ public class SupplierOrderConfig : IEntityTypeConfiguration<SupplierOrder>
         builder.Property(p => p.Note)
                .IsRequired(false);
         
+        builder.Property(p => p.VatPercentage)
+               .IsRequired()
+               .HasDefaultValue(SupplierOrder.VAT_PERCENTAGE_DEFAULT);
 
         builder.Property(p => p.OrderStatus)
                .IsRequired()
