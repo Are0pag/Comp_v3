@@ -94,12 +94,39 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBlock Text="Ставка: " Width="50" Margin="0,0,0,0" VerticalAlignment="Center"/>
-                <TextBox 
-                    Text="{Binding VatPercentage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=N1}"
-                    Width="50">
-                </TextBox>
-                <TextBlock Text="%" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                
+                <TextBlock Text="Ставка (%): " Width="60" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                <Grid Margin="2,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Поле ввода (занимает основную часть) -->
+                    <TextBox Grid.Column="0" 
+                             Text="{Binding VatPercentage, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" 
+                             Width="60" 
+                             Padding="0,0,18,0"
+                             VerticalContentAlignment="Center"/>
+
+                    <!-- Блок со стрелочками поверх или рядом -->
+                    <Grid Grid.Column="0" Name="VatPercentageButsGrid"
+                          HorizontalAlignment="Right" Width="16" Margin="0,1,1,1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Кнопка Вверх -->
+                        <RepeatButton Grid.Row="0" Content="▲" FontSize="6" Padding="0" Delay="300" Interval="100"
+                                      Command="{Binding IncreaseVatCommand}"/>
+        
+                        <!-- Кнопка Вниз -->
+                        <RepeatButton Grid.Row="1" Content="▼" FontSize="6" Padding="0" Delay="300" Interval="100"
+                                      Command="{Binding DecreaseVatCommand}"/>
+                    </Grid>
+                </Grid>
+                
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">

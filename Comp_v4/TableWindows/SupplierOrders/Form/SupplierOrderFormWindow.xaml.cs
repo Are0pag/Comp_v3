@@ -44,6 +44,9 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
         InvoiceFilePathLinkFieldControl.DataContext = invoiceLinkFieldVm;
         
         _counterpartySelectButVm = counterpartySelectButVm;
+
+        VatPercentageButsGrid.DataContext = new VatPercentageVm(supplierOrder);
+        
         EventBus<IGlSubscriber>.Subscribe(this);
     }
 
