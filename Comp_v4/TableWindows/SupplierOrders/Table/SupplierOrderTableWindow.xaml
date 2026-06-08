@@ -18,6 +18,7 @@
             <Setter Property="Margin" Value="5,0,0,0"/>
         </Style>
         <form:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+        <local:FilterEnumDescriptionConverter x:Key="FilterEnumDescriptionConverter" />
     </windows:TableWindowBase.Resources>
     
     <Grid>
@@ -66,6 +67,36 @@
                           HorizontalAlignment="Left"
                           Margin="20,0,0,0"/>
             </Grid>
+            
+            <!-- Панель фильтрации -->
+            <Grid Margin="0,10,0,15" Name="FilterGridByVatStatus">
+                <Grid.ColumnDefinitions>
+                    <!-- Ширина колонок совпадает с вашим основным блоком для идеального выравнивания -->
+                    <ColumnDefinition Width="150"/> 
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Текстовая метка -->
+                <TextBlock Grid.Column="0" 
+                           Text="Фильтр по НДС:" 
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+
+                <!-- Выпадающий список (Фильтр) -->
+                <ComboBox Grid.Column="1" 
+                          Width="180"
+                          VerticalAlignment="Center"
+                          ItemsSource="{Binding VatStatusFilterValues}"
+                          SelectedItem="{Binding SelectedVatStatusFilter}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Используем конвертер, который отображает [Description] или слово "Все" для null -->
+                            <TextBlock Text="{Binding ., Converter={StaticResource FilterEnumDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
         </StackPanel>
         
         <DataGrid Grid.Row="1" 

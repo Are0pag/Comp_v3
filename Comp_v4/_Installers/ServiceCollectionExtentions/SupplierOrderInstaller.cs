@@ -69,6 +69,7 @@ public static class SupplierOrderInstaller
         
         services.AddScoped<FiltersVmBase>();
         services.AddScoped<SoFilter>();
+        services.AddScoped<VatStatusFilterVm>();
         
         /* form */
         services.AddScoped<SoForm>();

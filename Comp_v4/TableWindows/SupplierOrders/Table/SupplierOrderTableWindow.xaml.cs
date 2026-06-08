@@ -21,11 +21,12 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
     protected readonly DeleteSoButVm _deleteSoButVm;
     protected readonly OpenPaymentOrdersButVm _paymentOrdersBut;
     protected readonly OpenOrderPositionsButVm _positionsBut;
+    protected readonly VatStatusFilterVm _vatStatusFilterVm;
 
     public SupplierOrderTableWindow(SoDataGridVm dataGridVm, 
                                     AddSoButVm addButVm, EditSoButVm editButVm, DeleteSoButVm deleteSoButVm, 
                                     OpenOrderPositionsButVm positionsBut, OpenPaymentOrdersButVm paymentOrdersBut,
-                                    FiltersVmBase filtersVm) {
+                                    FiltersVmBase filtersVm, VatStatusFilterVm vatStatusFilterVm) {
         InitializeComponent();
         DataGrid.DataContext = dataGridVm;
         
@@ -38,6 +39,7 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
 
         FilterTextBox.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
+        FilterGridByVatStatus.DataContext = vatStatusFilterVm;
         
         InfoDataGridContextMenuAddNewItemCommand.DataContext = addButVm;
         InfoDataGridContextMenuEditItemCommand.DataContext = editButVm;
@@ -51,6 +53,7 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
         _deleteSoButVm = deleteSoButVm;
         _positionsBut = positionsBut;
         _paymentOrdersBut = paymentOrdersBut;
+        _vatStatusFilterVm = vatStatusFilterVm;
         EventBus<IGlSubscriber>.Subscribe(this);
     }
 
