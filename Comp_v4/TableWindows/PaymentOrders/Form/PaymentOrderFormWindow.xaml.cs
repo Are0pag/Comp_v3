@@ -18,6 +18,8 @@ public partial class PaymentOrderFormWindow : Window, IDisposable
         _paymentOrder = paymentOrder;
         
         DataContext = paymentOrder;
+        CorrespondingSoReadonlyGroupBox.DataContext = paymentOrder.Order;
+        
         SaveButton.DataContext = _savePaymentOrderButVm;
     }
 

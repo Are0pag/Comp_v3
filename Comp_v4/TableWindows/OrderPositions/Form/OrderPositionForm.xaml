@@ -268,7 +268,7 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" 
                                Text="Поставщик:"/>
                     <TextBox Grid.Row="2" Grid.Column="1" 
-                             Text="{Binding SupplierOrder.Counterparty.Name, Mode=OneWay}"
+                             Text="{Binding SupplierOrder.Counterparty.ShortName, Mode=OneWay}"
                              IsReadOnly="True"
                              Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                 </Grid>
