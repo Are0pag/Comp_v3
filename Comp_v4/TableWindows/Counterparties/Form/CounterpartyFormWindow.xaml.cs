@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using Comp_v4._Installers;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Vm;
 using Comp_v4.TableWindows.Counterparties.Form.Vm.Buts;
@@ -8,26 +9,47 @@ using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.Counterparties;
 
-public partial class CounterpartyFormWindow : Window, IDisposable
+public partial class CounterpartyFormWindow : Window, IDisposable, IRuntimeParamsResolver<Counterparty>, IRuntimeParamsResolver<CounterpartyFormWindow>
 {
+    private readonly Counterparty _counterparty;
+    
+    private readonly SaveCpFormButVm _saveCpFormButVm;
     public CounterpartyFormWindow(Counterparty counterparty, SaveCpFormButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm) {
         InitializeComponent();
-        
+        _counterparty = counterparty;
         WindowStartupLocation = WindowStartupLocation.Manual;
         SourceInitialized += LoadPlacement;
         Closing += SavePlacement;
         
         CounterpartyTypeComboBox.DataContext = counterpartyEnumsVm;
         
+        _saveCpFormButVm = saveButVm;
+        counterparty.PropertyChanged += CounterpartyOnPropertyChanged;
+        
         DataContext = counterparty;
         SaveButton.DataContext = saveButVm;
-        //EventBus<ICounterpartySubscriber>.Subscribe(this);
+        EventBus<IGlSubscriber>.Subscribe(this);
+    }
+
+    private void CounterpartyOnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+        if (sender is Counterparty counterparty && e.PropertyName == nameof(Counterparty.ShortName)) {
+            _saveCpFormButVm.NotifyCanExecute();
+        }
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<Counterparty> container) {
+        container.RuntimeParam = _counterparty;
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<CounterpartyFormWindow> container) {
+        container.RuntimeParam = this;
     }
 
     public void Dispose() {
-        //EventBus<ICounterpartySubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Unsubscribe(this);
         SourceInitialized -= LoadPlacement;
         Closing -= SavePlacement;
+        _counterparty.PropertyChanged -= CounterpartyOnPropertyChanged;
     }
 
     public Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null) {

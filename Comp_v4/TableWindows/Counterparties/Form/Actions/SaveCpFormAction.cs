@@ -8,19 +8,14 @@ namespace Comp_v4.TableWindows.Counterparties.Form.Actions;
 
 public class SaveCpFormAction : BaseActionAsyncCompletion
 {
-    protected readonly Counterparty _counterparty;
-    protected readonly CounterpartyFormWindow _formWindow;
     protected readonly FormCp _formCp;
     protected readonly CounterpartyDataGridVm _dataGridVm;
+    protected Counterparty _counterparty;
 
     public SaveCpFormAction(SaveCpFormButVm button, 
-                            Counterparty counterparty, 
-                            CounterpartyFormWindow formWindow, 
                             FormCp formCp, 
                             CounterpartyDataGridVm dataGridVm) 
         : base(button) {
-        _counterparty = counterparty;
-        _formWindow = formWindow;
         _formCp = formCp;
         _dataGridVm = dataGridVm;
     }
@@ -28,15 +23,12 @@ public class SaveCpFormAction : BaseActionAsyncCompletion
     public override async Task Perform(TaskCompletionSource tcs) {
         await _formCp.Save(new TaskCompletionSource<Counterparty>(), _counterparty);
         await _dataGridVm.Save(new TaskCompletionSource<Counterparty>(), _counterparty);
-        /*EventBus<ICounterpartySubscriber>.
-            RaiseEvent<ICpFormOnSaveUiChangesHandler>(h => {
-                h?.OnSaveCpForm(new TaskCompletionSource());
-            });*/
-        _formWindow.Close();
         tcs.SetResult();
+        new InstanceContainer<CounterpartyFormWindow>().RuntimeParam.Close();
     }
 
     public override bool CanPerform() {
-        return true;
+        _counterparty ??= new InstanceContainer<Counterparty>().RuntimeParam;
+        return _counterparty != null && _counterparty.ShortName != null;
     }
 }

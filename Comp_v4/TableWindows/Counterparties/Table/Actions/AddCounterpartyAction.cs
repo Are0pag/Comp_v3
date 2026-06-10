@@ -1,38 +1,34 @@
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.Counterparties.Form.Actions;
 using Comp_v4.TableWindows.Counterparties.Form.Entities;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
+using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
-using Templates.Common.Actions;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
-public class AddCounterpartyAction : BaseActionAsyncScopeHandler
+public class AddCounterpartyAction : BaseActionAsyncSelfWaiting 
 {
-    protected readonly CounterpartyTableWindow _counterpartyTableWindow;
-    public AddCounterpartyAction(AddCounterpartyButVm button, IServiceScopeFactory scopeFactory, CounterpartyTableWindow counterpartyTableWindow) 
-        : base(button, scopeFactory) {
-        _counterpartyTableWindow = counterpartyTableWindow;
+    protected readonly IServiceProvider _serviceProvider;
+    protected TaskCompletionSource _tcs;
+    public AddCounterpartyAction(AddCounterpartyButVm  button, IServiceProvider serviceProvider) : base(button) {
+        _serviceProvider = serviceProvider;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
-        _currentTcs = tcs;
-        using (var scope = _scopeFactory.CreateScope()) {
-            var window = scope.ServiceProvider.GetRequiredService<CounterpartyFormWindow>();
-            var parent = new InstanceContainer<CounterpartyTableWindow>().RuntimeParam;
-            window.Owner = parent;
-            WindowService.BindChildToParent(parent, window);
+        _tcs = tcs;
+        var window = ActivatorUtilities.CreateInstance<CounterpartyFormWindow>(_serviceProvider, new Counterparty());
+        var parent = _serviceProvider.GetRequiredService<EntryWindow>();
+        WindowService.BindChildToParent(parent, window);
 
-            scope.ServiceProvider.GetRequiredService<FormCp>();
-            scope.ServiceProvider.GetRequiredService<SaveCpFormAction>();
+        _serviceProvider.GetRequiredService<SaveCpFormAction>();
+        var form = _serviceProvider.GetRequiredService<FormCp>();
 
-            window.Closed += async (sender, args) => {
-                _currentTcs.TrySetResult();
-                await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
-                _counterpartyTableWindow.OnReload?.Invoke();
-            };
-            window.Show();
-        
-            await _currentTcs.Task;
-        }
+        window.Closed += (sender, args) => {
+            tcs.TrySetResult();
+        };
+        window.Show();
+        await _tcs.Task;
     }
 }
