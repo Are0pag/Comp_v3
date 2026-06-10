@@ -1,6 +1,7 @@
 using Comp_v4._Installers;
 using Comp_v4.NomDict.View;
 using Comp_v4.TableWindows.Analogs.Buttons;
+using Comp_v4.TableWindows.Analogs.Entities;
 using Comp_v4.TableWindows.Analogs.Events;
 using Comp.ModelData;
 using Utils.EventBus;
@@ -10,18 +11,17 @@ namespace Comp_v4.TableWindows.Analogs.Actions;
 
 public class ActionAnalogsSave : BaseActionAsyncCompletion, IRuntimeParamsContainer<Analog>
 {
-    protected readonly AnalogsTableVm _analogsTableVm;
     protected Analog _analog;
-
-    public ActionAnalogsSave(SaveAnalogButVm but, AnalogsTableVm analogsTableVm) : base(but) {
-        _analogsTableVm = analogsTableVm;
+    protected readonly AnalogsForm _analogsForm;
+    public ActionAnalogsSave(SaveAnalogButVm but, AnalogsForm analogsForm) : base(but) {
+        _analogsForm = analogsForm;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var tasks = new List<Task>();
 
         var saveTcs = new TaskCompletionSource();
-        await _analogsTableVm.Save(saveTcs, RuntimeParam);
+        await _analogsForm.Save(saveTcs, RuntimeParam);
         await saveTcs.Task;
         
         EventBus<IAnalogsTableWindowSubscriber>.RaiseEvent<IAnalogSaveHandler>(h => {
