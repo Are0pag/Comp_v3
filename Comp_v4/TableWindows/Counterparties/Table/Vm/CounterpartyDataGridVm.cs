@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp.Db.Contracts;
 using Comp.ModelData;
@@ -20,6 +21,9 @@ public class CounterpartyDataGridVm : FilterGridVm<Counterparty>, ISaveHandler
         var data = await _repository.GetAllAsync();
         Items = new ObservableCollection<Counterparty>(data);
         ItemsSorted = new ObservableCollection<Counterparty>(Items);
+        
+        // 2. Принудительный запуск фильтрации, чтобы учесть FilterString из UI
+        OnFiltersVmOnPropertyChanged(null, new PropertyChangedEventArgs(null));
         
         OnPropertyChanged(nameof(ItemsSorted));
     }

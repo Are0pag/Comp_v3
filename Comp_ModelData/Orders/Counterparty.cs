@@ -10,7 +10,7 @@ namespace Comp.ModelData;
 /// Контрагент - юридическое или физическое лицо, которое участвует в договорных отношениях с компанией на поставку товаров, работ или услуг
 /// </summary>
 [Table("Counterparties")]
-public class Counterparty : ObservableObject, IPropertyChangable, IDbEntity, IPopulatable<Counterparty>
+public class Counterparty : ObservableObject, IPropertyChangable, IDbEntity, IPopulatable<Counterparty>, IDisposable
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -272,5 +272,9 @@ public Counterparty PopulateFrom(Counterparty targetValues) {
     
     public override string ToString() {
         return $"{Id}. {ShortName}";
+    }
+
+    public void Dispose() {
+        // TODO release managed resources here
     }
 }

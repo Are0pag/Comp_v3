@@ -48,11 +48,12 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         EventBus<IGlSubscriber>.Subscribe(this);
         
         var filtersVm = new FiltersVmBase();
-        dataGridVm.FiltersVm = filtersVm;
+        
         FilterTextBox.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
 
         Loaded += (_, _) => {
+            dataGridVm.FiltersVm = filtersVm;
             _ = dataGridVm.InitFilteringCollection();
         };
     }

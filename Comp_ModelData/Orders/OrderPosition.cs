@@ -11,7 +11,7 @@ namespace Comp.ModelData;
 /// Спецификация заказа (оно же "Позиция заказа", используется в контекстах: "Состав заказа", "Заказанные компоненты")
 /// </summary>
 [Table("OrderPositions")]
-public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosition>
+public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosition>, IDisposable
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -163,5 +163,9 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
 
     public override string ToString() {
         return "op " + Position.Name;
+    }
+
+    public void Dispose() {
+        // TODO release managed resources here
     }
 }
