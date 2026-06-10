@@ -20,6 +20,11 @@ public class SaveCpFormAction : BaseActionAsyncCompletion
         _dataGridVm = dataGridVm;
     }
 
+    public Counterparty CurrentCounterparty {
+        get => _counterparty;
+        set => _counterparty = value;
+    }
+
     public override async Task Perform(TaskCompletionSource tcs) {
         await _formCp.Save(new TaskCompletionSource<Counterparty>(), _counterparty);
         await _dataGridVm.Save(new TaskCompletionSource<Counterparty>(), _counterparty);
@@ -28,7 +33,6 @@ public class SaveCpFormAction : BaseActionAsyncCompletion
     }
 
     public override bool CanPerform() {
-        _counterparty ??= new InstanceContainer<Counterparty>().RuntimeParam;
         return _counterparty != null && _counterparty.ShortName != null;
     }
 }

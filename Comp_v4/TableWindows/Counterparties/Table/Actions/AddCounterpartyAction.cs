@@ -18,11 +18,12 @@ public class AddCounterpartyAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         _tcs = tcs;
-        var window = ActivatorUtilities.CreateInstance<CounterpartyFormWindow>(_serviceProvider, new Counterparty());
+        var counterparty = new Counterparty();
+        var window = ActivatorUtilities.CreateInstance<CounterpartyFormWindow>(_serviceProvider, counterparty);
         var parent = _serviceProvider.GetRequiredService<EntryWindow>();
         WindowService.BindChildToParent(parent, window);
 
-        _serviceProvider.GetRequiredService<SaveCpFormAction>();
+        _serviceProvider.GetRequiredService<SaveCpFormAction>().CurrentCounterparty = counterparty;
         var form = _serviceProvider.GetRequiredService<FormCp>();
 
         window.Closed += (sender, args) => {

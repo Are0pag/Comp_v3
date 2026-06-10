@@ -37,8 +37,7 @@ public class CounterpartyDataGridVm : FilterGridVm<Counterparty>, ISaveHandler
             throw new InvalidCastException();
 
         if (Items.All(c => c.Id != counterparty.Id)) {
-            Items.Add(counterparty);
-            OnPropertyChanged(nameof(Items));
+            AddItem(counterparty);
         }
         else {
             try {

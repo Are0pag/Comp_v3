@@ -41,7 +41,19 @@ public abstract class FilterGridVm<T> : DataGridViewModel<T> where T : class, ID
         }
     }
 
-    public bool RemoveItem(T item) => ItemsSorted.Remove(item) && Items.Remove(item);
+    public void AddItem(T item) {
+        Items.Add(item);
+        if (!_filter.ApplyFilter(item, _filtersVm, GetComparison()))
+            return;
+        ItemsSorted.Add(item);
+        OnPropertyChanged(nameof(ItemsSorted));
+    }
+    
+    public bool RemoveItem(T item) {
+        var ok = ItemsSorted.Remove(item) && Items.Remove(item);
+        OnPropertyChanged(nameof(ItemsSorted));
+        return ok;
+    }
 
     protected void OnFiltersVmOnPropertyChanged(object? s, PropertyChangedEventArgs e) {
         var comparisonType = GetComparison();

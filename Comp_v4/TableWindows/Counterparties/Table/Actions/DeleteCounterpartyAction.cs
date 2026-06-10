@@ -1,9 +1,11 @@
+using System.Windows;
 using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
+using Utils.WPF.Dialogs;
 
 namespace Comp_v4.TableWindows.Counterparties.Table.Actions;
 
@@ -25,7 +27,18 @@ public class DeleteCounterpartyAction : BaseActionAsyncScopeHandler
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
-        await _repository.DeleteAsync(_dataGridVm.SelectedItem!.Id);
+        var selectedItem = _dataGridVm.SelectedItem!;
+        if (await _repository.HasAnyUsagesAsync<SupplierOrder, Counterparty>(selectedItem)) {
+            MessageBox.Show("Невозможно удалить элемент, так как он ещё используется");
+            return;
+        }
+
+        var isConfirmed = DialogService.ShowConfirmation("Удаление", $"Вы уверены что хотите удалить {selectedItem.ShortName}?");
+        if (!isConfirmed) return;
+        
+        _dataGridVm.RemoveItem(selectedItem);
+        
+        await _repository.DeleteAsync(selectedItem.Id);
         tcs.TrySetResult();
         _counterpartyTableWindow.OnReload?.Invoke();
     }
