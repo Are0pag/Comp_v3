@@ -17,9 +17,12 @@ namespace Comp_v4.TableWindows.Counterparties.Table;
 
 public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, IRuntimeParamsResolver<CounterpartyTableWindow>
 {
-    protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
+    protected readonly AddCounterpartyButVm _addCounterpartyButVm;
+    protected readonly EditCounterpartyButVm _editCounterpartyButVm;
     protected readonly DeleteCounterpartyButVm _deleteCounterpartyButVm;
     
+    protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
+
     protected TaskCompletionSource? _tcsMouseDoubleClick;
     public CounterpartyTableWindow(AddCounterpartyButVm addButVm, 
                                    EditCounterpartyButVm editCounterpartyButVm, 
@@ -29,9 +32,12 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
                                    ConfirmSelectiontButVm confirmSelectiontButVm) {
         InitializeComponent();
         
-        _confirmSelectiontButVm = confirmSelectiontButVm;
+        _addCounterpartyButVm = addButVm;
+        _editCounterpartyButVm = editCounterpartyButVm;
         _deleteCounterpartyButVm = deleteCounterpartyButVm;
         
+        _confirmSelectiontButVm = confirmSelectiontButVm;
+
         AddButton.DataContext = addButVm;
         EditButton.DataContext = editCounterpartyButVm;
         DeleteButton.DataContext = deleteCounterpartyButVm;
@@ -111,7 +117,14 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
     }
-    
+
+    private void MainDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        _addCounterpartyButVm.NotifyCanExecute();
+        _editCounterpartyButVm.NotifyCanExecute();
+        _deleteCounterpartyButVm.NotifyCanExecute();
+        
+        _confirmSelectiontButVm.NotifyCanExecute();
+    }
 }
 
 public class CounterpartyTableDoubleClickTaskCompletionSource : TaskCompletionSource {}

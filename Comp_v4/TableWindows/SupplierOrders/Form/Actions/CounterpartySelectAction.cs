@@ -1,33 +1,43 @@
 using System.Windows;
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.Counterparties.Table;
 using Comp_v4.TableWindows.Counterparties.Table.Actions;
 using Comp_v4.TableWindows.Counterparties.Table.Entities;
 using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 
-public class CounterpartySelectAction : BaseAsyncActionScopeReloadable
+public class CounterpartySelectAction : BaseActionAsyncSelfWaiting
 {
-    public CounterpartySelectAction(CounterpartySelectButVm button, IServiceScopeFactory scopeFactory) : base(button, scopeFactory) {
+    protected readonly IServiceProvider _serviceProvider;
+    protected TaskCompletionSource _currentTcs;
+    public CounterpartySelectAction(CounterpartySelectButVm button, IServiceProvider serviceProvider) : base(button) {
+        _serviceProvider = serviceProvider;
     }
 
-    protected override Window GetWindow() {
-        var window = _currentScope!.ServiceProvider.GetRequiredService<CounterpartyTableWindow>();
-        var parent = new InstanceContainer<SupplierOrderFormWindow>().RuntimeParam;
-        window.Owner = parent;
+
+    public override async Task Perform(TaskCompletionSource tcs) {
+        _currentTcs = tcs;
+        var window = _serviceProvider.GetRequiredService<CounterpartyTableWindow>();
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
         WindowService.BindChildToParent(parent, window);
-        return window;
-    }
 
-    protected override void InstantiateRelatedServices() {
-        _currentScope!.ServiceProvider.GetRequiredService<TableCounterparty>();
+        window.Closed += (sender, args) => {
+            tcs.SetResult();
+        };
+
+        _serviceProvider.GetRequiredService<TableCounterparty>();
+
+        _serviceProvider.GetRequiredService<AddCounterpartyAction>();
+        _serviceProvider.GetRequiredService<EditCounterpartyAction>();
+        _serviceProvider.GetRequiredService<DeleteCounterpartyAction>();
         
-        _currentScope.ServiceProvider.GetRequiredService<AddCounterpartyAction>();
-        _currentScope.ServiceProvider.GetRequiredService<EditCounterpartyAction>();
-        _currentScope.ServiceProvider.GetRequiredService<DeleteCounterpartyAction>();
+        _serviceProvider.GetRequiredService<ConfirmSelectionAction>();
         
-        _currentScope.ServiceProvider.GetRequiredService<ConfirmSelectionAction>();
+        window.Show();
+        await _currentTcs.Task;
     }
 }
