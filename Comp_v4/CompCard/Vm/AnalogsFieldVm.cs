@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp_v4._Installers;
 using Comp_v4.CompCard.Events;
+using Comp_v4.TableWindows.Analogs.Events;
 using Comp.Db.Contracts;
 using Comp.Db.Repositories.Concrete;
 using Comp.ModelData;
@@ -9,7 +10,7 @@ using Utils.EventBus;
 
 namespace Comp_v4.CompCard.Vm;
 
-public class AnalogsFieldVm : ObservableObject, TableWindows.Analogs.Events.IAnalogSaveHandler, IRuntimeParamsContainer<Component>, ICompCardLoadedHandler
+public class AnalogsFieldVm : ObservableObject, TableWindows.Analogs.Events.IAnalogSaveHandler, IRuntimeParamsContainer<Component>, ICompCardLoadedHandler, IAnalogDeleteHandler
 {
     protected readonly IRepository<Analog> _analogsRepository;
     protected Component _component;
@@ -54,11 +55,19 @@ public class AnalogsFieldVm : ObservableObject, TableWindows.Analogs.Events.IAna
         EventBus<ICompCardSubscriber>.Unsubscribe(this);
     }
 
-    public Task Save(TaskCompletionSource tcs, Analog analog) {
-        if (analog.SourceComponent.Id == RuntimeParam.Id) 
-            AnalogsCount += 1;
+    public Task OnDeleteAnalog(TaskCompletionSource tcs, Analog analog) {
+        if (analog.SourceComponent.Id == RuntimeParam.Id) {
+            _ = GetAnalogsCount();
+        }
         tcs.SetResult();
+        return Task.CompletedTask;
+    }
 
+    public Task Save(TaskCompletionSource tcs, Analog analog) {
+        if (analog.SourceComponent.Id == RuntimeParam.Id) {
+            _ = GetAnalogsCount();
+        }
+        tcs.SetResult();
         return Task.CompletedTask;
     }
 

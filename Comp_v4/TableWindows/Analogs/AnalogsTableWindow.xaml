@@ -28,13 +28,26 @@
                   EnableColumnVirtualization="False"
                   SelectedItem="{Binding SelectedItem}"
                   Grid.Row="0"
-                  MouseDoubleClick="MainDataGrid_OnMouseDoubleClick">
+                  MouseDoubleClick="MainDataGrid_OnMouseDoubleClick"
+                  PreviewKeyDown="MainDataGrid_OnPreviewKeyDown"
+                  SelectionChanged="MainDataGrid_OnSelectionChanged">
             
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Основной компонент" IsReadOnly="True" Binding="{Binding SourceComponent.Name, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Аналог" IsReadOnly="True" Binding="{Binding RelatedComponent.Name, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridCheckBoxColumn Header="Всё кол-во" IsReadOnly="True" Binding="{Binding IsAllCount, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
             </DataGrid.Columns>
+            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="InfoDataGrid_ContextMenu_AddNewItemCommand" 
+                              Header="Создать" Command="{Binding ClickCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGrid_ContextMenu_EditItemCommand"
+                              Header="Редактировать" Command="{Binding ClickCommand}"></MenuItem>
+                    <MenuItem x:Name="InfoDataGrid_ContextMenu_DeleteItemCommand"
+                              Header="Удалить" Command="{Binding ClickCommand}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             
         </DataGrid>
         
@@ -43,6 +56,16 @@
             <Button x:Name="AddAnalogButton" 
                     Content="{Binding Label}" 
                     Command="{Binding ClickCommand}" 
+                    Margin="5,0" 
+                    Padding="10,5"/>
+            <Button x:Name="EditButton" 
+                    Content="{Binding Label}" 
+                    Command="{Binding ClickCommand}"
+                    Margin="5,0" 
+                    Padding="10,5"/>
+            <Button x:Name="DeleteBut" 
+                    Content="{Binding Label}" 
+                    Command="{Binding ClickCommand}"
                     Margin="5,0" 
                     Padding="10,5"/>
         </StackPanel>

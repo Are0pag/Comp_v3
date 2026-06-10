@@ -29,6 +29,11 @@ public interface IAnalogSaveHandler : IAnalogsTableWindowSubscriber
     Task Save(TaskCompletionSource tcs, Analog analog);
 }
 
+public interface IAnalogDeleteHandler : IAnalogsTableWindowSubscriber 
+{
+    Task OnDeleteAnalog(TaskCompletionSource tcs, Analog analog);
+}
+
 public interface IAnalogTableLoadHandler : IAnalogsTableWindowSubscriber
 {
     Task OnLoad(TaskCompletionSource tcs);

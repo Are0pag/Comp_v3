@@ -14,24 +14,21 @@ namespace Comp_v4.CompCard.Operations.Actions;
 public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
 {
     protected readonly IServiceProvider _serviceProvider;
-    protected readonly IWindowOrderLocator _windowOrderLocator;
     public OpenAnalogTableAction(AnalogsFieldButtonVm buttonVm, IServiceProvider serviceProvider, IWindowOrderLocator windowOrderLocator) : base(buttonVm) {
         _serviceProvider = serviceProvider;
-        _windowOrderLocator = windowOrderLocator;
     }
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<AnalogsTableWindow>();
         var parentWindow = new InstanceContainer<CompCardWindow>().RuntimeParam;
         window.Owner = parentWindow;
-        _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
-            _windowOrderLocator.UnregisterWindow(window);
         };
         
         _serviceProvider.GetRequiredService<AddAnalogAction>();
         _serviceProvider.GetRequiredService<EditAnalogAction>();
+        _serviceProvider.GetRequiredService<DeleteAnalogAction>();
 
         await ReLoad();
         

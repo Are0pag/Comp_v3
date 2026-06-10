@@ -9,4 +9,8 @@ public class EditAnalogFormState : AddAnalogsFormState
     public EditAnalogFormState(IWindowOrderLocator windowOrderLocator, IRepository<Analog> analogRepository, IServiceProvider serviceProvider) 
         : base(windowOrderLocator, analogRepository, serviceProvider) {
     }
+
+    public override async Task Save(AnalogsForm form) {
+        await _analogRepository.UpdateAsync(RuntimeParam);
+    }
 }
