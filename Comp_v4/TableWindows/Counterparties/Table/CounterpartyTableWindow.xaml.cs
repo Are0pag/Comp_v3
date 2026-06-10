@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Comp_v4._Installers;
@@ -8,7 +9,9 @@ using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Templates.Common;
 using Utils.EventBus;
+using Utils.WPF;
 using Utils.WPF.Windows;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
@@ -37,6 +40,15 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         
         EventBus<ICounterpartySubscriber>.Subscribe(this);
         EventBus<IGlSubscriber>.Subscribe(this);
+        
+        var filtersVm = new FiltersVmBase();
+        dataGridVm.FiltersVm = filtersVm;
+        FilterTextBox.DataContext = filtersVm;
+        IgnoreCaseCheckBox.DataContext = filtersVm;
+
+        Loaded += (_, _) => {
+            _ = dataGridVm.InitFilteringCollection();
+        };
     }
 
     public Task OnSaveCpForm(TaskCompletionSource tcs, object? parameter = null) {
@@ -78,11 +90,16 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
                     _deleteCounterpartyButVm.OnClickAsync();
                 break;
             
-            case Key.K:
-            #if DEBUG
-                OnReload?.Invoke();
-            #endif
+            case Key.F1:
+                var cb = VisualHelper.FindVisualChild<CheckBox>((Window)sender);
+                cb.IsChecked = !cb.IsChecked;
                 break;
+            
+            // case Key.K:
+            // #if DEBUG
+            //     OnReload?.Invoke();
+            // #endif
+            //     break;
         }
     }
     

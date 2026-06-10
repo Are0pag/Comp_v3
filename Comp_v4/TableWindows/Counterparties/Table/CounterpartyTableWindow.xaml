@@ -70,7 +70,7 @@
         <!-- Таблица контрагентов -->
         <DataGrid Grid.Row="1" 
                   x:Name="MainDataGrid" 
-                  ItemsSource="{Binding Items, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding ItemsSorted, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedItem}"
                   Margin="10" 
                   AutoGenerateColumns="False" 

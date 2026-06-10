@@ -9,6 +9,8 @@ using Comp_v4.TableWindows.Counterparties.Table.Vm;
 using Comp_v4.TableWindows.Counterparties.Table.Vm.But;
 using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.Counterparties._Installers;
 
@@ -58,7 +60,8 @@ public static class CounterpartyInstaller
         
         services.AddScoped<EditCpTableState>();
         services.AddScoped<BaseCpTableState, EditCpTableState>();
-        
+
+        services.AddScoped<IFilter<Counterparty, FiltersVmBase>, FilterCounterparty>();
         
         services.AddScoped<CounterpartyTableWindow>();
     }
