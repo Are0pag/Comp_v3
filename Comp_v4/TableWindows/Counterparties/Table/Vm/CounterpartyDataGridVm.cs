@@ -32,6 +32,9 @@ public class CounterpartyDataGridVm : FilterGridVm<Counterparty>, ISaveHandler
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
     }
 
+    /// <summary>
+    /// Бестолково но красиво
+    /// </summary>
     public async Task Save(TaskCompletionSource<Counterparty> tcs, object? parameter = null) {
         if (parameter is not Counterparty counterparty) 
             throw new InvalidCastException();
@@ -43,7 +46,7 @@ public class CounterpartyDataGridVm : FilterGridVm<Counterparty>, ISaveHandler
             try {
                 if (Items.First(i => i.Id == counterparty.Id) is { } sourceItem) {
                     sourceItem.PopulateFrom(counterparty);
-                    OnPropertyChanged(nameof(Items));
+                    OnPropertyChanged(nameof(ItemsSorted));
                 }
                     
             }
