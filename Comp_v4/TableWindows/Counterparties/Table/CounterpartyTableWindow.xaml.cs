@@ -1,7 +1,9 @@
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using Comp_v4._Installers;
 using Comp_v4.TableWindows.Counterparties.Events;
@@ -17,8 +19,17 @@ namespace Comp_v4.TableWindows.Counterparties.Table;
 
 public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, IRuntimeParamsResolver<CounterpartyTableWindow>
 {
+    protected readonly AddCounterpartyButVm _addCounterpartyButVm;
+    protected readonly EditCounterpartyButVm _editCounterpartyButVm;
     protected readonly ConfirmSelectiontButVm _confirmSelectiontButVm;
     protected readonly DeleteCounterpartyButVm _deleteCounterpartyButVm;
+    private DispatcherTimer _timer;
+    
+    [DllImport("dwmapi.dll", PreserveSig = true)]
+    public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+    // Константа, отвечающая за отключение анимаций окна
+    private const int DWMWA_TRANSITIONS_FORCED_OFF = 3;
     
     protected TaskCompletionSource? _tcsMouseDoubleClick;
     public CounterpartyTableWindow(AddCounterpartyButVm addButVm, 
@@ -28,7 +39,10 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
                                    CounterpartyDataGridVm dataGridVm, 
                                    ConfirmSelectiontButVm confirmSelectiontButVm) {
         InitializeComponent();
+        InitTimer();
         
+        _addCounterpartyButVm = addButVm;
+        _editCounterpartyButVm = editCounterpartyButVm;
         _confirmSelectiontButVm = confirmSelectiontButVm;
         _deleteCounterpartyButVm = deleteCounterpartyButVm;
         
@@ -49,6 +63,33 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         Loaded += (_, _) => {
             _ = dataGridVm.InitFilteringCollection();
         };
+        SourceInitialized += MainWindow_SourceInitialized;
+    }
+    
+    private void MainWindow_SourceInitialized(object sender, EventArgs e)
+    {
+        // Получаем Handle текущего окна WPF
+        IntPtr hwnd = new WindowInteropHelper(this).Handle;
+
+        // Значение "1" означает TRUE (принудительно выключить анимации переходов)
+        int value = 1; 
+
+        // Отключаем анимацию открытия/закрытия/сворачивания для этого конкретного окна
+        DwmSetWindowAttribute(hwnd, DWMWA_TRANSITIONS_FORCED_OFF, ref value, sizeof(int));
+    }
+
+    private void InitTimer() {
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromMilliseconds(200);
+        _timer.Tick += Timer_Tick;
+        _timer.Start();
+    }
+
+    private void Timer_Tick(object sender, EventArgs e) {
+        _addCounterpartyButVm.NotifyCanExecute();
+        _editCounterpartyButVm.NotifyCanExecute();
+        _deleteCounterpartyButVm.NotifyCanExecute();
+        _confirmSelectiontButVm.NotifyCanExecute();
     }
 
     public Task OnSaveCpForm(TaskCompletionSource tcs, object? parameter = null) {
@@ -110,6 +151,7 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
     public void Dispose() {
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
+        SourceInitialized -= MainWindow_SourceInitialized;
     }
     
 }
