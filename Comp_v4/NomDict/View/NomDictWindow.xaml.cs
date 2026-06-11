@@ -197,4 +197,19 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<NomDictWindow> container) {
         container.RuntimeParam = this;
     }
+
+    private void CheckBox_Click(object sender, RoutedEventArgs e) {
+        if (sender is CheckBox checkBox && checkBox.Tag is string columnName) {
+            // Ищем колонку в DataGrid по её имени x:Name
+            var column = MainDataGrid.FindName(columnName) as DataGridColumn;
+
+            if (column != null) {
+                // Меняем видимость в зависимости от галочки
+                column.Visibility = checkBox.IsChecked == true
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+    }
+
 }

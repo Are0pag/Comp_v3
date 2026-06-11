@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Comp_v4.NomDict.View"
+        xmlns:converting="clr-namespace:Utils.WPF.Converting;assembly=Utils"
         mc:Ignorable="d"
         Title="Номенклатурный словарь" Height="950" Width="1800"
         PreviewKeyDown="Window_PreviewKeyDown"
@@ -11,6 +12,7 @@
     
     <Window.Resources>
         <local:RelativeToAbsolutePathConverter x:Key="RelativeToAbsolutePathConverter"/>
+        <converting:BoolToTextConverter x:Key="BoolToVis" />
     </Window.Resources>
      
     <Grid>
@@ -92,6 +94,20 @@
                             Margin="2" Padding="10,2"/>
                     <!-- Добавьте свои инструменты для части B -->
                     
+                    <ToolBar>
+                        <TextBlock Text="Видимость колонок: " VerticalAlignment="Center" Margin="5,0"/>
+                        <ComboBox Width="200" Text="Выберите колонки" IsEditable="True" IsReadOnly="True">
+                            <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
+    
+                            <!-- Передаем имя колонки в Tag и вешаем обработчик -->
+                            <CheckBox Content="Имя" IsChecked="True" Tag="ColName" Click="CheckBox_Click"/>
+                            <CheckBox Content="Ном.номер" IsChecked="True" Tag="ColNomenclatureNumber" Click="CheckBox_Click"/>
+                            <CheckBox Content="Каталожный номер" IsChecked="True" Tag="ColCatalogNumber" Click="CheckBox_Click"/>
+                            <CheckBox Content="Варианты маркировки" IsChecked="True" Tag="ColLabelingOptions" Click="CheckBox_Click"/>
+                            <CheckBox Content="Код элемента" IsChecked="True" Tag="ColCodeOfElement" Click="CheckBox_Click"/>
+                        </ComboBox>
+                    </ToolBar>
+                    
                 </StackPanel>
             </Border>
             
@@ -111,11 +127,11 @@
 
                         <DataGrid.Columns>
                             <!-- Основные текстовые данные -->
-                            <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
-                            <DataGridTextColumn Header="Номенклатурный номер" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                            <DataGridTextColumn Header="Каталожный номер" IsReadOnly="True" Binding="{Binding CatalogNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                            <DataGridTextColumn Header="Варианты маркировки" IsReadOnly="True" Binding="{Binding LabelingOptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                            <DataGridTextColumn Header="Код элемента" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                            <DataGridTextColumn x:Name="ColName" Header="Наименование" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
+                            <DataGridTextColumn x:Name="ColNomenclatureNumber" Header="Номенклатурный номер" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn x:Name="ColCatalogNumber" Header="Каталожный номер" IsReadOnly="True" Binding="{Binding CatalogNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn x:Name="ColLabelingOptions" Header="Варианты маркировки" IsReadOnly="True" Binding="{Binding LabelingOptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn x:Name="ColCodeOfElement" Header="Код элемента" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
 
                         <!-- Справочные данные -->
                         <DataGridTextColumn Header="Условное обозначение" IsReadOnly="True" Binding="{Binding ConditionalDesignation.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
