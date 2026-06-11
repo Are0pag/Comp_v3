@@ -10,6 +10,8 @@
         PreviewKeyDown="CounterpartyTableWindow_OnPreviewKeyDown">
     
     <windows:TableWindowBase.Resources>
+        <local:CounterpartyTypeConverter x:Key="CounterpartyTypeConverter" />
+
         <Style x:Key="ToolBarButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="80"/>
             <Setter Property="Height" Value="30"/>
@@ -88,7 +90,7 @@
                 <DataGridTextColumn Header="URL" Binding="{Binding Website}" Width="120"/>
                 <DataGridTextColumn Header="E-mail" Binding="{Binding Email}" Width="120"/>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="100"/>
-                <DataGridTextColumn Header="Тип контрагента" Binding="{Binding CounterpartyTypeName}" Width="120"/>
+                <DataGridTextColumn Header="Тип контрагента" Binding="{Binding CounterpartyTypeName, Converter={StaticResource CounterpartyTypeConverter}}" Width="120"/>
                 <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
