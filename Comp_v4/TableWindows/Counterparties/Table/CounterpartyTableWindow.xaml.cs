@@ -64,7 +64,7 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         return Task.CompletedTask;
     }
 
-    public Action<TaskCompletionSource, object?, MouseButtonEventArgs> OnDoubleClickSelectingItemInTable { get; set; }
+    public static Action<TaskCompletionSource, object?, MouseButtonEventArgs> OnDoubleClickSelectingItemInTable { get; set; }
 
     public Func<Task> OnReload { get; set; }
 

@@ -12,10 +12,8 @@ namespace Comp_v4.TableWindows.Counterparties.Table.Entities;
 
 public class TableCounterparty : GenericStateMachine<BaseCpTableState, TableCounterparty>, IMouseDoubleClickHandler
 {
-    protected readonly CounterpartyTableWindow _counterpartyTableWindow;
-    public TableCounterparty(IEnumerable<BaseCpTableState> states, BaseCpTableState initialState, CounterpartyTableWindow counterpartyTableWindow) : base(states, initialState) {
-        _counterpartyTableWindow = counterpartyTableWindow;
-        _counterpartyTableWindow.OnDoubleClickSelectingItemInTable += (tcs, sender, args) => {
+    public TableCounterparty(IEnumerable<BaseCpTableState> states, BaseCpTableState initialState) : base(states, initialState) {
+        CounterpartyTableWindow.OnDoubleClickSelectingItemInTable += (tcs, sender, args) => {
             _ = OnMouseDoubleClick(tcs, sender, args);
         };
     }
