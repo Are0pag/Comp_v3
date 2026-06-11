@@ -15,7 +15,8 @@ using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.Counterparties.Table;
 
-public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, IRuntimeParamsResolver<CounterpartyTableWindow>
+public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICpFormOnSaveUiChangesHandler, IReloadable, 
+                                               IRuntimeParamsResolver<CounterpartyTableWindow>, ISelectionConfirmationHandler
 {
     protected readonly AddCounterpartyButVm _addCounterpartyButVm;
     protected readonly EditCounterpartyButVm _editCounterpartyButVm;
@@ -117,6 +118,11 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
     public void Dispose() {
         EventBus<ICounterpartySubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
+    }
+
+    public async Task OnConfirmSelection(TaskCompletionSource tcs, object parameter = null) {
+        Close();
+        tcs.TrySetResult();
     }
 
     private void MainDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
