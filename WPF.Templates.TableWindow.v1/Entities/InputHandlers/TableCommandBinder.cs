@@ -7,6 +7,7 @@ using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using Utils.WPF;
+using Utils.WPF.Dialogs;
 using WPF.Templates.TableWindow.v1.Events;
 using WPF.Templates.TableWindow.v1.Operations.Actions;
 
@@ -40,6 +41,10 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
                     MessageBox.Show("Невозможно удалить элемент, так как он ещё используется другим компонентом");
                     return;
                 }
+                
+                var isConfirmed = DialogService.ShowConfirmation("Удаление", $"Вы уверены что хотите удалить элемент?");
+                if (!isConfirmed) return;
+                
                 await _actionDeleteItem.PerformAsync();
                 break;
             
