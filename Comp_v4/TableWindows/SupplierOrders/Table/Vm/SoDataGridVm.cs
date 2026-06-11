@@ -9,7 +9,7 @@ using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 
-public class SoDataGridVm : DataGridViewModel<SupplierOrder>, IRuntimeParamsResolver<SoDataGridVm>
+public class SoDataGridVm : DataGridViewModel<SupplierOrder>, IRuntimeParamsResolver<SoDataGridVm>, IRuntimeParamsResolver<SupplierOrder>
 {
     protected readonly FiltersVmBase _filtersVm;
     protected readonly SoFilter _filter;
@@ -52,6 +52,10 @@ public class SoDataGridVm : DataGridViewModel<SupplierOrder>, IRuntimeParamsReso
 
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<SoDataGridVm> container) {
         container.RuntimeParam = this;
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<SupplierOrder> container) {
+        container.RuntimeParam = SelectedItem!;
     }
 
     public void Dispose() {

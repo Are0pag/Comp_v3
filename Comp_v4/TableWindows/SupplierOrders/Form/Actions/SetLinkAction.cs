@@ -11,8 +11,8 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 
 public class SetContractLinkAction : SetLinkAction
 {
-    public SetContractLinkAction(ContractLinkFieldVm button, ValidatorUrl validatorUrl, SupplierOrder supplierOrder) 
-        : base(button, validatorUrl, supplierOrder) {
+    public SetContractLinkAction(ContractLinkFieldVm button, ValidatorUrl validatorUrl) 
+        : base(button, validatorUrl) {
     }
 
     public override Task Perform(TaskCompletionSource tcs) {
@@ -30,8 +30,8 @@ public class SetContractLinkAction : SetLinkAction
 
 public class SetInvoiceLinkAction : SetLinkAction
 {
-    public SetInvoiceLinkAction(InvoiceLinkFieldVm button, ValidatorUrl validatorUrl, SupplierOrder supplierOrder) 
-        : base(button, validatorUrl, supplierOrder) {
+    public SetInvoiceLinkAction(InvoiceLinkFieldVm button, ValidatorUrl validatorUrl) 
+        : base(button, validatorUrl) {
     }
     
     public override Task Perform(TaskCompletionSource tcs) {
@@ -50,13 +50,17 @@ public class SetInvoiceLinkAction : SetLinkAction
 public abstract class SetLinkAction : BaseActionAsyncSelfWaiting, ICreateSupplierOrdersHandler
 {
     protected readonly ValidatorUrl _validatorUrl;
-    protected readonly SupplierOrder _supplierOrder;
+    protected SupplierOrder _supplierOrder;
     protected string? _desiredUrl;
     
-    public SetLinkAction(LinkFieldVm button, ValidatorUrl validatorUrl, SupplierOrder supplierOrder) : base(button) {
+    public SetLinkAction(LinkFieldVm button, ValidatorUrl validatorUrl) : base(button) {
         _validatorUrl = validatorUrl;
-        _supplierOrder = supplierOrder;
         EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
+    }
+
+    public SupplierOrder SupplierOrder {
+        get => _supplierOrder;
+        set => _supplierOrder = value;
     }
 
     public override Task Perform(TaskCompletionSource tcs) {

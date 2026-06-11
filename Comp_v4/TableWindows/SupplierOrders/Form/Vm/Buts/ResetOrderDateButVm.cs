@@ -6,10 +6,14 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 
 public partial class ResetOrderDateButVm : BaseButtonAdvanced
 {
-    protected readonly SupplierOrder _supplierOrder;
+    protected SupplierOrder _supplierOrder;
+
+    public SupplierOrder SupplierOrder {
+        get => _supplierOrder;
+        set => _supplierOrder = value;
+    }
     
-    public ResetOrderDateButVm(SupplierOrder supplierOrder) {
-        _supplierOrder = supplierOrder;
+    public ResetOrderDateButVm() {
         Label = "Сбросить дату";
     }
 
@@ -26,10 +30,14 @@ public partial class ResetOrderDateButVm : BaseButtonAdvanced
 
 public partial class ResetDeliveryDateButVm : BaseButtonAdvanced
 {
-    protected readonly SupplierOrder _supplierOrder;
+    protected SupplierOrder _supplierOrder;
     
-    public ResetDeliveryDateButVm(SupplierOrder supplierOrder) {
-        _supplierOrder = supplierOrder;
+    public SupplierOrder SupplierOrder {
+        get => _supplierOrder;
+        set => _supplierOrder = value;
+    }
+    
+    public ResetDeliveryDateButVm() {
         Label = "Сбросить дату";
     }
 

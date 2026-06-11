@@ -7,9 +7,14 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Vm;
 
 public class VatStatusEnumVm : EnumVmSourceChanging<VatStatus, SupplierOrder>, ICreateSupplierOrdersHandler
 {
-    public VatStatusEnumVm(SupplierOrder source) : base(source) {
+    public VatStatusEnumVm() : base() {
         _selectedValue = VatStatus.VatIncluded;
         EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
+    }
+
+    public SupplierOrder SupplierOrder {
+        get => _source;
+        set => _source = value;
     }
 
     public Action OnVatStatusChanged { get; set; }

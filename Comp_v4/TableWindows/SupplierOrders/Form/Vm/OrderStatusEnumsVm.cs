@@ -7,9 +7,14 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Vm;
 
 public class OrderStatusEnumsVm : EnumVmSourceChanging<OrderStatus, SupplierOrder>, ICreateSupplierOrdersHandler
 {
-    public OrderStatusEnumsVm(SupplierOrder source) : base(source) {
+    public OrderStatusEnumsVm() : base() {
         _selectedValue = OrderStatus.Created;
         EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
+    }
+
+    public SupplierOrder SupplierOrder {
+        get => _source;
+        set => _source = value;
     }
 
     public override OrderStatus SelectedValue {

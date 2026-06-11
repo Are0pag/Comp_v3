@@ -11,62 +11,45 @@ using Microsoft.Extensions.DependencyInjection;
 using Templates.Common.Actions;
 using Utils.EventBus;
 using Utils.WPF;
+using Utils.WPF.Buttons;
 
 namespace Comp_v4.Entry.Actions;
 
-public class OpenSupplierOrdersAction : BaseAsyncActionScopeReloadable, IRuntimeParamsContainer<EntryWindow>
+public class OpenSupplierOrdersAction : BaseActionAsyncCompletion 
 {
-    protected readonly IWindowOrderLocator _windowOrderLocator;
     protected readonly IServiceProvider _serviceProvider;
-    protected EntryWindow _item;
-    public OpenSupplierOrdersAction(OrdersButVm button, IServiceScopeFactory scopeFactory, IWindowOrderLocator windowOrderLocator, IServiceProvider serviceProvider) 
-        : base(button, scopeFactory) {
-        _windowOrderLocator = windowOrderLocator;
+    protected TaskCompletionSource? _currentTcs;
+    public OpenSupplierOrdersAction(OrdersButVm  button, IServiceProvider serviceProvider) : base(button) {
         _serviceProvider = serviceProvider;
     }
 
-    protected override Window GetWindow() {
-        var supplierOrderTableWindow = _currentScope!.ServiceProvider.GetRequiredService<SupplierOrderTableWindow>();
-        supplierOrderTableWindow.Owner = RuntimeParam;
-        WindowService.BindChildToParent(RuntimeParam, supplierOrderTableWindow);
+    public override async Task Perform(TaskCompletionSource tcs) {
+        _currentTcs = tcs;
         
-        //_windowOrderLocator.RegisterWindow(supplierOrderTableWindow);
-        supplierOrderTableWindow.Closed += (sender, args) => {
-            _windowOrderLocator.UnregisterWindow(supplierOrderTableWindow);
+        var window = _serviceProvider.GetRequiredService<SupplierOrderTableWindow>();
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
+        WindowService.BindChildToParent(parent, window);
+
+        window.Closed += (sender, args) => {
+            tcs.TrySetResult();
         };
-        return supplierOrderTableWindow;
-    }
 
-    protected override void InstantiateRelatedServices() {
-        _currentScope!.ServiceProvider.GetRequiredService<AddSoAction>();
-        _currentScope.ServiceProvider.GetRequiredService<EditSoAction>();
-        _currentScope.ServiceProvider.GetRequiredService<DeleteSoAction>();
+        _serviceProvider.GetRequiredService<AddSoAction>();
+        _serviceProvider.GetRequiredService<EditSoAction>();
+        _serviceProvider.GetRequiredService<DeleteSoAction>();
+        _serviceProvider.GetRequiredService<OpenPaymentOrderTableAction>();
+        _serviceProvider.GetRequiredService<OpenOrderPositionsTableAction>();
+
+        var so = _serviceProvider.GetRequiredService<SoDataGridVm>();
+        _serviceProvider.GetRequiredService<EditOrderPosAction>().SoDataGridVm = so;
+        _serviceProvider.GetRequiredService<OpDataGridVm>().SoDataGridVm = so;
         
-        _currentScope.ServiceProvider.GetRequiredService<OpenOrderPositionsTableAction>();
-        _currentScope.ServiceProvider.GetRequiredService<OpenPaymentOrderTableAction>();
-
-        VeryBagPractice();
+        window.Show();
+        await _currentTcs.Task;
+        _currentTcs = null;
     }
 
-    private void VeryBagPractice() {
-        var soDg = _currentScope!.ServiceProvider.GetRequiredService<SoDataGridVm>();
-        _serviceProvider.GetRequiredService<EditOrderPosAction>().SoDataGridVm = soDg;
-        _serviceProvider.GetRequiredService<OpDataGridVm>().SoDataGridVm = soDg;
-    }
-    
-    public EntryWindow RuntimeParam {
-        get {
-            try {
-                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<EntryWindow>>(r => {
-                    r.ResolveRuntimeParams(this);
-                });
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-            return _item;
-        }
-        set => _item = value;
+    public override bool CanPerform() {
+        return _currentTcs == null;
     }
 }

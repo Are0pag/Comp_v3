@@ -20,9 +20,8 @@ public class EnumVm<T> : ObservableObject
 public class EnumVmSourceChanging<TEnum, TSource> : EnumVm<TEnum>
     where TEnum : Enum
 {
-    protected readonly TSource _source;
+    protected TSource _source;
 
-    public EnumVmSourceChanging(TSource source) {
-        _source = source;
+    public EnumVmSourceChanging() {
     }
 }

@@ -32,12 +32,11 @@ public class SoForm : GenericStateMachine<BaseSoFormState, SoForm>, ISelectionCo
 
 public abstract class BaseSoFormState : StateBase<SoForm>
 {
-    protected readonly SupplierOrder _supplierOrder;
+    protected SupplierOrder _supplierOrder;
     protected readonly IRepository<SupplierOrder> _repository;
     protected readonly SoValidator _validator;
 
-    protected BaseSoFormState(SupplierOrder supplierOrder, IRepository<SupplierOrder> repository, SoValidator validator) {
-        _supplierOrder = supplierOrder;
+    protected BaseSoFormState(IRepository<SupplierOrder> repository, SoValidator validator) {
         _repository = repository;
         _validator = validator;
     }
@@ -47,7 +46,7 @@ public abstract class BaseSoFormState : StateBase<SoForm>
     public virtual Task OnConfirmSelection(SoForm soForm, TaskCompletionSource tcs, object? parameter) {
         if (parameter is not Counterparty counterparty)
             throw new InvalidCastException("parameter is not of type Counterparty");
-        _supplierOrder.Counterparty = counterparty;
+        new InstanceContainer<SupplierOrder>().RuntimeParam.Counterparty = counterparty;
         tcs.TrySetResult();
         return Task.CompletedTask;
     }
@@ -55,11 +54,12 @@ public abstract class BaseSoFormState : StateBase<SoForm>
 
 public class CreateSoFormState : BaseSoFormState
 {
-    public CreateSoFormState(SupplierOrder supplierOrder, IRepository<SupplierOrder> repository, SoValidator validator)
-        : base(supplierOrder, repository, validator) {
+    public CreateSoFormState(IRepository<SupplierOrder> repository, SoValidator validator)
+        : base(repository, validator) {
     }
 
     public override async Task OnCreateSupplierOrder(SoForm form, TaskCompletionSource tcs, object parameter) {
+        _supplierOrder = new InstanceContainer<SupplierOrder>().RuntimeParam;
         if (await _validator.ValidateAsync(_supplierOrder) is { IsValid: true }) {
             await _repository.AddAsync(_supplierOrder);
             tcs.TrySetResult();
@@ -72,11 +72,12 @@ public class CreateSoFormState : BaseSoFormState
 
 public class EditSoFormState : BaseSoFormState
 {
-    public EditSoFormState(SupplierOrder supplierOrder, IRepository<SupplierOrder> repository, SoValidator validator)
-        : base(supplierOrder, repository, validator) {
+    public EditSoFormState(IRepository<SupplierOrder> repository, SoValidator validator)
+        : base(repository, validator) {
     }
 
     public override async Task OnCreateSupplierOrder(SoForm form, TaskCompletionSource tcs, object parameter) {
+        _supplierOrder = new InstanceContainer<SupplierOrder>().RuntimeParam;
         if (await _validator.ValidateAsync(_supplierOrder) is {IsValid: true}) {
             await _repository.UpdateAsync(_supplierOrder);
             tcs.TrySetResult();

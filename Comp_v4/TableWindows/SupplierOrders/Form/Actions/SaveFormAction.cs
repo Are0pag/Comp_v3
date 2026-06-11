@@ -11,10 +11,8 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 
 public class SaveFormAction : BaseActionAsyncCompletion
 {
-    protected readonly SupplierOrderFormWindow _supplierOrderFormWindow;
     protected readonly SoForm _soForm;
-    public SaveFormAction(SaveFormButVm button, SupplierOrderFormWindow supplierOrderFormWindow, SoForm soForm) : base(button) {
-        _supplierOrderFormWindow = supplierOrderFormWindow;
+    public SaveFormAction(SaveFormButVm button, SoForm soForm) : base(button) {
         _soForm = soForm;
     }
 
@@ -22,7 +20,7 @@ public class SaveFormAction : BaseActionAsyncCompletion
         try {
             await _soForm.OnCreateSupplierOrder(tcs);
             await tcs.Task;
-            _supplierOrderFormWindow.Close();
+            new InstanceContainer<SupplierOrderFormWindow>().RuntimeParam.Close();
         }
         catch (InvalidInputException) {
             await Task.Run(() => {

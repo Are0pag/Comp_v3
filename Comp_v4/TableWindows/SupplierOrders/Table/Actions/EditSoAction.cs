@@ -1,7 +1,11 @@
+using System.Windows;
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.SupplierOrders.Events;
 using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
+using Comp_v4.TableWindows.SupplierOrders.Form.Vm;
+using Comp_v4.TableWindows.SupplierOrders.Form.Vm.Buts;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
@@ -11,70 +15,87 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 
-public class EditSoAction : BaseActionAsyncSelfWaiting
+public class EditSoAction : BaseActionAsyncCompletion
 {
-    protected readonly IServiceScopeFactory _scopeFactory;
-    protected readonly SupplierOrderTableWindow _supplierOrderTableWindow;
+    protected readonly IServiceProvider _serviceProvider;
     protected readonly SoDataGridVm _soDataGridVm;
+    protected TaskCompletionSource? _currentTcs;
     
-    public EditSoAction(EditSoButVm button, 
-                        IServiceScopeFactory scopeFactory, 
-                        SupplierOrderTableWindow supplierOrderTableWindow,
-                        SoDataGridVm soDataGridVm) 
-        : base(button) {
-        _scopeFactory = scopeFactory;
-        _supplierOrderTableWindow = supplierOrderTableWindow;
+    public EditSoAction(EditSoButVm  button, IServiceProvider serviceProvider, SoDataGridVm soDataGridVm) : base(button) {
+        _serviceProvider = serviceProvider;
         _soDataGridVm = soDataGridVm;
     }
-    
+
     public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
-        using (var scope = _scopeFactory.CreateScope()) {
-            var window = scope.ServiceProvider.GetRequiredService<SupplierOrderFormWindow>();
-            var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
-            window.Owner = parent;
-            
-            var soForm = scope.ServiceProvider.GetRequiredService<SoForm>();
-            await soForm.ChangeState(soForm.GetState<EditSoFormState>(), soForm);
-            
-            scope.ServiceProvider.GetRequiredService<SaveFormAction>();
-            scope.ServiceProvider.GetRequiredService<CounterpartySelectAction>();
-            
-            scope.ServiceProvider.GetRequiredService<SetContractLinkAction>();
-            scope.ServiceProvider.GetRequiredService<SetInvoiceLinkAction>();
-
-            var item = scope.ServiceProvider.GetRequiredService<SupplierOrder>();
-            _soDataGridVm.SelectedItem!.CopyTo(item);
-            
-            
-            var tasks = new List<Task>();
-            EventBus<ISupplierOrdersSubscriber>.RaiseEvent<ICreateSupplierOrdersHandler>(h => {
-                var subscriberTcs = new TaskCompletionSource();
-                tasks.Add(subscriberTcs.Task);
-
-                try {
-                    h?.OnCreateSupplierOrder(subscriberTcs);
-                }
-                catch (Exception ex) {
-                    subscriberTcs.TrySetException(ex);
-                }
-            });
-            await Task.WhenAll(tasks);
-            
-
-            window.Closed += async (sender, args) => {
-                _currentTcs.TrySetResult();
-                await Task.Delay(AppConfig.TCS_EXECUTION_DELAY);
-                _supplierOrderTableWindow.OnReload?.Invoke();
-            };
-            WindowService.BindChildToParent(parent, window);
-            window.Show();
-        
-            await _currentTcs.Task;
+        if (_soDataGridVm.SelectedItem is not { } so) {
+            throw new NullReferenceException();
         }
+
+        Window window;
+        try {
+            window = ActivatorUtilities.CreateInstance<SupplierOrderFormWindow>(_serviceProvider, so);
+        }
+        catch (Exception ex) {
+            MessageBox.Show(ex.ToString());
+            throw;
+        }
+
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
+        WindowService.BindChildToParent(parent, window);
+        window.Closed += (sender, args) => {
+            _currentTcs.TrySetResult();
+        };
+
+        SoForm soForm;
+        try {
+            soForm = _serviceProvider.GetRequiredService<SoForm>();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            throw;
+        }
+        await soForm.ChangeState(soForm.GetState<EditSoFormState>(), soForm);
+
+        try {
+            _serviceProvider.GetRequiredService<SaveFormAction>();
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            throw;
+        }
+        _serviceProvider.GetRequiredService<CounterpartySelectAction>();
+
+        _serviceProvider.GetRequiredService<SetContractLinkAction>().SupplierOrder = so;
+        _serviceProvider.GetRequiredService<SetInvoiceLinkAction>().SupplierOrder = so;
+        _serviceProvider.GetRequiredService<OrderStatusEnumsVm>().SupplierOrder = so;
+        _serviceProvider.GetRequiredService<VatStatusEnumVm>().SupplierOrder = so;
+        _serviceProvider.GetRequiredService<ResetOrderDateButVm>().SupplierOrder = so;
+
+        _serviceProvider.GetRequiredService<ResetDeliveryDateButVm>().SupplierOrder = so;
+        
+        var tasks = new List<Task>();
+        EventBus<ISupplierOrdersSubscriber>.RaiseEvent<ICreateSupplierOrdersHandler>(h => {
+            var subscriberTcs = new TaskCompletionSource();
+            tasks.Add(subscriberTcs.Task);
+    
+            try {
+                h?.OnCreateSupplierOrder(subscriberTcs);
+            }
+            catch (Exception ex) {
+                subscriberTcs.TrySetException(ex);
+            }
+        });
+        await Task.WhenAll(tasks);
+        
+        
+        
+        window.Show();
+        await _currentTcs.Task;
+        _currentTcs = null;
     }
 
     public override bool CanPerform() {
-        return base.CanPerform() && _soDataGridVm?.SelectedItem != null;
+        return _currentTcs == null && _soDataGridVm.SelectedItem != null;
     }
 }
