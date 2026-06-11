@@ -15,7 +15,7 @@
     <windows:ColumnsVisibilityTableWindowBase.Resources>
         <local:RelativeToAbsolutePathConverter x:Key="RelativeToAbsolutePathConverter"/>
         <converting:BoolToTextConverter x:Key="BoolToVis" />
-        <windows:ColumnHeaders x:Key=""></windows:ColumnHeaders>
+        <windows:ColumnHeaders x:Key="ColumnHeaders"></windows:ColumnHeaders>
     </windows:ColumnsVisibilityTableWindowBase.Resources>
      
     <Grid>
@@ -102,12 +102,11 @@
                         <ComboBox x:Name="ThisColumnsVisibilityComboBox" Width="200" Text="Выберите колонки" IsEditable="True" IsReadOnly="True">
                             <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
     
-                            <!-- Передаем имя колонки в Tag и вешаем обработчик -->
-                            <CheckBox Content="Имя" IsChecked="True" Tag="ColName" Click="CheckBox_Click"/>
-                            <CheckBox Content="Ном.номер" IsChecked="True" Tag="ColNomenclatureNumber" Click="CheckBox_Click"/>
-                            <CheckBox Content="Каталожный номер" IsChecked="True" Tag="ColCatalogNumber" Click="CheckBox_Click"/>
-                            <CheckBox Content="Варианты маркировки" IsChecked="True" Tag="ColLabelingOptions" Click="CheckBox_Click"/>
-                            <CheckBox Content="Код элемента" IsChecked="True" Tag="ColCodeOfElement" Click="CheckBox_Click"/>
+                            <CheckBox Content="{x:Static windows:ColumnHeaders.Name}" Tag="ColName" Click="CheckBox_Click"/>
+                            <CheckBox Content="{x:Static windows:ColumnHeaders.NomenclatureNumber}" Tag="ColNomenclatureNumber" Click="CheckBox_Click"/>
+                            <CheckBox Content="{x:Static windows:ColumnHeaders.CatalogNumber}" Tag="ColCatalogNumber" Click="CheckBox_Click"/>
+                            <CheckBox Content="{x:Static windows:ColumnHeaders.LabelingOptions}" Tag="ColLabelingOptions" Click="CheckBox_Click"/>
+                            <CheckBox Content="{x:Static windows:ColumnHeaders.CodeOfElement}" Tag="ColCodeOfElement" Click="CheckBox_Click"/>
                         </ComboBox>
                     </ToolBar>
                     
@@ -130,11 +129,11 @@
 
                         <DataGrid.Columns>
                             <!-- Основные текстовые данные -->
-                            <DataGridTextColumn x:Name="ColName" Header="Наименование" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
-                            <DataGridTextColumn x:Name="ColNomenclatureNumber" Header="Номенклатурный номер" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                            <DataGridTextColumn x:Name="ColCatalogNumber" Header="Каталожный номер" IsReadOnly="True" Binding="{Binding CatalogNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                            <DataGridTextColumn x:Name="ColLabelingOptions" Header="Варианты маркировки" IsReadOnly="True" Binding="{Binding LabelingOptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                            <DataGridTextColumn x:Name="ColCodeOfElement" Header="Код элемента" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                            <DataGridTextColumn x:Name="ColName" Header="{x:Static windows:ColumnHeaders.Name}" IsReadOnly="True" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
+                            <DataGridTextColumn x:Name="ColNomenclatureNumber" Header="{x:Static windows:ColumnHeaders.NomenclatureNumber}" IsReadOnly="True" Binding="{Binding NomenclatureNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn x:Name="ColCatalogNumber" Header="{x:Static windows:ColumnHeaders.CatalogNumber}" IsReadOnly="True" Binding="{Binding CatalogNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn x:Name="ColLabelingOptions" Header="{x:Static windows:ColumnHeaders.LabelingOptions}" IsReadOnly="True" Binding="{Binding LabelingOptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
+                            <DataGridTextColumn x:Name="ColCodeOfElement" Header="{x:Static windows:ColumnHeaders.CodeOfElement}" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
 
                         <!-- Справочные данные -->
                         <DataGridTextColumn Header="Условное обозначение" IsReadOnly="True" Binding="{Binding ConditionalDesignation.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
