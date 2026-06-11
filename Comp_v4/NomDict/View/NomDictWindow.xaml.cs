@@ -15,11 +15,12 @@ using Templates.Common.Events.Input;
 using Utils.EventBus;
 using Utils.WPF;
 using Utils.WPF.Buttons;
+using Utils.WPF.Windows;
 using Component = Comp.ModelData.Comp.Component;
 
 namespace Comp_v4.NomDict.View;
 
-public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHandler, IRuntimeParamsResolver<NomDictWindow>, IGetResultOfSelectionHanlder
+public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposable, IGridSelectingStateHandler, IRuntimeParamsResolver<NomDictWindow>, IGetResultOfSelectionHanlder
 {
     private readonly MoveCategoryAction _moveCategoryAction;
     private readonly TreeViewVm _treeViewVm;
@@ -33,10 +34,6 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
                          UpdateCategoryNameButtonVm updateCategoryNameButtonVm, MoveCategoryAction moveCategoryAction,
                          AddCompButtonVm addCompButtonVm, EditCompButVm editCompButVm) {
         InitializeComponent();
-        
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        SourceInitialized += LoadPlacement;
-        Closing += SavePlacement;
         
         _treeViewVm = treeViewVm;
         _moveCategoryAction = moveCategoryAction;
@@ -53,10 +50,6 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
         EventBus<IGlSubscriber>.Subscribe(this);
     }
-
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, nameof(NomDictWindow));
-
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, nameof(NomDictWindow));
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
     }
@@ -186,8 +179,6 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
     public void Dispose() {
         EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
         EventBus<IGlSubscriber>.Unsubscribe(this);
-        SourceInitialized -= LoadPlacement;
-        Closing -= SavePlacement;
     }
 
     public void OnGetResultOfSelection(Component component, Type requesterType) {
@@ -198,18 +189,5 @@ public partial class NomDictWindow : Window, IDisposable, IGridSelectingStateHan
         container.RuntimeParam = this;
     }
 
-    private void CheckBox_Click(object sender, RoutedEventArgs e) {
-        if (sender is CheckBox checkBox && checkBox.Tag is string columnName) {
-            // Ищем колонку в DataGrid по её имени x:Name
-            var column = MainDataGrid.FindName(columnName) as DataGridColumn;
-
-            if (column != null) {
-                // Меняем видимость в зависимости от галочки
-                column.Visibility = checkBox.IsChecked == true
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            }
-        }
-    }
-
+    protected override ComboBox ColumnsVisibilityComboBox => ThisColumnsVisibilityComboBox;
 }

@@ -1,7 +1,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 
 public static class WindowSettings
@@ -13,7 +15,7 @@ public static class WindowSettings
     private static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
 
     private const int SW_SHOWNORMAL = 1;
-    private const string COMPANY_NAME = "AreopagComponent";
+    public const string COMPANY_NAME = "AreopagComponent";
     private static readonly object FileLock = new();
 
     [Serializable]
