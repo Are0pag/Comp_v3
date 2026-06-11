@@ -14,7 +14,8 @@ public partial class CounterpartyFormWindow : Window, IDisposable, IRuntimeParam
     private readonly Counterparty _counterparty;
     
     private readonly SaveCpFormButVm _saveCpFormButVm;
-    public CounterpartyFormWindow(Counterparty counterparty, SaveCpFormButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm) {
+    private readonly CancelEditingCpButVm _cancelEditingCpButVm;
+    public CounterpartyFormWindow(Counterparty counterparty, SaveCpFormButVm saveButVm, CounterpartyEnumsVm counterpartyEnumsVm, CancelEditingCpButVm cancelEditingCpButVm) {
         InitializeComponent();
         _counterparty = counterparty;
         WindowStartupLocation = WindowStartupLocation.Manual;
@@ -24,16 +25,19 @@ public partial class CounterpartyFormWindow : Window, IDisposable, IRuntimeParam
         CounterpartyTypeComboBox.DataContext = counterpartyEnumsVm;
         
         _saveCpFormButVm = saveButVm;
+        _cancelEditingCpButVm = cancelEditingCpButVm;
         counterparty.PropertyChanged += CounterpartyOnPropertyChanged;
         
         DataContext = counterparty;
         SaveButton.DataContext = saveButVm;
+        CancelButton.DataContext = cancelEditingCpButVm;
         EventBus<IGlSubscriber>.Subscribe(this);
     }
 
     private void CounterpartyOnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
         if (sender is Counterparty counterparty && e.PropertyName == nameof(Counterparty.ShortName)) {
             _saveCpFormButVm.NotifyCanExecute();
+            _cancelEditingCpButVm.NotifyCanExecute();
         }
     }
 

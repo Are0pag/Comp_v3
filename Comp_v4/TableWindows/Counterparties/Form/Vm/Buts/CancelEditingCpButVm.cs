@@ -1,13 +1,12 @@
 using CommunityToolkit.Mvvm.Input;
-using Comp.ModelData;
 using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.Counterparties.Form.Vm.Buts;
 
-public partial class SaveCpFormButVm : BaseButtonAdvanced
+public partial class CancelEditingCpButVm : BaseButtonAdvanced
 {
-    public SaveCpFormButVm() {
-        Label = "Сохранить";
+    public CancelEditingCpButVm() {
+        Label = "Отменить";
     }
     [RelayCommand(CanExecute = nameof(CanClick))]
     public override Task OnClickAsync() {

@@ -26,8 +26,12 @@ public static class CounterpartyInstaller
         
         
         services.AddSingleton<CounterpartyEnumsVm>();
+        
         services.AddSingleton<SaveCpFormButVm>();
         services.AddSingleton<SaveCpFormAction>();
+
+        services.AddSingleton<CancelEditingCpButVm>();
+        services.AddSingleton<CancelEditCpFormAction>();
 
         services.AddSingleton<ConfirmSelectionAction>();
         services.AddSingleton<ConfirmSelectiontButVm>();

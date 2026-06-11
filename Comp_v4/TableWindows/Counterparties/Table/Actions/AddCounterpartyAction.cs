@@ -24,6 +24,8 @@ public class AddCounterpartyAction : BaseActionAsyncSelfWaiting
         WindowService.BindChildToParent(parent, window);
 
         _serviceProvider.GetRequiredService<SaveCpFormAction>().CurrentCounterparty = counterparty;
+        _serviceProvider.GetRequiredService<CancelEditCpFormAction>().CurrentCounterparty = counterparty;
+        
         var form = _serviceProvider.GetRequiredService<FormCp>();
 
         window.Closed += (sender, args) => {

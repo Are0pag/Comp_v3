@@ -33,6 +33,6 @@ public class SaveCpFormAction : BaseActionAsyncCompletion
     }
 
     public override bool CanPerform() {
-        return _counterparty != null && _counterparty.ShortName != null;
+        return _counterparty != null && _counterparty.ShortName != null && _counterparty.ShortName.Length != 0;
     }
 }

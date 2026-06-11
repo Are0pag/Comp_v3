@@ -28,6 +28,8 @@ public class EditCounterpartyAction : BaseActionAsyncSelfWaiting
         WindowService.BindChildToParent(parent, window);
 
         _serviceProvider.GetRequiredService<SaveCpFormAction>().CurrentCounterparty = counterparty;
+        _serviceProvider.GetRequiredService<CancelEditCpFormAction>().CurrentCounterparty = counterparty;
+        
         var form = _serviceProvider.GetRequiredService<FormCp>();
         await form.ChangeState(_serviceProvider.GetRequiredService<EditCpFormState>(), form);
 
