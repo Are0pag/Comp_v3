@@ -4,6 +4,7 @@ using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Utils.WPF.Buttons;
+using Utils.WPF.Dialogs;
 
 namespace Comp_v4.TableWindows.SupplierOrders.Table.Actions;
 
@@ -27,6 +28,9 @@ public class DeleteSoAction : BaseActionAsyncCompletion
             MessageBox.Show("Невозможно удалить элемент, так как он ещё используется");
             return;
         }
+        
+        var isConfirmed = DialogService.ShowConfirmation("Удаление", $"Вы уверены что хотите удалить позицию?");
+        if (!isConfirmed) return;
         
         await _repository.DeleteAsync(so.Id);
         tcs.TrySetResult();

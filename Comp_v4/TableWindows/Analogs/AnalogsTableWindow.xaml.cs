@@ -59,6 +59,15 @@ public partial class AnalogsTableWindow : TableWindowBase, IDisposable, IRuntime
                 if (_deleteAnalogButVm.CanClick())
                     _deleteAnalogButVm.OnClickAsync();
                 break;
+            case Key.Escape:
+                try {
+                    ((Window)sender).Close();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                break;
         }
     }
 

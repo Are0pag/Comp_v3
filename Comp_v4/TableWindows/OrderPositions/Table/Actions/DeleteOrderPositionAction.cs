@@ -1,8 +1,10 @@
+using System.Windows;
 using Comp_v4.TableWindows.OrderPositions.Form.Vm.Buts;
 using Comp_v4.TableWindows.OrderPositions.Table.Vm;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Utils.WPF.Buttons;
+using Utils.WPF.Dialogs;
 using DeleteOrderPositionButVm = Comp_v4.TableWindows.OrderPositions.Table.Vm.Buts.DeleteOrderPositionButVm;
 
 namespace Comp_v4.TableWindows.OrderPositions.Table.Actions;
@@ -22,6 +24,9 @@ public class DeleteOrderPositionAction : BaseActionAsyncSelfWaiting
             Console.Error.WriteLine("Selected op is not selected");
             throw new NullReferenceException("Selected op is not null");
         }
+        
+        var isConfirmed = DialogService.ShowConfirmation("Удаление", $"Вы уверены что хотите удалить позицию?");
+        if (!isConfirmed) return;
 
         try {
             await _repository.DeleteAsync(op.Id);
