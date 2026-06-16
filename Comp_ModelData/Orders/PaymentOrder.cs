@@ -10,7 +10,7 @@ namespace Comp.ModelData;
 /// Платёжное поручение
 /// </summary>
 [Table("PaymentOrders")]
-public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrder>
+public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrder>, IDisposable
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -91,5 +91,9 @@ public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrd
         PaymentPurpose = targetValues.PaymentPurpose;
         
         return this;
+    }
+
+    public void Dispose() {
+        // TODO release managed resources here
     }
 }

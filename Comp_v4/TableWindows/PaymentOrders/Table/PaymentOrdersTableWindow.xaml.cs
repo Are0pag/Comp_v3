@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 using Utils.WPF.Windows;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Table;
 
@@ -29,6 +30,11 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
         
         InfoDataGridContextMenuAddNewItemCommand.DataContext = addPaymentOrderButVm;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = deletePaymentOrderButVm;
+        
+        var filtersVm = new FiltersVmBase();
+        gridVm.FiltersVm = filtersVm;
+        FilterTextBox.DataContext = filtersVm;
+        IgnoreCaseCheckBox.DataContext = filtersVm;
     }
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {

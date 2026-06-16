@@ -1,5 +1,6 @@
 using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
+using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp_v4.TableWindows.SupplierOrders.Table.Vm.Buts;
 using Comp.ModelData;
@@ -33,6 +34,7 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 
     private void ResolveRelated() {
         _serviceProvider.GetRequiredService<AddPoAction>().CurrentSo = _soDataGridVm.SelectedItem;
+        _serviceProvider.GetRequiredService<PaymentOrdersGridVm>().SoDataGridVm = _soDataGridVm;
     }
 
     public override bool CanPerform() {

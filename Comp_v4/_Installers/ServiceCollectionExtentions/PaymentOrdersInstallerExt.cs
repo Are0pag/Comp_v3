@@ -4,7 +4,10 @@ using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
 using Comp_v4.TableWindows.PaymentOrders.Table.Entities;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
+using Comp.ModelData;
 using Microsoft.Extensions.DependencyInjection;
+using WPF.Templates.TableWindow.v1.Operations.Commands.Filtering;
+using WPF.Templates.TableWindow.v1.Vm.Components;
 
 namespace Comp_v4._Installers.ServiceCollectionExtentions;
 
@@ -37,6 +40,8 @@ public static class PaymentOrdersInstallerExt
         services.AddSingleton<AddPaymentOrderButVm>();
         services.AddSingleton<EditPaymentOrderButVm>();
         services.AddSingleton<DeletePaymentOrderButVm>();
+        
+        services.AddSingleton<IFilter<PaymentOrder, FiltersVmBase>, PoFilter>();
 
         services.AddTransient<PaymentOrdersTableWindow>();
     }

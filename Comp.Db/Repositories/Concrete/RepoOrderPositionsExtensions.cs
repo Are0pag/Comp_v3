@@ -10,3 +10,11 @@ public static class RepoOrderPositionsExtensions
         return all.Where(op => op.SupplierOrderId == supplierOrderId).ToList();
     }
 }
+
+public static class RepoPoExtensions
+{
+    public static async Task<IEnumerable<PaymentOrder>> GetAllBySupplierOrderAsync(this IRepository<PaymentOrder> repository, int supplierOrderId) {
+        var all = await repository.GetAllAsync();
+        return all.Where(op => op.OrderId == supplierOrderId).ToList();
+    }
+}
