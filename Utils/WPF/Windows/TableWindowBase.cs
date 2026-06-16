@@ -62,6 +62,8 @@ public abstract class TableWindowBase : PosWindowBase
                 Console.WriteLine(e);
                 throw;
             }
+            
+            this.Dispose();
         };
     }
 }

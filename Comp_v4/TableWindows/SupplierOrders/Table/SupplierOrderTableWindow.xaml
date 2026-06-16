@@ -113,7 +113,8 @@
                   Margin="10" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
-                  MouseDoubleClick="DataGrid_OnMouseDoubleClick">
+                  MouseDoubleClick="DataGrid_OnMouseDoubleClick"
+                  SelectionChanged="DataGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер заказа" Binding="{Binding PurchaseOrderNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="Поставщик" Binding="{Binding Counterparty.ShortName}" Width="Auto"/>

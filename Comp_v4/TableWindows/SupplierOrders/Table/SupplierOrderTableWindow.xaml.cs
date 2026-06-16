@@ -117,11 +117,19 @@ public partial class SupplierOrderTableWindow : TableWindowBase, IDisposable, IR
     }
     
     public async Task ResolveRuntimeParams(IRuntimeParamsContainer<SupplierOrderTableWindow> container) {
+        if (!IsVisible) return;
         container.RuntimeParam = this;
     }
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
     }
-    
+
+    private void DataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        _addSoButVm.NotifyCanExecute();
+        _editSoButVm.NotifyCanExecute();
+        _deleteSoButVm.NotifyCanExecute();
+        _paymentOrdersBut.NotifyCanExecute();
+        _positionsBut.NotifyCanExecute();
+    }
 }
