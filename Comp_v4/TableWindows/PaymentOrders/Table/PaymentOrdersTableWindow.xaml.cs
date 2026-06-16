@@ -47,9 +47,7 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-        _addPaymentOrderButVm.NotifyCanExecute();
-        _editPaymentOrderButVm.NotifyCanExecute();
-        _deletePaymentOrderButVm.NotifyCanExecute();
+        Notify();
     }
 
     private void Window_OnPreviewKeyDown(object sender, KeyEventArgs e) {
@@ -57,10 +55,16 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     }
 
     private void DataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
-        _editPaymentOrderButVm.NotifyCanExecute();
+        Notify();
     }
 
     private void PaymentOrdersTableWindow_OnContentRendered(object? sender, EventArgs e) {
+        Notify();
+    }
+
+    private void Notify() {
+        _addPaymentOrderButVm.NotifyCanExecute();
         _editPaymentOrderButVm.NotifyCanExecute();
+        _deletePaymentOrderButVm.NotifyCanExecute();
     }
 }

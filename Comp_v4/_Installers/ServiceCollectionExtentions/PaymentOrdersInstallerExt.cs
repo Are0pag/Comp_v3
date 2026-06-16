@@ -39,6 +39,7 @@ public static class PaymentOrdersInstallerExt
 
         services.AddSingleton<AddPoAction>();
         services.AddSingleton<EditPoAction>();
+        services.AddSingleton<DeletePoAction>();
         
         services.AddSingleton<PaymentOrdersGridVm>();
         
