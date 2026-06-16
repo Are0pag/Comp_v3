@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title="Платёжные поручения" Height="450" Width="800"
         PreviewKeyDown="Window_OnPreviewKeyDown"
-        PreviewMouseDown="Window_OnPreviewMouseDown">
+        PreviewMouseDown="Window_OnPreviewMouseDown"
+        ContentRendered="PaymentOrdersTableWindow_OnContentRendered">
     
     <windows:TableWindowBase.Resources>
         <Style x:Key="ToolBarButtonStyle" TargetType="Button">
@@ -69,7 +70,8 @@
                   Margin="10" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
-                  MouseDoubleClick="DataGrid_OnMouseDoubleClick">
+                  MouseDoubleClick="DataGrid_OnMouseDoubleClick"
+                  SelectionChanged="DataGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="Auto"/>

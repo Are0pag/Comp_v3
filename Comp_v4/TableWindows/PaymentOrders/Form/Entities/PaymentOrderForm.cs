@@ -1,7 +1,9 @@
+using Comp_v4.TableWindows.PaymentOrders.events;
 using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Form.Entities;
 
@@ -47,12 +49,12 @@ public class CreatePoState : PaymentOrderFormBaseState
     }
 }
 
-public class EditPoState : PaymentOrderFormBaseState
+public class EditPoState : PaymentOrderFormBaseState, IStartEditingPo
 {
+    protected PaymentOrder _origin;
     public EditPoState(IRepository<PaymentOrder> repository) : base(repository) {
+        EventBus<IPoSubscriber>.Subscribe(this);
     }
-
-    public PaymentOrder Po { get; set; }
 
     public override async Task Save(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter) {
         await _repository.UpdateAsync(item);
@@ -60,8 +62,16 @@ public class EditPoState : PaymentOrderFormBaseState
     }
 
     public override async Task Cancel(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter) {
-        item.PopulateFrom(Po); // отмена изменений
+        item.PopulateFrom(_origin); // отмена изменений
         new InstanceContainer<PaymentOrderFormWindow>().RuntimeParam.Close();
         tcs.TrySetResult();
+    }
+
+    public void Dispose() {
+        EventBus<IPoSubscriber>.Unsubscribe(this);
+    }
+
+    public async Task OnStartEditingPo(PaymentOrder paymentOrder) {
+        _origin = new PaymentOrder().PopulateFrom(paymentOrder);
     }
 }

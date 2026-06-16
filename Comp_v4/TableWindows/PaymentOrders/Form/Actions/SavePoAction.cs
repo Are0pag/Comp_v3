@@ -21,7 +21,8 @@ public class SavePoAction : BaseActionAsyncSelfWaiting
     public override async Task Perform(TaskCompletionSource tcs) {
         await _form.Save(tcs, Po);
         new InstanceContainer<PaymentOrderFormWindow>().RuntimeParam.Close();
-        _gridVm.AddItem(Po);
+        if (_form.CurrentState is CreatePoState)
+            _gridVm.AddItem(Po);
     }
 
     public override bool CanPerform() {

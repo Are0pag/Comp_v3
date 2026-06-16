@@ -38,6 +38,7 @@ public static class PaymentOrdersInstallerExt
         services.AddSingleton<PaymentOrderTable>();
 
         services.AddSingleton<AddPoAction>();
+        services.AddSingleton<EditPoAction>();
         
         services.AddSingleton<PaymentOrdersGridVm>();
         

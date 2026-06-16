@@ -34,6 +34,7 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 
     private void ResolveRelated() {
         _serviceProvider.GetRequiredService<AddPoAction>().CurrentSo = _soDataGridVm.SelectedItem;
+        _serviceProvider.GetRequiredService<EditPoAction>();
         _serviceProvider.GetRequiredService<PaymentOrdersGridVm>().SoDataGridVm = _soDataGridVm;
     }
 

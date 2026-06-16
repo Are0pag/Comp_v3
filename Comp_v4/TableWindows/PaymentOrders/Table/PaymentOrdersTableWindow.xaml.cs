@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
@@ -54,5 +55,12 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     private void Window_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         
     }
-    
+
+    private void DataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        _editPaymentOrderButVm.NotifyCanExecute();
+    }
+
+    private void PaymentOrdersTableWindow_OnContentRendered(object? sender, EventArgs e) {
+        _editPaymentOrderButVm.NotifyCanExecute();
+    }
 }

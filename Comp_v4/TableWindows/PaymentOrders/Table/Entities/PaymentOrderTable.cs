@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.PaymentOrders.events;
 using Comp_v4.TableWindows.PaymentOrders.Form;
 using Comp_v4.TableWindows.PaymentOrders.Form.Actions;
 using Comp_v4.TableWindows.PaymentOrders.Form.Entities;
@@ -6,6 +7,7 @@ using Comp.Db.Contracts;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
 using Microsoft.Extensions.DependencyInjection;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Table.Entities;
 
@@ -59,6 +61,9 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
 
         var form = _serviceProvider.GetRequiredService<PaymentOrderForm>();
         await form.ChangeState(form.GetState<EditPoState>(), form);
+        EventBus<IPoSubscriber>.RaiseEvent<IStartEditingPo>(h => {
+            h?.OnStartEditingPo(po);
+        });
         
         ResolveRelated(po);
         
@@ -71,7 +76,6 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
     private void ResolveRelated(PaymentOrder po) {
         _serviceProvider.GetRequiredService<SavePoAction>().Po = po;
         _serviceProvider.GetRequiredService<CancelPoAction>().Po = po;
-        _serviceProvider.GetRequiredService<EditPoState>().Po = po;
     }
 
     public async Task Delete(PaymentOrderTable paymentOrderTable, TaskCompletionSource tcs, PaymentOrder po, object? parameter) {
