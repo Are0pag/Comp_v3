@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.PaymentOrders.Form;
+using Comp_v4.TableWindows.PaymentOrders.Form.Actions;
 using Comp_v4.TableWindows.PaymentOrders.Form.Entities;
 using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
 using Comp.Db.Contracts;
@@ -43,7 +44,7 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
         var form = _serviceProvider.GetRequiredService<PaymentOrderForm>();
         await form.ChangeState(form.GetState<CreatePoState>(), form);
         
-        ResolveRelated();
+        ResolveRelated(po);
         
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
@@ -59,7 +60,7 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
         var form = _serviceProvider.GetRequiredService<PaymentOrderForm>();
         await form.ChangeState(form.GetState<EditPoState>(), form);
         
-        ResolveRelated();
+        ResolveRelated(po);
         
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
@@ -67,8 +68,8 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
         window.Show();
     }
 
-    private void ResolveRelated() {
-        
+    private void ResolveRelated(PaymentOrder po) {
+        _serviceProvider.GetRequiredService<SavePoAction>().Po = po;
     }
 
     public async Task Delete(PaymentOrderTable paymentOrderTable, TaskCompletionSource tcs, PaymentOrder po, object? parameter) {

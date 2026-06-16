@@ -35,6 +35,10 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
         gridVm.FiltersVm = filtersVm;
         FilterTextBox.DataContext = filtersVm;
         IgnoreCaseCheckBox.DataContext = filtersVm;
+        
+        Loaded += (_, _) => {
+            _ = gridVm.InitFilteringCollection();
+        };
     }
 
     private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {

@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.PaymentOrders.Form.Actions;
 using Comp_v4.TableWindows.PaymentOrders.Form.Entities;
 using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
@@ -24,6 +25,7 @@ public static class PaymentOrdersInstallerExt
         services.AddSingleton<PaymentOrderFormBaseState, CreatePoState>();
         services.AddSingleton<PaymentOrderFormBaseState, EditPoState>();
         services.AddSingleton<PaymentOrderForm>();
+        services.AddSingleton<SavePoAction>();
         
         services.AddSingleton<SavePaymentOrderButVm>();
     }
