@@ -1,31 +1,47 @@
 using System.ComponentModel;
 using System.Windows;
+using Comp_v4._Installers;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 using Comp.ModelData;
+using Utils.EventBus;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Form;
 
-public partial class PaymentOrderFormWindow : Window, IDisposable
+public partial class PaymentOrderFormWindow : Window, IDisposable, IRuntimeParamsResolver<PaymentOrderFormWindow>
 {
     private readonly PaymentOrder _paymentOrder;
     private readonly SavePaymentOrderButVm _savePaymentOrderButVm;
-    public PaymentOrderFormWindow(SavePaymentOrderButVm savePaymentOrderButVm, PaymentOrder paymentOrder) {
+    private readonly CancelPaymentOrderButVm _cancelPaymentOrderButVm;
+    public PaymentOrderFormWindow(SavePaymentOrderButVm savePaymentOrderButVm, PaymentOrder paymentOrder, CancelPaymentOrderButVm cancelPaymentOrderButVm) {
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.Manual;
         SourceInitialized += LoadPlacement;
         Closing += SavePlacement;
         _savePaymentOrderButVm = savePaymentOrderButVm;
         _paymentOrder = paymentOrder;
-        
+        _cancelPaymentOrderButVm = cancelPaymentOrderButVm;
+
         DataContext = paymentOrder;
         CorrespondingSoReadonlyGroupBox.DataContext = paymentOrder.Order;
         
         SaveButton.DataContext = _savePaymentOrderButVm;
+        CancelButton.DataContext = _cancelPaymentOrderButVm;
+        EventBus<IGlSubscriber>.Subscribe(this);
+
+        Closed += (_, __) => {
+            Dispose();
+        };
+    }
+
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<PaymentOrderFormWindow> container) {
+        if (!IsVisible) return;
+        container.RuntimeParam = this;
     }
 
     public void Dispose() {
         SourceInitialized -= LoadPlacement;
         Closing -= SavePlacement;
+        EventBus<IGlSubscriber>.Unsubscribe(this);
     }
     
     private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());

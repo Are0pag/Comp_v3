@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
@@ -12,6 +13,10 @@ public class PaymentOrderForm : GenericStateMachine<PaymentOrderFormBaseState, P
     public async Task Save(TaskCompletionSource tcs, PaymentOrder item, object? parameter = null) {
         await CurrentState.Save(this, tcs, item, parameter);
     }
+
+    public async Task Cancel(TaskCompletionSource tcs, PaymentOrder item, object? parameter = null) {
+        await CurrentState.Cancel(this, tcs, item, parameter);
+    }
 }
 
 public abstract class PaymentOrderFormBaseState : StateBase<PaymentOrderForm>
@@ -23,6 +28,7 @@ public abstract class PaymentOrderFormBaseState : StateBase<PaymentOrderForm>
     }
 
     public abstract Task Save(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter);
+    public abstract Task Cancel(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter);
 }
 
 public class CreatePoState : PaymentOrderFormBaseState
@@ -34,6 +40,11 @@ public class CreatePoState : PaymentOrderFormBaseState
         await _repository.AddAsync(item);
         tcs.TrySetResult();
     }
+
+    public override async Task Cancel(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter) {
+        new InstanceContainer<PaymentOrderFormWindow>().RuntimeParam.Close();
+        tcs.TrySetResult();
+    }
 }
 
 public class EditPoState : PaymentOrderFormBaseState
@@ -41,8 +52,16 @@ public class EditPoState : PaymentOrderFormBaseState
     public EditPoState(IRepository<PaymentOrder> repository) : base(repository) {
     }
 
+    public PaymentOrder Po { get; set; }
+
     public override async Task Save(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter) {
         await _repository.UpdateAsync(item);
+        tcs.TrySetResult();
+    }
+
+    public override async Task Cancel(PaymentOrderForm paymentOrderForm, TaskCompletionSource tcs, PaymentOrder item, object? parameter) {
+        item.PopulateFrom(Po); // отмена изменений
+        new InstanceContainer<PaymentOrderFormWindow>().RuntimeParam.Close();
         tcs.TrySetResult();
     }
 }

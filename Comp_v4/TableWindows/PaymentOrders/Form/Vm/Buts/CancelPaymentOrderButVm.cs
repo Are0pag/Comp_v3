@@ -3,10 +3,10 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
 
-public partial class SavePaymentOrderButVm : BaseButtonAdvanced
+public partial class CancelPaymentOrderButVm : BaseButtonAdvanced
 {
-    public SavePaymentOrderButVm() {
-        Label = "Сохранить";
+    public CancelPaymentOrderButVm() {
+        Label = "Отмена";
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]

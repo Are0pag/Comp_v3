@@ -26,6 +26,8 @@ public static class PaymentOrdersInstallerExt
         services.AddSingleton<PaymentOrderFormBaseState, EditPoState>();
         services.AddSingleton<PaymentOrderForm>();
         services.AddSingleton<SavePoAction>();
+        services.AddSingleton<CancelPoAction>();
+        services.AddSingleton<CancelPaymentOrderButVm>();
         
         services.AddSingleton<SavePaymentOrderButVm>();
     }

@@ -70,6 +70,8 @@ public abstract class PaymentOrderTableBaseState : StateBase<PaymentOrderTable>
 
     private void ResolveRelated(PaymentOrder po) {
         _serviceProvider.GetRequiredService<SavePoAction>().Po = po;
+        _serviceProvider.GetRequiredService<CancelPoAction>().Po = po;
+        _serviceProvider.GetRequiredService<EditPoState>().Po = po;
     }
 
     public async Task Delete(PaymentOrderTable paymentOrderTable, TaskCompletionSource tcs, PaymentOrder po, object? parameter) {
