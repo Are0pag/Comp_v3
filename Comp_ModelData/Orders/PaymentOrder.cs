@@ -83,7 +83,7 @@ public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrd
         Id = targetValues.Id;
         
         OrderId = targetValues.OrderId;
-        Order = targetValues.Order;
+        //Order = targetValues.Order;
         
         Date = targetValues.Date;
         Number = targetValues.Number;

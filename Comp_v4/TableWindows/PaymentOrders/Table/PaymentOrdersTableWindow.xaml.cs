@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
+using Utils.WPF;
 using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Vm.Components;
 
@@ -30,6 +31,7 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
         DeleteButton.DataContext = _deletePaymentOrderButVm;
         
         InfoDataGridContextMenuAddNewItemCommand.DataContext = addPaymentOrderButVm;
+        InfoDataGridContextMenuEditItemCommand.DataContext = editPaymentOrderButVm;
         InfoDataGridContextMenuDeleteItemCommand.DataContext = deletePaymentOrderButVm;
         
         var filtersVm = new FiltersVmBase();
@@ -42,8 +44,8 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
         };
     }
 
-    private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-        throw new NotImplementedException();
+    private async void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        await _editPaymentOrderButVm.OnClickAsync();
     }
 
     private void Window_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
@@ -51,7 +53,33 @@ public partial class PaymentOrdersTableWindow : TableWindowBase, IDisposable
     }
 
     private void Window_OnPreviewKeyDown(object sender, KeyEventArgs e) {
-        
+        switch (e.Key) {
+            case Key.Insert:
+                if (_addPaymentOrderButVm.CanClick())
+                    _addPaymentOrderButVm.OnClickAsync();
+                break;
+
+            case Key.Delete:
+                if (_deletePaymentOrderButVm.CanClick())
+                    _deletePaymentOrderButVm.OnClickAsync();
+                break;
+
+            case Key.F1:
+                var cb = VisualHelper.FindVisualChild<CheckBox>((Window)sender);
+                cb.IsChecked = !cb.IsChecked;
+                break;
+
+            case Key.Escape:
+                try {
+                    ((Window)sender).Close();
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+
+                break;
+        }
     }
 
     private void DataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
