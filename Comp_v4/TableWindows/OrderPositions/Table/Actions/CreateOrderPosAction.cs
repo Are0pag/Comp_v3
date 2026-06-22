@@ -37,6 +37,7 @@ public class CreateOrderPosAction : BaseActionAsyncSelfWaiting, IGetResultOfSele
            .RaiseEvent<IGridSelectingStateHandler>(h => {
                 h?.OnSelecting(new TaskCompletionSource<Component>(), _requesterType);
             });
+        tcs.TrySetResult();
         return Task.CompletedTask;
     }
     

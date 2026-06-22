@@ -9,7 +9,8 @@
         xmlns:form1="clr-namespace:Comp_v4.TableWindows.SupplierOrders.Form;assembly=Utils"
         mc:Ignorable="d"
         Title="Состав заказа" Height="600" Width="800"
-        PreviewMouseDown="OpFormWindow_OnPreviewMouseDown">
+        PreviewMouseDown="OpFormWindow_OnPreviewMouseDown"
+        PreviewKeyDown="OrderPositionForm_OnPreviewKeyDown">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>

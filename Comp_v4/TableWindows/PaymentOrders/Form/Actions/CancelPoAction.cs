@@ -17,5 +17,6 @@ public class CancelPoAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         await _form.Cancel(tcs, Po);
+        tcs.TrySetResult();
     }
 }

@@ -23,6 +23,7 @@ public class SavePoAction : BaseActionAsyncSelfWaiting
         new InstanceContainer<PaymentOrderFormWindow>().RuntimeParam.Close();
         if (_form.CurrentState is CreatePoState)
             _gridVm.AddItem(Po);
+        tcs.TrySetResult();
     }
 
     public override bool CanPerform() {

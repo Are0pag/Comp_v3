@@ -40,6 +40,8 @@ public class DeleteOrderPositionAction : BaseActionAsyncSelfWaiting
             Console.Error.WriteLine("Failed to delete order position");
             throw new NullReferenceException("Failed to delete order position");
         }
+
+        tcs.TrySetResult();
     }
 
     public override bool CanPerform() {

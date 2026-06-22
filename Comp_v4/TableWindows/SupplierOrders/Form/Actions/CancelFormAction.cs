@@ -19,6 +19,7 @@ public class CancelFormAction : BaseActionAsyncCompletion
 
     public override async Task Perform(TaskCompletionSource tcs) {
         _cash.CopyTo(_origin);
+        tcs.TrySetResult();
         new InstanceContainer<SupplierOrderFormWindow>().RuntimeParam.Close();
     }
 

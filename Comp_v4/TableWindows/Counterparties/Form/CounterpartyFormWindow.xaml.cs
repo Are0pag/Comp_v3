@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using Comp_v4._Installers;
 using Comp_v4.TableWindows.Counterparties.Events;
 using Comp_v4.TableWindows.Counterparties.Form.Vm;
@@ -64,4 +65,12 @@ public partial class CounterpartyFormWindow : Window, IDisposable, IRuntimeParam
     
     private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
     private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+
+    private async void CounterpartyFormWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        switch (e.Key) {
+            case Key.Escape:
+                await _cancelEditingCpButVm.OnClickAsync();
+                break;
+        }
+    }
 }

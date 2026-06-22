@@ -18,6 +18,7 @@ public class SetContractLinkAction : SetLinkAction
     public override Task Perform(TaskCompletionSource tcs) {
         base.Perform(tcs);
         _supplierOrder.ContractFilePath = _desiredUrl!;
+        tcs.TrySetResult();
         return Task.CompletedTask;
     }
 
@@ -37,6 +38,7 @@ public class SetInvoiceLinkAction : SetLinkAction
     public override Task Perform(TaskCompletionSource tcs) {
         base.Perform(tcs);
         _supplierOrder.InvoiceFilePath = _desiredUrl!;
+        tcs.TrySetResult();
         return Task.CompletedTask;
     }
 
@@ -75,6 +77,8 @@ public abstract class SetLinkAction : BaseActionAsyncSelfWaiting, ICreateSupplie
         
         ((LinkFieldVm)_button).Url = desiredUrl;
         _desiredUrl = desiredUrl;
+
+        tcs.TrySetResult();
         return Task.CompletedTask;
     }
 

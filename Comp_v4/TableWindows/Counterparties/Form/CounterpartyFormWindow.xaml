@@ -10,7 +10,8 @@
         Height="500" 
         Width="600"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        PreviewKeyDown="CounterpartyFormWindow_OnPreviewKeyDown">
     
     <Window.Resources>
         <form:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>

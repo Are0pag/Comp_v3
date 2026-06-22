@@ -78,4 +78,12 @@ public partial class OrderPositionForm : Window, IRuntimeParamsResolver<OrderPos
     
     private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
     private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+
+    private async void OrderPositionForm_OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        switch (e.Key) {
+            case Key.Escape:
+                await _cancelEditingOpButVm.OnClickAsync();
+                break;
+        }
+    }
 }
