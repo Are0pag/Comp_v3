@@ -90,31 +90,42 @@
             
             <!-- Панель инструментов части B -->
             <Border Grid.Row="0" Name="PartBToolbar" Background="LightBlue" Height="40">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
-                    <Button x:Name="AddComponentButton"
-                            Command="{Binding ClickCommand}"
-                            Content="{Binding Label}" 
-                            Margin="2" Padding="10,2"/>
-                    <!-- Добавьте свои инструменты для части B -->
-                    
-                    <ToolBar>
-                        <TextBlock Text="Видимость колонок: " VerticalAlignment="Center" Margin="5,0"/>
-                        <ComboBox x:Name="ThisColumnsVisibilityComboBox" Width="200" Text="Выберите колонки" IsEditable="True" IsReadOnly="True">
-                            <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
+<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+    <Button x:Name="AddComponentButton" 
+            Command="{Binding ClickCommand}" 
+            Content="{Binding Label}" 
+            Margin="2" Padding="10,2"/>
     
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.NAME}" Tag="ColName" Click="CheckBox_Click"/>
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.NOMENCLATURE_NUMBER}" Tag="ColNomenclatureNumber" Click="CheckBox_Click"/>
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.CATALOG_NUMBER}" Tag="ColCatalogNumber" Click="CheckBox_Click"/>
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.LABELING_OPTIONS}" Tag="ColLabelingOptions" Click="CheckBox_Click"/>
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.CODE_OF_ELEMENT}" Tag="ColCodeOfElement" Click="CheckBox_Click"/>
-                            
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.CONDITIONAL_DESIGNATION}" Tag="ColConditionalDesignation" Click="CheckBox_Click"/>   
-                            <CheckBox Content="{x:Static windows:ColumnHeaders.MANUFACTURER}" Tag="ColManufacturer" Click="CheckBox_Click"/>   
-                        </ComboBox>
-                    </ToolBar>
-                    
-                </StackPanel>
-            </Border>
+    <ToolBar>
+        <TextBox Text="Видимость колонок: " VerticalAlignment="Center" Margin="5,0"/>
+        <ComboBox x:Name="ThisColumnsVisibilityComboBox" Width="200" Text="Выберите колонки" 
+                  IsEditable="True" IsReadOnly="True">
+            <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
+            
+            <CheckBox Content="{x:Static windows:ColumnHeaders.NAME}" Tag="ColName" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.NOMENCLATURE_NUMBER}" Tag="ColNomenclatureNumber" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.CATALOG_NUMBER}" Tag="ColCatalogNumber" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.LABELING_OPTIONS}" Tag="ColLabelingOptions" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.CODE_OF_ELEMENT}" Tag="ColCodeOfElement" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.CONDITIONAL_DESIGNATION}" Tag="ColConditionalDesignation" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.MANUFACTURER}" Tag="ColManufacturer" Click="CheckBox_Click"/>
+            
+            <!-- Добавить остальные -->
+            <CheckBox Content="{x:Static windows:ColumnHeaders.MEASUREMENT_UNIT}" Tag="ColMeasurementUnit" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.TYPE_SIZE}" Tag="ColTypeSize" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.QR_CODE}" Tag="ColQrCode" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.DESCRIPTION}" Tag="ColDescription" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.COMMENTS}" Tag="ColComments" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.PHOTO}" Tag="ColPhoto" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.GP_MAIN}" Tag="ColGpMain" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.GP_1}" Tag="ColGp1" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.GP_2}" Tag="ColGp2" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.GP_3}" Tag="ColGp3" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.GP_4}" Tag="ColGp4" Click="CheckBox_Click"/>
+            <CheckBox Content="{x:Static windows:ColumnHeaders.GP_5}" Tag="ColGp5" Click="CheckBox_Click"/>
+        </ComboBox>
+    </ToolBar>
+</StackPanel>            </Border>
             
             <!-- Основное содержимое части B -->
             <Border Grid.Row="1" Name="PartBContent" BorderBrush="Gray" BorderThickness="1" Margin="2">
@@ -128,7 +139,8 @@
                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               MouseDoubleClick="DataGrid_OnMouseDoubleClick"
-                              SelectedItem="{Binding SelectedItem}">
+                              SelectedItem="{Binding SelectedItem}"
+                              >
 
                         <DataGrid.Columns>
                             <!-- Основные текстовые данные -->
@@ -139,18 +151,52 @@
                             <DataGridTextColumn x:Name="ColCodeOfElement" Header="{x:Static windows:ColumnHeaders.CODE_OF_ELEMENT}" IsReadOnly="True" Binding="{Binding CodeOfElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
 
                         <!-- Справочные данные -->
-                        <DataGridTextColumn Header="Условное обозначение" IsReadOnly="True" Binding="{Binding ConditionalDesignation.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                        <DataGridTextColumn Header="Производитель" IsReadOnly="True" Binding="{Binding Manufacturer.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="180"/>
-                        <DataGridTextColumn Header="Единица измерения" IsReadOnly="True" Binding="{Binding MeasurementUnit.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150"/>
-                        <DataGridTextColumn Header="Типоразмер" IsReadOnly="True" Binding="{Binding TypeSize.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                            <DataGridTextColumn x:Name="ColConditionalDesignation" 
+                                                Header="{x:Static windows:ColumnHeaders.CONDITIONAL_DESIGNATION}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding ConditionalDesignation.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="180"/>
+    
+                            <DataGridTextColumn x:Name="ColManufacturer" 
+                                                Header="{x:Static windows:ColumnHeaders.MANUFACTURER}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Manufacturer.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="180"/>
+    
+                            <DataGridTextColumn x:Name="ColMeasurementUnit" 
+                                                Header="{x:Static windows:ColumnHeaders.MEASUREMENT_UNIT}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding MeasurementUnit.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="150"/>
+    
+                            <DataGridTextColumn x:Name="ColTypeSize" 
+                                                Header="{x:Static windows:ColumnHeaders.TYPE_SIZE}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding TypeSize.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
 
                         <!-- Описательные данные -->
-                        <DataGridTextColumn Header="QR код" IsReadOnly="True" Binding="{Binding QrCodeData, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150"/>
-                        <DataGridTextColumn Header="Описание" IsReadOnly="True" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="300"/>
-                        <DataGridTextColumn Header="Комментарии" IsReadOnly="True" Binding="{Binding Comments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="300"/>
+                            <DataGridTextColumn x:Name="ColQrCode" 
+                                                Header="{x:Static windows:ColumnHeaders.QR_CODE}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding QrCodeData, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="150"/>
+    
+                            <DataGridTextColumn x:Name="ColDescription" 
+                                                Header="{x:Static windows:ColumnHeaders.DESCRIPTION}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="300"/>
+    
+                            <DataGridTextColumn x:Name="ColComments" 
+                                                Header="{x:Static windows:ColumnHeaders.COMMENTS}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Comments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="300"/>
 
                         <!-- Фото -->
-                        <DataGridTemplateColumn Header="Фото" Width="80" IsReadOnly="True">
+                        <DataGridTemplateColumn x:Name="ColPhoto" 
+                                                Header="{x:Static windows:ColumnHeaders.PHOTO}"  Width="80" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image Source="{Binding ImagePath, Converter={StaticResource RelativeToAbsolutePathConverter}}"
@@ -163,12 +209,41 @@
                         </DataGridTemplateColumn>
 
                         <!-- Общие параметры -->
-                        <DataGridTextColumn Header="Основной параметр" IsReadOnly="True" Binding="{Binding GpMain, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-                        <DataGridTextColumn Header="1-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-                        <DataGridTextColumn Header="2-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-                        <DataGridTextColumn Header="3-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-                        <DataGridTextColumn Header="4-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-                        <DataGridTextColumn Header="5-й доп. параметр" IsReadOnly="True" Binding="{Binding Gp5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+                            <DataGridTextColumn x:Name="ColGpMain" 
+                                                Header="{x:Static windows:ColumnHeaders.GP_MAIN}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding GpMain, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
+    
+                            <DataGridTextColumn x:Name="ColGp1" 
+                                                Header="{x:Static windows:ColumnHeaders.GP_1}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Gp1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
+    
+                            <DataGridTextColumn x:Name="ColGp2" 
+                                                Header="{x:Static windows:ColumnHeaders.GP_2}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Gp2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
+    
+                            <DataGridTextColumn x:Name="ColGp3" 
+                                                Header="{x:Static windows:ColumnHeaders.GP_3}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Gp3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
+    
+                            <DataGridTextColumn x:Name="ColGp4" 
+                                                Header="{x:Static windows:ColumnHeaders.GP_4}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Gp4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
+    
+                            <DataGridTextColumn x:Name="ColGp5" 
+                                                Header="{x:Static windows:ColumnHeaders.GP_5}" 
+                                                IsReadOnly="True" 
+                                                Binding="{Binding Gp5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Width="120"/>
                     </DataGrid.Columns>
 
                     <DataGrid.ContextMenu>

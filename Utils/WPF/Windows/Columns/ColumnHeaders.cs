@@ -9,16 +9,16 @@ public static class ColumnHeaders
     public const string CODE_OF_ELEMENT = "Код элемента";
     public const string CONDITIONAL_DESIGNATION = "Условное обозначение";
     public const string MANUFACTURER = "Производитель";
-    public const string MEASUREMENT_UNIT = "Ед. измерения";
+    public const string MEASUREMENT_UNIT = "Единица измерения";
     public const string TYPE_SIZE = "Типоразмер";
-    public const string QR_CODE_DATA = "QR код";
+    public const string QR_CODE = "QR код";
     public const string DESCRIPTION = "Описание";
     public const string COMMENTS = "Комментарии";
-    public const string IMAGE_PATH = "Фото";
+    public const string PHOTO = "Фото";
     public const string GP_MAIN = "Основной параметр";
-    public const string GP1 = "1-й доп. параметр";
-    public const string GP2 = "2-й доп. параметр";
-    public const string GP3 = "3-й доп. параметр";
-    public const string GP4 = "4-й доп. параметр";
-    public const string GP5 = "5-й доп. параметр";
+    public const string GP_1 = "1-й доп. параметр";
+    public const string GP_2 = "2-й доп. параметр";
+    public const string GP_3 = "3-й доп. параметр";
+    public const string GP_4 = "4-й доп. параметр";
+    public const string GP_5 = "5-й доп. параметр";
 }
