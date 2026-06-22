@@ -59,6 +59,7 @@ public class EditSoAction : BaseActionAsyncCompletion
 
         try {
             _serviceProvider.GetRequiredService<SaveFormAction>();
+            _serviceProvider.GetRequiredService<CancelFormAction>().SetCash(so);
         }
         catch (Exception e) {
             Console.WriteLine(e);

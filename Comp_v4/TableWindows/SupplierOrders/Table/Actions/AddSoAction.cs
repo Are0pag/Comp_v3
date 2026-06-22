@@ -39,6 +39,7 @@ public class AddSoAction : BaseActionAsyncCompletion
         
         _serviceProvider.GetRequiredService<SoForm>();
         _serviceProvider.GetRequiredService<SaveFormAction>();
+        _serviceProvider.GetRequiredService<CancelFormAction>().SetCash(so);
         _serviceProvider.GetRequiredService<CounterpartySelectAction>();
             
         _serviceProvider.GetRequiredService<SetContractLinkAction>().SupplierOrder = so;

@@ -19,8 +19,11 @@ public static class WindowService
         public uint flags;
     }
 
-    public static void BindChildToParent(Window parent, Window child)
-    {
+    public static void BindChildToParent(Window parent, Window child) {
+        SetProportionsByParent(parent, child);
+    }
+
+    private static void SetProportionsByParent(Window parent, Window child) {
         if (parent == null) throw new ArgumentNullException(nameof(parent));
         if (child == null) throw new ArgumentNullException(nameof(child));
 

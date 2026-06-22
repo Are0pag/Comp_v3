@@ -28,6 +28,9 @@ public static class SupplierOrderInstaller
         services.AddSingleton<SaveFormButVm>();
         services.AddSingleton<SaveFormAction>();
         
+        services.AddSingleton<CancelButtonFormVm>();
+        services.AddSingleton<CancelFormAction>();
+
         services.AddSingleton<ResetOrderDateButVm>();
         services.AddSingleton<ResetDeliveryDateButVm>();
 

@@ -13,9 +13,12 @@ namespace Comp_v4.TableWindows.SupplierOrders.Form;
 public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimeParamsResolver<SupplierOrderFormWindow>
 {
     protected readonly CounterpartySelectButVm _counterpartySelectButVm;
+    protected readonly CancelButtonFormVm _cancelButtonFormVm;
     public SupplierOrderFormWindow(SupplierOrder supplierOrder, 
                                    
                                    SaveFormButVm saveButVm, 
+                                   CancelButtonFormVm cancelButVm,
+                                   
                                    CounterpartySelectButVm counterpartySelectButVm, 
                                    ResetOrderDateButVm resetOrderDateButVm,
                                    ResetDeliveryDateButVm resetDeliveryDateButVm,
@@ -35,6 +38,8 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
         OrderStatusComboBox.DataContext = orderStatusEnumsVm;
         
         SaveButton.DataContext = saveButVm;
+        CancelButton.DataContext = cancelButVm;
+        _cancelButtonFormVm = cancelButVm;
         CounterpartySelectButton.DataContext = counterpartySelectButVm;
         
         OrderDateButton.DataContext = resetOrderDateButVm;
@@ -66,4 +71,12 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
     
     private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
     private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+
+    private async void SupplierOrderFormWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
+        switch (e.Key) {
+            case Key.Escape:
+                await _cancelButtonFormVm.OnClickAsync();
+                break;
+        }
+    }
 }
