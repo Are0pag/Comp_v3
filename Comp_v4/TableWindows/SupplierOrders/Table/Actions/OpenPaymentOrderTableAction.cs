@@ -1,3 +1,4 @@
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.PaymentOrders.Table;
 using Comp_v4.TableWindows.PaymentOrders.Table.Actions;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm;
@@ -20,7 +21,8 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<PaymentOrdersTableWindow>();
-        var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
+        //var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
         window.Owner = parent;
 
         ResolveRelated();

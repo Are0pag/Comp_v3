@@ -1,3 +1,4 @@
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp_v4.TableWindows.OrderPositions.Form;
 using Comp_v4.TableWindows.OrderPositions.Form.Actions;
@@ -43,7 +44,8 @@ public class EditOpTableState : BaseOpState
 
     public override async Task Edit(TaskCompletionSource tcs, OpTable opTable, OrderPosition op, object? o) {
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, op);
-        var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
+        //var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
         window.Owner = parent;
         WindowService.BindChildToParent(parent, window);
         

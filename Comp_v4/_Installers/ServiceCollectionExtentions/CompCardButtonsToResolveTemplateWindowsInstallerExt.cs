@@ -1,5 +1,6 @@
 using System.Windows;
 using Comp_v4.CompCard.Vm;
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.ConditionalDesignation;
 using Comp_v4.TableWindows.GenericParametersSets;
 using Comp_v4.TableWindows.Manufacturers;
@@ -60,7 +61,7 @@ public static class CompCardButtonsToResolveTemplateWindowsInstallerExt
         serviceProvider.GetRequiredService<PersistenceManager<TWindow, TData>>();
         serviceProvider.GetRequiredService<TableCommandBinder<TWindow, TData>>();
         serviceProvider.GetRequiredService<ActionFilter<TWindow, TData, FiltersVmBase>>();
-        WindowService.BindChildToParent(compCardWindow, window);
+        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
     }
 }

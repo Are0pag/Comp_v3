@@ -6,6 +6,7 @@ using Comp_v4.CompCard.Entities;
 using Comp_v4.CompCard.Entities.States;
 using Comp_v4.CompCard.Events;
 using Comp_v4.CompCard.Operations.Actions;
+using Comp_v4.Entry;
 using Comp_v4.NomDict.View;
 using Comp_v4.NomDict.Vm;
 using Comp.ModelData.Comp;
@@ -52,7 +53,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
         _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
-        WindowService.BindChildToParent(RuntimeParam, window);
+        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
@@ -75,7 +76,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
         _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         
-        WindowService.BindChildToParent(RuntimeParam, window);
+        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }

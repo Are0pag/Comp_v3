@@ -1,4 +1,5 @@
 using Comp_v4.CompCard.Vm.Buttons;
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.Analogs;
 using Comp_v4.TableWindows.Analogs.Actions;
 using Comp_v4.TableWindows.Analogs.Events;
@@ -20,7 +21,8 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<AnalogsTableWindow>();
-        var parentWindow = new InstanceContainer<CompCardWindow>().RuntimeParam;
+        //var parentWindow = new InstanceContainer<CompCardWindow>().RuntimeParam;
+        var parentWindow = new InstanceContainer<EntryWindow>().RuntimeParam;
         window.Owner = parentWindow;
         window.Closed += (sender, args) => {
             tcs.TrySetResult();

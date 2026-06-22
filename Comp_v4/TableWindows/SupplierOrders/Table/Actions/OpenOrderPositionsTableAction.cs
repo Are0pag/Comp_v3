@@ -1,3 +1,4 @@
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.OrderPositions.Events;
 using Comp_v4.TableWindows.OrderPositions.Form.Actions;
 using Comp_v4.TableWindows.OrderPositions.Table;
@@ -32,7 +33,8 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
 
         _currentTcs = tcs;
         var window = _serviceProvider.GetRequiredService<OrderPositionsTableWindow>();
-        var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
+        //var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
         window.Owner = parent;
         _windowOrderLocator.RegisterWindow(window);
         window.Closed += (sender, args) => {

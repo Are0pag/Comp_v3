@@ -1,3 +1,4 @@
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.SupplierOrders.Form;
 using Comp_v4.TableWindows.SupplierOrders.Form.Actions;
 using Comp_v4.TableWindows.SupplierOrders.Form.Entities;
@@ -29,7 +30,8 @@ public class AddSoAction : BaseActionAsyncCompletion
         }
 
         var window = ActivatorUtilities.CreateInstance<SupplierOrderFormWindow>(_serviceProvider, so);
-        var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        //var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
         WindowService.BindChildToParent(parent, window);
         window.Closed += (sender, args) => {
             _currentTcs.TrySetResult();

@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using Comp_v4._Installers;
+using Comp_v4.Entry;
 using Comp_v4.TableWindows.Analogs._Installers;
 using Comp_v4.TableWindows.Analogs.Actions;
 using Comp_v4.TableWindows.Analogs.Events;
@@ -42,7 +43,7 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
             tcs.TrySetResult();
         };
 
-        WindowService.BindChildToParent(parent, window);
+        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
@@ -62,7 +63,7 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
-        WindowService.BindChildToParent(parent, window);
+        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
