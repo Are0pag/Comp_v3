@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Comp_v4._Installers;
@@ -190,4 +191,25 @@ public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposab
     }
 
     protected override ComboBox ColumnsVisibilityComboBox => ThisColumnsVisibilityComboBox;
+
+    private void ComboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        // Ищем, кликнули ли мы по CheckBox или по его тексту
+        DependencyObject visualTarget = e.OriginalSource as DependencyObject;
+    
+        while (visualTarget != null && !(visualTarget is ComboBoxItem) && !(visualTarget is CheckBox))
+        {
+            visualTarget = VisualTreeHelper.GetParent(visualTarget);
+        }
+
+        // Если клик пришелся на CheckBox, вручную меняем его состояние и гасим событие для ComboBox
+        if (visualTarget is CheckBox checkBox)
+        {
+            checkBox.IsChecked = !checkBox.IsChecked;
+        
+            // Вручную вызываем ваш обработчик клика, так как оригинальный клик мы заблокируем
+            CheckBox_Click(checkBox, new RoutedEventArgs(ButtonBase.ClickEvent, checkBox));
+        
+            e.Handled = true; // Запрещает ComboBox закрывать список
+        }  
+    }
 }

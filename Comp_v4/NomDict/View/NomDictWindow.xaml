@@ -98,8 +98,11 @@
     
     <ToolBar>
         <TextBox Text="Видимость колонок: " VerticalAlignment="Center" Margin="5,0"/>
-        <ComboBox x:Name="ThisColumnsVisibilityComboBox" Width="200" Text="Выберите колонки" 
-                  IsEditable="True" IsReadOnly="True">
+        <ComboBox x:Name="ThisColumnsVisibilityComboBox" 
+                  Width="200" Text="Выберите колонки" 
+                  IsEditable="True" IsReadOnly="True"
+                  PreviewMouseLeftButtonDown="ComboBox_PreviewMouseLeftButtonDown">
+            
             <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
             
             <CheckBox Content="{x:Static windows:ColumnHeaders.NAME}" Tag="ColName" Click="CheckBox_Click"/>
