@@ -97,13 +97,13 @@
             Margin="2" Padding="10,2"/>
     
     <ToolBar>
-        <TextBox Text="Видимость колонок: " VerticalAlignment="Center" Margin="5,0"/>
-        <ComboBox x:Name="ThisColumnsVisibilityComboBox" 
-                  Width="200" Text="Выберите колонки" 
-                  IsEditable="True" IsReadOnly="True"
-                  PreviewMouseLeftButtonDown="ComboBox_PreviewMouseLeftButtonDown">
-            
-            <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
+        <Grid Width="200">
+            <ComboBox x:Name="ThisColumnsVisibilityComboBox" 
+                      HorizontalAlignment="Stretch"
+                      PreviewMouseLeftButtonDown="ComboBox_PreviewMouseLeftButtonDown">
+        
+                <!-- Скрытый элемент-заглушка, чтобы ComboBox думал, что что-то выбрано -->
+                <ComboBoxItem IsSelected="True" Visibility="Collapsed"/>
             
             <!-- Панель управления (Выбрать все / Снять все) -->
             <ComboBoxItem IsHitTestVisible="True" Focusable="False" Background="Transparent">
@@ -138,6 +138,14 @@
             <CheckBox Content="{x:Static windows:ColumnHeaders.GP_4}" Tag="ColGp4" Click="CheckBox_Click"/>
             <CheckBox Content="{x:Static windows:ColumnHeaders.GP_5}" Tag="ColGp5" Click="CheckBox_Click"/>
         </ComboBox>
+            
+            <!-- Текст-подсказка. IsHitTestVisible="False" позволяет кликать СКВОЗЬ текст прямо по ComboBox -->
+            <TextBlock Text="Выберите колонки" 
+                       IsHitTestVisible="False" 
+                       VerticalAlignment="Center" 
+                       Margin="10,0,30,0" 
+                       Foreground="Black"/>
+        </Grid>
     </ToolBar>
 </StackPanel>            </Border>
             
