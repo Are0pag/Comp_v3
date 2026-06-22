@@ -7,7 +7,8 @@
         xmlns:windows="clr-namespace:Utils.WPF.Windows;assembly=Utils"
         mc:Ignorable="d"
         Title="Контрагенты" Height="600" Width="1000"
-        PreviewKeyDown="CounterpartyTableWindow_OnPreviewKeyDown">
+        PreviewKeyDown="CounterpartyTableWindow_OnPreviewKeyDown"
+        MouseDoubleClick="CounterpartyTableWindow_OnMouseDoubleClick">
     
     <windows:TableWindowBase.Resources>
         <local:CounterpartyTypeConverter x:Key="CounterpartyTypeConverter" />

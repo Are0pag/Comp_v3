@@ -73,10 +73,10 @@
                   MouseDoubleClick="DataGrid_OnMouseDoubleClick"
                   SelectionChanged="DataGrid_OnSelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="Auto"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy'}" Width="Auto"/>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="Auto"/>
                 <DataGridTextColumn Header="Размер платежа:" Binding="{Binding PaymentAmount}" Width="Auto"/>
-                <DataGridTextColumn Header="Назначение платежа:" Binding="{Binding PaymentPurpose}" Width="Auto"/>
+                <DataGridTextColumn Header="Назначение платежа:" Binding="{Binding PaymentPurpose}" Width="*"/>
             </DataGrid.Columns>
             
             <DataGrid.ContextMenu>

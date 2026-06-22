@@ -132,6 +132,10 @@ public partial class CounterpartyTableWindow : TableWindowBase, IDisposable, ICp
         
         _confirmSelectiontButVm.NotifyCanExecute();
     }
+
+    private async void CounterpartyTableWindow_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        await _editCounterpartyButVm.OnClickAsync();
+    }
 }
 
 public class CounterpartyTableDoubleClickTaskCompletionSource : TaskCompletionSource {}
