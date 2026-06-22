@@ -16,11 +16,8 @@ public class TableCommandBinderExternalSelectionCompatible<TWindow, T> : TableCo
     where T : class, IDbEntity, new()
 {
     protected readonly ModuleContext<TWindow, T> _context;
-    
-    public TableCommandBinderExternalSelectionCompatible(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, 
-                                                         ActionDeleteItem<TWindow, T> actionDeleteItem, 
-                                                         ModuleContext<TWindow, T> context) 
-        : base(actionStartAddingNewItem, actionDeleteItem) {
+
+    public TableCommandBinderExternalSelectionCompatible(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, ActionDeleteItem<TWindow, T> actionDeleteItem, ActionCancel<TWindow, T> actionCancel, ModuleContext<TWindow, T> context) : base(actionStartAddingNewItem, actionDeleteItem, actionCancel) {
         _context = context;
     }
 

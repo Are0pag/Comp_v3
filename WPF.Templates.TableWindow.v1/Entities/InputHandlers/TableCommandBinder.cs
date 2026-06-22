@@ -1,10 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Comp.Db;
 using Comp.ModelData.Comp;
 using Comp.ModelData.Contracts;
-using Comp.ModelData.TechnicalItems;
 using Utils.EventBus;
 using Utils.WPF;
 using Utils.WPF.Dialogs;
@@ -19,10 +17,12 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
 {
     protected readonly ActionStartAddingNewItem<TWindow, T> _actionStartAddingNewItem;
     protected readonly ActionDeleteItem<TWindow, T> _actionDeleteItem;
+    protected readonly ActionCancel<TWindow, T> _actionCancel;
     
-    public TableCommandBinder(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, ActionDeleteItem<TWindow, T> actionDeleteItem) {
+    public TableCommandBinder(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, ActionDeleteItem<TWindow, T> actionDeleteItem, ActionCancel<TWindow, T> actionCancel) {
         _actionStartAddingNewItem = actionStartAddingNewItem;
         _actionDeleteItem = actionDeleteItem;
+        _actionCancel = actionCancel;
         EventBus<IGlobSubscriber>.Subscribe(this);
     }
     public void Dispose() {
@@ -55,6 +55,9 @@ public class TableCommandBinder<TWindow, T> : IPreviewKeyDownHandler
             
             case Key.Escape:
                 try {
+                    if (_actionCancel.CanPerform()) {
+                        await _actionCancel.PerformAsync();
+                    }
                     ((Window)sender).Close();
                 }
                 catch (Exception ex) {

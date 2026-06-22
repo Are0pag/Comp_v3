@@ -44,6 +44,7 @@ public static class TableWindowIntallerExt
         services.AddSingleton<ActionUpdateItem<Tw, T>>();
         services.AddSingleton<ActionDeleteItem<Tw, T>>();
         services.AddSingleton<ActionSave<Tw, T>>();
+        services.AddSingleton<ActionCancel<Tw, T>>();
         
         services.AddSingleton<CellStateAddItem<Tw, T>>();
         services.AddSingleton<CellStateUpdate<Tw, T>>();
@@ -62,6 +63,7 @@ public static class TableWindowIntallerExt
         
         services.AddSingleton<ButtonVmAddItem<Tw, T>>();
         services.AddSingleton<ButtonVmSave<Tw, T>>();
+        services.AddSingleton<ButtonVmCancel<Tw, T>>();
         services.AddSingleton<ButtonVmDeleteItem<Tw, T>>();
         
         services.AddSingleton<ActionStackTracker>();

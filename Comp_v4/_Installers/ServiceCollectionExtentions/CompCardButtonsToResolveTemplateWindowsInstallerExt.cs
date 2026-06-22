@@ -62,6 +62,8 @@ public static class CompCardButtonsToResolveTemplateWindowsInstallerExt
         serviceProvider.GetRequiredService<TableCommandBinder<TWindow, TData>>();
         serviceProvider.GetRequiredService<ActionFilter<TWindow, TData, FiltersVmBase>>();
         WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        
+        serviceProvider.GetRequiredService<ActionCancel<TWindow, TData>>().SetCash();
         window.Show();
     }
 }

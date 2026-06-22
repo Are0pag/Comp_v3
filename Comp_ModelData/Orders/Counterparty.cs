@@ -209,6 +209,8 @@ public class Counterparty : ObservableObject, IPropertyChangable, IDbEntity, IPo
 
 #region Copy
 
+    public IDbEntity Clone() => new Counterparty().PopulateFrom(this);
+    
 public Counterparty PopulateFrom(Counterparty targetValues) {
     ArgumentNullException.ThrowIfNull(targetValues);
 

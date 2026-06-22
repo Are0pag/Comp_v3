@@ -7,6 +7,10 @@ public class HeterochromicCommandScheduler<T, TTransaction> : TransactionalComma
     where T : IDeferredCommand
     where TTransaction : ITransaction<T>, new()
 {
+    public bool HaveDeferredChanges() {
+        return _undoStack.Count > 0;
+    }
+
     public virtual async Task CommitDeferredChanges() {
         var allCommands = new List<IDeferredCommand>();
         while (_undoStack.Count > 0) {
@@ -18,6 +22,11 @@ public class HeterochromicCommandScheduler<T, TTransaction> : TransactionalComma
             var command = allCommands[i];
             await command.ExecuteDeferredAsync();
         }
+    }
+
+    public Task RollbackDeferredChanges() {
+        _undoStack.Clear();
+        return Task.CompletedTask;
     }
 
     /// <summary>

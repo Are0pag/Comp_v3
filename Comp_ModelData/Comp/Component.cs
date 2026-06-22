@@ -342,6 +342,10 @@ public class Component : NotifyPropertyChanged, IDbEntity, IImageOwner, IPopulat
         return this;
     }
 
+    public IDbEntity Clone() {
+        return new Component().PopulateFrom(this);
+    }
+
 #endregion
 
     public override string ToString() {

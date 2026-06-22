@@ -49,5 +49,11 @@ public class ConditionalDesignation : NotifyPropertyChanged, IDbEntity, ICloneab
     }
 
     public object Clone() => new ConditionalDesignation(Name, Designation);
+
+    IDbEntity IDbEntity.Clone() => new ConditionalDesignation() {
+        Id = Id,
+        Name = Name,
+        Designation = Designation
+    };
     public override string ToString() => "cd " + Name;
 }

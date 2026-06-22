@@ -354,7 +354,8 @@ public class SupplierOrder : ObservableObject, IDbEntity
 
     
 #region Copy
-    
+
+    public IDbEntity Clone() => this.CopyTo(new SupplierOrder());
     public SupplierOrder CopyTo(SupplierOrder target) {
         target.Id = this.Id;
         

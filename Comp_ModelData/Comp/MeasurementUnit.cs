@@ -42,4 +42,10 @@ public class MeasurementUnit : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+
+    public IDbEntity Clone() => new MeasurementUnit() {
+        Id = Id,
+        Name = Name,
+        Designation = Designation,
+    };
 }

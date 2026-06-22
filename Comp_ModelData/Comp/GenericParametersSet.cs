@@ -88,4 +88,17 @@ public class GenericParametersSet : ObservableObject, IDbEntity
     public override string ToString() {
         return $"gps={Name}";
     }
+
+    public IDbEntity Clone() {
+        return new GenericParametersSet() {
+            Id = Id,
+            Name = Name,
+            GpMain = GpMain,
+            Gp1 = Gp1,
+            Gp2 = Gp2,
+            Gp3 = Gp3,
+            Gp4 = Gp4,
+            Gp5 = Gp5,
+        };
+    }
 }

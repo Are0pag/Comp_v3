@@ -6,6 +6,8 @@ public interface IHeterochromicCommandScheduler<T, TTransaction> : ITransactiona
     where T : IDeferredCommand
     where TTransaction : ITransaction<T>, new()
 {
+    bool HaveDeferredChanges();
     Task CommitDeferredChanges();
+    Task RollbackDeferredChanges();
     void PushDeferredCommand(T command);
 }

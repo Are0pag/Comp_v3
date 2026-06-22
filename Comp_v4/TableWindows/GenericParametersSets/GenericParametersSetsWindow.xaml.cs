@@ -21,6 +21,7 @@ public partial class GenericParametersSetsWindow : TableWindowBase, IDisposable,
                         
                                     ButtonVmAddItem<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmAddItem, 
                                     ButtonVmSave<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmSave, 
+                                    ButtonVmCancel<GenericParametersSetsWindow, GenericParametersSet> buttonVmCancel,
                                     ButtonVmDeleteItem<GenericParametersSetsWindow, Comp.ModelData.TechnicalItems.GenericParametersSet> buttonVmDeleteItem) {
         InitializeComponent();
         
@@ -30,6 +31,7 @@ public partial class GenericParametersSetsWindow : TableWindowBase, IDisposable,
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;
+        CancelChangesButton.DataContext = buttonVmCancel;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
@@ -76,5 +78,9 @@ public partial class GenericParametersSetsWindow : TableWindowBase, IDisposable,
 
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
+    }
+
+    private void CancelChangesButton_OnClick(object sender, RoutedEventArgs e) {
+        Close();
     }
 }

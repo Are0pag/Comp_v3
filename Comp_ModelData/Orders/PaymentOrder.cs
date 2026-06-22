@@ -77,7 +77,8 @@ public class PaymentOrder : ObservableObject, IDbEntity, IPopulatable<PaymentOrd
             OnPropertyChanged();
         }
     }
-    
+
+    public IDbEntity Clone() => new PaymentOrder().PopulateFrom(this);
     
     public PaymentOrder PopulateFrom(PaymentOrder targetValues) {
         Id = targetValues.Id;

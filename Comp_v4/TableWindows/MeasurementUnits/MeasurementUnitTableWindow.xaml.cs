@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4.CompCard.Events;
+using Comp_v4.TableWindows.Manufacturers;
 using Utils.EventBus;
 using Utils.WPF.Windows;
 using WPF.Templates.TableWindow.v1.Events;
@@ -20,6 +21,7 @@ public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, 
                         
                                       ButtonVmAddItem<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmAddItem, 
                                       ButtonVmSave<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmSave, 
+                                      ButtonVmCancel<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmCancel,
                                       ButtonVmDeleteItem<MeasurementUnitTableWindow, Comp.ModelData.TechnicalItems.MeasurementUnit> buttonVmDeleteItem) {
         InitializeComponent();
         MainDataGrid.DataContext = dataGridViewModel;
@@ -28,6 +30,7 @@ public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, 
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;
+        CancelChangesButton.DataContext = buttonVmCancel;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
@@ -75,5 +78,8 @@ public partial class MeasurementUnitTableWindow : TableWindowBase, IDisposable, 
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
     }
-    
+
+    private void CancelChangesButton_OnClick(object sender, RoutedEventArgs e) {
+        Close();
+    }
 }

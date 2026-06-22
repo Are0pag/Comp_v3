@@ -49,4 +49,13 @@ public class Analog : ObservableObject, IDbEntity
             OnPropertyChanged();
         }
     }
+
+    public IDbEntity Clone() => new Analog() {
+        Id = Id,
+        SourceComponentId = SourceComponentId,
+        SourceComponent = SourceComponent,
+        RelatedComponentId = RelatedComponentId,
+        RelatedComponent = RelatedComponent,
+        IsAllCount = IsAllCount
+    };
 }

@@ -69,6 +69,7 @@
             <Button x:Name="AddNewItemButton" Content="Добавить" Command="{Binding AddItemCommand}" Margin="5"/>
             <Button x:Name="DeleteItemButton" Content="Удалить" Command="{Binding DeleteCommand}" Margin="5"/>
             <Button x:Name="SaveChangesButton" Content="Сохранить" Command="{Binding SaveCommand}" Margin="5"/>
+            <Button x:Name="CancelChangesButton" Content="Отмена" Command="{Binding CancelCommand}" Click="CancelChangesButton_OnClick" Margin="5" />
         </StackPanel>
     </Grid>
 </windows:TableWindowBase>

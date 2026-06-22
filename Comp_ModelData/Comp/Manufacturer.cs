@@ -67,4 +67,14 @@ public class Manufacturer : NotifyPropertyChanged, IDbEntity
             OnPropertyChanged();
         }
     }
+
+    public IDbEntity Clone() {
+        return new Manufacturer() {
+            Id = Id,
+            Designation = Designation,
+            FullName = FullName,
+            Url = Url,
+            Remark = Remark
+        };
+    }
 }

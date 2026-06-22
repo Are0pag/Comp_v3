@@ -24,6 +24,7 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
                         
                         ButtonVmAddItem<CondDesignTableWindow, Cd> buttonVmAddItem, 
                         ButtonVmSave<CondDesignTableWindow, Cd> buttonVmSave, 
+                        ButtonVmCancel<CondDesignTableWindow, Cd> buttonVmCancel, 
                         ButtonVmDeleteItem<CondDesignTableWindow, Cd> buttonVmDeleteItem) 
     {
         InitializeComponent();
@@ -37,6 +38,7 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;
+        CancelChangesButton.DataContext = buttonVmCancel;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
@@ -82,5 +84,9 @@ public partial class CondDesignTableWindow : TableWindowBase, IDisposable, IData
 
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
+    }
+
+    private void CancelChangesButton_OnClick(object sender, RoutedEventArgs e) {
+        Close();
     }
 }

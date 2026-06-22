@@ -20,6 +20,7 @@ public partial class ManufacturersTableWindow : TableWindowBase, IDisposable, ID
                         
                                     ButtonVmAddItem<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmAddItem, 
                                     ButtonVmSave<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmSave, 
+                                    ButtonVmCancel<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmCancel,
                                     ButtonVmDeleteItem<ManufacturersTableWindow, Comp.ModelData.TechnicalItems.Manufacturer> buttonVmDeleteItem) {
         InitializeComponent();
         MainDataGrid.DataContext = dataGridViewModel;
@@ -28,6 +29,7 @@ public partial class ManufacturersTableWindow : TableWindowBase, IDisposable, ID
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;
+        CancelChangesButton.DataContext = buttonVmCancel;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
@@ -74,5 +76,9 @@ public partial class ManufacturersTableWindow : TableWindowBase, IDisposable, ID
 
     private void FilterTextBox_LostFocus(object sender, RoutedEventArgs e) {
         EventBus<IGlobSubscriber>.RaiseEvent<IFilteringInputHandler>(h => h.OnUserEndFiltering());
+    }
+
+    private void CancelChangesButton_OnClick(object sender, RoutedEventArgs e) {
+        Close();
     }
 }

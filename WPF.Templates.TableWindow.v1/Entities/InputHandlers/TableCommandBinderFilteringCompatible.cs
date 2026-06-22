@@ -13,9 +13,7 @@ public class TableCommandBinderFilteringCompatible<TWindow, T> : TableCommandBin
     where T : class, IDbEntity, new()
 {
     protected bool _isGridEditingCommandByKeyEnabled = true;
-    
-    public TableCommandBinderFilteringCompatible(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, ActionDeleteItem<TWindow, T> actionDeleteItem) 
-        : base(actionStartAddingNewItem, actionDeleteItem) {
+    public TableCommandBinderFilteringCompatible(ActionStartAddingNewItem<TWindow, T> actionStartAddingNewItem, ActionDeleteItem<TWindow, T> actionDeleteItem, ActionCancel<TWindow, T> actionCancel) : base(actionStartAddingNewItem, actionDeleteItem, actionCancel) {
     }
 
     public override Task OnPreviewKeyDown(object sender, KeyEventArgs e) {

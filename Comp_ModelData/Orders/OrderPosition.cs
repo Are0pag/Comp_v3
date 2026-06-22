@@ -143,6 +143,7 @@ public class OrderPosition : ObservableObject, IDbEntity, IPopulatable<OrderPosi
 
 #region populating
 
+    public IDbEntity Clone() => new OrderPosition().PopulateFrom(this);
     public OrderPosition PopulateFrom(OrderPosition targetValues) {
         Id = targetValues.Id;
         

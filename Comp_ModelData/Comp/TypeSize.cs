@@ -75,4 +75,6 @@ public class TypeSize : NotifyPropertyChanged, IDbEntity, IImageOwner, IPopulata
         Description = targetValues.Description;
         return this;
     }
+
+    public IDbEntity Clone() => new TypeSize().PopulateFrom(this);
 }

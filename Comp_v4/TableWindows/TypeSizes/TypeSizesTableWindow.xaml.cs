@@ -30,6 +30,7 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
                         
                                 ButtonVmAddItem<W, T> buttonVmAddItem, 
                                 ButtonVmSave<W, T> buttonVmSave, 
+                                ButtonVmCancel<W, T> buttonVmCancel,
                                 ButtonVmDeleteItem<W, T> buttonVmDeleteItem, 
                                 EditTsButVm editTsButVm) {
         InitializeComponent();
@@ -41,6 +42,7 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
 
         AddNewItemButton.DataContext = buttonVmAddItem;
         SaveChangesButton.DataContext = buttonVmSave;
+        CancelChangesButton.DataContext = buttonVmCancel;
         DeleteItemButton.DataContext = buttonVmDeleteItem;
 
         InfoDataGridContextMenuAddNewItemCommand.DataContext = buttonVmAddItem;
@@ -109,7 +111,10 @@ public partial class TypeSizesTableWindow : TableWindowBase, IDisposable, IDataG
                 
         }, DispatcherPriority.Background);
     }
-    
+
+    private void CancelChangesButton_OnClick(object sender, RoutedEventArgs e) {
+        Close();
+    }
 }
 
 // Расширительный метод для упрощения поиска родительского элемента
