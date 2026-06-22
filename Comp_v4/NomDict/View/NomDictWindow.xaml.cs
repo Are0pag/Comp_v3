@@ -30,6 +30,8 @@ public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposab
     private Point _startPoint;
     private TaskCompletionSource<Component>? _selectingTcs;
 
+#region ctor
+
     public NomDictWindow(TreeViewVm treeViewVm, DataGridVm dataGridVm,
                          AddNewCategoryButtonVm addNewCategoryButtonVm, DeleteCategoryButtonVm deleteCategoryButtonVm,
                          UpdateCategoryNameButtonVm updateCategoryNameButtonVm, MoveCategoryAction moveCategoryAction,
@@ -51,6 +53,15 @@ public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposab
         EventBus<INomDictWindowSubscriber>.Subscribe(this);
         EventBus<IGlSubscriber>.Subscribe(this);
     }
+
+    public void Dispose() {
+        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
+        EventBus<IGlSubscriber>.Unsubscribe(this);
+    }
+
+#endregion
+
+#region KeyHandlers
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
     }
@@ -77,9 +88,9 @@ public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposab
         }
     }
 
-    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
-        _selectingTcs = tcs;
-    }
+#endregion
+
+#region Categories
 
     private void CategoriesTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
         _treeViewVm.SelectedCategory = e.NewValue as Category;
@@ -177,76 +188,67 @@ public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposab
         return null;
     }
 
-    public void Dispose() {
-        EventBus<INomDictWindowSubscriber>.Unsubscribe(this);
-        EventBus<IGlSubscriber>.Unsubscribe(this);
-    }
+#endregion
 
+#region AsExternalSelection
+
+    void IGridSelectingStateHandler.OnSelecting(TaskCompletionSource<Component> tcs, Type requesterType) {
+        _selectingTcs = tcs;
+    }
     public void OnGetResultOfSelection(Component component, Type requesterType) {
         _selectingTcs = null;
     }
 
-    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<NomDictWindow> container) {
-        container.RuntimeParam = this;
-    }
+#endregion
 
+#region ChangeColumnVisibility
+    
     protected override ComboBox ColumnsVisibilityComboBox => ThisColumnsVisibilityComboBox;
 
-    private void ComboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
+    private void ComboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
         DependencyObject visualTarget = e.OriginalSource as DependencyObject;
-    
-        while (visualTarget != null && !(visualTarget is ComboBoxItem) && !(visualTarget is CheckBox) && !(visualTarget is Button))
-        {
+
+        while (visualTarget != null && !(visualTarget is ComboBoxItem) && !(visualTarget is CheckBox) && !(visualTarget is Button)) {
             visualTarget = VisualTreeHelper.GetParent(visualTarget);
         }
 
         // Если кликнули по кнопкам "Выбрать/Снять всё", разрешаем клик, но запрещаем ComboBox закрываться
-        if (visualTarget is Button)
-        {
+        if (visualTarget is Button) {
             // Позволяем кнопке выполнить ее стандартный Click, но гасим событие для ComboBox
-            e.Handled = true; 
-        
+            e.Handled = true;
+
             // Вручную вызываем событие клика на кнопке, так как e.Handled его перехватит
             var button = (Button)visualTarget;
             button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
         // Если клик пришелся на CheckBox
-        else if (visualTarget is CheckBox checkBox)
-        {
+        else if (visualTarget is CheckBox checkBox) {
             checkBox.IsChecked = !checkBox.IsChecked;
-            CheckBox_Click(checkBox, new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, checkBox));
-            e.Handled = true; 
+            CheckBox_Click(checkBox, new RoutedEventArgs(ButtonBase.ClickEvent, checkBox));
+            e.Handled = true;
         }
     }
 
-    private void SelectAll_Click(object sender, RoutedEventArgs e)
-    {
+    private void SelectAll_Click(object sender, RoutedEventArgs e) {
         SetAllCheckBoxesState(true);
     }
 
-    private void UnselectAll_Click(object sender, RoutedEventArgs e)
-    {
+    private void UnselectAll_Click(object sender, RoutedEventArgs e) {
         SetAllCheckBoxesState(false);
     }
-    
-    private void SetAllCheckBoxesState(bool isChecked)
-    {
-        // Проходим по всем элементам внутри ComboBox
-        foreach (var item in ThisColumnsVisibilityComboBox.Items)
-        {
-            // Ищем именно CheckBox (кнопки и сепаратор программа пропустит)
-            if (item is CheckBox checkBox)
-            {
-                // Меняем состояние только если оно отличается (чтобы не спамить событиями)
-                if (checkBox.IsChecked != isChecked)
-                {
-                    checkBox.IsChecked = isChecked;
-                
-                    // Вызываем ваш рабочий метод, чтобы применились изменения к DataGrid
-                    CheckBox_Click(checkBox, new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, checkBox));
-                }
-            }
+
+    private void SetAllCheckBoxesState(bool isChecked) {
+        foreach (var item in ThisColumnsVisibilityComboBox.Items) {
+            if (item is not CheckBox checkBox)
+                continue;
+            if (checkBox.IsChecked == isChecked)
+                continue;
+            checkBox.IsChecked = isChecked;
+            CheckBox_Click(checkBox, new RoutedEventArgs(ButtonBase.ClickEvent, checkBox));
         }
     }
+
+#endregion
+    
+    public async Task ResolveRuntimeParams(IRuntimeParamsContainer<NomDictWindow> container) => container.RuntimeParam = this;
 }
