@@ -192,24 +192,61 @@ public partial class NomDictWindow : ColumnsVisibilityTableWindowBase, IDisposab
 
     protected override ComboBox ColumnsVisibilityComboBox => ThisColumnsVisibilityComboBox;
 
-    private void ComboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-        // Ищем, кликнули ли мы по CheckBox или по его тексту
+    private void ComboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
         DependencyObject visualTarget = e.OriginalSource as DependencyObject;
     
-        while (visualTarget != null && !(visualTarget is ComboBoxItem) && !(visualTarget is CheckBox))
+        while (visualTarget != null && !(visualTarget is ComboBoxItem) && !(visualTarget is CheckBox) && !(visualTarget is Button))
         {
             visualTarget = VisualTreeHelper.GetParent(visualTarget);
         }
 
-        // Если клик пришелся на CheckBox, вручную меняем его состояние и гасим событие для ComboBox
-        if (visualTarget is CheckBox checkBox)
+        // Если кликнули по кнопкам "Выбрать/Снять всё", разрешаем клик, но запрещаем ComboBox закрываться
+        if (visualTarget is Button)
+        {
+            // Позволяем кнопке выполнить ее стандартный Click, но гасим событие для ComboBox
+            e.Handled = true; 
+        
+            // Вручную вызываем событие клика на кнопке, так как e.Handled его перехватит
+            var button = (Button)visualTarget;
+            button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+        }
+        // Если клик пришелся на CheckBox
+        else if (visualTarget is CheckBox checkBox)
         {
             checkBox.IsChecked = !checkBox.IsChecked;
-        
-            // Вручную вызываем ваш обработчик клика, так как оригинальный клик мы заблокируем
-            CheckBox_Click(checkBox, new RoutedEventArgs(ButtonBase.ClickEvent, checkBox));
-        
-            e.Handled = true; // Запрещает ComboBox закрывать список
-        }  
+            CheckBox_Click(checkBox, new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, checkBox));
+            e.Handled = true; 
+        }
+    }
+
+    private void SelectAll_Click(object sender, RoutedEventArgs e)
+    {
+        SetAllCheckBoxesState(true);
+    }
+
+    private void UnselectAll_Click(object sender, RoutedEventArgs e)
+    {
+        SetAllCheckBoxesState(false);
+    }
+    
+    private void SetAllCheckBoxesState(bool isChecked)
+    {
+        // Проходим по всем элементам внутри ComboBox
+        foreach (var item in ThisColumnsVisibilityComboBox.Items)
+        {
+            // Ищем именно CheckBox (кнопки и сепаратор программа пропустит)
+            if (item is CheckBox checkBox)
+            {
+                // Меняем состояние только если оно отличается (чтобы не спамить событиями)
+                if (checkBox.IsChecked != isChecked)
+                {
+                    checkBox.IsChecked = isChecked;
+                
+                    // Вызываем ваш рабочий метод, чтобы применились изменения к DataGrid
+                    CheckBox_Click(checkBox, new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, checkBox));
+                }
+            }
+        }
     }
 }
