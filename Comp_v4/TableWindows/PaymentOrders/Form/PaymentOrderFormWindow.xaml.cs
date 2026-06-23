@@ -45,8 +45,8 @@ public partial class PaymentOrderFormWindow : Window, IDisposable, IRuntimeParam
         EventBus<IGlSubscriber>.Unsubscribe(this);
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowPlaceSizeSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowPlaceSizeSettings.LoadPlacement(this, GetType().ToString());
 
     private async void PaymentOrderFormWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {

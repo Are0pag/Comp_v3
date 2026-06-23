@@ -22,9 +22,9 @@ public partial class EntryWindow : Window, IDisposable, IRuntimeParamsResolver<E
         container.RuntimeParam = this;
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, nameof(EntryWindow));
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowPlaceSizeSettings.SavePlacement(this, nameof(EntryWindow));
 
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, nameof(EntryWindow));
+    private void LoadPlacement(object? s, EventArgs e) => WindowPlaceSizeSettings.LoadPlacement(this, nameof(EntryWindow));
 
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);

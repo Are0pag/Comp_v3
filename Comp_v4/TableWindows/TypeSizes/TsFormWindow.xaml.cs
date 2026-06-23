@@ -50,6 +50,6 @@ public partial class TsFormWindow : Window, IDisposable, ITypeSizeCreateHandler,
     private void AddTypeSizeWindow_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
         EventBus<IGlobalButtonEvent>.RaiseEvent<INotifyConditionalsChanged>(h => h?.NotifyCanExecute());
     }
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowPlaceSizeSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowPlaceSizeSettings.LoadPlacement(this, GetType().ToString());
 }

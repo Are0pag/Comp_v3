@@ -90,9 +90,9 @@ public partial class CompCardWindow : Window, IDisposable, IRuntimeParamsResolve
         container.RuntimeParam = this;
     }
 
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, nameof(CompCardWindow));
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowPlaceSizeSettings.SavePlacement(this, nameof(CompCardWindow));
 
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, nameof(CompCardWindow));
+    private void LoadPlacement(object? s, EventArgs e) => WindowPlaceSizeSettings.LoadPlacement(this, nameof(CompCardWindow));
     public void Dispose() {
         EventBus<IGlSubscriber>.Unsubscribe(this);
         SourceInitialized -= LoadPlacement;

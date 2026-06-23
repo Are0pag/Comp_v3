@@ -69,8 +69,8 @@ public partial class SupplierOrderFormWindow : Window, IDisposable, IRuntimePara
         Closing -= SavePlacement;
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowPlaceSizeSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowPlaceSizeSettings.LoadPlacement(this, GetType().ToString());
 
     private async void SupplierOrderFormWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {

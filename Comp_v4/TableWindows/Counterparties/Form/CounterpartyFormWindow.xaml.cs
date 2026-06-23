@@ -63,8 +63,8 @@ public partial class CounterpartyFormWindow : Window, IDisposable, IRuntimeParam
         return Task.CompletedTask;
     }
     
-    private void SavePlacement(object? s, CancelEventArgs e) => WindowSettings.SavePlacement(this, GetType().ToString());
-    private void LoadPlacement(object? s, EventArgs e) => WindowSettings.LoadPlacement(this, GetType().ToString());
+    private void SavePlacement(object? s, CancelEventArgs e) => WindowPlaceSizeSettings.SavePlacement(this, GetType().ToString());
+    private void LoadPlacement(object? s, EventArgs e) => WindowPlaceSizeSettings.LoadPlacement(this, GetType().ToString());
 
     private async void CounterpartyFormWindow_OnPreviewKeyDown(object sender, KeyEventArgs e) {
         switch (e.Key) {

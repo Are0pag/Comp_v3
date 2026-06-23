@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 
-public static class WindowSettings
+public static class WindowPlaceSizeSettings
 {
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);

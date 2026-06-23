@@ -88,7 +88,7 @@ public class ColumnOrderSettings
 
     private static string GetConfigFilePath() {
         string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        string companyFolder = Path.Combine(appData, WindowSettings.COMPANY_NAME);
+        string companyFolder = Path.Combine(appData, WindowPlaceSizeSettings.COMPANY_NAME);
         Directory.CreateDirectory(companyFolder);
         string filePath = Path.Combine(companyFolder, "column_orders.json");
 
