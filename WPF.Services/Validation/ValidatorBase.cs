@@ -2,7 +2,7 @@ namespace WPF.Services.Validation;
 
 public abstract class ValidatorBase<T> : IValidator<T>
 {
-    private readonly Dictionary<string, IValidationRule<T>> _rules = new();
+    private readonly List<IValidationRule<T>> _rules = new();
 
     protected ValidatorBase() {
         SetRules();
@@ -12,7 +12,7 @@ public abstract class ValidatorBase<T> : IValidator<T>
     /// Валидация только одного свойства
     public async Task<ValidationResult> ValidatePropertyAsync(T value, string propertyName) {
         var result = new ValidationResult { IsValid = true };
-        var propertyRules = _rules.Values.Where(r => r.PropertyName == propertyName);
+        var propertyRules = _rules.Where(r => r.PropertyName == propertyName);
 
         foreach (var rule in propertyRules) {
             var ruleResult = await rule.ValidateAsync(value);
@@ -29,7 +29,7 @@ public abstract class ValidatorBase<T> : IValidator<T>
     public async Task<ValidationResult> ValidateAsync(T value) {
         var result = new ValidationResult { IsValid = true };
 
-        foreach (var rule in _rules.Values) {
+        foreach (var rule in _rules) {
             var ruleResult = await rule.ValidateAsync(value);
 
             if (!ruleResult.IsValid) {
@@ -44,11 +44,14 @@ public abstract class ValidatorBase<T> : IValidator<T>
     }
 
     public void AddRule(IValidationRule<T> rule) {
-        _rules[rule.RuleName] = rule;
+        _rules.Add(rule);
     }
 
     public void RemoveRule(string ruleName) {
-        _rules.Remove(ruleName);
+        if (_rules.FirstOrDefault(r => r.RuleName == ruleName) is not { } rule) {
+            throw new InvalidOperationException($"Rule {ruleName} not found");
+        }
+        _rules.Remove(rule);
     }
 
     static public ValidationRuleBuilder<T> CreateRules() {
