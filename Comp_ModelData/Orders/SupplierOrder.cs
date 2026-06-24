@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Comp.ModelData.Contracts;
 using Comp.ModelData.TechnicalItems;
@@ -302,6 +303,24 @@ public class SupplierOrder : ObservableObject, IDbEntity
         set {
             if (_totalPayment == value) return;
             _totalPayment = value;
+
+            if (VatStatusEnumValue != ModelData.VatStatus.WithoutVat) {
+                TotalVatAmount = value * ((decimal) VatPercentage / 100);
+            }
+            
+            var remainingBalance = TotalOrderCost - value;
+            PaymentStatusEnumValue = remainingBalance switch {
+                _ when remainingBalance == TotalOrderCost => ModelData.PaymentStatus.NotPayed,
+                0                                => ModelData.PaymentStatus.FullyPayed,
+                > 0                              => ModelData.PaymentStatus.PartiallyPayed,
+                < 0                              => ModelData.PaymentStatus.Overpaid
+            };
+
+            if (TotalOrderCost == 0)
+                MessageBox.Show($"The total order cost of {TotalOrderCost} is zero");
+            else
+                PercentageOfTotalPayment = (value * 100) / TotalOrderCost;
+            
             OnPropertyChanged();
         }
     }
@@ -351,7 +370,6 @@ public class SupplierOrder : ObservableObject, IDbEntity
     }
     
 #endregion
-
     
 #region Copy
 

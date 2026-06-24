@@ -1,4 +1,5 @@
 using Comp_v4.TableWindows.OrderPositions.Events;
+using Comp_v4.TableWindows.SupplierOrders.Table.Vm;
 using Comp.Db.Contracts;
 using Comp.ModelData;
 using Infrastructure.StateMachine;
@@ -19,12 +20,23 @@ public class OpForm : GenericStateMachine<BaseOpFormState, OpForm>
 public abstract class BaseOpFormState : StateBase<OpForm>
 {
     protected readonly IRepository<OrderPosition> _repository;
+    protected readonly IRepository<SupplierOrder> _supplierOrderRepository;
+    protected readonly IRepository<Counterparty> _counterpartyRepository;
+    protected readonly SoDataGridVm _soDataGridVm;
 
-    protected BaseOpFormState(IRepository<OrderPosition> repository) {
+    protected BaseOpFormState(IRepository<OrderPosition> repository, IRepository<SupplierOrder> supplierOrderRepository, IRepository<Counterparty> counterpartyRepository, SoDataGridVm soDataGridVm) {
         _repository = repository;
+        _supplierOrderRepository = supplierOrderRepository;
+        _counterpartyRepository = counterpartyRepository;
+        _soDataGridVm = soDataGridVm;
     }
 
-    public abstract Task Save(TaskCompletionSource tcs, OrderPosition item, object? args, OpForm opForm);
+    public virtual async Task Save(TaskCompletionSource tcs, OrderPosition item, object? args, OpForm opForm) {
+        var targetSo = _soDataGridVm.Items.First(i => i.Id == item.SupplierOrder.Id);
+        targetSo.Counterparty ??= await _counterpartyRepository.GetByIdAsync(item.SupplierOrder.CounterpartyId);
+        targetSo.CopyTo(item.SupplierOrder);
+        await _supplierOrderRepository.UpdateAsync(targetSo);
+    }
     
     protected static async Task NotifyAboutSaving() {
         var savingTcs = new TaskCompletionSource();
@@ -41,10 +53,11 @@ public abstract class BaseOpFormState : StateBase<OpForm>
 
 public class CreateOpFormState : BaseOpFormState
 {
-    public CreateOpFormState(IRepository<OrderPosition> repository) : base(repository) {
+    public CreateOpFormState(IRepository<OrderPosition> repository, IRepository<SupplierOrder> supplierOrderRepository, IRepository<Counterparty> counterpartyRepository, SoDataGridVm soDataGridVm) : base(repository, supplierOrderRepository, counterpartyRepository, soDataGridVm) {
     }
 
     public override async Task Save(TaskCompletionSource tcs, OrderPosition item, object? args, OpForm opForm) {
+        await base.Save(tcs, item, args, opForm);
         try {
             await _repository.AddAsync(item);
         }
@@ -62,10 +75,11 @@ public class CreateOpFormState : BaseOpFormState
 
 public class EditOpFormState : BaseOpFormState
 {
-    public EditOpFormState(IRepository<OrderPosition> repository) : base(repository) {
+    public EditOpFormState(IRepository<OrderPosition> repository, IRepository<SupplierOrder> supplierOrderRepository, IRepository<Counterparty> counterpartyRepository, SoDataGridVm soDataGridVm) : base(repository, supplierOrderRepository, counterpartyRepository, soDataGridVm) {
     }
 
     public override async Task Save(TaskCompletionSource tcs, OrderPosition item, object? args, OpForm opForm) {
+        await base.Save(tcs, item, args, opForm);
         try {
             await _repository.UpdateAsync(item);
         }

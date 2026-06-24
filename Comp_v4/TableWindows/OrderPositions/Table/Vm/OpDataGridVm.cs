@@ -20,8 +20,10 @@ namespace Comp_v4.TableWindows.OrderPositions.Table.Vm;
 public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, ISoPropertyChangeHandler
 {
     protected SupplierOrder? _correspondingSo;
+    protected readonly IRepository<PaymentOrder> _paymentOrderRepository;
 
-    public OpDataGridVm(IRepository<OrderPosition> repository, IFilter<OrderPosition, FiltersVmBase> filter) : base(repository, filter) {
+    public OpDataGridVm(IRepository<OrderPosition> repository, IFilter<OrderPosition, FiltersVmBase> filter, IRepository<PaymentOrder> paymentOrderRepository) : base(repository, filter) {
+        _paymentOrderRepository = paymentOrderRepository;
         EventBus<IOrderPositionSubscriber>.Subscribe(this);
         EventBus<ISupplierOrdersSubscriber>.Subscribe(this);
     }
@@ -77,11 +79,9 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
         so.ReceivedUnitsAmount = Items.Sum(op => op.ReceivedQuantity);
         
         so.TotalOrderCost = Items.Sum(op => op.TotalCost);
-        //so.TotalPayment = Items.Sum(op => op.);
-        //so.TotalVatAmount = Items.Sum(op => op.);
 
-        //so.PercentageOfTotalPayment = Items.Sum(op => op.);
-        //so.PaymentStatusEnumValue = Items.Sum(op => op.);
+        var po = _paymentOrderRepository.GetAllBySupplierOrderAsync(so.Id).Result.ToList();
+        so.TotalPayment = po.Sum(op => op.PaymentAmount);
     }
 
     /// <summary>

@@ -132,7 +132,9 @@
                 <DataGridTextColumn Header="Дата поставки" Binding="{Binding DeliveryDate, StringFormat='dd.MM.yyyy'}" Width="Auto"/>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Note}" Width="*"/>
                 
-                <DataGridTextColumn Header="% оплаты" Binding="{Binding PercentageOfTotalPayment}" Width="*"/>
+                <DataGridTextColumn Header="% оплаты" Binding="{Binding PercentageOfTotalPayment, StringFormat={}{0:F2}%}" Width="*"/>
+
+
                 <DataGridTextColumn 
                     Header="Статус оплаты" 
                     Binding="{Binding PaymentStatusEnumValue, Converter={StaticResource EnumDescriptionConverter}}" 

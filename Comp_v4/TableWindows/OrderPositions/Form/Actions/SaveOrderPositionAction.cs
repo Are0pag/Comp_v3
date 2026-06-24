@@ -11,6 +11,7 @@ public class SaveOrderPositionAction : BaseActionAsyncSelfWaiting, IRuntimeParam
 {
     protected readonly OrderPositionValidator _orderPositionValidator;
     protected readonly OpForm _opForm;
+
     public SaveOrderPositionAction(SaveOrderPositionButVm button, OrderPositionValidator orderPositionValidator, OpForm opForm) : base(button) {
         _orderPositionValidator = orderPositionValidator;
         _opForm = opForm;
