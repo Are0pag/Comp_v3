@@ -301,7 +301,7 @@ public class SupplierOrder : ObservableObject, IDbEntity
     public decimal TotalPayment {
         get => _totalPayment;
         set {
-            if (_totalPayment == value) return;
+            //if (_totalPayment == value) return;
             _totalPayment = value;
 
             if (VatStatusEnumValue != ModelData.VatStatus.WithoutVat) {

@@ -39,6 +39,10 @@ public class OpDataGridVm : FilterGridVm<OrderPosition>, IOpTableReloadHandler, 
             case nameof(OrderPosition.OrderQuantity):
             case nameof(OrderPosition.UnitPrice):
                 orderPosition.TotalCost = orderPosition.OrderQuantity * orderPosition.UnitPrice;
+                EventBus<ISupplierOrdersSubscriber>
+                   .RaiseEvent<ISoPropertyChangeHandler>(h => {
+                        h?.OnOrderPositionChanged();
+                    });
                 _repository.UpdateAsync(orderPosition);
                 break;
         }
