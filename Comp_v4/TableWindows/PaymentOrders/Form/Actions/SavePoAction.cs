@@ -10,10 +10,12 @@ public class SavePoAction : BaseActionAsyncSelfWaiting
 {
     protected readonly PaymentOrderForm _form;
     protected readonly PaymentOrdersGridVm _gridVm;
+    protected readonly PoValidator _validator;
     
-    public SavePoAction(SavePaymentOrderButVm button, PaymentOrderForm form, PaymentOrdersGridVm gridVm) : base(button) {
+    public SavePoAction(SavePaymentOrderButVm button, PaymentOrderForm form, PaymentOrdersGridVm gridVm, PoValidator validator) : base(button) {
         _form = form;
         _gridVm = gridVm;
+        _validator = validator;
     }
 
     public PaymentOrder Po { get; set; } 
@@ -30,6 +32,11 @@ public class SavePoAction : BaseActionAsyncSelfWaiting
         if (Po == null) {
             throw new NullReferenceException("Po cannot be null");
         }
+
+        var result = _validator.ValidateAsync(Po).Result;
+        if (!result.IsValid)
+            return false;
+        
         return base.CanPerform();
     }
 }

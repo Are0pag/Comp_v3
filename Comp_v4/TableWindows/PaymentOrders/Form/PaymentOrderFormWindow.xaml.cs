@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Comp_v4._Installers;
 using Comp_v4.TableWindows.PaymentOrders.Table.Vm.Buts;
@@ -54,5 +55,18 @@ public partial class PaymentOrderFormWindow : Window, IDisposable, IRuntimeParam
                 await _cancelPaymentOrderButVm.OnClickAsync();
                 break;
         }
+    }
+
+
+    private void TextBox_Num_OnTextChanged(object sender, TextChangedEventArgs e) {
+        _savePaymentOrderButVm.NotifyCanExecute();
+    }
+
+    private void TextBox_Sum_OnTextChanged(object sender, TextChangedEventArgs e) {
+        _savePaymentOrderButVm.NotifyCanExecute();
+    }
+
+    private void PaymentOrderFormWindow_OnLoaded(object sender, RoutedEventArgs e) {
+        _savePaymentOrderButVm.NotifyCanExecute();
     }
 }

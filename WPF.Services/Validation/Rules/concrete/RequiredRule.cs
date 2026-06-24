@@ -7,6 +7,7 @@ public class RequiredRule<T> : BaseValidationRule<T>
     public RequiredRule(string propertyName, string errorMessage = "Field is required")
         : base(propertyName, "Required", errorMessage) 
     {
+        RuleName = $"Required {propertyName}";
     }
 
     public override Task<ValidationResult> ValidateAsync(T item)

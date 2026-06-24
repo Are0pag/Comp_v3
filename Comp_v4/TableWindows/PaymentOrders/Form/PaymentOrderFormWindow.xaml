@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title="Платёжное поручение" Height="450" Width="700"
         WindowStartupLocation="CenterScreen"
-        PreviewKeyDown="PaymentOrderFormWindow_OnPreviewKeyDown">
+        PreviewKeyDown="PaymentOrderFormWindow_OnPreviewKeyDown"
+        Loaded="PaymentOrderFormWindow_OnLoaded">
     
     <Window.Resources>
         <form:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
@@ -58,7 +59,8 @@
         <!-- Номер -->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Номер:"/>
         <TextBox Grid.Row="1" Grid.Column="1"
-                 Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                 Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 TextChanged="TextBox_Num_OnTextChanged">
             <!-- Базовая проверка на пустое поле для номера. Если не надо можно удалить блок тупо -->
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
@@ -78,7 +80,8 @@
         <!-- Сумма платежа -->
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Сумма платежа:"/>
         <TextBox Grid.Row="2" Grid.Column="1"
-                 Text="{Binding PaymentAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N10}">
+                 Text="{Binding PaymentAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N10}"
+                 TextChanged="TextBox_Sum_OnTextChanged">
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <DockPanel LastChildFill="true">

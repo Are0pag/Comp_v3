@@ -10,7 +10,7 @@ public abstract class BaseValidationRule<T> : IValidationRule<T>
     protected BaseValidationRule(string propertyName, string ruleName, string errorMessage)
     {
         PropertyName = propertyName;
-        RuleName = ruleName;
+        RuleName ??= ruleName;
         ErrorMessage = errorMessage;
     }
 

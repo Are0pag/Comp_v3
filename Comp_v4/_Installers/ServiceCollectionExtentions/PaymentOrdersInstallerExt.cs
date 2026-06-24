@@ -1,3 +1,4 @@
+using Comp_v4.TableWindows.PaymentOrders;
 using Comp_v4.TableWindows.PaymentOrders.Form.Actions;
 using Comp_v4.TableWindows.PaymentOrders.Form.Entities;
 using Comp_v4.TableWindows.PaymentOrders.Table;
@@ -30,6 +31,7 @@ public static class PaymentOrdersInstallerExt
         services.AddSingleton<CancelPaymentOrderButVm>();
         
         services.AddSingleton<SavePaymentOrderButVm>();
+        services.AddSingleton<PoValidator>();
     }
 
     private static void Table(IServiceCollection services) {
