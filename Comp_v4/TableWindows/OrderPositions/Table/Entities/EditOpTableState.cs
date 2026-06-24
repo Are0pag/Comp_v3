@@ -44,10 +44,8 @@ public class EditOpTableState : BaseOpState
 
     public override async Task Edit(TaskCompletionSource tcs, OpTable opTable, OrderPosition op, object? o) {
         var window = ActivatorUtilities.CreateInstance<OrderPositionForm>(_serviceProvider, op);
-        //var parent = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
-        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
-        window.Owner = parent;
-        WindowService.BindChildToParent(parent, window);
+        window.Owner = new InstanceContainer<OrderPositionsTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
         
         window.Closed += (sender, args) => {
             tcs.TrySetResult();

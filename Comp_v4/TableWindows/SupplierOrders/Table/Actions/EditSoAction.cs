@@ -41,8 +41,8 @@ public class EditSoAction : BaseActionAsyncCompletion
             throw;
         }
 
-        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
-        WindowService.BindChildToParent(parent, window);
+        window.Owner = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
         window.Closed += (sender, args) => {
             _currentTcs.TrySetResult();
         };

@@ -32,8 +32,7 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
             SourceComponent = RuntimeParam
         };
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
-        var parent = new InstanceContainer<AnalogsTableWindow>().RuntimeParam;
-        window.Owner = parent;
+
         
         ResolveRelated();
         var form = _serviceProvider.GetRequiredService<AnalogsForm>();
@@ -43,7 +42,8 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
             tcs.TrySetResult();
         };
 
-        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        window.Owner = new InstanceContainer<AnalogsTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
@@ -52,8 +52,6 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         if (_analogsTableVm.SelectedItem is not { } analog) 
             throw new InvalidOperationException();
         var window = ActivatorUtilities.CreateInstance<AnalogsFormWindow>(_serviceProvider, analog);
-        var parent = new InstanceContainer<AnalogsTableWindow>().RuntimeParam;
-        window.Owner = parent;
         
         ResolveRelated();
 
@@ -63,7 +61,9 @@ public class EditAnalogsTableState : BaseAnalogsTableState, IRuntimeParamsContai
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
-        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        
+        window.Owner = new InstanceContainer<AnalogsTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }

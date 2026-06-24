@@ -33,10 +33,8 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
 
         _currentTcs = tcs;
         var window = _serviceProvider.GetRequiredService<OrderPositionsTableWindow>();
-        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
-        //var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
-        window.Owner = parent;
-        _windowOrderLocator.RegisterWindow(window);
+        window.Owner = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
         window.Closed += (sender, args) => {
             _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
@@ -49,7 +47,6 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
         
         EventBus<IOrderPositionSubscriber>.RaiseEvent<IOpTableReloadHandler>(h => h?.OnOpTableReload());
         
-        WindowService.BindChildToParent(parent, window);
         window.Show();
         await tcs.Task;
     }

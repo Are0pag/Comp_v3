@@ -61,7 +61,9 @@ public static class CompCardButtonsToResolveTemplateWindowsInstallerExt
         serviceProvider.GetRequiredService<PersistenceManager<TWindow, TData>>();
         serviceProvider.GetRequiredService<TableCommandBinder<TWindow, TData>>();
         serviceProvider.GetRequiredService<ActionFilter<TWindow, TData, FiltersVmBase>>();
-        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        
+        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        window.Owner = new InstanceContainer<CompCardWindow>().RuntimeParam;
         
         serviceProvider.GetRequiredService<ActionCancel<TWindow, TData>>().SetCash();
         window.Show();

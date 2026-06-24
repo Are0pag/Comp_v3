@@ -26,7 +26,6 @@ public class OpenNomDictAction : BaseActionAsyncCompletion, IRuntimeParamsContai
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _openNomDictHandler.GetRequiredService<NomDictWindow>();
-        window.Owner = RuntimeParam;
         
         _openNomDictHandler.GetRequiredService<AddCategoryAction>();
         _openNomDictHandler.GetRequiredService<DeleteCategoryAction>();
@@ -39,7 +38,8 @@ public class OpenNomDictAction : BaseActionAsyncCompletion, IRuntimeParamsContai
         
         _windowOrderLocator.RegisterWindow(window);
         
-        WindowService.BindChildToParent(RuntimeParam, window);
+        WindowService.SetMovingAreaInsideParent(RuntimeParam, window);
+        window.Owner = RuntimeParam;
 
         window.Show();
         window.Closed += (sender, args) => {

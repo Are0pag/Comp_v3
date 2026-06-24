@@ -6,6 +6,12 @@ using System.Windows.Interop;
 public static class WindowService
 {
     private const int WM_WINDOWPOSCHANGING = 0x0046;
+    
+    // Win32 константа для изменения владельца окна
+    private const int GWL_HWNDPARENT = -8;
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct WINDOWPOS
@@ -18,12 +24,59 @@ public static class WindowService
         public int cy;
         public uint flags;
     }
+    
+   /// <summary>
+    /// Фиксирует дочернее окно поверх родительского без добавления в OwnedWindows.
+    /// Не мешает работе методов HideChildren и ShowChildren.
+    /// </summary>
+    public static void SetAlwaysOnTop(Window parent, Window child)
+    {
+        if (parent == null) throw new ArgumentNullException(nameof(parent));
+        if (child == null) throw new ArgumentNullException(nameof(child));
 
-    public static void BindChildToParent(Window parent, Window child) {
-        SetProportionsByParent(parent, child);
+        // Локальный метод для применения Win32-привязки
+        void ApplyNativeOwnership()
+        {
+            var parentHandle = new WindowInteropHelper(parent).Handle;
+            var childHandle = new WindowInteropHelper(child).Handle;
+
+            if (parentHandle != IntPtr.Zero && childHandle != IntPtr.Zero)
+            {
+                SetWindowLongPtr(childHandle, GWL_HWNDPARENT, parentHandle);
+            }
+        }
+
+        // Проверяем, созданы ли уже хэндлы для обоих окон
+        bool isParentReady = new WindowInteropHelper(parent).Handle != IntPtr.Zero;
+        bool isChildReady = new WindowInteropHelper(child).Handle != IntPtr.Zero;
+
+        if (isParentReady && isChildReady)
+        {
+            // Если оба окна уже инициализированы, применяем сразу
+            ApplyNativeOwnership();
+        }
+        else
+        {
+            // Если какое-то из окон еще не создало хэндл, подписываемся на SourceInitialized
+            EventHandler onSourceInitialized = null;
+            onSourceInitialized = (s, e) =>
+            {
+                bool currentParentReady = new WindowInteropHelper(parent).Handle != IntPtr.Zero;
+                bool currentChildReady = new WindowInteropHelper(child).Handle != IntPtr.Zero;
+
+                if (currentParentReady && currentChildReady)
+                {
+                    ApplyNativeOwnership();
+                    parent.SourceInitialized -= onSourceInitialized;
+                    child.SourceInitialized -= onSourceInitialized;
+                }
+            };
+
+            if (!isParentReady) parent.SourceInitialized += onSourceInitialized;
+            if (!isChildReady) child.SourceInitialized += onSourceInitialized;
+        }
     }
-
-    private static void SetProportionsByParent(Window parent, Window child) {
+    public static void SetMovingAreaInsideParent(Window parent, Window child) {
         if (parent == null) throw new ArgumentNullException(nameof(parent));
         if (child == null) throw new ArgumentNullException(nameof(child));
 

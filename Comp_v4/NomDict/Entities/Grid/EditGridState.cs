@@ -53,7 +53,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
         _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
-        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
@@ -76,7 +76,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
         _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         
-        WindowService.BindChildToParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }

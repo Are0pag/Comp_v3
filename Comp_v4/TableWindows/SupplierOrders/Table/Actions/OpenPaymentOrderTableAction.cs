@@ -21,16 +21,14 @@ public class OpenPaymentOrderTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<PaymentOrdersTableWindow>();
-        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
-        //var parent = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
-        window.Owner = parent;
+        window.Owner = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
 
         ResolveRelated();
 
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
-        WindowService.BindChildToParent(parent, window);
         window.Show();
     }
 

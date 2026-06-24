@@ -24,8 +24,8 @@ public class EditCounterpartyAction : BaseActionAsyncSelfWaiting
         _tcs = tcs;
         var counterparty = _dataGridVm.SelectedItem!;
         var window = ActivatorUtilities.CreateInstance<CounterpartyFormWindow>(_serviceProvider, counterparty);
-        var parent = _serviceProvider.GetRequiredService<EntryWindow>();
-        WindowService.BindChildToParent(parent, window);
+        window.Owner = new InstanceContainer<CounterpartyTableWindow>().RuntimeParam;
+        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
 
         _serviceProvider.GetRequiredService<SaveCpFormAction>().CurrentCounterparty = counterparty;
         _serviceProvider.GetRequiredService<CancelEditCpFormAction>().CurrentCounterparty = counterparty;
