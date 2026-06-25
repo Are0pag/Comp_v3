@@ -22,8 +22,7 @@ public class CounterpartySelectAction : BaseActionAsyncSelfWaiting
     public override async Task Perform(TaskCompletionSource tcs) {
         _currentTcs = tcs;
         var window = _serviceProvider.GetRequiredService<CounterpartyTableWindow>();
-        window.Owner = new InstanceContainer<SupplierOrderFormWindow>().RuntimeParam;
-        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
+        WindowServiceHelper.Register<EntryWindow, SupplierOrderFormWindow>(window);
 
         window.Closed += (sender, args) => {
             tcs.SetResult();

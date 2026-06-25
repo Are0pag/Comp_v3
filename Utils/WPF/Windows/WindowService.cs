@@ -6,7 +6,7 @@ using System.Windows.Interop;
 public static class WindowService
 {
     private const int WM_WINDOWPOSCHANGING = 0x0046;
-    
+
     // Win32 константа для изменения владельца окна
     private const int GWL_HWNDPARENT = -8;
 
@@ -24,24 +24,23 @@ public static class WindowService
         public int cy;
         public uint flags;
     }
-    
-   /// <summary>
+
+    /// <summary>
     /// Фиксирует дочернее окно поверх родительского без добавления в OwnedWindows.
     /// Не мешает работе методов HideChildren и ShowChildren.
     /// </summary>
-    public static void SetAlwaysOnTop(Window parent, Window child)
-    {
-        if (parent == null) throw new ArgumentNullException(nameof(parent));
-        if (child == null) throw new ArgumentNullException(nameof(child));
+    public static void SetAlwaysOnTop(Window parent, Window child) {
+        if (parent == null)
+            throw new ArgumentNullException(nameof(parent));
+        if (child == null)
+            throw new ArgumentNullException(nameof(child));
 
         // Локальный метод для применения Win32-привязки
-        void ApplyNativeOwnership()
-        {
+        void ApplyNativeOwnership() {
             var parentHandle = new WindowInteropHelper(parent).Handle;
             var childHandle = new WindowInteropHelper(child).Handle;
 
-            if (parentHandle != IntPtr.Zero && childHandle != IntPtr.Zero)
-            {
+            if (parentHandle != IntPtr.Zero && childHandle != IntPtr.Zero) {
                 SetWindowLongPtr(childHandle, GWL_HWNDPARENT, parentHandle);
             }
         }
@@ -50,35 +49,36 @@ public static class WindowService
         bool isParentReady = new WindowInteropHelper(parent).Handle != IntPtr.Zero;
         bool isChildReady = new WindowInteropHelper(child).Handle != IntPtr.Zero;
 
-        if (isParentReady && isChildReady)
-        {
+        if (isParentReady && isChildReady) {
             // Если оба окна уже инициализированы, применяем сразу
             ApplyNativeOwnership();
         }
-        else
-        {
+        else {
             // Если какое-то из окон еще не создало хэндл, подписываемся на SourceInitialized
             EventHandler onSourceInitialized = null;
-            onSourceInitialized = (s, e) =>
-            {
+            onSourceInitialized = (s, e) => {
                 bool currentParentReady = new WindowInteropHelper(parent).Handle != IntPtr.Zero;
                 bool currentChildReady = new WindowInteropHelper(child).Handle != IntPtr.Zero;
 
-                if (currentParentReady && currentChildReady)
-                {
+                if (currentParentReady && currentChildReady) {
                     ApplyNativeOwnership();
                     parent.SourceInitialized -= onSourceInitialized;
                     child.SourceInitialized -= onSourceInitialized;
                 }
             };
 
-            if (!isParentReady) parent.SourceInitialized += onSourceInitialized;
-            if (!isChildReady) child.SourceInitialized += onSourceInitialized;
+            if (!isParentReady)
+                parent.SourceInitialized += onSourceInitialized;
+            if (!isChildReady)
+                child.SourceInitialized += onSourceInitialized;
         }
     }
+
     public static void SetMovingAreaInsideParent(Window parent, Window child) {
-        if (parent == null) throw new ArgumentNullException(nameof(parent));
-        if (child == null) throw new ArgumentNullException(nameof(child));
+        if (parent == null)
+            throw new ArgumentNullException(nameof(parent));
+        if (child == null)
+            throw new ArgumentNullException(nameof(child));
 
         // 1. Базовая привязка и скрытие с панели задач
         child.Owner = parent;
@@ -91,11 +91,13 @@ public static class WindowService
         child.MaxWidth = parent.ActualWidth;
         child.MaxHeight = parent.ActualHeight;
 
-        if (child.Width > parent.ActualWidth) child.Width = parent.ActualWidth;
-        if (child.Height > parent.ActualHeight) child.Height = parent.ActualHeight;
+        if (child.Width > parent.ActualWidth)
+            child.Width = parent.ActualWidth;
+        if (child.Height > parent.ActualHeight)
+            child.Height = parent.ActualHeight;
 
         // 4. Изначальное позиционирование строго по центру родителя
-        double childWidth = double.IsNaN(child.Width) ? 300 : child.Width; 
+        double childWidth = double.IsNaN(child.Width) ? 300 : child.Width;
         double childHeight = double.IsNaN(child.Height) ? 200 : child.Height;
 
         child.Left = parent.Left + (parent.ActualWidth - childWidth) / 2;
@@ -106,8 +108,7 @@ public static class WindowService
         double lastParentTop = parent.Top;
 
         // 5. СИНХРОННОЕ ПЕРЕМЕЩЕНИЕ (Исправленный тип делегата: EventHandler)
-        EventHandler parentLocationChanged = (s, e) =>
-        {
+        EventHandler parentLocationChanged = (s, e) => {
             double deltaX = parent.Left - lastParentLeft;
             double deltaY = parent.Top - lastParentTop;
 
@@ -120,33 +121,30 @@ public static class WindowService
         parent.LocationChanged += parentLocationChanged;
 
         // Обновляем стартовую позицию родителя после его инициализации
-        parent.SourceInitialized += (s, e) =>
-        {
+        parent.SourceInitialized += (s, e) => {
             lastParentLeft = parent.Left;
             lastParentTop = parent.Top;
         };
 
         // 6. Динамическое обновление ограничений размеров при изменении родителя
-        SizeChangedEventHandler parentSizeChanged = (s, e) =>
-        {
+        SizeChangedEventHandler parentSizeChanged = (s, e) => {
             child.MaxWidth = parent.ActualWidth;
             child.MaxHeight = parent.ActualHeight;
 
-            if (child.Width > parent.ActualWidth) child.Width = parent.ActualWidth;
-            if (child.Height > parent.ActualHeight) child.Height = parent.ActualHeight;
+            if (child.Width > parent.ActualWidth)
+                child.Width = parent.ActualWidth;
+            if (child.Height > parent.ActualHeight)
+                child.Height = parent.ActualHeight;
         };
         parent.SizeChanged += parentSizeChanged;
 
         // 7. Win32 Хук для плавного перемещения мышью (удержание внутри границ)
-        child.SourceInitialized += (sender, args) =>
-        {
+        child.SourceInitialized += (sender, args) => {
             var windowInteropHelper = new WindowInteropHelper(child);
             var hwndSource = HwndSource.FromHwnd(windowInteropHelper.Handle);
-            
-            hwndSource?.AddHook((IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
-            {
-                if (msg == WM_WINDOWPOSCHANGING)
-                {
+
+            hwndSource?.AddHook((IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) => {
+                if (msg == WM_WINDOWPOSCHANGING) {
                     WINDOWPOS wp = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
 
                     int parentLeft = (int)parent.Left;
@@ -154,24 +152,28 @@ public static class WindowService
                     int parentRight = parentLeft + (int)parent.ActualWidth;
                     int parentBottom = parentTop + (int)parent.ActualHeight;
 
-                    if (wp.x < parentLeft) wp.x = parentLeft;
-                    else if (wp.x + wp.cx > parentRight) wp.x = parentRight - wp.cx;
+                    if (wp.x < parentLeft)
+                        wp.x = parentLeft;
+                    else if (wp.x + wp.cx > parentRight)
+                        wp.x = parentRight - wp.cx;
 
-                    if (wp.y < parentTop) wp.y = parentTop;
-                    else if (wp.y + wp.cy > parentBottom) wp.y = parentBottom - wp.cy;
+                    if (wp.y < parentTop)
+                        wp.y = parentTop;
+                    else if (wp.y + wp.cy > parentBottom)
+                        wp.y = parentBottom - wp.cy;
 
                     Marshal.StructureToPtr(wp, lParam, true);
-                    
+
                     lastParentLeft = parent.Left;
                     lastParentTop = parent.Top;
                 }
+
                 return IntPtr.Zero;
             });
         };
 
         // 8. Безопасное освобождение памяти от обоих событий
-        child.Closed += (s, e) =>
-        {
+        child.Closed += (s, e) => {
             parent.SizeChanged -= parentSizeChanged;
             parent.LocationChanged -= parentLocationChanged;
         };
@@ -185,7 +187,7 @@ public static class WindowService
             child.Hide();
         }
     }
-    
+
     public static void ShowChildren(Window parent) {
         var children = parent.OwnedWindows.Cast<Window>().ToArray();
 

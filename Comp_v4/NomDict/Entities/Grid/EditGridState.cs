@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Input;
 using Comp_v4._Installers;
 using Comp_v4.CompCard;
@@ -40,7 +41,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
             Category = _treeViewVm.SelectedCategory!
         };
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
-        window.Owner = RuntimeParam;
+        WindowServiceHelper.Register<EntryWindow, NomDictWindow>(window);
         ResolveRelated();
         
         var card = _serviceProvider.GetRequiredService<CardComp>();
@@ -50,10 +51,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
             tcs.TrySetResult();
         };
         
-        _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
-        
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
-        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }
@@ -63,7 +61,7 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
             // Fixed: Added meaningful exception message
             throw new InvalidOperationException("No component selected for editing");
         var window = ActivatorUtilities.CreateInstance<CompCardWindow>(_serviceProvider, component);
-        window.Owner = RuntimeParam;
+        WindowServiceHelper.Register<EntryWindow, NomDictWindow>(window);
         ResolveRelated();
         
         var card = _serviceProvider.GetRequiredService<CardComp>();
@@ -76,7 +74,6 @@ public class EditGridState : BaseSGridState, IRuntimeParamsContainer<NomDictWind
         _serviceProvider.GetRequiredService<IWindowOrderLocator>().RegisterWindow(window);
         EventBus<ICompCardSubscriber>.RaiseEvent<ICompCardLoadedHandler>(h => h?.OnCompCardLoaded(component));
         
-        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
         window.Show();
         await tcs.Task;
     }

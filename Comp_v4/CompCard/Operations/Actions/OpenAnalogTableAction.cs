@@ -21,6 +21,7 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
 
     public override async Task Perform(TaskCompletionSource tcs) {
         var window = _serviceProvider.GetRequiredService<AnalogsTableWindow>();
+        WindowServiceHelper.Register<EntryWindow, CompCardWindow>(window);
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };
@@ -31,9 +32,7 @@ public class OpenAnalogTableAction : BaseActionAsyncSelfWaiting
 
         await ReLoad();
         
-        var parentWindow = new InstanceContainer<CompCardWindow>().RuntimeParam;
-        window.Owner = parentWindow;
-        WindowService.SetMovingAreaInsideParent(new InstanceContainer<EntryWindow>().RuntimeParam, window);
+
         window.Show();
         
         await tcs.Task;

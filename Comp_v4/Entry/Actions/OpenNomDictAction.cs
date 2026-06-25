@@ -12,7 +12,7 @@ using Utils.WPF.Buttons;
 
 namespace Comp_v4.Entry.Actions;
 
-public class OpenNomDictAction : BaseActionAsyncCompletion, IRuntimeParamsContainer<EntryWindow>
+public class OpenNomDictAction : BaseActionAsyncCompletion
 {
     protected readonly IServiceProvider _openNomDictHandler;
     protected readonly IWindowOrderLocator _windowOrderLocator;
@@ -38,8 +38,7 @@ public class OpenNomDictAction : BaseActionAsyncCompletion, IRuntimeParamsContai
         
         _windowOrderLocator.RegisterWindow(window);
         
-        WindowService.SetMovingAreaInsideParent(RuntimeParam, window);
-        window.Owner = RuntimeParam;
+        WindowServiceHelper.Register<EntryWindow, EntryWindow>(window);
 
         window.Show();
         window.Closed += (sender, args) => {
@@ -51,21 +50,5 @@ public class OpenNomDictAction : BaseActionAsyncCompletion, IRuntimeParamsContai
 
     public override bool CanPerform() {
         return _currentTcs is null || _currentTcs.Task.IsCompleted;
-    }
-    
-    public EntryWindow RuntimeParam {
-        get {
-            try {
-                EventBus<IGlSubscriber>.RaiseEvent<IRuntimeParamsResolver<EntryWindow>>(r => {
-                    r.ResolveRuntimeParams(this);
-                });
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-            return _item;
-        }
-        set => _item = value;
     }
 }

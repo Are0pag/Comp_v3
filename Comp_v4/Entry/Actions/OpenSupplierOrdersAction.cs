@@ -27,10 +27,7 @@ public class OpenSupplierOrdersAction : BaseActionAsyncCompletion
         _currentTcs = tcs;
         
         var window = _serviceProvider.GetRequiredService<SupplierOrderTableWindow>();
-        var parent = new InstanceContainer<EntryWindow>().RuntimeParam;
-        window.Owner = parent;
-        WindowService.SetMovingAreaInsideParent(parent, window);
-
+        WindowServiceHelper.Register<EntryWindow, EntryWindow>(window);
         window.Closed += (sender, args) => {
             tcs.TrySetResult();
         };

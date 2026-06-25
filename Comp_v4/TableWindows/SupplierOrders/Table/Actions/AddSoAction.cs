@@ -30,8 +30,7 @@ public class AddSoAction : BaseActionAsyncCompletion
         }
 
         var window = ActivatorUtilities.CreateInstance<SupplierOrderFormWindow>(_serviceProvider, so);
-        window.Owner = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
-        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
+        WindowServiceHelper.Register<EntryWindow, SupplierOrderTableWindow>(window);
         window.Closed += (sender, args) => {
             _currentTcs.TrySetResult();
         };

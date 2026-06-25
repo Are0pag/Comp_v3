@@ -33,8 +33,7 @@ public class OpenOrderPositionsTableAction : BaseActionAsyncSelfWaiting
 
         _currentTcs = tcs;
         var window = _serviceProvider.GetRequiredService<OrderPositionsTableWindow>();
-        window.Owner = new InstanceContainer<SupplierOrderTableWindow>().RuntimeParam;
-        WindowService.SetMovingAreaInsideParent(_serviceProvider.GetRequiredService<EntryWindow>(), window);
+        WindowServiceHelper.Register<EntryWindow, SupplierOrderTableWindow>(window);
         window.Closed += (sender, args) => {
             _windowOrderLocator.UnregisterWindow(window);
             tcs.TrySetResult();
